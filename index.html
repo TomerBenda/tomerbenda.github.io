@@ -4,9 +4,10 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>tbd</title>
-    <link rel="stylesheet" href="css/style.css" />
-    <link rel="icon" href="assets/favicon.ico" />
-    <script src="js/script.js"></script>
+    <link rel="stylesheet" href="css/layout.css" />
+    <link rel="stylesheet" href="" id="theme-css">
+    <link rel="icon" href="assets/favicon.ico"/>
+    <script src="js/main.js"></script>
   </head>
   <body>
     <div class="page-container">
@@ -22,6 +23,11 @@
           <li><a href="music.html">🎵 Music Recs</a></li>
           <li><a href="about.html">👤 About Me</a></li>
         </ul>
+        <div id="theme-switcher" style="text-align: center; margin-top: 2rem; border: dashed;">
+          <h2>Theme Switcher</h2>
+          <button onclick="setTheme('goofy')">2007 Birthday Invitation</button>
+          <button onclick="setTheme('sport')">🏎️ Sports Mode</button>
+        </div>
         <p class="quote blink">"Websites are never finished!"</p>
       </aside>
 
