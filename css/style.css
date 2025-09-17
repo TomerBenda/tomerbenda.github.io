@@ -117,3 +117,21 @@ footer {
     visibility: hidden;
   }
 }
+
+
+
+/* Blog post page */
+.post-nav {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 1.5em;
+  font-weight: bold;
+}
+
+.post-nav a {
+  text-decoration: none;
+}
+
+.post-nav .disabled {
+  color: #999;
+}

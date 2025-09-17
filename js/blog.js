@@ -27,14 +27,14 @@ function renderPostList() {
 // Render a specific post by filename
 function renderPostFromHash() {
   const hash = window.location.hash.slice(1);
-  const post = posts.find(p => p.filename.replace('.md', '') === hash);
+  const currentIndex = posts.findIndex(p => p.filename.replace('.md', '') === hash);
 
-  if (!hash || !post) {
+  if (!hash || currentIndex === -1) {
     renderPostList();
     return;
   }
 
-  // Clear list view
+  const post = posts[currentIndex];
   postListEl.innerHTML = '';
   postViewEl.innerHTML = '<p>Loading post...</p>';
 
@@ -45,9 +45,34 @@ function renderPostFromHash() {
     })
     .then(md => {
       const html = marked.parse(md);
+
+      // Determine previous and next posts
+      const prevPost = posts[currentIndex - 1];
+      const nextPost = posts[currentIndex + 1];
+
+      // Build nav links
+      let navHtml = `<p><a href="#">← Back to blog list</a></p><nav class="post-nav">`;
+
+      if (prevPost) {
+        const prevHash = prevPost.filename.replace(".md", "");
+        navHtml += `<a href="#${prevHash}">← Previous: ${prevPost.title}</a>`;
+      } else {
+        navHtml += `<span class="disabled">← Previous</span>`;
+      }
+
+      if (nextPost) {
+        const nextHash = nextPost.filename.replace(".md", "");
+        navHtml += `<a href="#${nextHash}" style="float: right;">Next: ${nextPost.title} →</a>`;
+      } else {
+        navHtml += `<span class="disabled" style="float: right;">Next →</span>`;
+      }
+
+      navHtml += `</nav>`;
+
       postViewEl.innerHTML = `
-        <p><a href="#">← Back to blog list</a></p>
+        ${navHtml}
         <article>${html}</article>
+        ${navHtml}
       `;
     })
     .catch(err => {
