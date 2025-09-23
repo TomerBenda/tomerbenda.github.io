@@ -1,9 +1,6 @@
 
 // blog.js: Handles blog post rendering and filtering using markdown files
 
-// Load marked.js for markdown parsing
-// <script src="js/marked.min.js"></script> should be included in blog.html
-
 const postsContainer = document.getElementById('posts-container');
 const categoryList = document.getElementById('category-list');
 let postsMeta = [];
