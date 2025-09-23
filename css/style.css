@@ -172,7 +172,7 @@ nav {
   font-size: 1em;
   transition: background 0.2s;
 }
-/* ...existing code... */
+
 #category-list button:hover, #category-list button.active {
   background: #e0e7ef;
   font-weight: bold;
@@ -201,10 +201,10 @@ nav {
   background: var(--bg-darker);
   border-top: 1px solid var(--accent-faded);
   padding: 1.5em 0 1em 0;
-  margin-top: 2em;
+  /* margin-top removed for consistency across all pages */
   color: #d6f5e3;
 }
-}
+
 .footer-content {
   max-width: 900px;
   margin: 0 auto;
