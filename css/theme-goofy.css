@@ -1,5 +1,5 @@
 body {
-  background-color: #fef1d1;
+  background-color: #575239cc;
   color: #000;
   font-family: "Comic Sans MS", cursive, sans-serif;
   border: 4px double #ff69b4;
@@ -7,14 +7,14 @@ body {
 }
 
 .page-container {
-  background-color: #ffffffcc;
+  background-color: #575239cc;
   border: 4px double #ff69b4;
   box-shadow: 0 0 10px #888;
 }
 
 /* Sidebar */
 .sidebar {
-  background-color: #fff8dc;
+  background-color: #575239cc;
   border-right: 2px dashed #ccc;
 }
 
