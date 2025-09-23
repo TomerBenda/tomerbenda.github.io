@@ -1,4 +1,4 @@
-document.querySelector('#category-list button[data-category="all"]').classList.add('active');
+
 // blog.js: Handles blog post rendering and filtering using markdown files
 
 // Load marked.js for markdown parsing
@@ -8,30 +8,22 @@ const postsContainer = document.getElementById('posts-container');
 const categoryList = document.getElementById('category-list');
 let postsMeta = [];
 
-// Fetch post metadata from index.json
-fetch('posts/index.json')
-  .then(res => res.json())
-  .then(data => {
-    postsMeta = data;
-    renderPosts('all');
-    document.querySelector('#category-list button[data-category="all"]').classList.add('active');
-  });
-
-function renderPosts(category = 'all') {
+function renderPosts(category = 'all', skipPushState = false) {
+  if (!skipPushState) {
+    history.pushState({ category }, '', `?category=${category}`);
+  }
   postsContainer.innerHTML = '<p>Loading posts...</p>';
   const filtered = category === 'all' ? postsMeta : postsMeta.filter(p => p.category === category);
   if (filtered.length === 0) {
     postsContainer.innerHTML = '<p>No posts in this category yet.</p>';
     return;
   }
-  // Fetch and render each markdown post preview
   Promise.all(filtered.map(post => fetchMarkdownPreview(post))).then(postDivs => {
     postsContainer.innerHTML = '';
     postDivs.forEach(div => postsContainer.appendChild(div));
   });
-// ...existing code...
+}
 
-// Fetch markdown and return a preview div
 function fetchMarkdownPreview(post) {
   return fetch(`posts/${post.filename}`)
     .then(res => res.text())
@@ -56,8 +48,10 @@ function fetchMarkdownPreview(post) {
     });
 }
 
-// Render full post in main area
-function renderFullPost(post) {
+function renderFullPost(post, skipPushState = false) {
+  if (!skipPushState) {
+    history.pushState({ post: post.filename }, '', `?post=${encodeURIComponent(post.filename)}`);
+  }
   postsContainer.innerHTML = '<p>Loading post...</p>';
   fetch(`posts/${post.filename}`)
     .then(res => res.text())
@@ -79,7 +73,6 @@ function renderFullPost(post) {
       postsContainer.appendChild(postDiv);
     });
 }
-}
 
 function capitalize(str) {
   return str.charAt(0).toUpperCase() + str.slice(1);
@@ -95,3 +88,41 @@ categoryList.addEventListener('click', e => {
     renderPosts(window.currentCategory);
   }
 });
+
+// Handle popstate for browser navigation
+window.addEventListener('popstate', () => {
+  const params = new URLSearchParams(window.location.search);
+  const postFilename = params.get('post');
+  const category = params.get('category') || 'all';
+  if (postFilename) {
+    // Find post by filename
+    const post = postsMeta.find(p => p.filename === postFilename);
+    if (post) renderFullPost(post, true);
+  } else {
+    renderPosts(category, true);
+  }
+});
+
+// On initial load, check URL for post or category
+function handleInitialLoad() {
+  const params = new URLSearchParams(window.location.search);
+  const postFilename = params.get('post');
+  const category = params.get('category') || 'all';
+  window.currentCategory = category;
+  if (postFilename) {
+    const post = postsMeta.find(p => p.filename === postFilename);
+    if (post) renderFullPost(post, true);
+    document.querySelectorAll('#category-list button').forEach(btn => btn.classList.remove('active'));
+  } else {
+    renderPosts(category, true);
+    document.querySelector(`#category-list button[data-category="${category}"]`)?.classList.add('active');
+  }
+}
+
+// Wait for postsMeta to load before handling initial URL
+fetch('posts/index.json')
+  .then(res => res.json())
+  .then(data => {
+    postsMeta = data;
+    handleInitialLoad();
+  });
