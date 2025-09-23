@@ -1,3 +1,50 @@
+/* Projects grid styles */
+.projects-grid {
+  width: 100%;
+  margin-top: 1em;
+}
+.projects-grid-inner {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1.5em;
+}
+.project-card {
+  background: #f8f9fa;
+  border-radius: 6px;
+  padding: 1em;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.02);
+  transition: box-shadow 0.2s;
+}
+.project-card:hover {
+  box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+}
+.project-title {
+  margin: 0 0 0.3em 0;
+  font-size: 1.1em;
+}
+.project-meta {
+  font-size: 0.9em;
+  color: #666;
+  margin-bottom: 0.5em;
+}
+.project-desc {
+  font-size: 1em;
+  color: #222;
+}
+.project-full {
+  background: #fff;
+  border-radius: 8px;
+  padding: 2em;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.03);
+}
+.back-to-projects {
+  background: none;
+  border: none;
+  color: #0072ff;
+  font-size: 1em;
+  cursor: pointer;
+  margin-bottom: 1em;
+}
 body {
   margin: 0;
   font-family: system-ui, sans-serif;
@@ -77,6 +124,7 @@ nav {
   font-size: 1em;
   transition: background 0.2s;
 }
+/* ...existing code... */
 #category-list button:hover, #category-list button.active {
   background: #e0e7ef;
   font-weight: bold;
@@ -101,6 +149,42 @@ nav {
   color: #666;
   margin-bottom: 0.5em;
 }
+
+footer {
+  background: #f6f7f9;
+  border-top: 1px solid #e0e0e0;
+  padding: 1.5em 0 1em 0;
+  margin-top: 2em;
+}
+.footer-content {
+  max-width: 900px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.7em;
+}
+.footer-icons {
+  display: flex;
+  gap: 1.2em;
+  margin-bottom: 0.5em;
+}
+.footer-icon svg {
+  display: block;
+  width: 24px;
+  height: 24px;
+  color: #222;
+  transition: color 0.2s;
+}
+.footer-icon:hover svg {
+  color: #0072ff;
+}
+.footer-copyright {
+  text-align: center;
+  font-size: 1em;
+  color: #666;
+}
+
 @media (max-width: 700px) {
   .container {
     flex-direction: column;
@@ -112,5 +196,8 @@ nav {
   }
   .main-content {
     padding: 1em;
+  }
+  .footer-content {
+    padding: 0 1em;
   }
 }
