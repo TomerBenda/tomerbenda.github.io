@@ -1,23 +1,46 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <title>My Blog</title>
-  <link rel="stylesheet" href="css/layout.css" />
-  <link rel="stylesheet" href="" id="theme-css">
-  <link rel="icon" href="assets/favicon.ico"/>
-  <script src="js/main.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Blog | Tomer Benda</title>
+  <link rel="stylesheet" href="css/style.css">
   <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
-  <script src="js/blog.js" defer></script>
 </head>
 <body>
-  <div class="page-container">
+  <header>
+    <nav>
+      <span class="site-title">Tomer Benda</span>
+      <ul class="nav-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="blog.html">Blog</a></li>
+        <li><a href="projects/test.html">Projects</a></li>
+      </ul>
+    </nav>
+  </header>
+  <div class="container">
+    <aside class="sidebar">
+      <div class="sidebar-section">
+        <h3>Categories</h3>
+        <ul id="category-list">
+          <li><button data-category="all">All</button></li>
+          <li><button data-category="music">Music</button></li>
+          <li><button data-category="theater">Theater</button></li>
+          <li><button data-category="tech">Tech</button></li>
+          <li><button data-category="essays">Essays</button></li>
+          <li><button data-category="cognition">Cognition</button></li>
+          <li><button data-category="philosophy">Philosophy</button></li>
+          <li><button data-category="writing">Writing</button></li>
+        </ul>
+      </div>
+    </aside>
     <main class="main-content">
-      <p><a href="index.html">← Back to main page</a></p>
-      <h1>📝 My Tech Blog</h1>
-      <div id="post-view"></div>
-      <ul id="post-list"></ul>
+      <h1>Blog</h1>
+      <div id="posts-container">
+        <!-- Blog posts will be rendered here by JS -->
+      </div>
     </main>
   </div>
+  <script src="js/blog.js"></script>
 </body>
 </html>
