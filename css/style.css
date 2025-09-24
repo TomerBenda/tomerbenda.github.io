@@ -93,13 +93,13 @@ nav {
 }
 
 .site-title {
+    text-decoration: none;
     font-family: 'Fira Code', monospace;
     font-weight: bold;
     font-size: 1.5em;
     color: var(--accent);
     letter-spacing: 0.04em;
     position: relative;
-    text-decoration: none;
 }
 
 .site-title .cursor {
