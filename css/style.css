@@ -103,7 +103,7 @@ nav {
 
 .site-title .cursor {
     display: inline-block;
-    width: 1ch;
+    font-size: 1.2em;
     background: none;
     color: var(--accent);
     animation: blink-cursor 1s steps(2, start) infinite;
