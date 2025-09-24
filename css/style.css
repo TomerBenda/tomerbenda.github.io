@@ -195,6 +195,7 @@ nav {
     box-sizing: border-box;
     box-shadow: 0 2px 8px #0002;
     color: #d6f5e3;
+    text-align: center;
 }
 
 #category-list {
