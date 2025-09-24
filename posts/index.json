@@ -1,0 +1,44 @@
+[
+    {
+        "category": "music",
+        "date": "2025-09-01",
+        "filename": "the-power-of-music.md",
+        "title": "The Power of Music"
+    },
+    {
+        "category": "tech",
+        "date": "2025-08-15",
+        "filename": "tech-trends-2025.md",
+        "title": "Tech Trends 2025"
+    },
+    {
+        "category": "cognition",
+        "date": "2025-07-30",
+        "filename": "on-cognition.md",
+        "title": "On Cognition"
+    },
+    {
+        "category": "philosophy",
+        "date": "2025-07-10",
+        "filename": "philosophy-in-everyday-life.md",
+        "title": "Philosophy in Everyday Life"
+    },
+    {
+        "category": "writing",
+        "date": "2025-06-25",
+        "filename": "writing-as-exploration.md",
+        "title": "Writing as Exploration"
+    },
+    {
+        "category": "theater",
+        "date": "2025-06-10",
+        "filename": "theater-and-expression.md",
+        "title": "Theater and Expression"
+    },
+    {
+        "category": "essays",
+        "date": "2025-05-20",
+        "filename": "personal-essay-growth.md",
+        "title": "Personal Essay: Growth"
+    }
+]
