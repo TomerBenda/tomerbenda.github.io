@@ -99,6 +99,7 @@ nav {
     color: var(--accent);
     letter-spacing: 0.04em;
     position: relative;
+    text-decoration: none;
 }
 
 .site-title .cursor {
