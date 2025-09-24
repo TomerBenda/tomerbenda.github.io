@@ -30,8 +30,8 @@ function fetchMarkdownPreview(post) {
         const end = md.indexOf('---', 3);
         if (end !== -1) content = md.slice(end + 3).trim();
       }
-      // Get preview (first 40 words)
-      const previewText = content.split(/\s+/).slice(0, 40).join(' ') + '...';
+
+      const previewText = content.substring(0, 80) + '...';
       const postDiv = document.createElement('div');
       postDiv.className = 'post post-preview';
       postDiv.innerHTML = `
