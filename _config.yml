@@ -1,1 +1,1 @@
-exclude: [posts]
+keep_files: [posts]
