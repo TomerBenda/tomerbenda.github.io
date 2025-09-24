@@ -4,7 +4,7 @@ category: music
 date: 2025-09-01
 ---
 
-# Title
+# Title that's a bit longer
 Music has always been a source of inspiration and comfort
 ## Subtitle
 lol
