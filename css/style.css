@@ -174,7 +174,8 @@ nav {
 }
 
 #category-list button:hover, #category-list button.active {
-  background: #e0e7ef;
+  background: var(--accent-faded);
+  color: #101216;
   font-weight: bold;
 }
 #posts-container {
@@ -183,7 +184,7 @@ nav {
   gap: 1.5em;
 }
 .post {
-  background: #f8f9fa;
+  background: #090e13;
   border-radius: 6px;
   padding: 1em;
   box-shadow: 0 1px 4px rgba(0,0,0,0.02);
