@@ -8,6 +8,8 @@ on:
 jobs:
   sync-posts:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     steps:
       - name: Checkout blog repo
         uses: actions/checkout@v4
