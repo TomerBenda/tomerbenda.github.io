@@ -9,38 +9,38 @@ let currentSearch = "";
 
 // Collapsible sidebar filter logic
 function toggleSidebarFilter() {
-  const sidebar = document.getElementById('sidebar-filter');
-  const toggleBtn = document.querySelector('.sidebar-collapsible-toggle');
-  if (sidebar.classList.contains('collapsed')) {
-    sidebar.classList.remove('collapsed');
-    toggleBtn.textContent = 'Hide Filters';
+  const sidebar = document.getElementById("sidebar-filter");
+  const toggleBtn = document.querySelector(".sidebar-collapsible-toggle");
+  if (sidebar.classList.contains("collapsed")) {
+    sidebar.classList.remove("collapsed");
+    toggleBtn.textContent = "Hide Filters";
   } else {
-    sidebar.classList.add('collapsed');
-    toggleBtn.textContent = 'Show Filters';
+    sidebar.classList.add("collapsed");
+    toggleBtn.textContent = "Show Filters";
   }
 }
 
 // On mobile, start collapsed
 function setInitialSidebarState() {
-  const sidebar = document.getElementById('sidebar-filter');
-  const toggleBtn = document.querySelector('.sidebar-collapsible-toggle');
+  const sidebar = document.getElementById("sidebar-filter");
+  const toggleBtn = document.querySelector(".sidebar-collapsible-toggle");
   if (window.innerWidth <= 700) {
-    sidebar.classList.add('collapsed');
-    toggleBtn.textContent = 'Show Filters';
+    sidebar.classList.add("collapsed");
+    toggleBtn.textContent = "Show Filters";
   } else {
-    sidebar.classList.remove('collapsed');
-    toggleBtn.textContent = 'Hide Filters';
+    sidebar.classList.remove("collapsed");
+    toggleBtn.textContent = "Hide Filters";
   }
 }
 
-window.addEventListener('resize', setInitialSidebarState);
-window.addEventListener('DOMContentLoaded', setInitialSidebarState);
+window.addEventListener("resize", setInitialSidebarState);
+window.addEventListener("DOMContentLoaded", setInitialSidebarState);
 
 // Attach toggle event to button
-window.addEventListener('DOMContentLoaded', function() {
-  const toggleBtn = document.querySelector('.sidebar-collapsible-toggle');
+window.addEventListener("DOMContentLoaded", function () {
+  const toggleBtn = document.querySelector(".sidebar-collapsible-toggle");
   if (toggleBtn) {
-    toggleBtn.addEventListener('click', toggleSidebarFilter);
+    toggleBtn.addEventListener("click", toggleSidebarFilter);
   }
 });
 
@@ -49,22 +49,25 @@ function renderPosts(category = "all", skipPushState = false) {
     history.pushState({ category }, "", `?category=${category}`);
   }
   postsContainer.innerHTML = "<p>Loading posts...</p>";
-  let filtered = (category === "all" ? postsMeta : postsMeta.filter((p) => {
-    if (!p.categories && !p.category) return false;
-    const postCategories = Array.isArray(p.categories)
-      ? p.categories
-      : p.category
-      ? [p.category]
-      : [];
-    return postCategories.some(
-      (cat) => cat && cat.toLowerCase() === category.toLowerCase()
-    );
-  }));
+  let filtered =
+    category === "all"
+      ? postsMeta
+      : postsMeta.filter((p) => {
+          if (!p.categories && !p.category) return false;
+          const postCategories = Array.isArray(p.categories)
+            ? p.categories
+            : p.category
+            ? [p.category]
+            : [];
+          return postCategories.some(
+            (cat) => cat && cat.toLowerCase() === category.toLowerCase()
+          );
+        });
 
   // Search filter
   if (currentSearch.trim()) {
     const searchLower = currentSearch.trim().toLowerCase();
-    filtered = filtered.filter(post => {
+    filtered = filtered.filter((post) => {
       // Check title, date, and preview content
       const title = (post.title || "").toLowerCase();
       const date = (post.date || "").toLowerCase();
@@ -74,7 +77,11 @@ function renderPosts(category = "all", skipPushState = false) {
         // Try to get preview from postsMeta (if available)
         preview = (post.preview || "").toLowerCase();
       }
-      return title.includes(searchLower) || date.includes(searchLower) || preview.includes(searchLower);
+      return (
+        title.includes(searchLower) ||
+        date.includes(searchLower) ||
+        preview.includes(searchLower)
+      );
     });
   }
 
