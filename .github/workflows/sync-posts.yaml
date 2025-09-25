@@ -39,8 +39,8 @@ jobs:
       - name: Commit and push if changes
         run: |
           cd blog
-          git config user.name "{{ github.actor}}"
-          git config user.email "{{ github.actor }}@users.noreply.github.com"
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
           git add posts/
           git diff --cached --quiet || git commit -m "Sync posts from vault and update index.json"
           git push
