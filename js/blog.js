@@ -5,6 +5,43 @@ const categoryList = document.getElementById("category-list");
 let postsMeta = [];
 let allCategories = [];
 
+// Collapsible sidebar filter logic
+function toggleSidebarFilter() {
+  const sidebar = document.getElementById('sidebar-filter');
+  const toggleBtn = document.querySelector('.sidebar-collapsible-toggle');
+  if (sidebar.classList.contains('collapsed')) {
+    sidebar.classList.remove('collapsed');
+    toggleBtn.textContent = 'Hide Filters';
+  } else {
+    sidebar.classList.add('collapsed');
+    toggleBtn.textContent = 'Show Filters';
+  }
+}
+
+// On mobile, start collapsed
+function setInitialSidebarState() {
+  const sidebar = document.getElementById('sidebar-filter');
+  const toggleBtn = document.querySelector('.sidebar-collapsible-toggle');
+  if (window.innerWidth <= 700) {
+    sidebar.classList.add('collapsed');
+    toggleBtn.textContent = 'Show Filters';
+  } else {
+    sidebar.classList.remove('collapsed');
+    toggleBtn.textContent = 'Hide Filters';
+  }
+}
+
+window.addEventListener('resize', setInitialSidebarState);
+window.addEventListener('DOMContentLoaded', setInitialSidebarState);
+
+// Attach toggle event to button
+window.addEventListener('DOMContentLoaded', function() {
+  const toggleBtn = document.querySelector('.sidebar-collapsible-toggle');
+  if (toggleBtn) {
+    toggleBtn.addEventListener('click', toggleSidebarFilter);
+  }
+});
+
 function renderPosts(category = "all", skipPushState = false) {
   if (!skipPushState) {
     history.pushState({ category }, "", `?category=${category}`);

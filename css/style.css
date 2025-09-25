@@ -18,6 +18,34 @@
     transition: box-shadow 0.2s;
 }
 
+
+#sidebar-filter {
+    transition: max-height 0.3s, opacity 0.3s, margin-bottom 0.3s;
+}
+
+.sidebar-collapsible-toggle {
+    display: none;
+    background: var(--accent-faded);
+    color: #101216;
+    border: none;
+    border-radius: 6px;
+    font-size: 1em;
+    font-family: 'Fira Code', monospace;
+    padding: 0.5em 0.7em;
+    cursor: pointer;
+    margin-bottom: 0.5em;
+    width: 100%;
+    transition: background 0.2s, color 0.2s;
+}
+
+#sidebar-filter.collapsed {
+    max-height: 0;
+    opacity: 0;
+    overflow: hidden;
+    margin-bottom: 0;
+    pointer-events: none;
+}
+
 .project-card:hover {
     box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
 }
@@ -28,6 +56,7 @@
 }
 
 .project-meta {
+    padding: 0.5em 0.5em 0 0.5em;
     font-size: 0.9em;
     color: #666;
     margin-bottom: 0.5em;
@@ -36,6 +65,10 @@
 .project-desc {
     font-size: 1em;
     color: #222;
+}
+
+.sidebar-collapsible-toggle {
+    display: block;
 }
 
 .project-full {
