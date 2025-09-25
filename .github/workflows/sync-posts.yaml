@@ -23,7 +23,7 @@ jobs:
 
       - name: Sync markdown files from vault
         run: |
-          rsync -av --delete \"vault/100 Blog/\" blog/posts/
+          rsync -av --delete "vault/100 Blog/" blog/posts/
 
       - name: Generate posts/index.json
         run: |
