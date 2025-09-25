@@ -11,7 +11,7 @@
 }
 
 .project-card {
-    background: #f8f9fa;
+    background: #090e13;
     border-radius: 6px;
     padding: 1em;
     box-shadow: 0 1px 4px rgba(0, 0, 0, 0.02);
@@ -39,7 +39,6 @@
 }
 
 .project-full {
-    background: #fff;
     border-radius: 8px;
     padding: 2em;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
@@ -48,14 +47,13 @@
 .back-to-projects {
     background: none;
     border: none;
-    color: #0072ff;
+    color: var(--accent);
     font-size: 1em;
     cursor: pointer;
     margin-bottom: 1em;
 }
 
 body {
-
     margin: 0;
     font-family: 'Fira Code', monospace;
     background: #101216;
