@@ -118,6 +118,33 @@ nav {
     margin-top: 0;
 }
 
+#sidebar-filter {
+    transition: max-height 0.3s, opacity 0.3s, margin-bottom 0.3s;
+}
+
+.sidebar-collapsible-toggle {
+    display: block;
+    background: var(--accent-faded);
+    color: #101216;
+    border: none;
+    border-radius: 6px;
+    font-size: 1em;
+    font-family: 'Fira Code', monospace;
+    padding: 0.5em 0.7em;
+    cursor: pointer;
+    margin-bottom: 0.5em;
+    width: 100%;
+    transition: background 0.2s, color 0.2s;
+}
+
+#sidebar-filter.collapsed {
+    max-height: 0;
+    opacity: 0;
+    overflow: hidden;
+    margin-bottom: 0;
+    pointer-events: none;
+}
+
 .main-content {
     flex: 1;
     background: var(--bg-darker);
@@ -179,11 +206,7 @@ nav {
     margin-bottom: 0.5em;
 }
 
-/* background: var(--bg-darker);
-border-top: 1px solid var(--accent-faded);
-padding: 1.5em 0 1em 0;
-color: #d6f5e3;
-} */
+/* Footer */
 
 .footer-content {
     max-width: 900px;
@@ -218,7 +241,45 @@ color: #d6f5e3;
     color: #666;
 }
 
+/* End Footer */
+
 @media (max-width: 700px) {
+    nav {
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 0.5em 0.5em;
+    }
+
+    .site-title {
+        font-size: 1.2em;
+        margin-bottom: 0.5em;
+    }
+
+    .nav-links {
+        /* flex-direction: column; */
+        gap: 0.5em;
+        width: 100%;
+    }
+
+    .sidebar {
+        padding: 0.7em;
+    }
+
+    .main-content {
+        padding: 0.7em;
+        font-size: 1em;
+    }
+
+    .projects-grid-inner {
+        grid-template-columns: 1fr;
+        gap: 1em;
+    }
+
+    .footer-content {
+        padding: 0.5em;
+        font-size: 0.95em;
+    }
+
     .container {
         flex-direction: column;
         gap: 1em;
@@ -237,8 +298,6 @@ color: #d6f5e3;
         padding: 0 1em;
     }
 }
-
-
 
 
 /* Projects grid styles */
@@ -261,34 +320,6 @@ color: #d6f5e3;
     transition: box-shadow 0.2s;
 }
 
-
-#sidebar-filter {
-    transition: max-height 0.3s, opacity 0.3s, margin-bottom 0.3s;
-}
-
-.sidebar-collapsible-toggle {
-    display: none;
-    background: var(--accent-faded);
-    color: #101216;
-    border: none;
-    border-radius: 6px;
-    font-size: 1em;
-    font-family: 'Fira Code', monospace;
-    padding: 0.5em 0.7em;
-    cursor: pointer;
-    margin-bottom: 0.5em;
-    width: 100%;
-    transition: background 0.2s, color 0.2s;
-}
-
-#sidebar-filter.collapsed {
-    max-height: 0;
-    opacity: 0;
-    overflow: hidden;
-    margin-bottom: 0;
-    pointer-events: none;
-}
-
 .project-card:hover {
     box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
 }
@@ -308,10 +339,6 @@ color: #d6f5e3;
 .project-desc {
     font-size: 1em;
     color: #222;
-}
-
-.sidebar-collapsible-toggle {
-    display: block;
 }
 
 .project-full {
