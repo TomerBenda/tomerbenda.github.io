@@ -1,44 +1,16 @@
 [
   {
-    "filename": "on-cognition.md",
+    "filename": "Test 2.md",
     "title": "On Cognition",
     "date": "2025-07-30",
-    "categories": []
+    "categories": [
+      "cognition"
+    ]
   },
   {
-    "filename": "personal-essay-growth.md",
-    "title": "Personal Essay Growth",
+    "filename": "Test blog post.md",
+    "title": "Test Blog Post",
     "date": "",
-    "categories": []
-  },
-  {
-    "filename": "philosophy-in-everyday-life.md",
-    "title": "Philosophy in Everyday Life",
-    "date": "2025-07-10",
-    "categories": []
-  },
-  {
-    "filename": "tech-trends-2025.md",
-    "title": "Tech Trends 2025",
-    "date": "2025-08-15",
-    "categories": []
-  },
-  {
-    "filename": "the-power-of-music.md",
-    "title": "The Power of Music",
-    "date": "2025-09-01",
-    "categories": []
-  },
-  {
-    "filename": "theater-and-expression.md",
-    "title": "Theater and Expression",
-    "date": "2025-06-10",
-    "categories": []
-  },
-  {
-    "filename": "writing-as-exploration.md",
-    "title": "Writing as Exploration",
-    "date": "2025-06-25",
     "categories": []
   }
 ]
