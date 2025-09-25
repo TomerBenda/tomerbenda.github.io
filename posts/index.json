@@ -12,5 +12,21 @@
     "title": "Test Blog Post",
     "date": "",
     "categories": []
+  },
+  {
+    "filename": "test1.md",
+    "title": "On Cognition1",
+    "date": "2025-07-29",
+    "categories": [
+      "cognitionb"
+    ]
+  },
+  {
+    "filename": "test3.md",
+    "title": "On Cognition3",
+    "date": "2026-07-1",
+    "categories": [
+      "cognitiona"
+    ]
   }
 ]
