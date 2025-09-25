@@ -12,7 +12,18 @@ function renderPosts(category = "all", skipPushState = false) {
   const filtered =
     category === "all"
       ? postsMeta
-      : postsMeta.filter((p) => p.category === category);
+      : postsMeta.filter((p) => {
+          // Support multiple categories per post, partial match
+          if (!p.categories && !p.category) return false;
+          const postCategories = Array.isArray(p.categories)
+            ? p.categories
+            : p.category
+            ? [p.category]
+            : [];
+          return postCategories.some(
+            (cat) => cat && cat.toLowerCase() === category.toLowerCase()
+          );
+        });
   if (filtered.length === 0) {
     postsContainer.innerHTML = "<p>No posts in this category yet.</p>";
     return;
@@ -38,13 +49,31 @@ function fetchMarkdownPreview(post) {
       const previewText = content.substring(0, 50) + "...";
       const postDiv = document.createElement("div");
       postDiv.className = "post post-preview";
+      // Error handling for missing fields
+      const title = post.title || "Untitled";
+      const date = post.date || "Unknown date";
+      // Support multiple categories
+      const postCategories = Array.isArray(post.categories)
+        ? post.categories
+        : post.category
+        ? [post.category]
+        : [];
+      const categoriesStr = postCategories.length
+        ? postCategories.map((cat) => capitalize(cat)).join(", ")
+        : "Uncategorized";
       postDiv.innerHTML = `
-        <h2 class="post-title">${post.title}</h2>
-        <div class="post-meta">${post.date} | ${capitalize(post.category)}</div>
+        <h2 class="post-title">${title}</h2>
+        <div class="post-meta">${date} | ${categoriesStr}</div>
         <div class="post-content">${marked.parse(previewText)}</div>
       `;
       postDiv.style.cursor = "pointer";
       postDiv.addEventListener("click", () => renderFullPost(post));
+      return postDiv;
+    })
+    .catch((err) => {
+      const postDiv = document.createElement("div");
+      postDiv.className = "post post-preview error";
+      postDiv.innerHTML = `<h2 class='post-title'>Error loading post</h2><div>${err}</div>`;
       return postDiv;
     });
 }
@@ -68,18 +97,34 @@ function renderFullPost(post, skipPushState = false) {
       }
       const postDiv = document.createElement("div");
       postDiv.className = "post post-full";
+      // Error handling for missing fields
+      const title = post.title || "Untitled";
+      const date = post.date || "Unknown date";
+      // Support multiple categories
+      const postCategories = Array.isArray(post.categories)
+        ? post.categories
+        : post.category
+        ? [post.category]
+        : [];
+      const categoriesStr = postCategories.length
+        ? postCategories.map((cat) => capitalize(cat)).join(", ")
+        : "Uncategorized";
       postDiv.innerHTML = `
         <button class="back-to-blog" style="margin-bottom:1em;" onclick="window.renderPosts && renderPosts(window.currentCategory || 'all')">← Back to blog</button>
-        <h2 class="post-title">${post.title}</h2>
-        <div class="post-meta">${post.date} | ${capitalize(post.category)}</div>
+        <h2 class="post-title">${title}</h2>
+        <div class="post-meta">${date} | ${categoriesStr}</div>
         <div class="post-content">${marked.parse(content)}</div>
       `;
       postsContainer.innerHTML = "";
       postsContainer.appendChild(postDiv);
+    })
+    .catch((err) => {
+      postsContainer.innerHTML = `<div class='post post-full error'><h2>Error loading post</h2><div>${err}</div></div>`;
     });
 }
 
 function capitalize(str) {
+  if (!str || typeof str !== "string") return "";
   return str.charAt(0).toUpperCase() + str.slice(1);
 }
 
