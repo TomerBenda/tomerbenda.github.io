@@ -103,6 +103,18 @@ function renderFullPost(post, skipPushState = false) {
         const end = md.indexOf("---", 3);
         if (end !== -1) content = md.slice(end + 3).trim();
       }
+
+      // Replace Obsidian-style image embeds ![[filename.jpg]] with HTML <img> tags
+      content = content.replace(/!\[\[(.+?)\]\]/g, (match, filename) => {
+        // Only allow image extensions for security
+        const allowedExt = [".png", ".jpg", ".jpeg", ".gif", ".webp", ".svg"];
+        const ext = filename.slice(filename.lastIndexOf(".")).toLowerCase();
+        if (allowedExt.includes(ext)) {
+          return `<img src='posts/attachments/${filename.trim()}' alt='${filename.trim()}' style='max-width:100%;'>`;
+        }
+        return match;
+      });
+
       const postDiv = document.createElement("div");
       postDiv.className = "post post-full";
       // Error handling for missing fields
