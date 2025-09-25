@@ -36,7 +36,10 @@
         </div>
       </aside>
       <main class="main-content">
-        <h1>Blog</h1>
+        <div class="blog-header-row" style="display:flex;align-items:center;gap:1em;flex-wrap:wrap;">
+          <h1 style="margin:0;">Blog</h1>
+          <input type="text" id="blog-search" placeholder="Search posts..." style="flex:1;min-width:180px;padding:0.5em 1em;border-radius:6px;border:1px solid var(--accent-faded);background:var(--bg-dark);color:#d6f5e3;font-family:'Fira Code',monospace;" />
+        </div>
         <div id="posts-container">
           <!-- Blog posts will be rendered here by JS -->
         </div>

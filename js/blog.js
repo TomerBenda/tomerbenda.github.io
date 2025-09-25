@@ -5,6 +5,8 @@ const categoryList = document.getElementById("category-list");
 let postsMeta = [];
 let allCategories = [];
 
+let currentSearch = "";
+
 // Collapsible sidebar filter logic
 function toggleSidebarFilter() {
   const sidebar = document.getElementById('sidebar-filter');
@@ -47,30 +49,43 @@ function renderPosts(category = "all", skipPushState = false) {
     history.pushState({ category }, "", `?category=${category}`);
   }
   postsContainer.innerHTML = "<p>Loading posts...</p>";
-  let filtered =
-    category === "all"
-      ? postsMeta
-      : postsMeta.filter((p) => {
-          // Support multiple categories per post, partial match
-          if (!p.categories && !p.category) return false;
-          const postCategories = Array.isArray(p.categories)
-            ? p.categories
-            : p.category
-            ? [p.category]
-            : [];
-          return postCategories.some(
-            (cat) => cat && cat.toLowerCase() === category.toLowerCase()
-          );
-        });
+  let filtered = (category === "all" ? postsMeta : postsMeta.filter((p) => {
+    if (!p.categories && !p.category) return false;
+    const postCategories = Array.isArray(p.categories)
+      ? p.categories
+      : p.category
+      ? [p.category]
+      : [];
+    return postCategories.some(
+      (cat) => cat && cat.toLowerCase() === category.toLowerCase()
+    );
+  }));
+
+  // Search filter
+  if (currentSearch.trim()) {
+    const searchLower = currentSearch.trim().toLowerCase();
+    filtered = filtered.filter(post => {
+      // Check title, date, and preview content
+      const title = (post.title || "").toLowerCase();
+      const date = (post.date || "").toLowerCase();
+      // Only check preview content (first 50 chars)
+      let preview = "";
+      if (post.filename) {
+        // Try to get preview from postsMeta (if available)
+        preview = (post.preview || "").toLowerCase();
+      }
+      return title.includes(searchLower) || date.includes(searchLower) || preview.includes(searchLower);
+    });
+  }
+
   // Sort by date descending (newest first)
   filtered = filtered.slice().sort((a, b) => {
-    // Try to parse date, fallback to 0
     const dateA = Date.parse(a.date) || 0;
     const dateB = Date.parse(b.date) || 0;
     return dateB - dateA;
   });
   if (filtered.length === 0) {
-    postsContainer.innerHTML = "<p>No posts in this category yet.</p>";
+    postsContainer.innerHTML = "<p>No posts found.</p>";
     return;
   }
   Promise.all(filtered.map((post) => fetchMarkdownPreview(post))).then(
@@ -92,6 +107,7 @@ function fetchMarkdownPreview(post) {
       }
 
       const previewText = content.substring(0, 50) + "...";
+      post.preview = previewText; // Save preview for search
       const postDiv = document.createElement("div");
       postDiv.className = "post post-preview";
       // Error handling for missing fields
@@ -263,4 +279,12 @@ fetch("posts/index.json")
   .then((data) => {
     postsMeta = data;
     handleInitialLoad();
+    // Attach search bar event
+    const searchInput = document.getElementById("blog-search");
+    if (searchInput) {
+      searchInput.addEventListener("input", (e) => {
+        currentSearch = e.target.value;
+        renderPosts(window.currentCategory || "all", true);
+      });
+    }
   });
