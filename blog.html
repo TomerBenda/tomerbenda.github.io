@@ -1,18 +1,26 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Blog | Tomer Benda</title>
-  <link rel="stylesheet" href="css/style.css">
-  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;700&display=swap" rel="stylesheet">
-  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
-</head>
-<body>
-  <header></header>
-  <div class="container">
-    <aside class="sidebar">
-        <button class="sidebar-collapsible-toggle" type="button" style="width:100%;margin-bottom:0.5em;"></button>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Blog | tbd</title>
+    <link rel="stylesheet" href="css/style.css" />
+    <link rel icon" type="image/png" href="favicon.png" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+  </head>
+  <body>
+    <header></header>
+    <div class="container">
+      <aside class="sidebar">
+        <button
+          class="sidebar-collapsible-toggle"
+          type="button"
+          style="width: 100%; margin-bottom: 0.5em"
+        ></button>
         <div id="sidebar-filter" class="sidebar-section">
           <h3>Categories</h3>
           <ul id="category-list">
@@ -26,16 +34,16 @@
             <li><button data-category="writing">Writing</button></li>
           </ul>
         </div>
-    </aside>
-    <main class="main-content">
-      <h1>Blog</h1>
-      <div id="posts-container">
-        <!-- Blog posts will be rendered here by JS -->
-      </div>
-    </main>
-  </div>
-  <footer></footer>
-  <script src="js/include-components.js"></script>
-  <script src="js/blog.js"></script>
-</body>
+      </aside>
+      <main class="main-content">
+        <h1>Blog</h1>
+        <div id="posts-container">
+          <!-- Blog posts will be rendered here by JS -->
+        </div>
+      </main>
+    </div>
+    <footer></footer>
+    <script src="js/include-components.js"></script>
+    <script src="js/blog.js"></script>
+  </body>
 </html>
