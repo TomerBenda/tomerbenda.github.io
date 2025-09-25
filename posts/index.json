@@ -12,5 +12,13 @@
     "title": "Test Blog Post",
     "date": "",
     "categories": []
+  },
+  {
+    "filename": "full flow test.md",
+    "title": "full flow",
+    "date": "2025-09-25",
+    "categories": [
+      "writing"
+    ]
   }
 ]
