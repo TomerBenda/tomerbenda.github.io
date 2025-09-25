@@ -2,7 +2,7 @@ name: Sync Obsidian Posts
 
 on:
   schedule:
-    - cron: '*/10 * * * *' # every 10 minutes
+    - cron: "*/10 * * * *" # every 10 minutes
   workflow_dispatch:
 
 jobs:
@@ -20,6 +20,15 @@ jobs:
           repository: TomerBenda/tbdocs
           token: ${{ secrets.VAULT_REPO_TOKEN }}
           path: vault
+
+      - name: DEBUG List files in vault and blog directories
+        run: |
+          echo "Vault directory:"
+          ls -l vault
+          echo "Blog directory:"
+          ls -l blog
+          echo "Full workspace:"
+          ls -lR
 
       - name: Sync markdown files from vault
         run: |
