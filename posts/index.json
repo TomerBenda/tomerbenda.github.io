@@ -1,26 +1,35 @@
 [
   {
-    "filename": "posts/Bananas.md",
-    "title": "Posts/Bananas",
-    "date": "",
-    "categories": []
+    "filename": "Bananas.md",
+    "title": "Bananas are very cool",
+    "date": "25.09.2025",
+    "categories": [
+      "Fruit",
+      "Chemistry"
+    ]
   },
   {
-    "filename": "posts/Test 2.md",
-    "title": "Posts/Test 2",
-    "date": "",
-    "categories": []
+    "filename": "Test 2.md",
+    "title": "On Cognition",
+    "date": "2025-07-30",
+    "categories": [
+      "cognition"
+    ]
   },
   {
-    "filename": "posts/folder/test subfolder.md",
-    "title": "Posts/Folder/Test Subfolder",
-    "date": "",
-    "categories": []
+    "filename": "folder\\test subfolder.md",
+    "title": "Testing subfolders in the blog",
+    "date": "2025-09-25",
+    "categories": [
+      "Test"
+    ]
   },
   {
-    "filename": "posts/full flow test.md",
-    "title": "Posts/Full Flow Test",
-    "date": "",
-    "categories": []
+    "filename": "full flow test.md",
+    "title": "full flow",
+    "date": "2025-09-25",
+    "categories": [
+      "writing"
+    ]
   }
 ]

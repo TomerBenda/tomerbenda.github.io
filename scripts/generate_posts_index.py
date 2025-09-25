@@ -39,7 +39,8 @@ def get_markdown_files(directory):
     for root, _, files in os.walk(directory):
         for file in files:
             if file.endswith('.md'):
-                md_files.append(os.path.join(root, file).replace('posts\\', ''))
+                filepath = os.path.join(root, file).replace('posts/', '').replace('posts\\', '')
+                md_files.append(filepath)
     return sorted(md_files)
 
 posts = []
