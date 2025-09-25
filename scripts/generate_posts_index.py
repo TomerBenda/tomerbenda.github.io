@@ -28,6 +28,8 @@ def parse_frontmatter(filepath):
             if isinstance(categories, str):
                 categories = [c.strip() for c in categories.split(',')]
             return title, date, categories
+        else:
+            print(f"No frontmatter found in {filepath}")
     except Exception as e:
         print(f"Error parsing frontmatter in {filepath}: {e}")
     # Defaults if no frontmatter or error
@@ -51,9 +53,12 @@ for filename in sorted(os.listdir(POSTS_DIR)):
             'date': date,
             'categories': categories
         })
+        print(f"Processed {filename}: title='{title}', date='{date}', categories={categories}")
 
 try:
     with open(os.path.join(POSTS_DIR, INDEX_FILE), 'w', encoding='utf-8') as f:
         json.dump(posts, f, indent=2)
 except Exception as e:
     print(f"Error writing index file: {e}")
+
+print(f"Generated {INDEX_FILE} with {len(posts)} posts.")
