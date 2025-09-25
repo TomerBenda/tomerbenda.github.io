@@ -1,5 +1,14 @@
 [
   {
+    "filename": "Bananas.md",
+    "title": "Bananas are very cool",
+    "date": "25.09.2025",
+    "categories": [
+      "Fruit",
+      "Chemistry"
+    ]
+  },
+  {
     "filename": "Test 2.md",
     "title": "On Cognition",
     "date": "2025-07-30",
