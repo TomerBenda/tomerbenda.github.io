@@ -21,7 +21,6 @@ def parse_frontmatter(filepath):
                 fm_data = {}
             title = fm_data.get('title')
             date = fm_data.get('date')
-            # Convert date to string if it's a date object
             if date is not None and not isinstance(date, str):
                 date = str(date)
             categories = fm_data.get('categories', [])
@@ -35,8 +34,16 @@ def parse_frontmatter(filepath):
     # Defaults if no frontmatter or error
     return None, None, []
 
+def get_markdown_files(directory):
+    md_files = []
+    for root, _, files in os.walk(directory):
+        for file in files:
+            if file.endswith('.md'):
+                md_files.append(os.path.join(root, file).replace('posts\\', ''))
+    return sorted(md_files)
+
 posts = []
-for filename in sorted(os.listdir(POSTS_DIR)):
+for filename in get_markdown_files(POSTS_DIR):
     if filename.endswith('.md'):
         filepath = os.path.join(POSTS_DIR, filename)
         title, date, categories = parse_frontmatter(filepath)

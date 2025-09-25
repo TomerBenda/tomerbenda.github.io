@@ -17,6 +17,14 @@
     ]
   },
   {
+    "filename": "folder\\test subfolder.md",
+    "title": "Testing subfolders in the blog",
+    "date": "2025-09-25",
+    "categories": [
+      "Test"
+    ]
+  },
+  {
     "filename": "full flow test.md",
     "title": "full flow",
     "date": "2025-09-25",
