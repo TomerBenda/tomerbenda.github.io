@@ -10,7 +10,7 @@ function renderPosts(category = "all", skipPushState = false) {
     history.pushState({ category }, "", `?category=${category}`);
   }
   postsContainer.innerHTML = "<p>Loading posts...</p>";
-  const filtered =
+  let filtered =
     category === "all"
       ? postsMeta
       : postsMeta.filter((p) => {
@@ -25,6 +25,13 @@ function renderPosts(category = "all", skipPushState = false) {
             (cat) => cat && cat.toLowerCase() === category.toLowerCase()
           );
         });
+  // Sort by date descending (newest first)
+  filtered = filtered.slice().sort((a, b) => {
+    // Try to parse date, fallback to 0
+    const dateA = Date.parse(a.date) || 0;
+    const dateB = Date.parse(b.date) || 0;
+    return dateB - dateA;
+  });
   if (filtered.length === 0) {
     postsContainer.innerHTML = "<p>No posts in this category yet.</p>";
     return;
