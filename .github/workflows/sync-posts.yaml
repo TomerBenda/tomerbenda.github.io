@@ -21,23 +21,26 @@ jobs:
           token: ${{ secrets.VAULT_REPO_TOKEN }}
           path: vault
 
-      - name: DEBUG List files in vault and blog directories
-        run: |
-          echo "Vault directory:"
-          ls -l vault
-          echo "Blog directory:"
-          ls -l blog
-          echo "Full workspace:"
-          ls -lR
+      # - name: DEBUG List files in vault and blog directories
+      #   run: |
+      #     echo "Vault directory:"
+      #     ls -l vault
+      #     echo "Blog directory:"
+      #     ls -l blog
+      #     echo "Full workspace:"
+      #     ls -lR
 
       - name: Sync markdown files from vault
         run: |
           rsync -av --delete "vault/100 Blog/" blog/posts/
 
+      - name: Install pyyaml
+        run: |
+          python3 -m pip install pyyaml
+
       - name: Generate posts/index.json
         run: |
           cd blog
-          pip install pyyaml
           python3 scripts/generate_posts_index.py
 
       - name: Commit and push if changes
