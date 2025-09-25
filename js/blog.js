@@ -167,9 +167,9 @@ function renderFullPost(post, skipPushState = false) {
         ? postCategories.map((cat) => capitalize(cat)).join(", ")
         : "Uncategorized";
       postDiv.innerHTML = `
-        <button class="back-to-blog" style="margin-bottom:1em;" onclick="window.renderPosts && renderPosts(window.currentCategory || 'all')">← Back to blog</button>
         <h2 class="post-title">${title}</h2>
         <div class="post-meta">${date} | ${categoriesStr}</div>
+        <button id="back-to-blog" style="margin-bottom:1em;" onclick="window.renderPosts && renderPosts(window.currentCategory || 'all')">← Back to blog</button>
         <div class="post-content">${marked.parse(content)}</div>
       `;
       postsContainer.innerHTML = "";
