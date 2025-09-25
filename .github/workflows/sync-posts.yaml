@@ -17,18 +17,19 @@ jobs:
       - name: Checkout vault repo
         uses: actions/checkout@v4
         with:
-          repository: <your-obsidian-vault-owner>/<your-obsidian-vault-repo>
+          repository: TomerBenda/tbdocs
           token: ${{ secrets.VAULT_REPO_TOKEN }}
           path: vault
 
-      - name: Sync markdown files
+      - name: Sync markdown files from vault
         run: |
-          rsync -av --delete vault/posts/ blog/posts/
+          rsync -av --delete "vault/100 Blog/" blog/posts/
 
-      - name: Generate index.json
+      - name: Generate posts/index.json
         run: |
           cd blog
-          python3 scripts/generate_index.py
+          pip install pyyaml
+          python3 scripts/generate_posts_index.py
 
       - name: Commit and push if changes
         run: |
