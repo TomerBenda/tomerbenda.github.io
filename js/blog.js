@@ -3,6 +3,7 @@
 const postsContainer = document.getElementById("posts-container");
 const categoryList = document.getElementById("category-list");
 let postsMeta = [];
+let allCategories = [];
 
 function renderPosts(category = "all", skipPushState = false) {
   if (!skipPushState) {
@@ -157,6 +158,8 @@ window.addEventListener("popstate", () => {
 
 // On initial load, check URL for post or category
 function handleInitialLoad() {
+  // Dynamically generate category list
+  generateCategoryList();
   const params = new URLSearchParams(window.location.search);
   const postFilename = params.get("post");
   const category = params.get("category") || "all";
@@ -173,6 +176,26 @@ function handleInitialLoad() {
       .querySelector(`#category-list button[data-category="${category}"]`)
       ?.classList.add("active");
   }
+}
+// Generate category list dynamically from postsMeta
+function generateCategoryList() {
+  // Collect all categories from postsMeta
+  const categorySet = new Set();
+  postsMeta.forEach((post) => {
+    if (Array.isArray(post.categories)) {
+      post.categories.forEach((cat) => cat && categorySet.add(cat.toLowerCase()));
+    } else if (post.category) {
+      categorySet.add(post.category.toLowerCase());
+    }
+  });
+  allCategories = Array.from(categorySet);
+  // Always include 'all' as the first category
+  const categories = ["all", ...allCategories.sort()];
+  categoryList.innerHTML = categories
+    .map(
+      (cat) => `<li><button data-category="${cat}">${capitalize(cat)}</button></li>`
+    )
+    .join("");
 }
 
 // Wait for postsMeta to load before handling initial URL
