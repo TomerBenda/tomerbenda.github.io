@@ -1,6 +1,6 @@
 ---
 title: On Cognition
-category: cognition
+categories: cognition
 date: 2025-07-30
 ---
 
