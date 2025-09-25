@@ -202,7 +202,9 @@ function generateCategoryList() {
   const categorySet = new Set();
   postsMeta.forEach((post) => {
     if (Array.isArray(post.categories)) {
-      post.categories.forEach((cat) => cat && categorySet.add(cat.toLowerCase()));
+      post.categories.forEach(
+        (cat) => cat && categorySet.add(cat.toLowerCase())
+      );
     } else if (post.category) {
       categorySet.add(post.category.toLowerCase());
     }
@@ -212,7 +214,8 @@ function generateCategoryList() {
   const categories = ["all", ...allCategories.sort()];
   categoryList.innerHTML = categories
     .map(
-      (cat) => `<li><button data-category="${cat}">${capitalize(cat)}</button></li>`
+      (cat) =>
+        `<li><button data-category="${cat}">${capitalize(cat)}</button></li>`
     )
     .join("");
 }
