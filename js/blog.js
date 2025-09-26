@@ -84,7 +84,7 @@ function renderPosts(category = "all", skipPushState = false) {
   }
 
   // if there's a post newer than last read post date, notify user
-  const lastReadDateCookie = document.cookie
+  const lastReadDateCookie = document.cookie === "undefined" ? "" : document.cookie
     .split("; ")
     .find((row) => row.startsWith("lastReadPostDate="));
   if (lastReadDateCookie) {
@@ -207,9 +207,9 @@ function renderFullPost(post, skipPushState = false) {
       // Error handling for missing fields
       const title = post.title || "Untitled";
       const date = post.date || "Unknown date";
+      
       // TODO: maybe use localstorage instead of cookie
-
-      const lastReadDateCookie = document.cookie
+      const lastReadDateCookie = document.cookie === "undefined" ? "" : document.cookie
         .split("; ")
         .find((row) => row.startsWith("lastReadPostDate="))
         .split("=")[1];
