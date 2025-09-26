@@ -84,7 +84,7 @@ function renderPosts(category = "all", skipPushState = false) {
   }
 
   // if there's a post newer than last read post date, notify user
-  const lastReadDateCookie = document.cookie === "undefined" ? "" : document.cookie
+  const lastReadDateCookie = document.cookie
     .split("; ")
     .find((row) => row.startsWith("lastReadPostDate="));
   if (lastReadDateCookie) {
@@ -207,18 +207,21 @@ function renderFullPost(post, skipPushState = false) {
       // Error handling for missing fields
       const title = post.title || "Untitled";
       const date = post.date || "Unknown date";
-      
+
       // TODO: maybe use localstorage instead of cookie
-      const lastReadDateCookie = document.cookie === "undefined" ? "" : document.cookie
+      const lastReadDateCookie = document.cookie
         .split("; ")
-        .find((row) => row.startsWith("lastReadPostDate="))
-        .split("=")[1];
+        .find((row) => row.startsWith("lastReadPostDate="));
+      const lastReadDateStr =
+        lastReadDateCookie && lastReadDateCookie.split("=")[1];
       if (
         Date.parse(date) &&
-        (!lastReadDateCookie ||
-          Date.parse(date) > Date.parse(lastReadDateCookie))
+        (!lastReadDateStr ||
+          Date.parse(date) > Date.parse(lastReadDateStr))
       ) {
-        document.cookie = `lastReadPostDate=${new Date(date).toISOString()}; path=/; max-age=31536000`;
+        document.cookie = `lastReadPostDate=${new Date(
+          date
+        ).toISOString()}; path=/; max-age=31536000`;
       }
 
       // Support multiple categories
