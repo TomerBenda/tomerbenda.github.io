@@ -9,19 +9,17 @@
     ]
   },
   {
+    "filename": "Notification Test.md",
+    "title": "Notification Test",
+    "date": "",
+    "categories": []
+  },
+  {
     "filename": "Test 2.md",
     "title": "On Cognition",
     "date": "2025-07-30",
     "categories": [
       "cognition"
-    ]
-  },
-  {
-    "filename": "folder/test subfolder.md",
-    "title": "Testing subfolders in the blog",
-    "date": "2025-09-25",
-    "categories": [
-      "Test"
     ]
   },
   {
