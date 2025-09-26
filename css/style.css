@@ -122,6 +122,7 @@ nav {
     transition: max-height 0.3s, opacity 0.3s, margin-bottom 0.3s;
 }
 
+/* .toggle-crt, */
 .sidebar-collapsible-toggle {
     display: block;
     background: var(--accent-faded);
@@ -161,6 +162,7 @@ nav {
 }
 
 #back-to-blog,
+.toggle-crt,
 #category-list button {
     background: none;
     border: none;
@@ -175,6 +177,8 @@ nav {
 }
 
 #back-to-blog:hover,
+.toggle-crt:hover,
+.toggle-crt.active,
 #category-list button:hover,
 #category-list button.active {
     background: var(--accent-faded);
