@@ -17,11 +17,19 @@
     ]
   },
   {
-    "filename": "folder/test subfolder.md",
+    "filename": "folder\\test subfolder.md",
     "title": "Testing subfolders in the blog",
     "date": "2025-09-25",
     "categories": [
       "Test"
+    ]
+  },
+  {
+    "filename": "full flow test copy.md",
+    "title": "notification test",
+    "date": "2025-09-27",
+    "categories": [
+      "writing"
     ]
   },
   {

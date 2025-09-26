@@ -71,10 +71,8 @@ function renderPosts(category = "all", skipPushState = false) {
       // Check title, date, and preview content
       const title = (post.title || "").toLowerCase();
       const date = (post.date || "").toLowerCase();
-      // Only check preview content (first 50 chars)
       let preview = "";
       if (post.filename) {
-        // Try to get preview from postsMeta (if available)
         preview = (post.preview || "").toLowerCase();
       }
       return (
@@ -83,6 +81,33 @@ function renderPosts(category = "all", skipPushState = false) {
         preview.includes(searchLower)
       );
     });
+  }
+
+  // if there's a post newer than last read post date, notify user
+  const lastReadDateCookie = document.cookie
+    .split("; ")
+    .find((row) => row.startsWith("lastReadPostDate="));
+  if (lastReadDateCookie) {
+    const lastReadDateStr = lastReadDateCookie.split("=")[1];
+    const lastReadDate = Date.parse(lastReadDateStr);
+    if (!isNaN(lastReadDate)) {
+      const hasNewerPost = filtered.some((post) => {
+        const postDate = Date.parse(post.date);
+        return !isNaN(postDate) && postDate > lastReadDate;
+      });
+      if (hasNewerPost) {
+        const notification = document.createElement("div");
+        notification.className = "notification";
+        notification.innerHTML = "New posts available since your last read!";
+        postsContainer.parentNode.insertBefore(notification, postsContainer);
+        setTimeout(() => {
+          if (notification.parentNode) {
+            notification.hidden = true;
+            notification.parentNode.removeChild(notification);
+          }
+        }, 5000);
+      }
+    }
   }
 
   // Sort by date descending (newest first)
@@ -174,12 +199,28 @@ function renderFullPost(post, skipPushState = false) {
         }
         return match;
       });
+      // TODO: Replace obsidian links [[Post Title]] with actual links
+      // TODO: Replace obsidian links []() with actual links
 
       const postDiv = document.createElement("div");
       postDiv.className = "post post-full";
       // Error handling for missing fields
       const title = post.title || "Untitled";
       const date = post.date || "Unknown date";
+      // TODO: maybe use localstorage instead of cookie
+
+      const lastReadDateCookie = document.cookie
+        .split("; ")
+        .find((row) => row.startsWith("lastReadPostDate="))
+        .split("=")[1];
+      if (
+        Date.parse(date) &&
+        (!lastReadDateCookie ||
+          Date.parse(date) > Date.parse(lastReadDateCookie))
+      ) {
+        document.cookie = `lastReadPostDate=${date}; path=/; max-age=31536000`;
+      }
+
       // Support multiple categories
       const postCategories = Array.isArray(post.categories)
         ? post.categories
