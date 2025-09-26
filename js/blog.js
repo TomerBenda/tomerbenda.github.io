@@ -218,7 +218,7 @@ function renderFullPost(post, skipPushState = false) {
         (!lastReadDateCookie ||
           Date.parse(date) > Date.parse(lastReadDateCookie))
       ) {
-        document.cookie = `lastReadPostDate=${date}; path=/; max-age=31536000`;
+        document.cookie = `lastReadPostDate=${new Date(date).toISOString()}; path=/; max-age=31536000`;
       }
 
       // Support multiple categories
