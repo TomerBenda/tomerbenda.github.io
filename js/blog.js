@@ -88,7 +88,9 @@ function renderPosts(category = "all", skipPushState = false) {
     .split("; ")
     .find((row) => row.startsWith("lastReadPostDate="));
 
-  const lastReadDateStr = lastReadDateCookie ? lastReadDateCookie.split("=")[1] : "1970-01-01T00:00:00.000Z";
+  const lastReadDateStr = lastReadDateCookie
+    ? lastReadDateCookie.split("=")[1]
+    : "1970-01-01T00:00:00.000Z";
   const lastReadDate = Date.parse(lastReadDateStr);
   if (!isNaN(lastReadDate)) {
     const hasNewerPost = filtered.some((post) => {
@@ -96,9 +98,9 @@ function renderPosts(category = "all", skipPushState = false) {
       return !isNaN(postDate) && postDate > lastReadDate;
     });
     filtered.forEach((post) => {
-        if (Date.parse(post.date) > lastReadDate) post.isUnread = true;
-        else post.isUnread = false;
-      });
+      if (Date.parse(post.date) > lastReadDate) post.isUnread = true;
+      else post.isUnread = false;
+    });
     if (hasNewerPost) {
       const notification = document.createElement("div");
       notification.className = "notification";
@@ -221,11 +223,12 @@ function renderFullPost(post, skipPushState = false) {
       const lastReadDateStr =
         lastReadDateCookie && lastReadDateCookie.split("=")[1];
       if (
-        Date.parse(date) &&
-        (!lastReadDateStr || Date.parse(date) > Date.parse(lastReadDateStr))
+        !lastReadDateStr ||
+        (Date.parse(date) > Date.parse(lastReadDateStr) &&
+          Date.parse(new Date(Date.now())) > Date.parse(lastReadDateStr))
       ) {
         document.cookie = `lastReadPostDate=${new Date(
-          date
+          Date.now()
         ).toISOString()}; path=/; max-age=31536000`;
       }
 
