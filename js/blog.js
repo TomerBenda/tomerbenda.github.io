@@ -51,6 +51,7 @@ function renderPosts(category = "all", skipPushState = false) {
 
   document.title = " Blog | tbd";
   postsContainer.innerHTML = "<p>Loading posts...</p>";
+  document.getElementById("c_widget")?.classList.add("hidden");
 
   let filtered =
     category === "all"
@@ -204,8 +205,9 @@ function renderFullPost(post, skipPushState = false) {
     );
   }
   document.title = post.title ? `${post.title} | Blog | tbd` : `${document.title}`;
-
   // postsContainer.innerHTML = "<p>Loading post...</p>"; // (removed to avoid flicker)
+  document.getElementById("c_widget")?.classList.remove("hidden");
+
   fetch(`posts/${post.filename}`)
     .then((res) => res.text())
     .then((md) => {

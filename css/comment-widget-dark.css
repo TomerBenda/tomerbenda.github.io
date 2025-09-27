@@ -63,6 +63,8 @@
     background-attachment: fixed;
 }
 
+#c_widget.hidden {display: none;}
+
 #c_widget button, #c_widget input[type=submit] {
     padding: 4px;
     text-decoration: none;
