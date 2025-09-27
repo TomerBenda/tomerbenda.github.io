@@ -216,8 +216,7 @@ function renderFullPost(post, skipPushState = false) {
         lastReadDateCookie && lastReadDateCookie.split("=")[1];
       if (
         Date.parse(date) &&
-        (!lastReadDateStr ||
-          Date.parse(date) > Date.parse(lastReadDateStr))
+        (!lastReadDateStr || Date.parse(date) > Date.parse(lastReadDateStr))
       ) {
         document.cookie = `lastReadPostDate=${new Date(
           date
@@ -287,9 +286,13 @@ function handleInitialLoad() {
   const postFilename = params.get("post");
   const category = params.get("category") || "all";
   window.currentCategory = category;
+  
   if (postFilename) {
     const post = postsMeta.find((p) => p.filename === postFilename);
+    
     if (post) renderFullPost(post, true);
+    else postsContainer.innerHTML = `<p>Post "${postFilename}" not found.</p>`;
+
     document
       .querySelectorAll("#category-list button")
       .forEach((btn) => btn.classList.remove("active"));
