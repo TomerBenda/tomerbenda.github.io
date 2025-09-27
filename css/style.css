@@ -169,16 +169,20 @@ nav {
 }
 
 #posts-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5em;
   max-height: 500px;
   overflow-y: auto;
-  -ms-overflow-style: none;  /* IE and Edge */;
+  -ms-overflow-style: none; /* IE and Edge */
   scrollbar-width: none; /* Firefox */
   scrollbar-color: var(--accent-faded) transparent;
-  margin-bottom: 1em
+  margin-bottom: 1em;
 }
 
 #posts-container::-webkit-scrollbar {
-  display: none; /* Chrome, Safari, Opera*/
+  display: none;
+  /* Chrome, Safari, Opera*/
 }
 
 #category-list {
@@ -225,12 +229,6 @@ nav {
   font-weight: bold;
 }
 
-#posts-container {
-  display: flex;
-  flex-direction: column;
-  gap: 1.5em;
-}
-
 .post {
   background: #090e13;
   border-radius: 6px;
@@ -239,7 +237,7 @@ nav {
 }
 
 .post-preview {
-    /* For positioning unread notification on post preview */
+  /* For positioning unread notification on post preview */
   display: inline-block;
   position: relative;
 }
@@ -259,19 +257,24 @@ nav {
 
 /* Overall post window */
 .post-window {
-  background: #0d0d0d; /* dark terminal background */
-  border: 2px solid var(--accent); /* neon cyan border */
+  background: #0d0d0d;
+  /* dark terminal background */
+  border: 2px solid var(--accent);
+  /* neon cyan border */
   border-radius: 4px;
   margin-bottom: 1.5em;
   font-family: 'Courier New', Courier, monospace;
-  box-shadow: 0 0 10px var(--accent), 0 0 20px var(--accent-faded); /* subtle neon glow */
+  box-shadow: 0 0 10px var(--accent), 0 0 20px var(--accent-faded);
+  /* subtle neon glow */
   overflow: hidden;
 }
 
 /* Toolbar at the top */
 .post-toolbar {
-  background: #111; /* slightly lighter than window */
-  color: var(--accent); /* neon text */
+  background: #111;
+  /* slightly lighter than window */
+  color: var(--accent);
+  /* neon text */
   font-weight: bold;
   padding: 6px 10px;
   font-size: 0.9em;
@@ -294,7 +297,8 @@ nav {
   color: var(--accent);
   line-height: 1.4em;
   background: #0d0d0d;
-  border-top: 1px solid var(--accent); /* subtle separator */
+  border-top: 1px solid var(--accent);
+  /* subtle separator */
 }
 
 /* Post metadata */
