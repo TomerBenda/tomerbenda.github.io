@@ -11,31 +11,17 @@
   {
     "filename": "Notification Test.md",
     "title": "Notification Test",
-    "date": "",
-    "categories": []
-  },
-  {
-    "filename": "Test 2.md",
-    "title": "On Cognition",
-    "date": "2025-07-30",
+    "date": "2025-09-27",
     "categories": [
-      "cognition"
+      "test"
     ]
   },
   {
     "filename": "full flow test.md",
     "title": "full flow",
-    "date": "2025-09-25",
+    "date": "2025-09-27",
     "categories": [
       "writing"
-    ]
-  },
-  {
-    "filename": "\u05e4\u05ea\u05e7\u05d9\u05dd \u05d1\u05e2\u05d1\u05e8\u05d9\u05ea.md",
-    "title": "\u05dc\u05d0 \u05d1\u05d3\u05e7\u05ea\u05d9",
-    "date": "2025-09-25",
-    "categories": [
-      "\u05d0\u05de\u05df\u05ea\u05e2\u05d1\u05d5\u05d3"
     ]
   }
 ]
