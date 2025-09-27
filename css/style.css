@@ -186,7 +186,20 @@ nav {
   padding: 0;
 }
 
+.post-nav {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 1em;
+}
+
+.post-nav span {
+  /* Invisible placeholder to keep spacing */
+  flex: 1;
+}
+
+
 #back-to-blog,
+.post-nav button,
 .toggle-crt,
 #category-list button {
   background: none;
@@ -202,6 +215,7 @@ nav {
 }
 
 #back-to-blog:hover,
+.post-nav button:hover,
 .toggle-crt:hover,
 .toggle-crt.active,
 #category-list button:hover,
