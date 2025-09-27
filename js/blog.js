@@ -48,7 +48,10 @@ function renderPosts(category = "all", skipPushState = false) {
   if (!skipPushState) {
     history.pushState({ category }, "", `?category=${category}`);
   }
+
+  document.title = " Blog | tbd";
   postsContainer.innerHTML = "<p>Loading posts...</p>";
+
   let filtered =
     category === "all"
       ? postsMeta
@@ -200,7 +203,9 @@ function renderFullPost(post, skipPushState = false) {
       `?post=${encodeURIComponent(post.filename)}`
     );
   }
-  postsContainer.innerHTML = "<p>Loading post...</p>";
+  document.title = post.title ? `${post.title} | Blog | tbd` : `${document.title}`;
+
+  // postsContainer.innerHTML = "<p>Loading post...</p>"; // (removed to avoid flicker)
   fetch(`posts/${post.filename}`)
     .then((res) => res.text())
     .then((md) => {
