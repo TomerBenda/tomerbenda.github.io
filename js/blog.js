@@ -87,30 +87,29 @@ function renderPosts(category = "all", skipPushState = false) {
   const lastReadDateCookie = document.cookie
     .split("; ")
     .find((row) => row.startsWith("lastReadPostDate="));
-  if (lastReadDateCookie) {
-    const lastReadDateStr = lastReadDateCookie.split("=")[1];
-    const lastReadDate = Date.parse(lastReadDateStr);
-    if (!isNaN(lastReadDate)) {
-      const hasNewerPost = filtered.some((post) => {
-        const postDate = Date.parse(post.date);
-        return !isNaN(postDate) && postDate > lastReadDate;
-      });
-      if (hasNewerPost) {
-        filtered.forEach((post) => {
-          if (Date.parse(post.date) > lastReadDate) post.isUnread = true;
-        });
 
-        const notification = document.createElement("div");
-        notification.className = "notification";
-        notification.innerHTML = "New posts available since your last read!";
-        postsContainer.parentNode.insertBefore(notification, postsContainer);
-        setTimeout(() => {
-          if (notification.parentNode) {
-            notification.hidden = true;
-            notification.parentNode.removeChild(notification);
-          }
-        }, 5000);
-      }
+  const lastReadDateStr = lastReadDateCookie ? lastReadDateCookie.split("=")[1] : "1970-01-01T00:00:00.000Z";
+  const lastReadDate = Date.parse(lastReadDateStr);
+  if (!isNaN(lastReadDate)) {
+    const hasNewerPost = filtered.some((post) => {
+      const postDate = Date.parse(post.date);
+      return !isNaN(postDate) && postDate > lastReadDate;
+    });
+    filtered.forEach((post) => {
+        if (Date.parse(post.date) > lastReadDate) post.isUnread = true;
+        else post.isUnread = false;
+      });
+    if (hasNewerPost) {
+      const notification = document.createElement("div");
+      notification.className = "notification";
+      notification.innerHTML = "New posts available since your last read!";
+      postsContainer.parentNode.insertBefore(notification, postsContainer);
+      setTimeout(() => {
+        if (notification.parentNode) {
+          notification.hidden = true;
+          notification.parentNode.removeChild(notification);
+        }
+      }, 5000);
     }
   }
 
