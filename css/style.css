@@ -234,10 +234,12 @@ nav {
 .post {
   background: #090e13;
   border-radius: 6px;
-  /* padding: 1em; */
+  padding: 1em;
   box-shadow: 0 1px 4px rgba(0, 0, 0, 0.02);
+}
 
-  /* For positioning unread notification on post preview */
+.post-preview {
+    /* For positioning unread notification on post preview */
   display: inline-block;
   position: relative;
 }
@@ -255,50 +257,58 @@ nav {
 
 /* Blog - Post windows */
 
+/* Overall post window */
 .post-window {
-  border-radius: 8px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+  background: #0d0d0d; /* dark terminal background */
+  border: 2px solid var(--accent); /* neon cyan border */
+  border-radius: 4px;
+  margin-bottom: 1.5em;
+  font-family: 'Courier New', Courier, monospace;
+  box-shadow: 0 0 10px var(--accent), 0 0 20px var(--accent-faded); /* subtle neon glow */
   overflow: hidden;
-  background: var(--bg-dark);
-  transition: transform 0.15s ease, box-shadow 0.15s ease;
 }
 
-.post-window:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 8px 20px rgba(0,0,0,0.3);
-}
-
+/* Toolbar at the top */
 .post-toolbar {
-  background: var(--bg-darker);
-  height: 30px;
+  background: #111; /* slightly lighter than window */
+  color: var(--accent); /* neon text */
+  font-weight: bold;
+  padding: 6px 10px;
+  font-size: 0.9em;
   display: flex;
   align-items: center;
-  padding: 0 10px;
-  gap: 6px;
-  border-bottom: 1px solid #ccc;
-  font-weight: bold;
-  font-size: 0.9em;
+  border-bottom: 1px solid var(--accent);
+  text-transform: uppercase;
+  letter-spacing: 1px;
 }
 
-.window-dot {
-  width: 12px;
-  height: 12px;
-  border-radius: 50%;
-  display: inline-block;
-}
-
-.window-dot.red { background: #ff605c; }
-.window-dot.yellow { background: #ffbd44; }
-.window-dot.green { background: #00ca4e; }
-
+/* Title glow effect */
 .post-window-title {
-  margin-left: 8px;
+  text-shadow: 0 0 4px var(--accent), 0 0 8px var(--accent);
   flex: 1;
 }
 
+/* Content area */
 .post-window-content {
   padding: 12px;
+  color: var(--accent);
+  line-height: 1.4em;
+  background: #0d0d0d;
+  border-top: 1px solid var(--accent); /* subtle separator */
 }
+
+/* Post metadata */
+.post-meta {
+  font-size: 0.75em;
+  color: var(--accent);
+  margin-bottom: 6px;
+}
+
+/* Optional hover glow on entire window */
+.post-window:hover {
+  box-shadow: 0 0 15px var(--accent), 0 0 25px var(--accent-faded);
+}
+
 
 /* End Blog - Post Windows */
 

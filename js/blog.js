@@ -151,7 +151,7 @@ function fetchMarkdownPreview(post) {
       post.preview = previewText; // Save preview for search
 
       const postDiv = document.createElement("div");
-      postDiv.className = "post post-preview";
+      postDiv.className = "post-preview";
 
       const title = post.title || "Untitled";
       const date = post.date || "Unknown date";
@@ -168,13 +168,12 @@ function fetchMarkdownPreview(post) {
       postDiv.innerHTML = `
   <div class="post-window">
     <div class="post-toolbar">
-      <span class="window-dot red"></span>
-      <span class="window-dot yellow"></span>
-      <span class="window-dot green"></span>
-      <span class="post-window-title">${title}</span>
+      <span>
+      <span class="post-window-title">${title}</span><br/>
+      <span class="post-meta">${date} | ${categoriesStr}</span>
+      </span>
     </div>
     <div class="post-window-content">
-      <div class="post-meta">${date} | ${categoriesStr}</div>
       <div class="post-content">${marked.parse(previewText)}</div>
       ${post.isUnread ? "<div class='unread-notification'>Unread</div>" : ""}
     </div>
