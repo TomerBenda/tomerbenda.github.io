@@ -143,7 +143,11 @@ function fetchMarkdownPreview(post) {
         if (end !== -1) content = md.slice(end + 3).trim();
       }
 
-      const previewText = content.substring(0, 50) + "...";
+      let previewText = content.substring(0, 50);
+      previewText = content.replace(/!\[\[(.+?)\]\]/g, ""); // Remove image embeds for preview
+      previewText = previewText.replace(/!\[.*?\]\(.*?\)/g, ""); // Remove markdown image links
+      if (content.length > 50) previewText += "...";
+
       post.preview = previewText; // Save preview for search
 
       const postDiv = document.createElement("div");
