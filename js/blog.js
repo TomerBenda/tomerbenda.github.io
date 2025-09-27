@@ -46,11 +46,7 @@ window.addEventListener("DOMContentLoaded", function () {
 
 function renderPosts(category = "all", skipPushState = false) {
   if (!skipPushState) {
-    history.pushState(
-      { category },
-      "",
-      category === "all" ? "/blog/" : `/blog/category/${category}/`
-    );
+    history.pushState({ category }, "", `?category=${category}`);
   }
   postsContainer.innerHTML = "<p>Loading posts...</p>";
   let filtered =
@@ -138,7 +134,7 @@ function renderPosts(category = "all", skipPushState = false) {
 }
 
 function fetchMarkdownPreview(post) {
-  return fetch(`/posts/${post.filename}`)
+  return fetch(`posts/${post.filename}`)
     .then((res) => res.text())
     .then((md) => {
       let content = md;
@@ -170,20 +166,13 @@ function fetchMarkdownPreview(post) {
         : "Uncategorized";
 
       postDiv.innerHTML = `
-        <a href="/blog/${post.filename.replace(/\.md$/, "")}/">
-          <h2 class="post-title">${title}</h2>
-        </a>
+        <h2 class="post-title">${title}</h2>
         <div class="post-meta">${date} | ${categoriesStr}</div>
         <div class="post-content">${marked.parse(previewText)}</div>
         ${post.isUnread ? "<div class='unread-notification'>Unread</div>" : ""}
       `;
       postDiv.style.cursor = "pointer";
-
-      postDiv.querySelector("a").addEventListener("click", (e) => {
-        e.preventDefault();
-        renderFullPost(post);
-      });
-
+      postDiv.addEventListener("click", () => renderFullPost(post));
       return postDiv;
     })
     .catch((err) => {
@@ -199,11 +188,11 @@ function renderFullPost(post, skipPushState = false) {
     history.pushState(
       { post: post.filename },
       "",
-      `/blog/${post.filename.replace(/\.md$/, "")}/`
+      `?post=${encodeURIComponent(post.filename)}`
     );
   }
   postsContainer.innerHTML = "<p>Loading post...</p>";
-  fetch(`/posts/${post.filename}`)
+  fetch(`posts/${post.filename}`)
     .then((res) => res.text())
     .then((md) => {
       let content = md;
@@ -218,7 +207,7 @@ function renderFullPost(post, skipPushState = false) {
         const allowedExt = [".png", ".jpg", ".jpeg", ".gif", ".webp", ".svg"];
         const ext = filename.slice(filename.lastIndexOf(".")).toLowerCase();
         if (allowedExt.includes(ext)) {
-          return `<img src='/posts/attachments/${filename.trim()}' alt='${filename.trim()}' style='max-width:100%;'>`;
+          return `<img src='posts/attachments/${filename.trim()}' alt='${filename.trim()}' style='max-width:100%;'>`;
         }
         return match;
       });
@@ -288,23 +277,6 @@ categoryList.addEventListener("click", (e) => {
   }
 });
 
-function parseUrlPath() {
-  const path = window.location.pathname;
-
-  const match = path.match(/\/(?:blog|journal)\/([^/]+)\/?$/);
-  if (match) {
-    return { type: "post", filename: `${match[1]}.md` };
-  }
-
-  // Match category: "/blog/category-name"
-  const categoryMatch = path.match(/\/blog\/category\/([^/]+)\/?$/);
-  if (categoryMatch) {
-    return { type: "category", category: categoryMatch[1] };
-  }
-
-  return { type: "home " };
-}
-
 // Handle popstate for browser navigation
 window.addEventListener("popstate", () => {
   const params = new URLSearchParams(window.location.search);
@@ -321,27 +293,29 @@ window.addEventListener("popstate", () => {
 
 // On initial load, check URL for post or category
 function handleInitialLoad() {
+  // Dynamically generate category list
   generateCategoryList();
-  const route = parseUrlPath();
+  const params = new URLSearchParams(window.location.search);
+  const postFilename = params.get("post");
+  const category = params.get("category") || "all";
+  window.currentCategory = category;
 
-  if (route.type === "post") {
-    const post = postsMeta.find((p) => p.filename === route.filename);
+  if (postFilename) {
+    const post = postsMeta.find((p) => p.filename === postFilename);
+
     if (post) renderFullPost(post, true);
-    else
-      postsContainer.innerHTML = `<p>Post "${route.filename}" not found.</p>`;
+    else postsContainer.innerHTML = `<p>Post "${postFilename}" not found.</p>`;
+
     document
       .querySelectorAll("#category-list button")
       .forEach((btn) => btn.classList.remove("active"));
   } else {
-    const category = route.type === "category" ? route.category : "all";
-    window.currentCategory = category;
     renderPosts(category, true);
     document
       .querySelector(`#category-list button[data-category="${category}"]`)
       ?.classList.add("active");
   }
 }
-
 // Generate category list dynamically from postsMeta
 function generateCategoryList() {
   // Collect all categories from postsMeta
@@ -367,7 +341,7 @@ function generateCategoryList() {
 }
 
 // Wait for postsMeta to load before handling initial URL
-fetch("/posts/index.json")
+fetch("posts/index.json")
   .then((res) => res.json())
   .then((data) => {
     postsMeta = data;
