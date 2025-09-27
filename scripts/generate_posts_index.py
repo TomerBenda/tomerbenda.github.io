@@ -91,3 +91,5 @@ for filepath in get_markdown_files(POSTS_DIR):
         })
     else:
         print(f"\t[*] Skipped: {relative_path}")
+    
+build_index(posts)

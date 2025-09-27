@@ -1,0 +1,27 @@
+[
+  {
+    "filename": "Bananas.md",
+    "title": "Bananas are very cool",
+    "date": "2025-09-25",
+    "categories": [
+      "Fruit",
+      "Chemistry"
+    ]
+  },
+  {
+    "filename": "full flow test.md",
+    "title": "full flow",
+    "date": "2025-09-27",
+    "categories": [
+      "writing"
+    ]
+  },
+  {
+    "filename": "Hello world.md",
+    "title": "Hello world",
+    "date": "2025-09-27",
+    "categories": [
+      "tech"
+    ]
+  }
+]
