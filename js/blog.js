@@ -250,8 +250,8 @@ function renderFullPost(post, skipPushState = false) {
       const currentIndex = postsMeta.findIndex(
         (p) => p.filename === post.filename
       );
-      const prevPost = postsMeta[currentIndex + 1]; // older
-      const nextPost = postsMeta[currentIndex - 1]; // newer
+      const prevPost = postsMeta[currentIndex - 1]; // older
+      const nextPost = postsMeta[currentIndex + 1]; // newer
 
       let navHTML = `<div class="post-nav">`;
       navHTML += prevPost
