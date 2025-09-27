@@ -171,7 +171,14 @@ nav {
 #posts-container {
   max-height: 500px;
   overflow-y: auto;
+  -ms-overflow-style: none;  /* IE and Edge */;
+  scrollbar-width: none; /* Firefox */
+  scrollbar-color: var(--accent-faded) transparent;
   margin-bottom: 1em
+}
+
+#posts-container::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, Opera*/
 }
 
 #category-list {
