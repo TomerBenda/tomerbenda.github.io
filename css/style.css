@@ -9,7 +9,7 @@
 body {
   margin: 0;
   font-family: 'Fira Code', monospace;
-  background: #101216;
+  background: var(--bg-dark);
   color: var(--fg-bright);
 }
 
@@ -71,7 +71,7 @@ nav {
 
 .nav-links a:hover {
   background: var(--accent-faded);
-  color: #101216;
+  color: var(--bg-dark);
 }
 
 .container {
@@ -105,7 +105,7 @@ nav {
 .sidebar-collapsible-toggle {
   display: block;
   background: var(--accent-faded);
-  color: #101216;
+  color: var(--bg-dark);
   border: none;
   border-radius: 6px;
   font-size: 1em;
@@ -156,6 +156,18 @@ nav {
   font-family: 'Fira Code', monospace;
 }
 
+.unread-notification {
+  background: var(--accent);
+  color: var(--bg-dark);
+  padding: 0.3em 0.7em;
+  border-radius: 3px;
+  margin-left: 0.5em;
+  border-radius: 2px;
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+
 #posts-container {
   max-height: 500px;
   overflow-y: auto;
@@ -188,7 +200,7 @@ nav {
 #category-list button:hover,
 #category-list button.active {
   background: var(--accent-faded);
-  color: #101216;
+  color: var(--bg-dark);
   font-weight: bold;
 }
 
@@ -203,6 +215,10 @@ nav {
   border-radius: 6px;
   padding: 1em;
   box-shadow: 0 1px 4px rgba(0, 0, 0, 0.02);
+
+  /* For positioning unread notification on post preview */
+  display: inline-block;
+  position: relative;
 }
 
 .post-title {
@@ -222,7 +238,7 @@ nav {
 
 .notification {
   background: var(--accent);
-  color: #101216;
+  color: var(--bg-dark);
   padding: 0.5em 1em;
   border-radius: 6px;
   position: fixed;

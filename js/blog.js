@@ -96,6 +96,10 @@ function renderPosts(category = "all", skipPushState = false) {
         return !isNaN(postDate) && postDate > lastReadDate;
       });
       if (hasNewerPost) {
+        filtered.forEach((post) => {
+          if (Date.parse(post.date) > lastReadDate) post.isUnread = true;
+        });
+
         const notification = document.createElement("div");
         notification.className = "notification";
         notification.innerHTML = "New posts available since your last read!";
@@ -140,9 +144,10 @@ function fetchMarkdownPreview(post) {
 
       const previewText = content.substring(0, 50) + "...";
       post.preview = previewText; // Save preview for search
+
       const postDiv = document.createElement("div");
       postDiv.className = "post post-preview";
-      // Error handling for missing fields
+
       const title = post.title || "Untitled";
       const date = post.date || "Unknown date";
       // Support multiple categories
@@ -154,10 +159,12 @@ function fetchMarkdownPreview(post) {
       const categoriesStr = postCategories.length
         ? postCategories.map((cat) => capitalize(cat)).join(", ")
         : "Uncategorized";
+
       postDiv.innerHTML = `
         <h2 class="post-title">${title}</h2>
         <div class="post-meta">${date} | ${categoriesStr}</div>
         <div class="post-content">${marked.parse(previewText)}</div>
+        ${post.isUnread ? "<div class='unread-notification'>Unread</div>" : ""}
       `;
       postDiv.style.cursor = "pointer";
       postDiv.addEventListener("click", () => renderFullPost(post));
@@ -286,10 +293,10 @@ function handleInitialLoad() {
   const postFilename = params.get("post");
   const category = params.get("category") || "all";
   window.currentCategory = category;
-  
+
   if (postFilename) {
     const post = postsMeta.find((p) => p.filename === postFilename);
-    
+
     if (post) renderFullPost(post, true);
     else postsContainer.innerHTML = `<p>Post "${postFilename}" not found.</p>`;
 
