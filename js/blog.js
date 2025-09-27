@@ -166,11 +166,21 @@ function fetchMarkdownPreview(post) {
         : "Uncategorized";
 
       postDiv.innerHTML = `
-        <h2 class="post-title">${title}</h2>
-        <div class="post-meta">${date} | ${categoriesStr}</div>
-        <div class="post-content">${marked.parse(previewText)}</div>
-        ${post.isUnread ? "<div class='unread-notification'>Unread</div>" : ""}
-      `;
+  <div class="post-window">
+    <div class="post-toolbar">
+      <span class="window-dot red"></span>
+      <span class="window-dot yellow"></span>
+      <span class="window-dot green"></span>
+      <span class="post-window-title">${title}</span>
+    </div>
+    <div class="post-window-content">
+      <div class="post-meta">${date} | ${categoriesStr}</div>
+      <div class="post-content">${marked.parse(previewText)}</div>
+      ${post.isUnread ? "<div class='unread-notification'>Unread</div>" : ""}
+    </div>
+  </div>
+`;
+
       postDiv.style.cursor = "pointer";
       postDiv.addEventListener("click", () => renderFullPost(post));
       return postDiv;

@@ -234,7 +234,7 @@ nav {
 .post {
   background: #090e13;
   border-radius: 6px;
-  padding: 1em;
+  /* padding: 1em; */
   box-shadow: 0 1px 4px rgba(0, 0, 0, 0.02);
 
   /* For positioning unread notification on post preview */
@@ -252,6 +252,56 @@ nav {
   color: #666;
   margin-bottom: 0.5em;
 }
+
+/* Blog - Post windows */
+
+.post-window {
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+  overflow: hidden;
+  background: var(--bg-dark);
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.post-window:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+}
+
+.post-toolbar {
+  background: var(--bg-darker);
+  height: 30px;
+  display: flex;
+  align-items: center;
+  padding: 0 10px;
+  gap: 6px;
+  border-bottom: 1px solid #ccc;
+  font-weight: bold;
+  font-size: 0.9em;
+}
+
+.window-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.window-dot.red { background: #ff605c; }
+.window-dot.yellow { background: #ffbd44; }
+.window-dot.green { background: #00ca4e; }
+
+.post-window-title {
+  margin-left: 8px;
+  flex: 1;
+}
+
+.post-window-content {
+  padding: 12px;
+}
+
+/* End Blog - Post Windows */
+
 
 /* End Blog */
 
