@@ -245,14 +245,43 @@ function renderFullPost(post, skipPushState = false) {
       const categoriesStr = postCategories.length
         ? postCategories.map((cat) => capitalize(cat)).join(", ")
         : "Uncategorized";
+
+      // Prev / Next logic
+      const currentIndex = postsMeta.findIndex(
+        (p) => p.filename === post.filename
+      );
+      const prevPost = postsMeta[currentIndex + 1]; // older
+      const nextPost = postsMeta[currentIndex - 1]; // newer
+
+      let navHTML = `<div class="post-nav">`;
+      navHTML += prevPost
+        ? `<button id="prev-post">← ${prevPost.title}</button>`
+        : `<span></span>`; // placeholder
+      navHTML += nextPost
+        ? `<button id="next-post">${nextPost.title} →</button>`
+        : `<span></span>`; // placeholder
+      navHTML += `</div>`;
+
       postDiv.innerHTML = `
         <button id="back-to-blog" style="margin-bottom:1em;" onclick="window.renderPosts && renderPosts(window.currentCategory || 'all')">← Back to blog</button>
+        ${navHTML}
         <h2 class="post-title">${title}</h2>
         <div class="post-meta">${date} | ${categoriesStr}</div>
         <div class="post-content">${marked.parse(content)}</div>
       `;
       postsContainer.innerHTML = "";
       postsContainer.appendChild(postDiv);
+
+      if (prevPost) {
+        document.getElementById("prev-post").addEventListener("click", () => {
+          renderFullPost(prevPost);
+        });
+      }
+      if (nextPost) {
+        document.getElementById("next-post").addEventListener("click", () => {
+          renderFullPost(nextPost);
+        });
+      }
     })
     .catch((err) => {
       postsContainer.innerHTML = `<div class='post post-full error'><h2>Error loading post</h2><div>${err}</div></div>`;
@@ -344,7 +373,9 @@ function generateCategoryList() {
 fetch("posts/index.json")
   .then((res) => res.json())
   .then((data) => {
-    postsMeta = data;
+    postsMeta = data
+      .slice()
+      .sort((a, b) => Date.parse(b.date) - Date.parse(a.date));
     handleInitialLoad();
     // Attach search bar event
     const searchInput = document.getElementById("blog-search");
