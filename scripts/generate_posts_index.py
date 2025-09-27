@@ -69,18 +69,22 @@ for filename in get_markdown_files(POSTS_DIR):
         title = res.get('title')
         date = res.get('date', "")
         categories = res.get('categories', [])
-        uploadto = res.get('uploadto')
+        uploadto = res.get('uploadto', [])
         
         # Fallbacks for missing frontmatter
         if not title:
             title = filename.replace('.md', '').replace('-', ' ').title()
-        posts.append({
-            'filename': filename,
-            'title': title,
-            'date': date,
-            'categories': categories
-        })
-        print(f"\t[+] Processed '{filename}': title='{title}', date='{date}', categories={categories}")
+        
+        if 'blog' in uploadto:
+            posts.append({
+                'filename': filename,
+                'title': title,
+                'date': date,
+                'categories': categories
+            })
+            # print(f"\t[+] Processed '{filename}': title='{title}', date='{date}', categories={categories}")
+        else:
+            print(f"\t[*] Skipping '{filename}'")
 
 try:
     with open(os.path.join(POSTS_DIR, INDEX_FILE), 'w', encoding='utf-8') as f:
