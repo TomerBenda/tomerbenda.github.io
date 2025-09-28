@@ -162,7 +162,7 @@
     margin-right: 0;
     padding: 10px;
     border: 2px solid var(--accent);
-    background-color: var(--bg-dark); 
+    background-color: black; 
 }
 .c-reply:last-child {margin-bottom: 0;}
 .c-replyContainer {
