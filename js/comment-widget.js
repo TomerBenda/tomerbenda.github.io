@@ -379,6 +379,12 @@ function createComment(data) {
     name.className = 'c-name';
     comment.appendChild(name);
 
+    // Timestamp
+    let time = document.createElement('span');
+    time.innerText = timestamp;
+    time.className = 'c-timestamp';
+    comment.appendChild(time);
+
     // Website URL, if one was provided
     if (data.Website) {
         let site = document.createElement('a');
@@ -395,12 +401,6 @@ function createComment(data) {
     text.innerText = filteredText;
     text.className = 'c-text';
     comment.appendChild(text);
-
-    // Timestamp
-    let time = document.createElement('span');
-    time.innerText = timestamp;
-    time.className = 'c-timestamp';
-    comment.appendChild(time);
     
     return comment;
 }
