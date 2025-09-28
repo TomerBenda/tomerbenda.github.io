@@ -180,6 +180,7 @@ function getComments() {
     c_replyingText.style.display = 'none';
     c_replyInput.value = '';
 
+    // Update the page path input in case the URL changed
     v_pagePath = window.location.pathname;
     if (s_includeUrlParameters) {v_pagePath += window.location.search}
     c_pageInput.value = v_pagePath;
