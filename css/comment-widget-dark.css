@@ -67,16 +67,21 @@
 
 #c_widget button, #c_widget input[type=submit] {
     padding: 4px;
+    margin-top: 10px;
     text-decoration: none;
 	text-align: center;
     /* text-transform: uppercase; */
-    color: var(--bg-dark);
-    background-color: var(--accent);
-    border: 1px solid var(--accent);
+    color: var(--accent);
+    background: none;
+    border: 1px solid var(--accent-faded);
+    border-radius: 3px;
+    transition: background 0.2s, color 0.2s;
+    font-family: 'Fira Code', monospace;
 }
 #c_widget button:hover, #c_widget input[type=submit]:hover {
-    color: white;
-    border: 1px solid #B766FF;
+  background: var(--accent-faded);
+  color: var(--bg-dark);
+  font-weight: bold;
 }
 #c_widget button:disabled, #c_widget input[type=submit]:disabled {opacity: 60%;}
 #c_widget button:disabled:hover, #c_widget input[type=submit]:disabled:hover {
@@ -181,10 +186,13 @@
     color: #B766FF;
 }
 .c-site:hover {color: white;}
+
 .c-timestamp {
     float: right;
     opacity: 75%;
+    font-size: 12px;
 }
+
 .c-text {
     margin: 0;
     margin-left: -10px;
@@ -194,6 +202,7 @@
     text-align: justify;
     color: var(--accent);
     background-color: var(--bg-darker);
+    font-family: 'Fira Code', monospace;
 }
 
 /* Pagination */
