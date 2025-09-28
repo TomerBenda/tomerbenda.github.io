@@ -39,7 +39,7 @@ const s_maxLength = 1000; // The max character length of a comment
 const s_maxLengthName = 16; // The max character length of a name
 const s_commentsOpen = true; // Change to false if you'd like to close your comment section site-wide (Turn it off on Google Forms too!)
 const s_collapsedReplies = true; // True for collapsed replies with a button, false for replies to display automatically
-const s_longTimestamp = true; // True for a date + time, false for just the date
+const s_longTimestamp = false; // True for a date + time, false for just the date
 let s_includeUrlParameters = true; // Makes new comment sections on pages with URL parameters when set to true (If you don't know what this does, leave it disabled)
 const s_fixRarebitIndexPage = false; // If using Rarebit, change to true to make the index page and page 1 of your webcomic have the same comment section
 
@@ -379,12 +379,6 @@ function createComment(data) {
     name.className = 'c-name';
     comment.appendChild(name);
 
-    // Timestamp
-    let time = document.createElement('span');
-    time.innerText = timestamp;
-    time.className = 'c-timestamp';
-    comment.appendChild(time);
-
     // Website URL, if one was provided
     if (data.Website) {
         let site = document.createElement('a');
@@ -401,6 +395,12 @@ function createComment(data) {
     text.innerText = filteredText;
     text.className = 'c-text';
     comment.appendChild(text);
+
+    // Timestamp
+    let time = document.createElement('span');
+    time.innerText = timestamp;
+    time.className = 'c-timestamp';
+    comment.appendChild(time);
     
     return comment;
 }
