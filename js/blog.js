@@ -272,10 +272,10 @@ function renderFullPost(post, skipPushState = false) {
       let navHTML = `<div class="post-nav">`;
       navHTML += prevPost
         ? `<button id="prev-post">← ${prevPost.title}</button>`
-        : `<span></span>`; // placeholder
+        : `<span>←</span>`; // placeholder
       navHTML += nextPost
         ? `<button id="next-post">${nextPost.title} →</button>`
-        : `<span></span>`; // placeholder
+        : `<span>→</span>`; // placeholder
       navHTML += `</div>`;
 
       postDiv.innerHTML = `
