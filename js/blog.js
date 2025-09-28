@@ -248,7 +248,7 @@ function renderFullPost(post, skipPushState = false) {
           Date.parse(new Date(Date.now())) > Date.parse(lastReadDateStr))
       ) {
         document.cookie = `lastReadPostDate=${new Date(
-          Date.now()
+          Date.parse(date)
         ).toISOString()}; path=/; max-age=31536000`;
       }
 
