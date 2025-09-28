@@ -194,11 +194,19 @@ nav {
   display: flex;
   justify-content: space-between;
   margin-bottom: 1em;
+  border: 1px solid var(--accent-faded);
+  border-radius: 6px;
 }
 
 .post-nav span {
   /* Invisible placeholder to keep spacing */
-  flex: 1;
+  text-align: center;
+  color: var(--accent-faded);
+  padding: 0.3em 0.7em;
+  margin: 0.2em 0;
+  opacity: 0.3;
+  /* flex: 1; */
+  cursor: not-allowed;
 }
 
 
