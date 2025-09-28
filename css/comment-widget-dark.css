@@ -69,10 +69,10 @@
     padding: 4px;
     text-decoration: none;
 	text-align: center;
-    text-transform: uppercase;
-    background-color: black;
-    color: #B766FF;
-    border: 1px solid white;
+    /* text-transform: uppercase; */
+    color: var(--bg-dark);
+    background-color: var(--accent);
+    border: 1px solid var(--accent);
 }
 #c_widget button:hover, #c_widget input[type=submit]:hover {
     color: white;
@@ -89,7 +89,7 @@
     margin-bottom: 15px;
     padding: 10px;
     background-color: black;
-    border: 2px solid white;
+    border: 2px solid var(--accent);
 }
 
 #c_widgetTitle {
@@ -97,21 +97,33 @@
     margin-bottom: 10px;
     padding: 5px;
     text-transform: uppercase;
-    font-style: italic;
+    color: var(--bg-dark);
+    /* font-style: italic; */
     font-weight: bold;
-    text-align: right;
-    background-color: #2D0B52;
+    text-align: left;
+    background-color: var(--accent);
 }
 
 .c-inputWrapper {
     display: block;
-    text-align: right;
 }
+
+.c-label {
+    margin: 0;
+    padding: 0;
+    font-weight: bold;
+    text-transform: uppercase;
+    color: var(--accent);
+}
+
 .c-input {
     padding: 4px;
-    color: black;
-    border: 1px solid #2D0B52;
+    margin-top: 0.5em;
+    color: var(--accent);
+    background-color: black;
+    border: 1px solid var(--accent);
 	outline: none;
+    font-family: 'Fira Code', monospace;
 }
 .c-input:focus {border: 1px solid #B766FF;}
 
@@ -127,15 +139,15 @@
 }
 #c_replyingText {
     color: white;
-    text-align: right;
 }
 
 /* Comment section */
 .c-comment {
     margin-bottom: 15px;
     padding: 10px;
-    border: 2px solid white;
-    background-color: #2D0B52; 
+    border: 2px solid var(--accent);
+    color: var(--accent);
+    background-color: black; 
 }
 .c-reply {
     display: block;
@@ -144,8 +156,8 @@
     margin-left: auto;
     margin-right: 0;
     padding: 10px;
-    border: 2px solid white;
-    background-color: #2D0B52; 
+    border: 2px solid var(--accent);
+    background-color: var(--bg-dark); 
 }
 .c-reply:last-child {margin-bottom: 0;}
 .c-replyContainer {
@@ -178,11 +190,10 @@
     margin-left: -10px;
     margin-right: -10px;
     padding: 10px;
-    /* font-family: Verdana; */
     font-size: 14px;
     text-align: justify;
-    color: white;
-    background-color: black;
+    color: var(--accent);
+    background-color: var(--bg-darker);
 }
 
 /* Pagination */
