@@ -17,30 +17,30 @@
 */
 
 // The values in this section are REQUIRED for the widget to work! Keep them in quotes!
-const s_stylePath = 'PATH HERE';
-const s_formId = 'ID HERE';
-const s_nameId = 'ID HERE';
-const s_websiteId = 'ID HERE';
-const s_textId = 'ID HERE';
-const s_pageId = 'ID HERE';
-const s_replyId = 'ID HERE';
-const s_sheetId = 'ID HERE';
+const s_stylePath = 'css/comment-widget-dark.css';
+const s_formId = '1FAIpQLScLWFxcot7CBdqwn6_U4wAuUcvSCh5sqwfgWcSTsDkDwSPLtA';
+const s_nameId = '9782795';
+const s_websiteId = '1045704480';
+const s_textId = '1791351014';
+const s_pageId = '567577390';
+const s_replyId = '459328168';
+const s_sheetId = '1IkG0bm-JqPdfjz1tYAnLo-5GLF-xbflF6-UOVJn-1NA';
 
 // The values below are necessary for accurate timestamps, I've filled it in with EST as an example
-const s_timezone = -5; // Your personal timezone (Example: UTC-5:00 is -5 here, UTC+10:30 would be 10.5)
+const s_timezone = +2; // Your personal timezone (Example: UTC-5:00 is -5 here, UTC+10:30 would be 10.5)
 const s_daylightSavings = true; // If your personal timezone uses DST, set this to true
 // For the dates DST start and end where you live: [Month, Weekday, which number of that weekday, hour (24 hour time)]
 const s_dstStart = ['March', 'Sunday', 2, 2]; // Example shown is the second Sunday of March at 2:00 am
 const s_dstEnd = ['November', 'Sunday', 1, 2]; // Example shown is the first Sunday of November at 2:00 am
 
 // Misc - Other random settings
-const s_commentsPerPage = 5; // The max amount of comments that can be displayed on one page, any number >= 1 (Replies not counted)
-const s_maxLength = 500; // The max character length of a comment
+const s_commentsPerPage = 10; // The max amount of comments that can be displayed on one page, any number >= 1 (Replies not counted)
+const s_maxLength = 1000; // The max character length of a comment
 const s_maxLengthName = 16; // The max character length of a name
 const s_commentsOpen = true; // Change to false if you'd like to close your comment section site-wide (Turn it off on Google Forms too!)
 const s_collapsedReplies = true; // True for collapsed replies with a button, false for replies to display automatically
 const s_longTimestamp = false; // True for a date + time, false for just the date
-let s_includeUrlParameters = false; // Makes new comment sections on pages with URL parameters when set to true (If you don't know what this does, leave it disabled)
+let s_includeUrlParameters = true; // Makes new comment sections on pages with URL parameters when set to true (If you don't know what this does, leave it disabled)
 const s_fixRarebitIndexPage = false; // If using Rarebit, change to true to make the index page and page 1 of your webcomic have the same comment section
 
 // Word filter - Censor profanity, etc
@@ -51,13 +51,13 @@ const s_filteredWords = [ // Add words to filter by putting them in quotes and s
 ]
 
 // Text - Change what messages/text appear on the form and in the comments section (Mostly self explanatory)
-const s_widgetTitle = 'Leave a comment!';
+const s_widgetTitle = 'Comments';
 const s_nameFieldLabel = 'Name';
 const s_websiteFieldLabel = 'Website (Optional)';
 const s_textFieldLabel = '';
 const s_submitButtonLabel = 'Submit';
 const s_loadingText = 'Loading comments...';
-const s_noCommentsText = 'No comments yet!';
+const s_noCommentsText = 'No comments for this post!';
 const s_closedCommentsText = 'Comments are closed temporarily!';
 const s_websiteText = 'Website'; // The links to websites left by users on their comments
 const s_replyButtonText = 'Reply'; // The button for replying to someone
@@ -179,6 +179,9 @@ function getComments() {
     // Reset reply stuff to default
     c_replyingText.style.display = 'none';
     c_replyInput.value = '';
+
+    v_pagePath = window.location.pathname;
+    if (s_includeUrlParameters) {v_pagePath += window.location.search}
 
     // Clear input fields too
     if (s_commentsOpen) {
@@ -487,7 +490,7 @@ function openReply(id) {
         c_replyInput.value = '';
         c_replyingText.style.display = 'none';
     }
-    link.click(); // Jump to the space to type
+    // link.click(); // Jump to the space to type
 }
 
 // Handle expanding replies (should only be accessible with collapsed replies enabled)

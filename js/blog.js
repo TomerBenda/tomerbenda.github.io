@@ -302,6 +302,8 @@ function renderFullPost(post, skipPushState = false) {
     .catch((err) => {
       postsContainer.innerHTML = `<div class='post post-full error'><h2>Error loading post</h2><div>${err}</div></div>`;
     });
+
+    getComments();
 }
 
 function capitalize(str) {
