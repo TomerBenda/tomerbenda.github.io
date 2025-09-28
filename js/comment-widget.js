@@ -182,6 +182,7 @@ function getComments() {
 
     v_pagePath = window.location.pathname;
     if (s_includeUrlParameters) {v_pagePath += window.location.search}
+    c_pageInput.value = v_pagePath;
 
     // Clear input fields too
     if (s_commentsOpen) {
@@ -212,7 +213,6 @@ function getComments() {
                 let val1;
                 if (!json.table.rows[r].c[pageIdx]) {val1 = ''}
                 else {val1 = json.table.rows[r].c[pageIdx].v}
-
                 // Check if the page name matches before adding to comment array
                 if (val1 == v_pagePath) { 
                     let comment = {}
