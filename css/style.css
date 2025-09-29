@@ -332,6 +332,7 @@ nav {
 .notification {
   background: var(--accent);
   color: var(--bg-dark);
+  text-align: center;
   padding: 0.5em 1em;
   border-radius: 6px;
   position: fixed;

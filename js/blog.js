@@ -108,7 +108,7 @@ function renderPosts(category = "all", skipPushState = false) {
     if (hasNewerPost) {
       const notification = document.createElement("div");
       notification.className = "notification";
-      notification.innerHTML = "New posts available since your last read!";
+      notification.innerHTML = "Unread posts available!";
       postsContainer.parentNode.insertBefore(notification, postsContainer);
       setTimeout(() => {
         if (notification.parentNode) {
