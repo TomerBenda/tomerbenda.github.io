@@ -115,6 +115,9 @@ function renderPosts(category = "all", skipPushState = false) {
           notification.hidden = true;
           notification.parentNode.removeChild(notification);
         }
+        for (let el of document.getElementsByClassName("unread-notification")) {
+          el.style.opacity = 0.1;
+        }
       }, 5000);
     }
   }
@@ -173,7 +176,7 @@ function fetchMarkdownPreview(post) {
   <div class="post-window">
     <div class="post-toolbar">
       <span>
-      <span class="post-window-title">${title}</span><br/>
+      <span class="post-window-title">$ ${title}</span><br/>
       <span class="post-meta">${date} | ${categoriesStr}</span>
       </span>
     </div>
