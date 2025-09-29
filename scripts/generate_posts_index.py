@@ -29,7 +29,7 @@ def parse_frontmatter(filepath: Path) -> Dict[str, Any]:
                 value = fm_data.get(key, None)
 
                 if key == 'date':
-                    result[key] = str(value).strip() if value else ""
+                    result[key] = str(value).strip().replace('T', ' ') if value else ""
                 elif key == 'categories':
                     if isinstance(value, str):
                         result[key] = [item.strip() for item in value.split(',')]
