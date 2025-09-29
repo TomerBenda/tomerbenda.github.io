@@ -181,7 +181,7 @@ function fetchMarkdownPreview(post) {
       </span>
     </div>
     <div class="post-window-content">
-      <div class="post-content">${marked.parse(previewText)}</div>
+      <div class="post-content" dir="auto">${marked.parse(previewText)}</div>
       ${post.isUnread ? "<div class='unread-notification'>Unread</div>" : ""}
     </div>
   </div>
@@ -288,7 +288,7 @@ function renderFullPost(post, skipPushState = false) {
         ${navHTML}
         <h2 class="post-title">${title}</h2>
         <div class="post-meta">${date} | ${categoriesStr}</div>
-        <div class="post-content">${marked.parse(content)}</div>
+        <div class="post-content" dir="auto">${marked.parse(content)}</div>
       `;
       postsContainer.innerHTML = "";
       postsContainer.appendChild(postDiv);
