@@ -2,7 +2,7 @@ name: Sync Obsidian Posts
 
 on:
   schedule:
-    - cron: "0 * * * *" # every hour
+    - cron: " 0 0 * * *"  # Runs daily at midnight
   repository_dispatch:
     types: [sync-posts]
   workflow_dispatch:
