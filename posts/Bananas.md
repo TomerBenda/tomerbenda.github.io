@@ -2,7 +2,7 @@
 title: Bananas are very cool
 categories: Fruit, Chemistry
 date: 2025-09-25
-uploadto: blog
+uploadto:
 ---
 ## Potassium rocks
 i think the symbol for potassium should be Po
