@@ -148,7 +148,7 @@ function fetchMarkdownPreview(post) {
       }
 
       let previewText = content.substring(0, 50);
-      previewText = content.replace(/!\[\[(.+?)\]\]/g, ""); // Remove image embeds for preview
+      previewText = previewText.replace(/!\[\[(.+?)\]\]/g, ""); // Remove image embeds for preview
       previewText = previewText.replace(/!\[.*?\]\(.*?\)/g, ""); // Remove markdown image links
       if (content.length > 50) previewText += "...";
 
