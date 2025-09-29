@@ -204,7 +204,9 @@ function renderFullPost(post, skipPushState = false) {
       `?post=${encodeURIComponent(post.filename)}`
     );
   }
-  document.title = post.title ? `${post.title} | Blog | tbd` : `${document.title}`;
+  document.title = post.title
+    ? `${post.title} | Blog | tbd`
+    : `${document.title}`;
   // postsContainer.innerHTML = "<p>Loading post...</p>"; // (removed to avoid flicker)
   document.getElementById("c_widget")?.classList.remove("hidden");
 
@@ -303,7 +305,7 @@ function renderFullPost(post, skipPushState = false) {
       postsContainer.innerHTML = `<div class='post post-full error'><h2>Error loading post</h2><div>${err}</div></div>`;
     });
 
-    getComments();
+  getComments();
 }
 
 function capitalize(str) {
