@@ -4,7 +4,7 @@ categories: Polarsteps, Vietnam
 date: 2025-10-02T23:45
 uploadto: blog
 ---
-**הועתק מהPolarsteps שלי - יש לינק בתחתית העמוד❤️**
+**הועתק מPolarsteps - יש לינק למטה❤️**
 
 היושים היי שלום לכם🫶 התרגשות כבירה להתחיל את היום הראשון של הטיול, זכות גדולה. כבר רוצה להתחיל ולהודות לכל הקוראים האדוקים, אתם נותנים לי את הכוח.
 
