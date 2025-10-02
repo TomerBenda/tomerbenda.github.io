@@ -6,6 +6,9 @@ uploadto: blog
 ---
 **הועתק מPolarsteps - יש לינק למטה❤️**
 
+ליתר בטחון שם גם פה לינק בנוסף לתחתית העמוד - https://www.polarsteps.com/tbdtbd?referral=true
+יש גם לינק לקבוצת וואצאפ לעדכונים בלוגואים למטה.
+
 היושים היי שלום לכם🫶 התרגשות כבירה להתחיל את היום הראשון של הטיול, זכות גדולה. כבר רוצה להתחיל ולהודות לכל הקוראים האדוקים, אתם נותנים לי את הכוח.
 
 נחתנו דוך לרעש והכאוס המוחלט של העיר העתיקה בהאנוי, אוקיינוס של קטנועים רוחש ובוחש על הכבישים ובהצלחה לדגיגים שרק רוצים לא להיאכל.
