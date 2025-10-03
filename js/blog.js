@@ -228,10 +228,8 @@ function renderFullPost(post, skipPushState = false) {
         const allowedExt = [".png", ".jpg", ".jpeg", ".gif", ".webp", ".svg"];
         const ext = filename.slice(filename.lastIndexOf(".")).toLowerCase();
         if (allowedExt.includes(ext)) {
-            let parts = post.filename.trim().split('/');
-            parts.pop();
-            const postDir = parts.join('/');
-            return `<img src='${postDir}/attachments/${filename.trim()}' alt='${filename.trim()}' style='max-width:100%;' onerror="this.onerror=null;this.src='posts/attachments/${filename.trim()}';">`;
+            const postDir = post.filename.trim().split('/').slice(0, -1).join('/');
+            return `<div>debug: ${postDir}</div><img src='posts/${postDir}/attachments/${filename.trim()}' alt='${filename.trim()}' style='max-width:100%;'>`;
         }
         return match;
       });
