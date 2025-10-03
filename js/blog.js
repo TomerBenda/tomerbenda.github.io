@@ -229,7 +229,7 @@ function renderFullPost(post, skipPushState = false) {
         const ext = filename.slice(filename.lastIndexOf(".")).toLowerCase();
         if (allowedExt.includes(ext)) {
             const postDir = post.filename.trim().split('/').slice(0, -1).join('/');
-            return `<div>debug: ${postDir}</div><img src='posts/${postDir}/attachments/${filename.trim()}' alt='${filename.trim()}' style='max-width:100%;'>`;
+            return `<img src='posts/${postDir}/attachments/${filename.trim()}' alt='${filename.trim()}' style='max-width:100%;'>`;
         }
         return match;
       });
