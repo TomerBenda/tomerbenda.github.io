@@ -228,7 +228,10 @@ function renderFullPost(post, skipPushState = false) {
         const allowedExt = [".png", ".jpg", ".jpeg", ".gif", ".webp", ".svg"];
         const ext = filename.slice(filename.lastIndexOf(".")).toLowerCase();
         if (allowedExt.includes(ext)) {
-          return `<img src='posts/attachments/${filename.trim()}' alt='${filename.trim()}' style='max-width:100%;'>`;
+            const parts = post.filename.trim().split('/');
+            parts.pop();
+            const postDir = parts.join('/');
+            return `<img src='${postDir}/attachments/${filename.trim()}' alt='${filename.trim()}' style='max-width:100%;' onerror="this.onerror=null;this.src='posts/attachements/${filename.trim()}';">`;
         }
         return match;
       });
