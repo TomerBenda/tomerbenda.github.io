@@ -1,6 +1,6 @@
 ---
 title: Day 3 - Ha Long Bay
-categories: Polarsteps, Vietnam
+categories: Travel, Vietnam
 date: 2025-10-04T11:23
 uploadto: blog
 ---

@@ -1,6 +1,6 @@
 ---
 title: Day 2 - Hanoi
-categories: Polarsteps, Vietnam
+categories: Travel, Vietnam
 date: 2025-10-03T23:20
 uploadto: blog
 ---
