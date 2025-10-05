@@ -1,6 +1,6 @@
 ---
 title: הצביעו והשפיעו - איך לעדכן אתכם?
-categories: Poll
+categories: Community
 date: 2025-09-29T12:59
 uploadto: blog
 ---
