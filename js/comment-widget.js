@@ -387,7 +387,7 @@ function createComment(data) {
 
     // Name of user
     let name = document.createElement('h3');
-    let filteredName = '@' + sanitize(data.Name);
+    let filteredName = '@' + data.Name;
     if (s_wordFilterOn) {filteredName = filteredName.replace(v_filteredWords, s_filterReplacement)}
     name.innerText = filteredName;
     name.className = 'c-name';
@@ -403,14 +403,14 @@ function createComment(data) {
     if (data.Website) {
         let site = document.createElement('a');
         site.innerText = s_websiteText;
-        site.href = sanitize(data.Website);
+        site.href = data.Website;
         site.className = 'c-site';
         comment.appendChild(site);
     }
 
     // Text content
     let text = document.createElement('p');
-    let filteredText = sanitize(data.Text);
+    let filteredText = data.Text;
     if (s_wordFilterOn) {filteredText = filteredText.replace(v_filteredWords, s_filterReplacement)}
     text.innerText = filteredText;
     text.className = 'c-text';
