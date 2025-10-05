@@ -47,7 +47,7 @@ const s_fixRarebitIndexPage = false; // If using Rarebit, change to true to make
 const s_wordFilterOn = false; // True for on, false for off
 const s_filterReplacement = '****'; // Change what filtered words are censored with (**** is the default)
 const s_filteredWords = [ // Add words to filter by putting them in quotes and separating with commas (ie. 'heck', 'dang')
-    'heck', 'dang'
+    'heck', 'dang', '"', '&', '<', '>', "/", "'"
 ]
 
 // Text - Change what messages/text appear on the form and in the comments section (Mostly self explanatory)
@@ -358,6 +358,19 @@ function displayComments(comments) {
     }
 }
 
+function sanitize(s) {
+  const map = {
+      '&': '&amp;',
+      '<': '&lt;',
+      '>': '&gt;',
+      '"': '&quot;',
+      "'": '&#x27;',
+      "/": '&#x2F;',
+  };
+  const reg = /[&<>"'/]/ig;
+  return s.replace(reg, (match)=>(map[match]));
+}
+
 // Create basic HTML comment, reply or not
 function createComment(data) {
     let comment = document.createElement('div');
@@ -374,7 +387,7 @@ function createComment(data) {
 
     // Name of user
     let name = document.createElement('h3');
-    let filteredName = '@' + data.Name;
+    let filteredName = '@' + sanitize(data.Name);
     if (s_wordFilterOn) {filteredName = filteredName.replace(v_filteredWords, s_filterReplacement)}
     name.innerText = filteredName;
     name.className = 'c-name';
@@ -390,14 +403,14 @@ function createComment(data) {
     if (data.Website) {
         let site = document.createElement('a');
         site.innerText = s_websiteText;
-        site.href = data.Website;
+        site.href = sanitize(data.Website);
         site.className = 'c-site';
         comment.appendChild(site);
     }
 
     // Text content
     let text = document.createElement('p');
-    let filteredText = data.Text;
+    let filteredText = sanitize(data.Text);
     if (s_wordFilterOn) {filteredText = filteredText.replace(v_filteredWords, s_filterReplacement)}
     text.innerText = filteredText;
     text.className = 'c-text';
