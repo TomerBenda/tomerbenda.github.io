@@ -1,5 +1,5 @@
 ---
-title: Day 10 - Hoi an
+title: Day 10 - Hoi an 3
 categories: Travel, Vietnam
 date: 2025-10-11
 uploadto: blog
