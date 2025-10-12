@@ -1,7 +1,7 @@
 ---
 title: Day 10 - Hoi an 3
 categories: Travel, Vietnam
-date: 2025-10-11
+date: 2025-10-11T20:13:00
 uploadto: blog
 ---
 היושים לכם שלום❤️
