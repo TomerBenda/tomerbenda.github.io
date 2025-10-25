@@ -65,7 +65,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 function renderPosts(category = "all", skipPushState = false, page = 1) {
     if (!skipPushState) {
-        const params = new URLSearchParams(window.location.search);
+        const params = new URLSearchParams(category == "all" ? "" : window.location.search);
         params.set("category", category);
         params.set("page", page);
         history.pushState({ category, page }, "", `?${params.toString()}`);
@@ -342,7 +342,7 @@ function renderFullPost(post, skipPushState = false) {
       navHTML += `</div>`;
 
       postDiv.innerHTML = `
-        <button id="back-to-blog" style="margin-bottom:1em;" onclick="window.renderPosts && renderPosts(window.currentCategory || 'all')">← Back to blog</button>
+        <button id="back-to-blog" style="margin-bottom:1em;" onclick="window.renderPosts && renderPosts(window.currentCategory || 'all', false)">← Back to blog</button>
         ${navHTML}
         <h2 class="post-title">${title}</h2>
         <div class="post-meta">${date} | ${categoriesStr}</div>
