@@ -6,6 +6,9 @@ let postsMeta = [];
 let allCategories = [];
 
 let currentSearch = "";
+let postsPerPage = 5;
+let currentPage = 1;
+let isCompactMode = false;
 
 // Collapsible sidebar filter logic
 function toggleSidebarFilter() {
@@ -44,9 +47,12 @@ window.addEventListener("DOMContentLoaded", function () {
   }
 });
 
-function renderPosts(category = "all", skipPushState = false) {
-  if (!skipPushState) {
-    history.pushState({ category }, "", `?category=${category}`);
+function renderPosts(category = "all", skipPushState = false, page = 1) {
+    if (!skipPushState) {
+        const params = new URLSearchParams(window.location.search);
+        params.set("category", category);
+        params.set("page", page);
+        history.pushState({ category, page }, "", `?${params.toString()}`);
   }
 
   document.title = " Blog | tbd";
@@ -132,12 +138,47 @@ function renderPosts(category = "all", skipPushState = false) {
     postsContainer.innerHTML = "<p>No posts found.</p>";
     return;
   }
+
+// Pagination
+  const totalPages = Math.ceil(filtered.length / postsPerPage);
+  currentPage = Math.min(page, totalPages);
+  const start = (currentPage - 1) * postsPerPage;
+  const paginated = filtered.slice(start, start + postsPerPage);
+
+  Promise.all(paginated.map((post) => fetchMarkdownPreview(post))).then(
+    (postDivs) => {
+      postsContainer.innerHTML = "";
+      postDivs.forEach((div) => postsContainer.appendChild(div));
+
+      // Pagination controls
+      const pagination = document.createElement("div");
+      pagination.className = "pagination-controls";
+      pagination.innerHTML = `
+        <button ${currentPage <= 1 ? "disabled" : ""} id="prev-page">← Prev</button>
+        <span>Page ${currentPage} of ${totalPages}</span>
+        <button ${currentPage >= totalPages ? "disabled" : ""} id="next-page">Next →</button>
+      `;
+      postsContainer.appendChild(pagination);
+
+      if (currentPage > 1)
+        document.getElementById("prev-page").addEventListener("click", () => {
+          renderPosts(category, false, currentPage - 1);
+        });
+      if (currentPage < totalPages)
+        document.getElementById("next-page").addEventListener("click", () => {
+          renderPosts(category, false, currentPage + 1);
+        });
+    }
+  );
+
+/* before pagination
   Promise.all(filtered.map((post) => fetchMarkdownPreview(post))).then(
     (postDivs) => {
       postsContainer.innerHTML = "";
       postDivs.forEach((div) => postsContainer.appendChild(div));
     }
   );
+  */
 }
 
 function fetchMarkdownPreview(post) {
@@ -352,6 +393,7 @@ function handleInitialLoad() {
   const postFilename = params.get("post");
   const category = params.get("category") || "all";
   window.currentCategory = category;
+  const page = parseInt(params.get("page")) || 1;
 
   if (postFilename) {
     const post = postsMeta.find((p) => p.filename === postFilename);
@@ -363,12 +405,13 @@ function handleInitialLoad() {
       .querySelectorAll("#category-list button")
       .forEach((btn) => btn.classList.remove("active"));
   } else {
-    renderPosts(category, true);
+    renderPosts(category, true, page);
     document
       .querySelector(`#category-list button[data-category="${category}"]`)
       ?.classList.add("active");
   }
 }
+
 // Generate category list dynamically from postsMeta
 function generateCategoryList() {
   // Collect all categories from postsMeta
