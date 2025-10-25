@@ -222,7 +222,7 @@ function fetchMarkdownPreview(post) {
       </span>
     </div>
     <div class="post-window-content">
-      <div class="post-content" dir="auto">${marked.parse(previewText)}</div>
+      <div class="post-content" dir="auto">${isCompactMode ? "" : marked.parse(previewText)}</div>
       ${post.isUnread ? "<div class='unread-notification'>Unread</div>" : ""}
     </div>
   </div>
