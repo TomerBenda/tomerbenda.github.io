@@ -285,7 +285,7 @@ nav {
   border: 2px solid var(--accent);
   /* neon cyan border */
   border-radius: 4px;
-  margin-bottom: 1.5em;
+  /*margin-bottom: 1.5em;*/
   font-family: 'Courier New', Courier, monospace;
   box-shadow: 0 0 10px var(--accent), 0 0 20px var(--accent-faded);
   /* subtle neon glow */
