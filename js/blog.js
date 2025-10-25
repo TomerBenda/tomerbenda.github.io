@@ -5,8 +5,11 @@ const categoryList = document.getElementById("category-list");
 let postsMeta = [];
 let allCategories = [];
 
+const PREVIEW_LENGTH = 50; // in chars
+const POSTS_PER_PAGE = 10;
+
 let currentSearch = "";
-let postsPerPage = 5;
+let postsPerPage = POSTS_PER_PAGE;
 let currentPage = 1;
 let isCompactMode = false;
 
@@ -54,7 +57,7 @@ document.addEventListener("DOMContentLoaded", () => {
     compactBtn.addEventListener("click", () => {
       isCompactMode = !isCompactMode;
       compactBtn.textContent = isCompactMode ? "Show Full Preview" : "Compact View";
-      postsPerPage = (postsPerPage == 5) ? 20 : 5;
+      postsPerPage = (postsPerPage == POSTS_PER_PAGE) ? 20 : POSTS_PER_PAGE;
       renderPosts(window.currentCategory, true, currentPage);
     });
   }
@@ -204,10 +207,10 @@ function fetchMarkdownPreview(post) {
         if (end !== -1) content = md.slice(end + 3).trim();
       }
 
-      let previewText = content.substring(0, 50);
+      let previewText = content.substring(0, PREVIEW_LENGTH);
       previewText = previewText.replace(/!\[\[(.+?)\]\]/g, ""); // Remove image embeds for preview
       previewText = previewText.replace(/!\[.*?\]\(.*?\)/g, ""); // Remove markdown image links
-      if (content.length > 50) previewText += "...";
+      if (content.length > PREVIEW_LENGTH) previewText += "...";
 
       post.preview = previewText; // Save preview for search
 
