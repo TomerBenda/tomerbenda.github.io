@@ -47,6 +47,19 @@ window.addEventListener("DOMContentLoaded", function () {
   }
 });
 
+// Compact preview button
+document.addEventListener("DOMContentLoaded", () => {
+  const compactBtn = document.getElementById("toggle-compact");
+  if (compactBtn) {
+    compactBtn.addEventListener("click", () => {
+      isCompactMode = !isCompactMode;
+      compactBtn.textContent = isCompactMode ? "Show Full Preview" : "Compact View";
+      postsPerPage = (postsPerPage == 5) ? 20 : 5;
+      renderPosts(window.currentCategory, true, currentPage);
+    });
+  }
+});
+
 function renderPosts(category = "all", skipPushState = false, page = 1) {
     if (!skipPushState) {
         const params = new URLSearchParams(window.location.search);
