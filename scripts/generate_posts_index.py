@@ -82,7 +82,7 @@ for filepath in get_markdown_files(POSTS_DIR):
     categories = fm.get('categories', [])
     uploadto = fm.get('uploadto', [])
 
-    if 'blog' in uploadto:
+    if uploadto and 'blog' in uploadto:
         posts.append({
             'filename': relative_path,
             'title': title,
