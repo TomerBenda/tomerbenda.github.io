@@ -347,7 +347,7 @@ function renderFullPost(post, skipPushState = false) {
         <h2 class="post-title">${title}</h2>
         <div class="post-meta">${date} | ${categoriesStr}</div>
         <div class="post-content" dir="auto">${marked.parse(content)}</div>
-      `;
+      ${navHTML}`;
       postsContainer.innerHTML = "";
       postsContainer.appendChild(postDiv);
 
