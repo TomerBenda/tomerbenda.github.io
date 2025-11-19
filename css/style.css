@@ -259,6 +259,12 @@ nav {
   box-shadow: 0 1px 4px rgba(0, 0, 0, 0.02);
 }
 
+/*
+.post .post-meta {
+    padding-bottom: 0.6em;
+    border-bottom: 1px solid var(--accent-faded);
+*/
+
 .post-preview {
   /* For positioning unread notification on post preview */
   display: inline-block;
