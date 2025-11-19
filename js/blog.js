@@ -175,7 +175,6 @@ function renderPosts(category = "all", skipPushState = false, page = 1) {
         <button ${currentPage >= totalPages ? "disabled" : ""} id="next-page">Next →</button>
       `;
       postsContainer.appendChild(pagination);
-
       if (currentPage > 1)
         document.getElementById("prev-page").addEventListener("click", () => {
           renderPosts(category, false, currentPage - 1);
@@ -186,15 +185,6 @@ function renderPosts(category = "all", skipPushState = false, page = 1) {
         });
     }
   );
-
-/* before pagination
-  Promise.all(filtered.map((post) => fetchMarkdownPreview(post))).then(
-    (postDivs) => {
-      postsContainer.innerHTML = "";
-      postDivs.forEach((div) => postsContainer.appendChild(div));
-    }
-  );
-  */
 }
 
 function fetchMarkdownPreview(post) {
@@ -334,10 +324,10 @@ function renderFullPost(post, skipPushState = false) {
 
       let navHTML = `<div class="post-nav">`;
       navHTML += prevPost
-        ? `<button id="prev-post">← ${prevPost.title}</button>`
+        ? `<button class="prev-post">← ${prevPost.title}</button>`
         : `<span>←</span>`; // placeholder
       navHTML += nextPost
-        ? `<button id="next-post">${nextPost.title} →</button>`
+        ? `<button class="next-post">${nextPost.title} →</button>`
         : `<span>→</span>`; // placeholder
       navHTML += `</div>`;
 
@@ -349,18 +339,13 @@ function renderFullPost(post, skipPushState = false) {
         <div class="post-content" dir="auto">${marked.parse(content)}</div>
       ${navHTML}`;
       postsContainer.innerHTML = "";
-      postsContainer.appendChild(postDiv);
 
-      if (prevPost) {
-        document.getElementById("prev-post").addEventListener("click", () => {
-          renderFullPost(prevPost);
-        });
-      }
-      if (nextPost) {
-        document.getElementById("next-post").addEventListener("click", () => {
-          renderFullPost(nextPost);
-        });
-      }
+      postDiv.addEventListener("click", (e) => {
+          if (e.target.closest(".prev-post")) renderFullPost(prevPost);
+          if (e.target.closest(".next-post")) renderFullPost(nextPost);
+      });
+
+      postsContainer.appendChild(postDiv);
     })
     .catch((err) => {
       postsContainer.innerHTML = `<div class='post post-full error'><h2>Error loading post</h2><div>${err}</div></div>`;
