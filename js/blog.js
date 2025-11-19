@@ -5,7 +5,13 @@ const categoryList = document.getElementById("category-list");
 let postsMeta = [];
 let allCategories = [];
 
+const PREVIEW_LENGTH = 50; // in chars
+const POSTS_PER_PAGE = 10;
+
 let currentSearch = "";
+let postsPerPage = POSTS_PER_PAGE;
+let currentPage = 1;
+let isCompactMode = false;
 
 // Collapsible sidebar filter logic
 function toggleSidebarFilter() {
@@ -44,9 +50,25 @@ window.addEventListener("DOMContentLoaded", function () {
   }
 });
 
-function renderPosts(category = "all", skipPushState = false) {
-  if (!skipPushState) {
-    history.pushState({ category }, "", `?category=${category}`);
+// Compact preview button
+document.addEventListener("DOMContentLoaded", () => {
+  const compactBtn = document.getElementById("toggle-compact");
+  if (compactBtn) {
+    compactBtn.addEventListener("click", () => {
+      isCompactMode = !isCompactMode;
+      compactBtn.textContent = isCompactMode ? "Show Full Preview" : "Compact View";
+      postsPerPage = (postsPerPage == POSTS_PER_PAGE) ? 20 : POSTS_PER_PAGE;
+      renderPosts(window.currentCategory, true, currentPage);
+    });
+  }
+});
+
+function renderPosts(category = "all", skipPushState = false, page = 1) {
+    if (!skipPushState) {
+        const params = new URLSearchParams(category == "all" ? "" : window.location.search);
+        params.set("category", category);
+        params.set("page", page);
+        history.pushState({ category, page }, "", `?${params.toString()}`);
   }
 
   document.title = " Blog | tbd";
@@ -132,10 +154,35 @@ function renderPosts(category = "all", skipPushState = false) {
     postsContainer.innerHTML = "<p>No posts found.</p>";
     return;
   }
-  Promise.all(filtered.map((post) => fetchMarkdownPreview(post))).then(
+
+// Pagination
+  const totalPages = Math.ceil(filtered.length / postsPerPage);
+  currentPage = Math.min(page, totalPages);
+  const start = (currentPage - 1) * postsPerPage;
+  const paginated = filtered.slice(start, start + postsPerPage);
+
+  Promise.all(paginated.map((post) => fetchMarkdownPreview(post))).then(
     (postDivs) => {
       postsContainer.innerHTML = "";
       postDivs.forEach((div) => postsContainer.appendChild(div));
+
+      // Pagination controls
+      const pagination = document.createElement("div");
+      pagination.className = "pagination-controls";
+      pagination.innerHTML = `
+        <button ${currentPage <= 1 ? "disabled" : ""} id="prev-page">← Prev</button>
+        <span>Page ${currentPage} of ${totalPages}</span>
+        <button ${currentPage >= totalPages ? "disabled" : ""} id="next-page">Next →</button>
+      `;
+      postsContainer.appendChild(pagination);
+      if (currentPage > 1)
+        document.getElementById("prev-page").addEventListener("click", () => {
+          renderPosts(category, false, currentPage - 1);
+        });
+      if (currentPage < totalPages)
+        document.getElementById("next-page").addEventListener("click", () => {
+          renderPosts(category, false, currentPage + 1);
+        });
     }
   );
 }
@@ -150,10 +197,10 @@ function fetchMarkdownPreview(post) {
         if (end !== -1) content = md.slice(end + 3).trim();
       }
 
-      let previewText = content.substring(0, 50);
+      let previewText = content.substring(0, PREVIEW_LENGTH);
       previewText = previewText.replace(/!\[\[(.+?)\]\]/g, ""); // Remove image embeds for preview
       previewText = previewText.replace(/!\[.*?\]\(.*?\)/g, ""); // Remove markdown image links
-      if (content.length > 50) previewText += "...";
+      if (content.length > PREVIEW_LENGTH) previewText += "...";
 
       post.preview = previewText; // Save preview for search
 
@@ -181,7 +228,7 @@ function fetchMarkdownPreview(post) {
       </span>
     </div>
     <div class="post-window-content">
-      <div class="post-content" dir="auto">${marked.parse(previewText)}</div>
+      <div class="post-content" dir="auto">${isCompactMode ? "" : marked.parse(previewText)}</div>
       ${post.isUnread ? "<div class='unread-notification'>Unread</div>" : ""}
     </div>
   </div>
@@ -277,33 +324,28 @@ function renderFullPost(post, skipPushState = false) {
 
       let navHTML = `<div class="post-nav">`;
       navHTML += prevPost
-        ? `<button id="prev-post">← ${prevPost.title}</button>`
+        ? `<button class="prev-post">← ${prevPost.title}</button>`
         : `<span>←</span>`; // placeholder
       navHTML += nextPost
-        ? `<button id="next-post">${nextPost.title} →</button>`
+        ? `<button class="next-post">${nextPost.title} →</button>`
         : `<span>→</span>`; // placeholder
       navHTML += `</div>`;
 
       postDiv.innerHTML = `
-        <button id="back-to-blog" style="margin-bottom:1em;" onclick="window.renderPosts && renderPosts(window.currentCategory || 'all')">← Back to blog</button>
+        <button id="back-to-blog" style="margin-bottom:1em;" onclick="window.renderPosts && renderPosts(window.currentCategory || 'all', false)">← Back to blog</button>
         ${navHTML}
         <h2 class="post-title">${title}</h2>
         <div class="post-meta">${date} | ${categoriesStr}</div>
         <div class="post-content" dir="auto">${marked.parse(content)}</div>
-      `;
+      ${navHTML}`;
       postsContainer.innerHTML = "";
-      postsContainer.appendChild(postDiv);
 
-      if (prevPost) {
-        document.getElementById("prev-post").addEventListener("click", () => {
-          renderFullPost(prevPost);
-        });
-      }
-      if (nextPost) {
-        document.getElementById("next-post").addEventListener("click", () => {
-          renderFullPost(nextPost);
-        });
-      }
+      postDiv.addEventListener("click", (e) => {
+          if (e.target.closest(".prev-post")) renderFullPost(prevPost);
+          if (e.target.closest(".next-post")) renderFullPost(nextPost);
+      });
+
+      postsContainer.appendChild(postDiv);
     })
     .catch((err) => {
       postsContainer.innerHTML = `<div class='post post-full error'><h2>Error loading post</h2><div>${err}</div></div>`;
@@ -352,6 +394,7 @@ function handleInitialLoad() {
   const postFilename = params.get("post");
   const category = params.get("category") || "all";
   window.currentCategory = category;
+  const page = parseInt(params.get("page")) || 1;
 
   if (postFilename) {
     const post = postsMeta.find((p) => p.filename === postFilename);
@@ -363,12 +406,13 @@ function handleInitialLoad() {
       .querySelectorAll("#category-list button")
       .forEach((btn) => btn.classList.remove("active"));
   } else {
-    renderPosts(category, true);
+    renderPosts(category, true, page);
     document
       .querySelector(`#category-list button[data-category="${category}"]`)
       ?.classList.add("active");
   }
 }
+
 // Generate category list dynamically from postsMeta
 function generateCategoryList() {
   // Collect all categories from postsMeta
