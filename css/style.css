@@ -190,7 +190,8 @@ nav {
   padding: 0;
 }
 
-.post-nav {
+.post-nav,
+.pagination-controls {
   display: flex;
   justify-content: space-between;
   margin-bottom: 1em;
@@ -209,10 +210,16 @@ nav {
   cursor: not-allowed;
 }
 
+.pagination-controls span {
+    text-align: center;
+    margin: 0.3em 0;
+}
 
 #back-to-blog,
 .post-nav button,
+.pagination-controls button,
 .toggle-crt,
+#toggle-compact,
 #category-list button {
   background: none;
   border: none;
@@ -226,10 +233,18 @@ nav {
   transition: background 0.2s, color 0.2s;
 }
 
+.pagination-controls button:disabled {
+    color: var(--accent-faded);
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
 #back-to-blog:hover,
 .post-nav button:hover,
+.pagination-controls button:hover,
 .toggle-crt:hover,
 .toggle-crt.active,
+#toggle-comapct:hover,
 #category-list button:hover,
 #category-list button.active {
   background: var(--accent-faded);
@@ -270,7 +285,7 @@ nav {
   border: 2px solid var(--accent);
   /* neon cyan border */
   border-radius: 4px;
-  margin-bottom: 1.5em;
+  /*margin-bottom: 1.5em;*/
   font-family: 'Courier New', Courier, monospace;
   box-shadow: 0 0 10px var(--accent), 0 0 20px var(--accent-faded);
   /* subtle neon glow */
@@ -449,7 +464,8 @@ nav {
     padding: 0 1em;
   }
 
-  .post-nav button {
+  .post-nav button,
+  .pagination-controls button {
     font-size: smaller;
   }
 }
