@@ -56,19 +56,23 @@ document.addEventListener("DOMContentLoaded", () => {
   if (compactBtn) {
     compactBtn.addEventListener("click", () => {
       isCompactMode = !isCompactMode;
-      compactBtn.textContent = isCompactMode ? "Show Full Preview" : "Compact View";
-      postsPerPage = (postsPerPage == POSTS_PER_PAGE) ? 20 : POSTS_PER_PAGE;
+      compactBtn.textContent = isCompactMode
+        ? "Show Full Preview"
+        : "Compact View";
+      postsPerPage = postsPerPage == POSTS_PER_PAGE ? 20 : POSTS_PER_PAGE;
       renderPosts(window.currentCategory, true, currentPage);
     });
   }
 });
 
 function renderPosts(category = "all", skipPushState = false, page = 1) {
-    if (!skipPushState) {
-        const params = new URLSearchParams(category == "all" ? "" : window.location.search);
-        params.set("category", category);
-        params.set("page", page);
-        history.pushState({ category, page }, "", `?${params.toString()}`);
+  if (!skipPushState) {
+    const params = new URLSearchParams(
+      category == "all" ? "" : window.location.search
+    );
+    params.set("category", category);
+    params.set("page", page);
+    history.pushState({ category, page }, "", `?${params.toString()}`);
   }
 
   document.title = " Blog | tbd";
@@ -155,7 +159,7 @@ function renderPosts(category = "all", skipPushState = false, page = 1) {
     return;
   }
 
-// Pagination
+  // Pagination
   const totalPages = Math.ceil(filtered.length / postsPerPage);
   currentPage = Math.min(page, totalPages);
   const start = (currentPage - 1) * postsPerPage;
@@ -170,9 +174,13 @@ function renderPosts(category = "all", skipPushState = false, page = 1) {
       const pagination = document.createElement("div");
       pagination.className = "pagination-controls";
       pagination.innerHTML = `
-        <button ${currentPage <= 1 ? "disabled" : ""} id="prev-page">← Prev</button>
+        <button ${
+          currentPage <= 1 ? "disabled" : ""
+        } id="prev-page">← Prev</button>
         <span>Page ${currentPage} of ${totalPages}</span>
-        <button ${currentPage >= totalPages ? "disabled" : ""} id="next-page">Next →</button>
+        <button ${
+          currentPage >= totalPages ? "disabled" : ""
+        } id="next-page">Next →</button>
       `;
       postsContainer.appendChild(pagination);
       if (currentPage > 1)
@@ -224,11 +232,13 @@ function fetchMarkdownPreview(post) {
     <div class="post-toolbar">
       <span>
       <span class="post-window-title">$ ${title}</span><br/>
-      <span class="post-meta">${date.split(' ')[0]} | ${categoriesStr}</span>
+      <span class="post-meta">${date.split(" ")[0]} | ${categoriesStr}</span>
       </span>
     </div>
     <div class="post-window-content">
-      <div class="post-content" dir="auto">${isCompactMode ? "" : marked.parse(previewText)}</div>
+      <div class="post-content" dir="auto">${
+        isCompactMode ? "" : marked.parse(previewText)
+      }</div>
       ${post.isUnread ? "<div class='unread-notification'>Unread</div>" : ""}
     </div>
   </div>
@@ -275,8 +285,12 @@ function renderFullPost(post, skipPushState = false) {
         const allowedExt = [".png", ".jpg", ".jpeg", ".gif", ".webp", ".svg"];
         const ext = filename.slice(filename.lastIndexOf(".")).toLowerCase();
         if (allowedExt.includes(ext)) {
-            const postDir = post.filename.trim().split('/').slice(0, -1).join('/');
-            return `<img src='posts/${postDir}/attachments/${filename.trim()}' alt='${filename.trim()}' style='max-width:100%;'>`;
+          const postDir = post.filename
+            .trim()
+            .split("/")
+            .slice(0, -1)
+            .join("/");
+          return `<img src='posts/${postDir}/attachments/${filename.trim()}' alt='${filename.trim()}' style='max-width:100%;'>`;
         }
         return match;
       });
@@ -341,8 +355,8 @@ function renderFullPost(post, skipPushState = false) {
       postsContainer.innerHTML = "";
 
       postDiv.addEventListener("click", (e) => {
-          if (e.target.closest(".prev-post")) renderFullPost(prevPost);
-          if (e.target.closest(".next-post")) renderFullPost(nextPost);
+        if (e.target.closest(".prev-post")) renderFullPost(prevPost);
+        if (e.target.closest(".next-post")) renderFullPost(nextPost);
       });
 
       postsContainer.appendChild(postDiv);
