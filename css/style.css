@@ -275,6 +275,10 @@ nav {
   margin-bottom: 0.5em;
 }
 
+.post-content {
+  font-family: "Fira Code", monospace;
+}
+
 /* Blog - Post windows */
 
 /* Overall post window */
@@ -467,7 +471,71 @@ nav {
   }
 }
 
-/* Projects grid styles */
+/* Generic Grid Page Styles */
+.grid-page {
+  width: 100%;
+  margin-top: 1em;
+}
+
+.grid-page-inner {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1.5em;
+}
+
+.grid-card {
+  background: #090e13;
+  border-radius: 6px;
+  padding: 1em;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.02);
+  transition: box-shadow 0.2s;
+  cursor: pointer;
+}
+
+.grid-card:hover {
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+}
+
+.grid-card-title {
+  margin: 0 0 0.3em 0;
+  font-size: 1.1em;
+}
+
+.grid-card-meta {
+  padding: 0.5em 0.5em 0 0.5em;
+  font-size: 0.9em;
+  color: #666;
+  margin-bottom: 0.5em;
+}
+
+.grid-card-desc {
+  font-size: 1em;
+  color: #aaa;
+}
+
+.grid-full {
+  border-radius: 8px;
+  padding: 2em;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
+}
+
+.grid-back-button {
+  background: none;
+  border: none;
+  color: var(--accent);
+  font-size: 1em;
+  cursor: pointer;
+  margin-bottom: 1em;
+  font-family: "Fira Code", monospace;
+  transition: background 0.2s, color 0.2s;
+}
+
+.grid-back-button:hover {
+  background: var(--accent-faded);
+  color: var(--bg-dark);
+}
+
+/* Projects grid styles (backward compatibility) */
 .projects-grid {
   width: 100%;
   margin-top: 1em;
