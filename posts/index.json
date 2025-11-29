@@ -4,7 +4,7 @@
     "title": "Hello world",
     "date": "2025-09-27",
     "categories": [
-      "tech"
+      "Tech"
     ]
   },
   {
@@ -47,6 +47,42 @@
     "filename": "Polarsteps/Thailand/54_to_chiang_mai.md",
     "title": "Day 54 - To Chiang Mai",
     "date": "2025-11-24 14:02",
+    "categories": [
+      "Travel",
+      "Thailand"
+    ]
+  },
+  {
+    "filename": "Polarsteps/Thailand/55_to_pai.md",
+    "title": "Day 55 - Pai",
+    "date": "2025-11-25 23:29",
+    "categories": [
+      "Travel",
+      "Thailand"
+    ]
+  },
+  {
+    "filename": "Polarsteps/Thailand/56_pai.md",
+    "title": "Day 56 - Pai",
+    "date": "2025-11-26 23:57:00",
+    "categories": [
+      "Travel",
+      "Thailand"
+    ]
+  },
+  {
+    "filename": "Polarsteps/Thailand/57_pai.md",
+    "title": "Day 57 - Pai",
+    "date": "2025-11-27 23:21",
+    "categories": [
+      "Travel",
+      "Thailand"
+    ]
+  },
+  {
+    "filename": "Polarsteps/Thailand/58_pai.md",
+    "title": "Day 58 - Tipsy Tubing",
+    "date": "2025-11-28 23:33",
     "categories": [
       "Travel",
       "Thailand"
