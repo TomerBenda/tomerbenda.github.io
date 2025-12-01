@@ -2,7 +2,7 @@ name: Sync Obsidian Posts
 
 on:
   schedule:
-    - cron: " 0 0 * * *"  # Runs daily at midnight
+    - cron: " 0 0 * * *" # Runs daily at midnight
   repository_dispatch:
     types: [sync-posts]
   workflow_dispatch:
@@ -38,11 +38,16 @@ jobs:
           cd blog
           python3 scripts/generate_posts_index.py
 
+      - name: Generate songs index
+        run: |
+          cd blog
+          python3 scripts/generate_songs_index.py
+
       - name: Commit and push if changes
         run: |
           cd blog
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add posts/
-          git diff --cached --quiet || git commit -m "Sync posts from vault and update index.json"
+          git add posts/ data/
+          git diff --cached --quiet || git commit -m "Sync posts from vault and generate indexes"
           git push
