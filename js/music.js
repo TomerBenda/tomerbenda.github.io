@@ -10,79 +10,21 @@ initializeGridPage(
 );
 
 // Song of the Day Feature
-// Fetches Travel posts and extracts "שיר היום" (song of the day) from the end of each post
+// Loads pre-generated list of songs from data/songs.json
 function loadSongsOfDay() {
-  fetch('posts/index.json')
+  fetch('data/songs.json')
     .then(res => res.json())
-    .then(posts => {
-      // Filter posts with 'Travel' category
-      const travelPosts = posts.filter(post => {
-        const categories = Array.isArray(post.categories) 
-          ? post.categories 
-          : post.category ? [post.category] : [];
-        return categories.some(cat => cat && cat.toLowerCase() === 'travel');
-      });
-
-      if (travelPosts.length === 0) {
+    .then(songs => {
+      if (!songs || songs.length === 0) {
         document.getElementById('song-of-day').innerHTML = '';
         return;
       }
 
-      // Sort by date descending (newest first)
-      travelPosts.sort((a, b) => Date.parse(b.date) - Date.parse(a.date));
-
-      // Fetch all travel posts and extract songs
-      Promise.all(travelPosts.map(post => extractSongOfDay(post)))
-        .then(songs => {
-          const validSongs = songs.filter(s => s !== null);
-          
-          if (validSongs.length === 0) {
-            document.getElementById('song-of-day').innerHTML = '';
-            return;
-          }
-
-          displaySongsOfDay(validSongs);
-        });
+      displaySongsOfDay(songs);
     })
     .catch(err => {
       console.error('Error loading songs of day:', err);
-    });
-}
-
-/**
- * Extracts the "שיר היום" section from a post
- * Returns object with date, title, songText, or null if not found
- */
-function extractSongOfDay(post) {
-  return fetch(`posts/${post.filename}`)
-    .then(res => res.text())
-    .then(content => {
-      // Remove frontmatter if present
-      let bodyContent = content;
-      if (content.startsWith('---')) {
-        const end = content.indexOf('---', 3);
-        if (end !== -1) bodyContent = content.slice(end + 3).trim();
-      }
-
-      // Look for "שיר היום" marker
-      const songMarker = 'שיר היום:';
-      const index = bodyContent.indexOf(songMarker);
-      
-      if (index === -1) return null;
-
-      // Extract text after the marker
-      const songText = bodyContent.slice(index + songMarker.length).trim();
-
-      return {
-        date: post.date,
-        title: post.title,
-        songText: songText,
-        filename: post.filename
-      };
-    })
-    .catch(err => {
-      console.error(`Error fetching post ${post.filename}:`, err);
-      return null;
+      document.getElementById('song-of-day').innerHTML = '';
     });
 }
 
@@ -159,7 +101,7 @@ function displaySongsOfDay(songs) {
     songItemDiv.innerHTML = `
       <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 0.5em;">
         <div>
-          <div style="color: var(--fg-bright); font-size: 0.9em; margin-bottom: 0.2em;">${song.title}</div>
+          <!--div style="color: var(--fg-bright); font-size: 0.9em; margin-bottom: 0.2em;">${song.title}</div-->
           <div style="color: #666; font-size: 0.8em;">${dateStr}</div>
         </div>
         <a href="blog.html?post=${encodeURIComponent(song.filename)}" style="color: var(--accent); text-decoration: none; font-size: 0.85em; white-space: nowrap; margin-left: 1em;">→</a>
