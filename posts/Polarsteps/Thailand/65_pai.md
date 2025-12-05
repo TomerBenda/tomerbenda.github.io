@@ -4,7 +4,7 @@ categories: Travel, Thailand
 date: 2025-12-05T19:22
 uploadto: blog
 ---
-fool me once, shame on you. fool me twice, shame on me. fool me three times, shame's still on me.
+אוקייfool me once, shame on you. fool me twice, shame on me. fool me three times, shame's still on me.
 
 הלכתי שוב לאבובים. אני יודע, אופס. פגשתי אנשים שהולכים ואמרתי בעצם למה לא. היה כיף אבל די נראה לי שמיציתי.
 
