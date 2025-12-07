@@ -1,6 +1,6 @@
 ---
 title: Hello world
-categories: tech
+categories: Tech
 date: 2025-09-27
 uploadto: blog
 ---

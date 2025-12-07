@@ -345,11 +345,14 @@ function renderFullPost(post, skipPushState = false) {
         : `<span>→</span>`; // placeholder
       navHTML += `</div>`;
 
+      tocHTML = generateTOC(content);
+
       postDiv.innerHTML = `
         <button id="back-to-blog" style="margin-bottom:1em;" onclick="window.renderPosts && renderPosts(window.currentCategory || 'all', false)">← Back to blog</button>
         ${navHTML}
         <h2 class="post-title">${title}</h2>
         <div class="post-meta">${date} | ${categoriesStr}</div>
+        ${tocHTML}
         <div class="post-content" dir="auto">${marked.parse(content)}</div>
       ${navHTML}`;
       postsContainer.innerHTML = "";
@@ -449,6 +452,52 @@ function generateCategoryList() {
         `<li><button data-category="${cat}">${capitalize(cat)}</button></li>`
     )
     .join("");
+}
+
+function generateTOC(markdown) {
+  const lines = markdown.split("\n");
+
+  const headings = lines
+    .map(line => {
+      const match = /^(#{1,6})\s+(.*)/.exec(line.trim());
+      if (!match) return null;
+      const level = match[1].length;
+      const text = match[2].trim();
+      const slug = text
+        .toLowerCase()
+        .replace(/[^a-z0-9\s-]/g, "")
+        .replace(/\s+/g, "-");
+      return { level, text, slug };
+    })
+    .filter(Boolean);
+
+  let html = '<ul class="toc">';
+  let prevLevel = 1;
+
+  for (const h of headings) {
+    // open sub-lists if needed
+    while (h.level > prevLevel) {
+      html += "<ul>";
+      prevLevel++;
+    }
+    // close sub-lists if needed
+    while (h.level < prevLevel) {
+      html += "</ul>";
+      prevLevel--;
+    }
+
+    html += `<li><a href="#${h.slug}">${h.text}</a></li>`;
+  }
+
+  // close remaining lists
+  while (prevLevel > 1) {
+    html += "</ul>";
+    prevLevel--;
+  }
+
+  html += "</ul>";
+
+  return html;
 }
 
 // Wait for postsMeta to load before handling initial URL
