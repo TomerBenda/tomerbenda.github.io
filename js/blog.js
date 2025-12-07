@@ -352,6 +352,23 @@ function renderFullPost(post, skipPushState = false) {
         ${navHTML}
         <h2 class="post-title">${title}</h2>
         <div class="post-meta">${date} | ${categoriesStr}</div>
+        <div class="translate-toolbar" style="margin: 1em 0;">
+          <label for="translate-language">Translate to: </label>
+          <select id="translate-language">
+            <option value="es">Spanish</option>
+            <option value="fr">French</option>
+            <option value="de">German</option>
+            <option value="zh">Chinese (Simplified)</option>
+            <option value="ru">Russian</option>
+            <option value="ar">Arabic</option>
+            <option value="he">Hebrew</option>
+            <option value="en">English</option>
+          </select>
+          <button id="translate-btn">Translate</button>
+          <div class="translate-attribution" style="font-size:0.9em; color:#888; margin-top:0.5em;">
+            Powered by <a href="https://libretranslate.com/" target="_blank" rel="noopener">LibreTranslate</a>
+          </div>
+        </div>
         ${tocHTML}
         <div class="post-content" dir="auto">${marked.parse(content)}</div>
       ${navHTML}`;
@@ -363,6 +380,54 @@ function renderFullPost(post, skipPushState = false) {
       });
 
       postsContainer.appendChild(postDiv);
+
+      // Translation logic
+      const translateBtn = postDiv.querySelector('#translate-btn');
+      const langSelect = postDiv.querySelector('#translate-language');
+      const postContentDiv = postDiv.querySelector('.post-content');
+      let originalHTML = postContentDiv.innerHTML;
+      let isTranslated = false;
+
+      translateBtn?.addEventListener('click', async () => {
+        if (!isTranslated) {
+          const textToTranslate = postContentDiv.innerText;
+          const targetLang = langSelect.value;
+          translateBtn.disabled = true;
+          translateBtn.textContent = 'Translating...';
+          try {
+            const res = await fetch('https://libretranslate.com/translate', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({
+                q: textToTranslate,
+                source: 'auto',
+                target: targetLang,
+                format: 'text'
+              })
+            });
+            const data = await res.json();
+            if (!res.ok) {
+              const apiError = data.error || data.message || 'Translation failed';
+              throw new Error(apiError);
+            }
+            if (!data.translatedText) {
+              throw new Error('No translated text returned.');
+            }
+            postContentDiv.innerText = data.translatedText;
+            translateBtn.textContent = 'Show Original';
+            isTranslated = true;
+          } catch (err) {
+            postContentDiv.innerHTML = `<span style='color:red;'>Translation error: ${err.message}</span>`;
+            translateBtn.textContent = 'Translate';
+          } finally {
+            translateBtn.disabled = false;
+          }
+        } else {
+          postContentDiv.innerHTML = originalHTML;
+          translateBtn.textContent = 'Translate';
+          isTranslated = false;
+        }
+      });
     })
     .catch((err) => {
       postsContainer.innerHTML = `<div class='post post-full error'><h2>Error loading post</h2><div>${err}</div></div>`;
