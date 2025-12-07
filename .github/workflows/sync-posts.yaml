@@ -38,11 +38,6 @@ jobs:
           cd blog
           python3 scripts/generate_posts_index.py
 
-      - name: Generate songs index
-        run: |
-          cd blog
-          python3 scripts/generate_songs_index.py
-
       - name: Commit and push if changes
         run: |
           cd blog

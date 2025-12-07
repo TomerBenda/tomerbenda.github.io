@@ -1,5 +1,6 @@
 // music.js: Handles music grid for sheet music and song of the day
 
+
 initializeGridPage(
   'music/index.json',
   'music',
@@ -9,17 +10,32 @@ initializeGridPage(
   'music'
 );
 
+
 // Song of the Day Feature
-// Loads pre-generated list of songs from data/songs.json
+// Loads posts and filters for those with song_of_the_day
 function loadSongsOfDay() {
-  fetch('data/songs.json')
+  fetch('posts/index.json')
     .then(res => res.json())
-    .then(songs => {
-      if (!songs || songs.length === 0) {
+    .then(posts => {
+      if (!posts || posts.length === 0) {
         document.getElementById('song-of-day').innerHTML = '';
         return;
       }
+      // Filter posts with song_of_the_day (optionally only Travel category)
+      const songs = posts
+        .filter(post => post.song_of_the_day && post.categories && post.categories.some(cat => cat.toLowerCase() === 'travel'))
+        .map(post => ({
+          date: post.date,
+          title: post.title,
+          songText: post.song_of_the_day,
+          filename: post.filename
+        }))
+        .sort((a, b) => (b.date > a.date ? 1 : -1));
 
+      if (songs.length === 0) {
+        document.getElementById('song-of-day').innerHTML = '';
+        return;
+      }
       displaySongsOfDay(songs);
     })
     .catch(err => {
