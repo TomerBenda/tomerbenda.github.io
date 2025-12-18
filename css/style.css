@@ -329,6 +329,10 @@ nav {
   /* subtle separator */
 }
 
+.post-content a {
+    color: var(--accent);
+}
+
 /* Post metadata */
 .post-meta {
   font-size: 0.75em;
