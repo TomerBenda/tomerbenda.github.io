@@ -246,6 +246,13 @@ nav {
   pointer-events: none;
 }
 
+.load-more-indicator {
+  padding: 0.75em;
+  text-align: center;
+  color: var(--accent-faded);
+  font-size: 0.95em;
+}
+
 #back-to-blog:hover,
 .post-nav button:hover,
 .pagination-controls button:hover,
@@ -477,6 +484,13 @@ nav {
   .sidebar {
     min-width: 0;
     margin-bottom: 1em;
+  }
+
+  /* When filters are open on mobile, make the panel scrollable so the list can be used without closing */
+  #sidebar-filter:not(.collapsed) {
+    max-height: 60vh;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
   }
 
   .main-content {

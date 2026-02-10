@@ -14,6 +14,8 @@ let currentFilteredPosts = [];
 let postsShownCount = 0;
 let loadMoreSentinel = null;
 let loadMoreObserver = null;
+let loadMoreIndicator = null;
+let isLoadingMore = false;
 
 // Collapsible sidebar filter logic
 function toggleSidebarFilter() {
@@ -28,16 +30,27 @@ function toggleSidebarFilter() {
   }
 }
 
-// On mobile, start collapsed
+let lastSidebarBreakpointMobile = null; // true = mobile, false = desktop, null = not yet set
+
+// On mobile, start collapsed. On resize, only update when crossing the 700px breakpoint
+// so that scroll/touch on mobile doesn't close the filters (some browsers fire resize on scroll).
 function setInitialSidebarState() {
   const sidebar = document.getElementById("sidebar-filter");
   const toggleBtn = document.querySelector(".sidebar-collapsible-toggle");
-  if (window.innerWidth <= 700) {
-    sidebar.classList.add("collapsed");
-    toggleBtn.textContent = "Show Filters";
-  } else {
-    sidebar.classList.remove("collapsed");
-    toggleBtn.textContent = "Hide Filters";
+  if (!sidebar || !toggleBtn) return;
+  const isMobile = window.innerWidth <= 700;
+  const crossedBreakpoint =
+    lastSidebarBreakpointMobile !== null &&
+    lastSidebarBreakpointMobile !== isMobile;
+  if (lastSidebarBreakpointMobile === null || crossedBreakpoint) {
+    lastSidebarBreakpointMobile = isMobile;
+    if (isMobile) {
+      sidebar.classList.add("collapsed");
+      toggleBtn.textContent = "Show Filters";
+    } else {
+      sidebar.classList.remove("collapsed");
+      toggleBtn.textContent = "Hide Filters";
+    }
   }
 }
 
@@ -164,18 +177,36 @@ function renderPosts(category = "all", skipPushState = false) {
   postsShownCount = 0;
 
   function appendNextBatch() {
+    if (isLoadingMore) return;
     const start = postsShownCount;
     const end = Math.min(start + postsPerBatch, currentFilteredPosts.length);
     if (start >= end) return;
+    isLoadingMore = true;
+
+    if (loadMoreSentinel && loadMoreSentinel.parentNode) {
+      loadMoreSentinel.parentNode.removeChild(loadMoreSentinel);
+      loadMoreSentinel = null;
+    }
+    loadMoreIndicator = document.createElement("div");
+    loadMoreIndicator.className = "load-more-indicator";
+    loadMoreIndicator.setAttribute("aria-live", "polite");
+    loadMoreIndicator.textContent = "Loading more…";
+    postsContainer.appendChild(loadMoreIndicator);
+    // Scroll the indicator into view: it’s at the bottom of the list and the scroll container
+    // has fixed height, so without this it stays below the visible area.
+    loadMoreIndicator.scrollIntoView({ behavior: "smooth", block: "end" });
+
     const batch = currentFilteredPosts.slice(start, end);
     postsShownCount = end;
 
     Promise.all(batch.map((post) => fetchMarkdownPreview(post))).then(
       (postDivs) => {
-        postDivs.forEach((div) => postsContainer.appendChild(div));
-        if (loadMoreSentinel && loadMoreSentinel.parentNode) {
-          loadMoreSentinel.parentNode.removeChild(loadMoreSentinel);
+        if (loadMoreIndicator && loadMoreIndicator.parentNode) {
+          loadMoreIndicator.parentNode.removeChild(loadMoreIndicator);
+          loadMoreIndicator = null;
         }
+        postDivs.forEach((div) => postsContainer.appendChild(div));
+        isLoadingMore = false;
         if (postsShownCount < currentFilteredPosts.length) {
           loadMoreSentinel = document.createElement("div");
           loadMoreSentinel.className = "load-more-sentinel";
