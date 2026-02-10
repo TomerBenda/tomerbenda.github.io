@@ -5,7 +5,6 @@ const categoryList = document.getElementById("category-list");
 let postsMeta = [];
 let allCategories = [];
 
-const PREVIEW_LENGTH = 50; // in chars
 const POSTS_PER_PAGE = 10;
 
 let currentSearch = "";
@@ -205,10 +204,16 @@ function fetchMarkdownPreview(post) {
         if (end !== -1) content = md.slice(end + 3).trim();
       }
 
-      let previewText = content.substring(0, PREVIEW_LENGTH);
+      const firstNewline = content.indexOf("\n");
+      let previewText =
+        firstNewline === -1
+          ? content
+          : content.substring(0, firstNewline);
       previewText = previewText.replace(/!\[\[(.+?)\]\]/g, ""); // Remove image embeds for preview
       previewText = previewText.replace(/!\[.*?\]\(.*?\)/g, ""); // Remove markdown image links
-      if (content.length > PREVIEW_LENGTH) previewText += "...";
+      previewText = previewText.trim();
+      if (firstNewline !== -1 && content.length > firstNewline + 1)
+        previewText += "...";
 
       post.preview = previewText; // Save preview for search
 
