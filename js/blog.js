@@ -5,13 +5,15 @@ const categoryList = document.getElementById("category-list");
 let postsMeta = [];
 let allCategories = [];
 
-const PREVIEW_LENGTH = 50; // in chars
-const POSTS_PER_PAGE = 10;
+const POSTS_PER_BATCH = 10;
 
 let currentSearch = "";
-let postsPerPage = POSTS_PER_PAGE;
-let currentPage = 1;
+let postsPerBatch = POSTS_PER_BATCH;
 let isCompactMode = false;
+let currentFilteredPosts = [];
+let postsShownCount = 0;
+let loadMoreSentinel = null;
+let loadMoreObserver = null;
 
 // Collapsible sidebar filter logic
 function toggleSidebarFilter() {
@@ -59,20 +61,19 @@ document.addEventListener("DOMContentLoaded", () => {
       compactBtn.textContent = isCompactMode
         ? "Show Full Preview"
         : "Compact View";
-      postsPerPage = postsPerPage == POSTS_PER_PAGE ? 20 : POSTS_PER_PAGE;
-      renderPosts(window.currentCategory, true, currentPage);
+      postsPerBatch = postsPerBatch === POSTS_PER_BATCH ? 20 : POSTS_PER_BATCH;
+      renderPosts(window.currentCategory, true);
     });
   }
 });
 
-function renderPosts(category = "all", skipPushState = false, page = 1) {
+function renderPosts(category = "all", skipPushState = false) {
   if (!skipPushState) {
     const params = new URLSearchParams(
       category == "all" ? "" : window.location.search
     );
     params.set("category", category);
-    params.set("page", page);
-    history.pushState({ category, page }, "", `?${params.toString()}`);
+    history.pushState({ category }, "", `?${params.toString()}`);
   }
 
   document.title = " Blog | tbd";
@@ -159,38 +160,61 @@ function renderPosts(category = "all", skipPushState = false, page = 1) {
     return;
   }
 
-  // Pagination
-  const totalPages = Math.ceil(filtered.length / postsPerPage);
-  currentPage = Math.min(page, totalPages);
-  const start = (currentPage - 1) * postsPerPage;
-  const paginated = filtered.slice(start, start + postsPerPage);
+  currentFilteredPosts = filtered;
+  postsShownCount = 0;
 
-  Promise.all(paginated.map((post) => fetchMarkdownPreview(post))).then(
+  function appendNextBatch() {
+    const start = postsShownCount;
+    const end = Math.min(start + postsPerBatch, currentFilteredPosts.length);
+    if (start >= end) return;
+    const batch = currentFilteredPosts.slice(start, end);
+    postsShownCount = end;
+
+    Promise.all(batch.map((post) => fetchMarkdownPreview(post))).then(
+      (postDivs) => {
+        postDivs.forEach((div) => postsContainer.appendChild(div));
+        if (loadMoreSentinel && loadMoreSentinel.parentNode) {
+          loadMoreSentinel.parentNode.removeChild(loadMoreSentinel);
+        }
+        if (postsShownCount < currentFilteredPosts.length) {
+          loadMoreSentinel = document.createElement("div");
+          loadMoreSentinel.className = "load-more-sentinel";
+          loadMoreSentinel.setAttribute("aria-hidden", "true");
+          postsContainer.appendChild(loadMoreSentinel);
+          if (loadMoreObserver) loadMoreObserver.observe(loadMoreSentinel);
+        }
+      }
+    );
+  }
+
+  function setupLoadMoreObserver() {
+    if (loadMoreObserver) loadMoreObserver.disconnect();
+    // Root must be the scrollable container: the list scrolls inside #posts-container, not the viewport
+    loadMoreObserver = new IntersectionObserver(
+      (entries) => {
+        if (!entries[0].isIntersecting) return;
+        appendNextBatch();
+      },
+      { root: postsContainer, rootMargin: "200px", threshold: 0 }
+    );
+  }
+
+  // First batch
+  const firstBatch = currentFilteredPosts.slice(0, postsPerBatch);
+  postsShownCount = firstBatch.length;
+
+  Promise.all(firstBatch.map((post) => fetchMarkdownPreview(post))).then(
     (postDivs) => {
       postsContainer.innerHTML = "";
       postDivs.forEach((div) => postsContainer.appendChild(div));
-
-      // Pagination controls
-      const pagination = document.createElement("div");
-      pagination.className = "pagination-controls";
-      pagination.innerHTML = `
-        <button ${
-          currentPage <= 1 ? "disabled" : ""
-        } id="prev-page">← Prev</button>
-        <span>Page ${currentPage} of ${totalPages}</span>
-        <button ${
-          currentPage >= totalPages ? "disabled" : ""
-        } id="next-page">Next →</button>
-      `;
-      postsContainer.appendChild(pagination);
-      if (currentPage > 1)
-        document.getElementById("prev-page").addEventListener("click", () => {
-          renderPosts(category, false, currentPage - 1);
-        });
-      if (currentPage < totalPages)
-        document.getElementById("next-page").addEventListener("click", () => {
-          renderPosts(category, false, currentPage + 1);
-        });
+      if (postsShownCount < currentFilteredPosts.length) {
+        loadMoreSentinel = document.createElement("div");
+        loadMoreSentinel.className = "load-more-sentinel";
+        loadMoreSentinel.setAttribute("aria-hidden", "true");
+        postsContainer.appendChild(loadMoreSentinel);
+        setupLoadMoreObserver();
+        loadMoreObserver.observe(loadMoreSentinel);
+      }
     }
   );
 }
@@ -205,10 +229,16 @@ function fetchMarkdownPreview(post) {
         if (end !== -1) content = md.slice(end + 3).trim();
       }
 
-      let previewText = content.substring(0, PREVIEW_LENGTH);
+      const firstNewline = content.indexOf("\n");
+      let previewText =
+        firstNewline === -1
+          ? content
+          : content.substring(0, firstNewline);
       previewText = previewText.replace(/!\[\[(.+?)\]\]/g, ""); // Remove image embeds for preview
       previewText = previewText.replace(/!\[.*?\]\(.*?\)/g, ""); // Remove markdown image links
-      if (content.length > PREVIEW_LENGTH) previewText += "...";
+      previewText = previewText.trim();
+      if (firstNewline !== -1 && content.length > firstNewline + 1)
+        previewText += "...";
 
       post.preview = previewText; // Save preview for search
 
@@ -411,7 +441,6 @@ function handleInitialLoad() {
   const postFilename = params.get("post");
   const category = params.get("category") || "all";
   window.currentCategory = category;
-  const page = parseInt(params.get("page")) || 1;
 
   if (postFilename) {
     const post = postsMeta.find((p) => p.filename === postFilename);
@@ -423,7 +452,7 @@ function handleInitialLoad() {
       .querySelectorAll("#category-list button")
       .forEach((btn) => btn.classList.remove("active"));
   } else {
-    renderPosts(category, true, page);
+    renderPosts(category, true);
     document
       .querySelector(`#category-list button[data-category="${category}"]`)
       ?.classList.add("active");
