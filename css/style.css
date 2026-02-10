@@ -8,7 +8,7 @@
 
 body {
   margin: 0;
-  font-family: "Fira Code", monospace;
+  font-family: "Fira Code", "Heebo", monospace;
   background: var(--bg-dark);
   color: var(--fg-bright);
 }
@@ -238,6 +238,14 @@ nav {
   cursor: not-allowed;
 }
 
+/* Sentinel for infinite scroll: invisible trigger when scrolled into view */
+.load-more-sentinel {
+  height: 1px;
+  width: 100%;
+  visibility: hidden;
+  pointer-events: none;
+}
+
 #back-to-blog:hover,
 .post-nav button:hover,
 .pagination-controls button:hover,
@@ -327,6 +335,14 @@ nav {
   background: #0d0d0d;
   border-top: 1px solid var(--accent);
   /* subtle separator */
+}
+
+/* Markdown-rendered post body: Fira Code for Latin/code; Heebo for Hebrew (Fira Code has no Hebrew glyphs – fallback was platform-dependent) */
+#posts-container .post-content,
+#posts-container .post-content *,
+.post-content,
+.post-content * {
+  font-family: "Fira Code", "Heebo", monospace !important;
 }
 
 .post-content a {
