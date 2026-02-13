@@ -80,6 +80,24 @@
     ]
   },
   {
+    "filename": "Polarsteps/India/134_jaipur.md",
+    "title": "Day 134 - Touristic intent",
+    "date": "2026-02-12 12:24",
+    "categories": [
+      "Travel",
+      "India"
+    ]
+  },
+  {
+    "filename": "Polarsteps/India/135_pushkar.md",
+    "title": "Day 135 - Pushkar",
+    "date": "2026-02-13 12:50",
+    "categories": [
+      "Travel",
+      "India"
+    ]
+  },
+  {
     "filename": "Polarsteps/Singapore/100_singapore.md",
     "title": "Day 100 - Day 100!!!!",
     "date": "2026-01-09 01:51",
@@ -1226,6 +1244,15 @@
     "filename": "Reviews/Albums/since I left you - the avalanches.md",
     "title": "Since I left you - the avalanches",
     "date": "2025-12-07 00:39",
+    "categories": [
+      "Review",
+      "Album"
+    ]
+  },
+  {
+    "filename": "Reviews/Albums/\u05d0\u05d5\u05e8 \u05e9\u05e0\u05db\u05e0\u05e1 \u05dc\u05d7\u05dc\u05d5\u05dd - \u05e9\u05e8\u05d9 \u05d6\u05e7 \u05dc\u05d5\u05d9.md",
+    "title": "\u05d0\u05d5\u05e8 \u05e9\u05e0\u05db\u05e0\u05e1 \u05dc\u05d7\u05dc\u05d5\u05dd - \u05e9\u05e8\u05d9 \u05d6\u05e7 \u05dc\u05d5\u05d9",
+    "date": "2026-02-13 10:32",
     "categories": [
       "Review",
       "Album"
