@@ -31,14 +31,27 @@ function toggleSidebarFilter() {
 }
 
 let lastSidebarBreakpointMobile = null; // true = mobile, false = desktop, null = not yet set
+const SIDEBAR_MOBILE_BREAKPOINT = 700;
+const SIDEBAR_HYSTERESIS = 50; // Only switch mobile/desktop when width clearly leaves the band; avoids closing filters on scroll (address bar / resize flicker)
 
-// On mobile, start collapsed. On resize, only update when crossing the 700px breakpoint
-// so that scroll/touch on mobile doesn't close the filters (some browsers fire resize on scroll).
+// On mobile, start collapsed. On resize, only update when *clearly* crossing the breakpoint
+// (hysteresis) so that scroll/touch on mobile doesn't close the filters (address bar hide/show
+// can fire resize and flicker width around 700px).
 function setInitialSidebarState() {
   const sidebar = document.getElementById("sidebar-filter");
   const toggleBtn = document.querySelector(".sidebar-collapsible-toggle");
   if (!sidebar || !toggleBtn) return;
-  const isMobile = window.innerWidth <= 700;
+  // On mobile, if the user has the filters open, never collapse on resize (scroll/address bar)
+  if (lastSidebarBreakpointMobile === true && !sidebar.classList.contains("collapsed")) return;
+  const w = window.innerWidth;
+  let isMobile;
+  if (lastSidebarBreakpointMobile === null) {
+    isMobile = w <= SIDEBAR_MOBILE_BREAKPOINT;
+  } else {
+    if (w <= SIDEBAR_MOBILE_BREAKPOINT - SIDEBAR_HYSTERESIS) isMobile = true;
+    else if (w >= SIDEBAR_MOBILE_BREAKPOINT + SIDEBAR_HYSTERESIS) isMobile = false;
+    else isMobile = lastSidebarBreakpointMobile; // in band: keep current, don't close on scroll
+  }
   const crossedBreakpoint =
     lastSidebarBreakpointMobile !== null &&
     lastSidebarBreakpointMobile !== isMobile;
@@ -54,7 +67,11 @@ function setInitialSidebarState() {
   }
 }
 
-window.addEventListener("resize", setInitialSidebarState);
+let resizeTimeoutId = null;
+window.addEventListener("resize", () => {
+  clearTimeout(resizeTimeoutId);
+  resizeTimeoutId = setTimeout(setInitialSidebarState, 120);
+});
 window.addEventListener("DOMContentLoaded", setInitialSidebarState);
 
 // Attach toggle event to button

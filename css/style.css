@@ -491,6 +491,8 @@ nav {
     max-height: 60vh;
     overflow-y: auto;
     -webkit-overflow-scrolling: touch;
+    overscroll-behavior: contain; /* prevent scroll from chaining to body so panel stays usable */
+    touch-action: pan-y; /* make this element the vertical scroll target so panel scroll works */
   }
 
   .main-content {
