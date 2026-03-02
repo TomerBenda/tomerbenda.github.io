@@ -16,6 +16,7 @@ let loadMoreSentinel = null;
 let loadMoreObserver = null;
 let loadMoreIndicator = null;
 let isLoadingMore = false;
+let progressScrollHandler = null;
 
 // Collapsible sidebar filter logic
 function toggleSidebarFilter() {
@@ -106,6 +107,7 @@ function renderPosts(category = "all", skipPushState = false) {
     history.pushState({ category }, "", `?${params.toString()}`);
   }
 
+  stopReadingProgress();
   document.title = " Blog | tbd";
   postsContainer.innerHTML = "<p>Loading posts...</p>";
   document.getElementById("c_widget")?.classList.add("hidden");
@@ -441,12 +443,41 @@ function renderFullPost(post, skipPushState = false) {
       });
 
       postsContainer.appendChild(postDiv);
+      postsContainer.scrollTop = 0;
+      startReadingProgress();
     })
     .catch((err) => {
       postsContainer.innerHTML = `<div class='post post-full error'><h2>Error loading post</h2><div>${err}</div></div>`;
     });
 
   getComments();
+}
+
+function startReadingProgress() {
+  const bar = document.getElementById("reading-progress-bar");
+  if (!bar) return;
+  if (progressScrollHandler) {
+    postsContainer.removeEventListener("scroll", progressScrollHandler);
+  }
+  bar.style.display = "block";
+  bar.style.width = "0%";
+  progressScrollHandler = function () {
+    const scrollTop = postsContainer.scrollTop;
+    const scrollHeight = postsContainer.scrollHeight - postsContainer.clientHeight;
+    const pct = scrollHeight > 0 ? (scrollTop / scrollHeight) * 100 : 0;
+    bar.style.width = pct + "%";
+  };
+  postsContainer.addEventListener("scroll", progressScrollHandler);
+  progressScrollHandler();
+}
+
+function stopReadingProgress() {
+  const bar = document.getElementById("reading-progress-bar");
+  if (bar) { bar.style.display = "none"; bar.style.width = "0%"; }
+  if (progressScrollHandler) {
+    postsContainer.removeEventListener("scroll", progressScrollHandler);
+    progressScrollHandler = null;
+  }
 }
 
 function capitalize(str) {

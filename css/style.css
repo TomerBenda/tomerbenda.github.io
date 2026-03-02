@@ -567,6 +567,22 @@ nav {
 
 /* End projects */
 
+/* Reading progress bar */
+#reading-progress-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 3px;
+  width: 0%;
+  background: var(--accent, #39ff14);
+  box-shadow: 0 0 8px rgba(57, 255, 20, 0.7);
+  z-index: 9999;
+  pointer-events: none;
+  display: none;
+  transition: width 0.08s linear;
+}
+/* End reading progress bar */
+
 /* CRT */
 @keyframes flicker {
   0% {
