@@ -203,6 +203,26 @@
       });
       map.addLayer(clusterGroup);
 
+      // "Where I am now" pin: most recent post in chronological order
+      if (withCoords.length > 0) {
+        var latest = withCoords[withCoords.length - 1];
+        var currentIcon = L.divIcon({
+          className: "travel-marker travel-marker-current",
+          html: "<span style='background:" + accent + ";width:16px;height:16px;border-radius:50%;display:block;'></span>",
+          iconSize: [16, 16],
+          iconAnchor: [8, 8]
+        });
+        var currentPopup = "<div class='travel-popup'>" +
+          "<strong style='font-size:0.9em;opacity:0.7;'>📍 last stop</strong><br>" +
+          "<strong>" + (latest.post.title || latest.post.filename) + "</strong><br>" +
+          "<span class='travel-popup-date'>" + (latest.post.date || "").split(" ")[0] + "</span><br>" +
+          "<a href='blog.html?post=" + encodeURIComponent(latest.post.filename) + "'>Read post &rarr;</a>" +
+          "</div>";
+        L.marker(latest.coords, { icon: currentIcon, zIndexOffset: 1000 })
+          .bindPopup(currentPopup)
+          .addTo(map);
+      }
+
       if (bounds.length > 0) {
         var b = L.latLngBounds(bounds);
         map.fitBounds(b, { padding: [40, 40], maxZoom: 10 });
