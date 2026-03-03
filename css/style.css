@@ -547,6 +547,8 @@ nav {
     max-height: 60vh;
     overflow-y: auto;
     -webkit-overflow-scrolling: touch;
+    overscroll-behavior: contain; /* prevent scroll from chaining to body so panel stays usable */
+    touch-action: pan-y; /* make this element the vertical scroll target so panel scroll works */
   }
 
   .main-content {
@@ -652,6 +654,56 @@ nav {
   display: inline-block;
 }
 /* End recent posts widget */
+
+/* Boot sequence overlay */
+#boot-overlay {
+  position: fixed;
+  inset: 0;
+  background: var(--bg-dark, #101216);
+  z-index: 10000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: opacity 0.6s ease;
+}
+
+#boot-overlay.boot-fade-out {
+  opacity: 0;
+  pointer-events: none;
+}
+
+#boot-terminal {
+  font-family: "Fira Code", monospace;
+  font-size: clamp(0.75rem, 2vw, 1rem);
+  color: var(--accent, #39ff14);
+  max-width: 480px;
+  width: 90%;
+  padding: 2em;
+  line-height: 1.8;
+  overflow: hidden;
+}
+
+.boot-line {
+  min-height: 1.8em;
+  white-space: pre;
+}
+/* End boot sequence overlay */
+
+/* Reading progress bar */
+#reading-progress-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 3px;
+  width: 0%;
+  background: var(--accent, #39ff14);
+  box-shadow: 0 0 8px rgba(57, 255, 20, 0.7);
+  z-index: 9999;
+  pointer-events: none;
+  display: none;
+  transition: width 0.08s linear;
+}
+/* End reading progress bar */
 
 /* CRT */
 @keyframes flicker {
