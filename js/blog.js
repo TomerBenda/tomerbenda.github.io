@@ -16,6 +16,7 @@ let loadMoreSentinel = null;
 let loadMoreObserver = null;
 let loadMoreIndicator = null;
 let isLoadingMore = false;
+let savedScrollPos = 0;
 let progressScrollHandler = null;
 
 // Collapsible sidebar filter logic
@@ -94,6 +95,17 @@ document.addEventListener("DOMContentLoaded", () => {
         : "Compact View";
       postsPerBatch = postsPerBatch === POSTS_PER_BATCH ? 20 : POSTS_PER_BATCH;
       renderPosts(window.currentCategory, true);
+    });
+  }
+
+  // Scroll-to-top button visibility
+  const scrollTopBtn = document.getElementById("scroll-top-btn");
+  if (scrollTopBtn) {
+    postsContainer.addEventListener("scroll", () => {
+      scrollTopBtn.classList.toggle("visible", postsContainer.scrollTop > 120);
+    });
+    scrollTopBtn.addEventListener("click", () => {
+      postsContainer.scrollTo({ top: 0, behavior: "smooth" });
     });
   }
 });
@@ -257,6 +269,10 @@ function renderPosts(category = "all", skipPushState = false) {
     (postDivs) => {
       postsContainer.innerHTML = "";
       postDivs.forEach((div) => postsContainer.appendChild(div));
+      if (savedScrollPos > 0) {
+        postsContainer.scrollTop = savedScrollPos;
+        savedScrollPos = 0;
+      }
       if (postsShownCount < currentFilteredPosts.length) {
         loadMoreSentinel = document.createElement("div");
         loadMoreSentinel.className = "load-more-sentinel";
@@ -337,6 +353,7 @@ function fetchMarkdownPreview(post) {
 }
 
 function renderFullPost(post, skipPushState = false) {
+  savedScrollPos = postsContainer.scrollTop;
   if (!skipPushState) {
     history.pushState(
       { post: post.filename },
@@ -370,7 +387,7 @@ function renderFullPost(post, skipPushState = false) {
             .split("/")
             .slice(0, -1)
             .join("/");
-          return `<img src='posts/${postDir}/attachments/${filename.trim()}' alt='${filename.trim()}' style='max-width:100%;'>`;
+          return `<img src='posts/${postDir}/attachments/${filename.trim()}' alt='${filename.trim()}' loading="lazy" style='max-width:100%;'>`;
         }
         return match;
       });
@@ -427,8 +444,12 @@ function renderFullPost(post, skipPushState = false) {
 
       tocHTML = generateTOC(content);
 
+      const postUrl = location.origin + location.pathname + "?post=" + encodeURIComponent(post.filename);
       postDiv.innerHTML = `
-        <button id="back-to-blog" style="margin-bottom:1em;" onclick="window.renderPosts && renderPosts(window.currentCategory || 'all', false)">← Back to blog</button>
+        <div class="post-topbar">
+          <button id="back-to-blog" onclick="window.renderPosts && renderPosts(window.currentCategory || 'all', false)">← Back to blog</button>
+          <button class="share-btn" data-url="${postUrl}" data-title="${title.replace(/"/g, '&quot;')}">Share</button>
+        </div>
         ${navHTML}
         <h2 class="post-title">${title}</h2>
         <div class="post-meta">${date} | ${categoriesStr}</div>
@@ -440,6 +461,20 @@ function renderFullPost(post, skipPushState = false) {
       postDiv.addEventListener("click", (e) => {
         if (e.target.closest(".prev-post")) renderFullPost(prevPost);
         if (e.target.closest(".next-post")) renderFullPost(nextPost);
+        const shareBtn = e.target.closest(".share-btn");
+        if (shareBtn) {
+          const url = shareBtn.dataset.url;
+          const shareTitle = shareBtn.dataset.title;
+          if (navigator.share) {
+            navigator.share({ title: shareTitle, url }).catch(() => {});
+          } else {
+            navigator.clipboard.writeText(url).then(() => {
+              const orig = shareBtn.textContent;
+              shareBtn.textContent = "Copied!";
+              setTimeout(() => { shareBtn.textContent = orig; }, 1800);
+            }).catch(() => {});
+          }
+        }
       });
 
       postsContainer.appendChild(postDiv);
@@ -540,25 +575,26 @@ function handleInitialLoad() {
 
 // Generate category list dynamically from postsMeta
 function generateCategoryList() {
-  // Collect all categories from postsMeta
   const categorySet = new Set();
+  const categoryCounts = {};
   postsMeta.forEach((post) => {
-    if (Array.isArray(post.categories)) {
-      post.categories.forEach(
-        (cat) => cat && categorySet.add(cat.toLowerCase())
-      );
-    } else if (post.category) {
-      categorySet.add(post.category.toLowerCase());
-    }
+    const cats = Array.isArray(post.categories)
+      ? post.categories
+      : post.category ? [post.category] : [];
+    cats.forEach((cat) => {
+      if (!cat) return;
+      const key = cat.toLowerCase();
+      categorySet.add(key);
+      categoryCounts[key] = (categoryCounts[key] || 0) + 1;
+    });
   });
   allCategories = Array.from(categorySet);
-  // Always include 'all' as the first category
   const categories = ["all", ...allCategories.sort()];
   categoryList.innerHTML = categories
-    .map(
-      (cat) =>
-        `<li><button data-category="${cat}">${capitalize(cat)}</button></li>`
-    )
+    .map((cat) => {
+      const count = cat === "all" ? postsMeta.length : (categoryCounts[cat] || 0);
+      return `<li><button data-category="${cat}">${capitalize(cat)} <span class="cat-count">(${count})</span></button></li>`;
+    })
     .join("");
 }
 
