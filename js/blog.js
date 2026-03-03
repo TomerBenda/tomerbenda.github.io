@@ -17,6 +17,7 @@ let loadMoreObserver = null;
 let loadMoreIndicator = null;
 let isLoadingMore = false;
 let savedScrollPos = 0;
+let progressScrollHandler = null;
 
 // Collapsible sidebar filter logic
 function toggleSidebarFilter() {
@@ -32,14 +33,27 @@ function toggleSidebarFilter() {
 }
 
 let lastSidebarBreakpointMobile = null; // true = mobile, false = desktop, null = not yet set
+const SIDEBAR_MOBILE_BREAKPOINT = 700;
+const SIDEBAR_HYSTERESIS = 50; // Only switch mobile/desktop when width clearly leaves the band; avoids closing filters on scroll (address bar / resize flicker)
 
-// On mobile, start collapsed. On resize, only update when crossing the 700px breakpoint
-// so that scroll/touch on mobile doesn't close the filters (some browsers fire resize on scroll).
+// On mobile, start collapsed. On resize, only update when *clearly* crossing the breakpoint
+// (hysteresis) so that scroll/touch on mobile doesn't close the filters (address bar hide/show
+// can fire resize and flicker width around 700px).
 function setInitialSidebarState() {
   const sidebar = document.getElementById("sidebar-filter");
   const toggleBtn = document.querySelector(".sidebar-collapsible-toggle");
   if (!sidebar || !toggleBtn) return;
-  const isMobile = window.innerWidth <= 700;
+  // On mobile, if the user has the filters open, never collapse on resize (scroll/address bar)
+  if (lastSidebarBreakpointMobile === true && !sidebar.classList.contains("collapsed")) return;
+  const w = window.innerWidth;
+  let isMobile;
+  if (lastSidebarBreakpointMobile === null) {
+    isMobile = w <= SIDEBAR_MOBILE_BREAKPOINT;
+  } else {
+    if (w <= SIDEBAR_MOBILE_BREAKPOINT - SIDEBAR_HYSTERESIS) isMobile = true;
+    else if (w >= SIDEBAR_MOBILE_BREAKPOINT + SIDEBAR_HYSTERESIS) isMobile = false;
+    else isMobile = lastSidebarBreakpointMobile; // in band: keep current, don't close on scroll
+  }
   const crossedBreakpoint =
     lastSidebarBreakpointMobile !== null &&
     lastSidebarBreakpointMobile !== isMobile;
@@ -55,7 +69,11 @@ function setInitialSidebarState() {
   }
 }
 
-window.addEventListener("resize", setInitialSidebarState);
+let resizeTimeoutId = null;
+window.addEventListener("resize", () => {
+  clearTimeout(resizeTimeoutId);
+  resizeTimeoutId = setTimeout(setInitialSidebarState, 120);
+});
 window.addEventListener("DOMContentLoaded", setInitialSidebarState);
 
 // Attach toggle event to button
@@ -101,6 +119,7 @@ function renderPosts(category = "all", skipPushState = false) {
     history.pushState({ category }, "", `?${params.toString()}`);
   }
 
+  stopReadingProgress();
   document.title = " Blog | tbd";
   postsContainer.innerHTML = "<p>Loading posts...</p>";
   document.getElementById("c_widget")?.classList.add("hidden");
@@ -459,12 +478,41 @@ function renderFullPost(post, skipPushState = false) {
       });
 
       postsContainer.appendChild(postDiv);
+      postsContainer.scrollTop = 0;
+      startReadingProgress();
     })
     .catch((err) => {
       postsContainer.innerHTML = `<div class='post post-full error'><h2>Error loading post</h2><div>${err}</div></div>`;
     });
 
   getComments();
+}
+
+function startReadingProgress() {
+  const bar = document.getElementById("reading-progress-bar");
+  if (!bar) return;
+  if (progressScrollHandler) {
+    postsContainer.removeEventListener("scroll", progressScrollHandler);
+  }
+  bar.style.display = "block";
+  bar.style.width = "0%";
+  progressScrollHandler = function () {
+    const scrollTop = postsContainer.scrollTop;
+    const scrollHeight = postsContainer.scrollHeight - postsContainer.clientHeight;
+    const pct = scrollHeight > 0 ? (scrollTop / scrollHeight) * 100 : 0;
+    bar.style.width = pct + "%";
+  };
+  postsContainer.addEventListener("scroll", progressScrollHandler);
+  progressScrollHandler();
+}
+
+function stopReadingProgress() {
+  const bar = document.getElementById("reading-progress-bar");
+  if (bar) { bar.style.display = "none"; bar.style.width = "0%"; }
+  if (progressScrollHandler) {
+    postsContainer.removeEventListener("scroll", progressScrollHandler);
+    progressScrollHandler = null;
+  }
 }
 
 function capitalize(str) {
