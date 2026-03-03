@@ -8,9 +8,9 @@
     { text: "> loading filesystem............. [OK]", delay: 320 },
     { text: "> mounting blog.................. [OK]", delay: 280 },
     { text: "> syncing travel data............ [OK]", delay: 300 },
-    { text: "> initializing crt mode.......... [OK]", delay: 260 },
+    { text: "> initializing mainframe......... [OK]", delay: 260 },
     { text: "", delay: 200 },
-    { text: "> welcome, traveler.", delay: 100 },
+    { text: "> welcome, dear reader.", delay: 100 },
   ];
 
   var CHAR_DELAY = 18;   // ms per character
