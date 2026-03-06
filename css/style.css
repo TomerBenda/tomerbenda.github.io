@@ -144,15 +144,41 @@ nav {
   padding-bottom: 1em;
 }
 
-.search-bar {
+.search-wrapper {
   flex: 1;
   min-width: 180px;
-  padding: 0.5em 1em;
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.search-bar {
+  width: 100%;
+  min-width: 0;
+  padding: 0.5em 2.2em 0.5em 1em;
   border-radius: 6px;
   border: 1px solid var(--accent-faded);
   background: var(--bg-dark);
   color: #d6f5e3;
   font-family: "Fira Code", monospace;
+  box-sizing: border-box;
+}
+
+.search-clear {
+  position: absolute;
+  right: 0.4em;
+  background: none;
+  border: none;
+  color: var(--accent-faded);
+  font-size: 1.2em;
+  line-height: 1;
+  cursor: pointer;
+  padding: 0 0.2em;
+  font-family: inherit;
+}
+
+.search-clear:hover {
+  color: var(--accent);
 }
 
 .unread-notification {
@@ -410,6 +436,19 @@ nav {
 
 .post-content a {
     color: var(--accent);
+}
+
+/* Code blocks: horizontal scroll on overflow instead of breaking layout */
+.post-content pre {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Tables: wrap in scrollable container (applied via JS parseMarkdownWithIDs) */
+.table-scroll {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  margin-bottom: 1em;
 }
 
 /* Post metadata */
@@ -704,6 +743,68 @@ nav {
   transition: width 0.08s linear;
 }
 /* End reading progress bar */
+
+/* Sticky post title bar — sticks to the top of #posts-container, not the page */
+#sticky-title-bar {
+  position: sticky;
+  top: 0;
+  background: var(--bg-darker);
+  color: var(--accent);
+  font-family: "Fira Code", monospace;
+  font-size: 0.82em;
+  border-bottom: 1px solid var(--accent-faded);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-height: 0;
+  padding: 0 1em;
+  opacity: 0;
+  transition: max-height 0.15s, opacity 0.15s, padding 0.15s;
+}
+
+#sticky-title-bar.visible {
+  max-height: 2.5em;
+  padding: 0.35em 1em;
+  opacity: 1;
+}
+
+/* Image lightbox */
+.lightbox-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.92);
+  z-index: 10000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: zoom-out;
+}
+
+.lightbox-overlay img {
+  max-width: 95vw;
+  max-height: 95vh;
+  object-fit: contain;
+  cursor: default;
+  border-radius: 2px;
+}
+
+.lightbox-close {
+  position: absolute;
+  top: 0.75rem;
+  right: 1rem;
+  background: none;
+  border: none;
+  color: #fff;
+  font-size: 2rem;
+  line-height: 1;
+  cursor: pointer;
+  padding: 0 0.25em;
+  opacity: 0.8;
+}
+
+.lightbox-close:hover {
+  opacity: 1;
+}
 
 /* CRT */
 @keyframes flicker {

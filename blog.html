@@ -37,12 +37,16 @@
       <main class="main-content">
         <div class="blog-header-row">
           <h1 style="margin: 0">Blog</h1>
-          <input
-            type="text"
-            class="search-bar"
-            id="blog-search"
-            placeholder="Search posts..."
-          />
+          <div class="search-wrapper">
+            <input
+              type="text"
+              class="search-bar"
+              id="blog-search"
+              placeholder="Search posts..."
+              autocomplete="off"
+            />
+            <button class="search-clear" id="search-clear" aria-label="Clear search" hidden>×</button>
+          </div>
         </div>
         <div id="posts-container">
           <!-- Blog posts will be rendered here by JS -->

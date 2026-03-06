@@ -27,7 +27,12 @@ jobs:
 
       - name: Sync markdown files from vault
         run: |
-          rsync -av --delete "vault/100 Blog/" blog/posts/
+          rsync -av --delete --out-format="%i %n" "vault/100 Blog/" blog/posts/ | tee /tmp/rsync_out.txt
+          added=$(grep -c '^>f' /tmp/rsync_out.txt || true)
+          deleted=$(grep -c '^*deleting' /tmp/rsync_out.txt || true)
+          echo "## Sync summary" >> $GITHUB_STEP_SUMMARY
+          echo "- Posts added/updated: $added" >> $GITHUB_STEP_SUMMARY
+          echo "- Posts deleted: $deleted" >> $GITHUB_STEP_SUMMARY
 
       - name: Install pyyaml
         run: |
