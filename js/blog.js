@@ -3,7 +3,6 @@
 const postsContainer = document.getElementById("posts-container");
 const categoryList = document.getElementById("category-list");
 let postsMeta = [];
-let allCategories = [];
 
 const POSTS_PER_BATCH = 10;
 
@@ -18,6 +17,7 @@ let loadMoreIndicator = null;
 let isLoadingMore = false;
 let savedScrollPos = 0;
 let progressScrollHandler = null;
+let stickyTitleScrollHandler = null;
 
 // Collapsible sidebar filter logic
 function toggleSidebarFilter() {
@@ -110,6 +110,15 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 });
 
+function cleanupPostView() {
+  if (stickyTitleScrollHandler) {
+    postsContainer.removeEventListener("scroll", stickyTitleScrollHandler);
+    stickyTitleScrollHandler = null;
+  }
+  postsContainer.ontouchstart = null;
+  postsContainer.ontouchend = null;
+}
+
 function renderPosts(category = "all", skipPushState = false) {
   if (!skipPushState) {
     const params = new URLSearchParams(
@@ -120,40 +129,33 @@ function renderPosts(category = "all", skipPushState = false) {
   }
 
   stopReadingProgress();
-  document.title = " Blog | tbd";
+  cleanupPostView();
+  document.title = "Blog | tbd";
   postsContainer.innerHTML = "<p>Loading posts...</p>";
   document.getElementById("c_widget")?.classList.add("hidden");
 
   let filtered =
     category === "all"
       ? postsMeta
-      : postsMeta.filter((p) => {
-          if (!p.categories && !p.category) return false;
-          const postCategories = Array.isArray(p.categories)
-            ? p.categories
-            : p.category
-            ? [p.category]
-            : [];
-          return postCategories.some(
+      : postsMeta.filter((p) =>
+          getPostCategories(p).some(
             (cat) => cat && cat.toLowerCase() === category.toLowerCase()
-          );
-        });
+          )
+        );
 
   // Search filter
   if (currentSearch.trim()) {
     const searchLower = currentSearch.trim().toLowerCase();
     filtered = filtered.filter((post) => {
-      // Check title, date, and preview content
       const title = (post.title || "").toLowerCase();
       const date = (post.date || "").toLowerCase();
-      let preview = "";
-      if (post.filename) {
-        preview = (post.preview || "").toLowerCase();
-      }
+      const preview = (post.preview || "").toLowerCase();
+      const categories = getPostCategories(post).join(" ").toLowerCase();
       return (
         title.includes(searchLower) ||
         date.includes(searchLower) ||
-        preview.includes(searchLower)
+        preview.includes(searchLower) ||
+        categories.includes(searchLower)
       );
     });
   }
@@ -313,12 +315,7 @@ function fetchMarkdownPreview(post) {
 
       const title = post.title || "Untitled";
       const date = post.date || "Unknown date";
-      // Support multiple categories
-      const postCategories = Array.isArray(post.categories)
-        ? post.categories
-        : post.category
-        ? [post.category]
-        : [];
+      const postCategories = getPostCategories(post);
       const categoriesStr = postCategories.length
         ? postCategories.map((cat) => capitalize(cat)).join(", ")
         : "Uncategorized";
@@ -328,7 +325,7 @@ function fetchMarkdownPreview(post) {
     <div class="post-toolbar">
       <span>
       <span class="post-window-title">$ ${title}</span><br/>
-      <span class="post-meta">${date.split(" ")[0]} | ${categoriesStr}</span>
+      <span class="post-meta">${date.split(" ")[0]} | ${categoriesStr}<span class="view-count"></span></span>
       </span>
     </div>
     <div class="post-window-content">
@@ -342,6 +339,9 @@ function fetchMarkdownPreview(post) {
 
       postDiv.style.cursor = "pointer";
       postDiv.addEventListener("click", () => renderFullPost(post));
+      if (typeof fetchViewCountForPreview === "function") {
+        fetchViewCountForPreview(post.filename, postDiv.querySelector(".view-count"));
+      }
       return postDiv;
     })
     .catch((err) => {
@@ -350,6 +350,104 @@ function fetchMarkdownPreview(post) {
       postDiv.innerHTML = `<h2 class='post-title'>Error loading post</h2><div>${err}</div>`;
       return postDiv;
     });
+}
+
+// ── Swipe navigation ──────────────────────────────────────────────────────────
+function attachSwipeNav(prevPost, nextPost) {
+  let startX = 0, startY = 0;
+  postsContainer.ontouchstart = (e) => {
+    startX = e.touches[0].clientX;
+    startY = e.touches[0].clientY;
+  };
+  postsContainer.ontouchend = (e) => {
+    const dx = e.changedTouches[0].clientX - startX;
+    const dy = e.changedTouches[0].clientY - startY;
+    // Only fire for clearly horizontal swipes
+    if (Math.abs(dx) > 60 && Math.abs(dx) > Math.abs(dy) * 1.5) {
+      if (dx < 0 && nextPost) renderFullPost(nextPost);
+      else if (dx > 0 && prevPost) renderFullPost(prevPost);
+    }
+  };
+}
+
+// ── Image lightbox ────────────────────────────────────────────────────────────
+function setupLightbox(container) {
+  container.querySelectorAll(".post-content img").forEach((img) => {
+    img.style.cursor = "zoom-in";
+    img.addEventListener("click", () => openLightbox(img.src, img.alt));
+  });
+}
+
+function openLightbox(src, alt) {
+  const overlay = document.createElement("div");
+  overlay.className = "lightbox-overlay";
+  overlay.innerHTML = `
+    <button class="lightbox-close" aria-label="Close">×</button>
+    <img src="${src}" alt="${alt || ""}">
+  `;
+  document.body.appendChild(overlay);
+
+  function close() { overlay.remove(); document.removeEventListener("keydown", escHandler); }
+  function escHandler(e) { if (e.key === "Escape") close(); }
+
+  overlay.addEventListener("click", (e) => {
+    if (e.target === overlay || e.target.classList.contains("lightbox-close")) close();
+  });
+  document.addEventListener("keydown", escHandler);
+}
+
+// ── Sticky post title ─────────────────────────────────────────────────────────
+function setupStickyTitle(postDiv, title) {
+  // Clean up any listener from a previous post
+  if (stickyTitleScrollHandler) {
+    postsContainer.removeEventListener("scroll", stickyTitleScrollHandler);
+    stickyTitleScrollHandler = null;
+  }
+
+  const stickyBar = document.createElement("div");
+  stickyBar.id = "sticky-title-bar";
+  stickyBar.textContent = title;
+  postDiv.insertBefore(stickyBar, postDiv.firstChild);
+
+  const titleEl = postDiv.querySelector(".post-title");
+  if (!titleEl) return;
+
+  stickyTitleScrollHandler = () => {
+    const titleBottom = titleEl.getBoundingClientRect().bottom;
+    const containerTop = postsContainer.getBoundingClientRect().top;
+    stickyBar.classList.toggle("visible", titleBottom < containerTop);
+  };
+  postsContainer.addEventListener("scroll", stickyTitleScrollHandler);
+}
+
+/**
+ * Parse markdown to HTML with heading IDs (for TOC links) and table wrappers.
+ * Uses DOMParser so it's agnostic to the marked version.
+ */
+function parseMarkdownWithIDs(content) {
+  const html = marked.parse(content);
+  const doc = new DOMParser().parseFromString(html, "text/html");
+
+  // Add id to every heading using the same slug logic as generateTOC
+  doc.querySelectorAll("h1,h2,h3,h4,h5,h6").forEach((h) => {
+    const slug = h.textContent
+      .toLowerCase()
+      .replace(/[^a-z0-9\s-]/g, "")
+      .replace(/\s+/g, "-");
+    h.id = slug;
+  });
+
+  // Wrap bare tables in a scrollable container
+  doc.querySelectorAll("table").forEach((table) => {
+    if (!table.parentElement.classList.contains("table-scroll")) {
+      const wrapper = doc.createElement("div");
+      wrapper.className = "table-scroll";
+      table.parentNode.insertBefore(wrapper, table);
+      wrapper.appendChild(table);
+    }
+  });
+
+  return doc.body.innerHTML;
 }
 
 function renderFullPost(post, skipPushState = false) {
@@ -364,7 +462,6 @@ function renderFullPost(post, skipPushState = false) {
   document.title = post.title
     ? `${post.title} | Blog | tbd`
     : `${document.title}`;
-  // postsContainer.innerHTML = "<p>Loading post...</p>"; // (removed to avoid flicker)
   document.getElementById("c_widget")?.classList.remove("hidden");
 
   fetch(`posts/${post.filename}`)
@@ -416,12 +513,7 @@ function renderFullPost(post, skipPushState = false) {
         ).toISOString()}; path=/; max-age=31536000`;
       }
 
-      // Support multiple categories
-      const postCategories = Array.isArray(post.categories)
-        ? post.categories
-        : post.category
-        ? [post.category]
-        : [];
+      const postCategories = getPostCategories(post);
       const categoriesStr = postCategories.length
         ? postCategories.map((cat) => capitalize(cat)).join(", ")
         : "Uncategorized";
@@ -442,7 +534,7 @@ function renderFullPost(post, skipPushState = false) {
         : `<span>→</span>`; // placeholder
       navHTML += `</div>`;
 
-      tocHTML = generateTOC(content);
+      const tocHTML = generateTOC(content);
 
       const postUrl = location.origin + location.pathname + "?post=" + encodeURIComponent(post.filename);
       postDiv.innerHTML = `
@@ -452,9 +544,10 @@ function renderFullPost(post, skipPushState = false) {
         </div>
         ${navHTML}
         <h2 class="post-title">${title}</h2>
-        <div class="post-meta">${date} | ${categoriesStr}</div>
+        <div class="post-meta">${date} | ${categoriesStr}<span class="view-count"></span></div>
+        <div class="reactions-container"></div>
         ${tocHTML}
-        <div class="post-content" dir="auto">${marked.parse(content)}</div>
+        <div class="post-content" dir="auto">${parseMarkdownWithIDs(content)}</div>
       ${navHTML}`;
       postsContainer.innerHTML = "";
 
@@ -480,6 +573,11 @@ function renderFullPost(post, skipPushState = false) {
       postsContainer.appendChild(postDiv);
       postsContainer.scrollTop = 0;
       startReadingProgress();
+      attachSwipeNav(prevPost, nextPost);
+      setupStickyTitle(postDiv, title);
+      setupLightbox(postDiv);
+      if (typeof setupReactions === "function") setupReactions(post, postDiv);
+      if (typeof setupViewCounter === "function") setupViewCounter(post, postDiv);
     })
     .catch((err) => {
       postsContainer.innerHTML = `<div class='post post-full error'><h2>Error loading post</h2><div>${err}</div></div>`;
@@ -518,6 +616,14 @@ function stopReadingProgress() {
 function capitalize(str) {
   if (!str || typeof str !== "string") return "";
   return str.charAt(0).toUpperCase() + str.slice(1);
+}
+
+function getPostCategories(post) {
+  return Array.isArray(post.categories)
+    ? post.categories
+    : post.category
+    ? [post.category]
+    : [];
 }
 
 window.renderPosts = renderPosts;
@@ -578,18 +684,14 @@ function generateCategoryList() {
   const categorySet = new Set();
   const categoryCounts = {};
   postsMeta.forEach((post) => {
-    const cats = Array.isArray(post.categories)
-      ? post.categories
-      : post.category ? [post.category] : [];
-    cats.forEach((cat) => {
+    getPostCategories(post).forEach((cat) => {
       if (!cat) return;
       const key = cat.toLowerCase();
       categorySet.add(key);
       categoryCounts[key] = (categoryCounts[key] || 0) + 1;
     });
   });
-  allCategories = Array.from(categorySet);
-  const categories = ["all", ...allCategories.sort()];
+  const categories = ["all", ...Array.from(categorySet).sort()];
   categoryList.innerHTML = categories
     .map((cat) => {
       const count = cat === "all" ? postsMeta.length : (categoryCounts[cat] || 0);
@@ -654,9 +756,20 @@ fetch("posts/index.json")
     handleInitialLoad();
     // Attach search bar event
     const searchInput = document.getElementById("blog-search");
+    const searchClear = document.getElementById("search-clear");
     if (searchInput) {
       searchInput.addEventListener("input", (e) => {
         currentSearch = e.target.value;
+        if (searchClear) searchClear.hidden = !currentSearch;
+        renderPosts(window.currentCategory || "all", true);
+      });
+    }
+    if (searchClear) {
+      searchClear.addEventListener("click", () => {
+        searchInput.value = "";
+        currentSearch = "";
+        searchClear.hidden = true;
+        searchInput.focus();
         renderPosts(window.currentCategory || "all", true);
       });
     }

@@ -1,0 +1,7 @@
+name = "tbd-view-counter"
+main = "view-counter-worker.js"
+compatibility_date = "2025-01-01"
+
+[[kv_namespaces]]
+binding = "COUNTS"
+id = "tbd-blog-view-counts"
