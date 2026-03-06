@@ -1,0 +1,7 @@
+name = "tbd-reactions"
+main = "reactions-worker.js"
+compatibility_date = "2025-01-01"
+
+[[kv_namespaces]]
+binding = "REACTIONS"
+id = "tbd-blog-post-reactions"
