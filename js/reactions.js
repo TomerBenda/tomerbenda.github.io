@@ -3,7 +3,7 @@
 
 const REACTIONS_WORKER = "https://tbd-blog-post-reactions.tomerno6.workers.dev";
 
-const REACTION_EMOJIS = ["👍", "❤️", "🔥", "🤔"];
+const REACTION_EMOJIS = ["❤️", "👍", "🔥", "🤔"];
 
 function postReactionKey(filename) {
   // "subdir/my-post.md" → "my-post"
