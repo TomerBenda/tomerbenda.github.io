@@ -1,7 +1,7 @@
 (function () {
-  // Only play once per browser session
-  if (sessionStorage.getItem("booted")) return;
-  sessionStorage.setItem("booted", "1");
+  // Only play once per user (persists across sessions)
+  if (localStorage.getItem("booted")) return;
+  localStorage.setItem("booted", "1");
 
   var LINES = [
     { text: "> booting tbd.codes...", delay: 0 },

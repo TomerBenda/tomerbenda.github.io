@@ -22,7 +22,8 @@
     "Thailand": "#9b59b6",
     "Sri Lanka": "#27ae60",
     "Singapore": "#3498db",
-    "India": "#f39c12"
+    "India": "#f39c12",
+    "Hong Kong": "#e67e22"
   };
   function getCountryColor(country) {
     return COUNTRY_COLORS[country] || "#39ff14";
