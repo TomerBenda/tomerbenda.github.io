@@ -18,7 +18,10 @@ function setupViewCounter(post, postDiv) {
   const countSpan = postDiv.querySelector(".view-count");
   if (!countSpan) return;
   const key = postCounterKey(post.filename);
-  fetch(`${COUNTER_BASE}/${encodeURIComponent(key)}/up`)
+  const sessionKey = `viewed:${key}`;
+  const already = sessionStorage.getItem(sessionKey);
+  if (!already) sessionStorage.setItem(sessionKey, "1");
+  fetch(`${COUNTER_BASE}/${encodeURIComponent(key)}${already ? "" : "/up"}`)
     .then((r) => { if (!r.ok) throw r.status; return r.json(); })
     .then((data) => {
       if (typeof data.count === "number") {
