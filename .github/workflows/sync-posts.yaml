@@ -49,5 +49,58 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git add posts/
+          git diff --cached --name-only --diff-filter=A | grep '\.md$' > /tmp/new_posts.txt || true
           git diff --cached --quiet || git commit -m "Sync posts from vault and update index.json"
           git pull && git push
+
+      - name: Notify subscribers of new posts
+        env:
+          ONESIGNAL_API_KEY: ${{ secrets.ONESIGNAL_API_KEY }}
+        run: |
+          [ -s /tmp/new_posts.txt ] || { echo "No new posts, skipping notification."; exit 0; }
+          [ -n "$ONESIGNAL_API_KEY" ] || { echo "ONESIGNAL_API_KEY secret not set, skipping."; exit 0; }
+          ONESIGNAL_APP_ID=$(grep 'ONESIGNAL_APP_ID = ' blog/js/notifications.js | grep -o '"[^"]*"' | tr -d '"')
+          cd blog
+          first=$(head -1 /tmp/new_posts.txt)
+          count=$(wc -l < /tmp/new_posts.txt | tr -d '[:space:]')
+          cat > /tmp/get_title.py << 'PYEOF'
+          import yaml, sys
+          with open(sys.argv[1]) as f:
+              c = f.read()
+          if c.startswith('---'):
+              e = c.find('---', 3)
+              if e > 3:
+                  fm = yaml.safe_load(c[3:e]) or {}
+                  t = str(fm.get('title', ''))
+                  if t:
+                      print(t)
+                      sys.exit(0)
+          print(sys.argv[1])
+          PYEOF
+          title=$(python3 /tmp/get_title.py "$first")
+          filename=$(basename "$first")
+          encoded=$(python3 -c "import urllib.parse, sys; print(urllib.parse.quote(sys.argv[1]))" "$filename")
+          if [ "$count" -gt 1 ]; then
+            heading="${count} new posts on tbd.codes"
+            body="Including: ${title}"
+            url="https://tbd.codes/blog"
+          else
+            heading="New post: ${title}"
+            body="Just published on tbd.codes"
+            url="https://tbd.codes/blog?post=${encoded}"
+          fi
+          json=$(python3 -c "
+          import json, sys
+          print(json.dumps({
+            'app_id': sys.argv[1],
+            'included_segments': ['All'],
+            'headings': {'en': sys.argv[2]},
+            'contents': {'en': sys.argv[3]},
+            'url': sys.argv[4]
+          }))" "$ONESIGNAL_APP_ID" "$heading" "$body" "$url")
+          http_code=$(curl -s -o /dev/null -w "%{http_code}" -X POST \
+            -H "Content-Type: application/json" \
+            -H "Authorization: Basic ${ONESIGNAL_API_KEY}" \
+            --data-binary "$json" \
+            https://onesignal.com/api/v1/notifications)
+          echo "- Push notification sent (HTTP ${http_code}): **${heading}**" >> $GITHUB_STEP_SUMMARY
