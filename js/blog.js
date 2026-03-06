@@ -3,7 +3,6 @@
 const postsContainer = document.getElementById("posts-container");
 const categoryList = document.getElementById("category-list");
 let postsMeta = [];
-let allCategories = [];
 
 const POSTS_PER_BATCH = 10;
 
@@ -138,33 +137,25 @@ function renderPosts(category = "all", skipPushState = false) {
   let filtered =
     category === "all"
       ? postsMeta
-      : postsMeta.filter((p) => {
-          if (!p.categories && !p.category) return false;
-          const postCategories = Array.isArray(p.categories)
-            ? p.categories
-            : p.category
-            ? [p.category]
-            : [];
-          return postCategories.some(
+      : postsMeta.filter((p) =>
+          getPostCategories(p).some(
             (cat) => cat && cat.toLowerCase() === category.toLowerCase()
-          );
-        });
+          )
+        );
 
   // Search filter
   if (currentSearch.trim()) {
     const searchLower = currentSearch.trim().toLowerCase();
     filtered = filtered.filter((post) => {
-      // Check title, date, and preview content
       const title = (post.title || "").toLowerCase();
       const date = (post.date || "").toLowerCase();
-      let preview = "";
-      if (post.filename) {
-        preview = (post.preview || "").toLowerCase();
-      }
+      const preview = (post.preview || "").toLowerCase();
+      const categories = getPostCategories(post).join(" ").toLowerCase();
       return (
         title.includes(searchLower) ||
         date.includes(searchLower) ||
-        preview.includes(searchLower)
+        preview.includes(searchLower) ||
+        categories.includes(searchLower)
       );
     });
   }
@@ -324,22 +315,18 @@ function fetchMarkdownPreview(post) {
 
       const title = post.title || "Untitled";
       const date = post.date || "Unknown date";
-      // Support multiple categories
-      const postCategories = Array.isArray(post.categories)
-        ? post.categories
-        : post.category
-        ? [post.category]
-        : [];
+      const postCategories = getPostCategories(post);
       const categoriesStr = postCategories.length
         ? postCategories.map((cat) => capitalize(cat)).join(", ")
         : "Uncategorized";
+      const mins = readingTime(content);
 
       postDiv.innerHTML = `
   <div class="post-window">
     <div class="post-toolbar">
       <span>
       <span class="post-window-title">$ ${title}</span><br/>
-      <span class="post-meta">${date.split(" ")[0]} | ${categoriesStr}</span>
+      <span class="post-meta">${date.split(" ")[0]} | ${categoriesStr} | ${mins} min read</span>
       </span>
     </div>
     <div class="post-window-content">
@@ -473,7 +460,6 @@ function renderFullPost(post, skipPushState = false) {
   document.title = post.title
     ? `${post.title} | Blog | tbd`
     : `${document.title}`;
-  // postsContainer.innerHTML = "<p>Loading post...</p>"; // (removed to avoid flicker)
   document.getElementById("c_widget")?.classList.remove("hidden");
 
   fetch(`posts/${post.filename}`)
@@ -525,15 +511,11 @@ function renderFullPost(post, skipPushState = false) {
         ).toISOString()}; path=/; max-age=31536000`;
       }
 
-      // Support multiple categories
-      const postCategories = Array.isArray(post.categories)
-        ? post.categories
-        : post.category
-        ? [post.category]
-        : [];
+      const postCategories = getPostCategories(post);
       const categoriesStr = postCategories.length
         ? postCategories.map((cat) => capitalize(cat)).join(", ")
         : "Uncategorized";
+      const mins = readingTime(content);
 
       // Prev / Next logic
       const currentIndex = postsMeta.findIndex(
@@ -551,7 +533,7 @@ function renderFullPost(post, skipPushState = false) {
         : `<span>→</span>`; // placeholder
       navHTML += `</div>`;
 
-      tocHTML = generateTOC(content);
+      const tocHTML = generateTOC(content);
 
       const postUrl = location.origin + location.pathname + "?post=" + encodeURIComponent(post.filename);
       postDiv.innerHTML = `
@@ -561,7 +543,8 @@ function renderFullPost(post, skipPushState = false) {
         </div>
         ${navHTML}
         <h2 class="post-title">${title}</h2>
-        <div class="post-meta">${date} | ${categoriesStr}</div>
+        <div class="post-meta">${date} | ${categoriesStr} | ${mins} min read</div>
+        <div class="reactions-container"></div>
         ${tocHTML}
         <div class="post-content" dir="auto">${parseMarkdownWithIDs(content)}</div>
       ${navHTML}`;
@@ -592,6 +575,7 @@ function renderFullPost(post, skipPushState = false) {
       attachSwipeNav(prevPost, nextPost);
       setupStickyTitle(postDiv, title);
       setupLightbox(postDiv);
+      if (typeof setupReactions === "function") setupReactions(post, postDiv);
     })
     .catch((err) => {
       postsContainer.innerHTML = `<div class='post post-full error'><h2>Error loading post</h2><div>${err}</div></div>`;
@@ -630,6 +614,19 @@ function stopReadingProgress() {
 function capitalize(str) {
   if (!str || typeof str !== "string") return "";
   return str.charAt(0).toUpperCase() + str.slice(1);
+}
+
+function readingTime(text) {
+  const words = text.trim().split(/\s+/).filter((w) => w.length > 0).length;
+  return Math.max(1, Math.ceil(words / 200));
+}
+
+function getPostCategories(post) {
+  return Array.isArray(post.categories)
+    ? post.categories
+    : post.category
+    ? [post.category]
+    : [];
 }
 
 window.renderPosts = renderPosts;
@@ -690,18 +687,14 @@ function generateCategoryList() {
   const categorySet = new Set();
   const categoryCounts = {};
   postsMeta.forEach((post) => {
-    const cats = Array.isArray(post.categories)
-      ? post.categories
-      : post.category ? [post.category] : [];
-    cats.forEach((cat) => {
+    getPostCategories(post).forEach((cat) => {
       if (!cat) return;
       const key = cat.toLowerCase();
       categorySet.add(key);
       categoryCounts[key] = (categoryCounts[key] || 0) + 1;
     });
   });
-  allCategories = Array.from(categorySet);
-  const categories = ["all", ...allCategories.sort()];
+  const categories = ["all", ...Array.from(categorySet).sort()];
   categoryList.innerHTML = categories
     .map((cat) => {
       const count = cat === "all" ? postsMeta.length : (categoryCounts[cat] || 0);

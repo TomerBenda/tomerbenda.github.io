@@ -136,6 +136,14 @@ nav {
 
 /* Blog */
 
+.hidden {
+  display: none;
+}
+
+.blog-header-row h1 {
+  margin: 0;
+}
+
 .blog-header-row {
   display: flex;
   align-items: center;
@@ -159,7 +167,7 @@ nav {
   border-radius: 6px;
   border: 1px solid var(--accent-faded);
   background: var(--bg-dark);
-  color: #d6f5e3;
+  color: var(--fg-bright);
   font-family: "Fira Code", monospace;
   box-sizing: border-box;
 }
@@ -340,7 +348,7 @@ nav {
 .pagination-controls button:hover,
 .toggle-crt:hover,
 .toggle-crt.active,
-#toggle-comapct:hover,
+#toggle-compact:hover,
 #category-list button:hover,
 #category-list button.active {
   background: var(--accent-faded);
@@ -370,12 +378,6 @@ nav {
 .post-title {
   margin: 0 0 0.3em 0;
   font-size: 1.1em;
-}
-
-.post-meta {
-  font-size: 0.9em;
-  color: #666;
-  margin-bottom: 0.5em;
 }
 
 /* Blog - Post windows */
@@ -426,9 +428,7 @@ nav {
   /* subtle separator */
 }
 
-/* Markdown-rendered post body: Fira Code for Latin/code; Heebo for Hebrew (Fira Code has no Hebrew glyphs – fallback was platform-dependent) */
-#posts-container .post-content,
-#posts-container .post-content *,
+/* Fira Code for Latin/code; Heebo for Hebrew (Fira Code has no Hebrew glyphs) */
 .post-content,
 .post-content * {
   font-family: "Fira Code", "Heebo", monospace !important;
@@ -554,10 +554,12 @@ nav {
 
   .sidebar {
     padding: 0.7em;
+    min-width: 0;
+    margin-bottom: 1em;
   }
 
   .main-content {
-    padding: 0.7em;
+    padding: 1em;
     font-size: 1em;
   }
 
@@ -567,18 +569,13 @@ nav {
   }
 
   .footer-content {
-    padding: 0.5em;
+    padding: 0 1em;
     font-size: 0.95em;
   }
 
   .container {
     flex-direction: column;
     gap: 1em;
-  }
-
-  .sidebar {
-    min-width: 0;
-    margin-bottom: 1em;
   }
 
   /* When filters are open on mobile, make the panel scrollable so the list can be used without closing */
@@ -588,14 +585,6 @@ nav {
     -webkit-overflow-scrolling: touch;
     overscroll-behavior: contain; /* prevent scroll from chaining to body so panel stays usable */
     touch-action: pan-y; /* make this element the vertical scroll target so panel scroll works */
-  }
-
-  .main-content {
-    padding: 1em;
-  }
-
-  .footer-content {
-    padding: 0 1em;
   }
 
   .post-nav button,
@@ -743,6 +732,107 @@ nav {
   transition: width 0.08s linear;
 }
 /* End reading progress bar */
+
+/* Emoji reactions */
+.reactions-container {
+  margin-bottom: 1em;
+}
+
+.reactions-bar {
+  display: flex;
+  align-items: center;
+  gap: 0.5em;
+  padding: 0.75em 0;
+  border-top: 1px solid var(--accent-faded);
+  flex-wrap: wrap;
+}
+
+.reactions-label {
+  font-size: 0.82em;
+  color: var(--accent-faded);
+  font-family: "Fira Code", monospace;
+  margin-right: 0.15em;
+}
+
+.reaction-btn {
+  background: none;
+  border: 1px solid var(--accent-faded);
+  color: var(--fg-bright);
+  font-size: 0.9em;
+  padding: 0.25em 0.65em;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: border-color 0.15s, background 0.15s;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3em;
+  line-height: 1.4;
+}
+
+.reaction-btn:hover {
+  border-color: var(--accent);
+  background: rgba(57, 255, 20, 0.08);
+}
+
+.reaction-btn.reaction-picked {
+  border-color: var(--accent);
+  background: rgba(57, 255, 20, 0.14);
+  box-shadow: 0 0 6px var(--accent-faded);
+}
+
+.reaction-count {
+  font-size: 0.82em;
+  font-family: "Fira Code", monospace;
+  opacity: 0.85;
+}
+
+.reaction-add {
+  font-size: 1em;
+  opacity: 0.5;
+  padding: 0.2em 0.55em;
+}
+
+.reaction-add:hover {
+  opacity: 1;
+}
+
+.reaction-input-wrapper {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.2em;
+}
+
+.reaction-input {
+  width: 3em;
+  background: var(--bg-dark);
+  border: 1px solid var(--accent);
+  border-radius: 8px;
+  color: var(--fg-bright);
+  font-size: 1em;
+  padding: 0.15em 0.35em;
+  text-align: center;
+  font-family: inherit;
+}
+
+.reaction-input-confirm,
+.reaction-input-cancel {
+  background: none;
+  border: none;
+  color: var(--accent-faded);
+  font-size: 0.9em;
+  cursor: pointer;
+  padding: 0.1em 0.25em;
+  line-height: 1;
+}
+
+.reaction-input-confirm:hover {
+  color: var(--accent);
+}
+
+.reaction-input-cancel:hover {
+  color: #f55;
+}
+/* End emoji reactions */
 
 /* Sticky post title bar — sticks to the top of #posts-container, not the page */
 #sticky-title-bar {
