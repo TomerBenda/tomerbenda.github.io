@@ -325,7 +325,7 @@ function fetchMarkdownPreview(post) {
     <div class="post-toolbar">
       <span>
       <span class="post-window-title">$ ${title}</span><br/>
-      <span class="post-meta">${date.split(" ")[0]} | ${categoriesStr}<span class="view-count"></span></span>
+      <span class="post-meta">${date.split(" ")[0]} | ${categoriesStr}<span class="view-count hidden"></span></span>
       </span>
     </div>
     <div class="post-window-content">
