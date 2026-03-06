@@ -1,0 +1,63 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="256" height="256">
+  <defs>
+    <radialGradient id="bg" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#1a1a1a"/>
+      <stop offset="100%" stop-color="#0a0a0a"/>
+    </radialGradient>
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="4" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    <filter id="softglow">
+      <feGaussianBlur stdDeviation="8" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+
+  <!-- Background -->
+  <rect width="256" height="256" rx="36" fill="url(#bg)"/>
+
+  <!-- Subtle scanlines -->
+  <rect width="256" height="256" rx="36" fill="url(#scanlines)" opacity="0.04"/>
+  <line x1="0" y1="40"  x2="256" y2="40"  stroke="#39ff14" stroke-width="0.4" opacity="0.06"/>
+  <line x1="0" y1="80"  x2="256" y2="80"  stroke="#39ff14" stroke-width="0.4" opacity="0.06"/>
+  <line x1="0" y1="120" x2="256" y2="120" stroke="#39ff14" stroke-width="0.4" opacity="0.06"/>
+  <line x1="0" y1="160" x2="256" y2="160" stroke="#39ff14" stroke-width="0.4" opacity="0.06"/>
+  <line x1="0" y1="200" x2="256" y2="200" stroke="#39ff14" stroke-width="0.4" opacity="0.06"/>
+  <line x1="0" y1="240" x2="256" y2="240" stroke="#39ff14" stroke-width="0.4" opacity="0.06"/>
+
+  <!-- Bell body glow layer -->
+  <path filter="url(#softglow)" opacity="0.35" fill="#39ff14"
+    d="M128 54
+       C98 54 74 78 74 110
+       L74 152
+       L56 170
+       L200 170
+       L182 152
+       L182 110
+       C182 78 158 54 128 54Z"/>
+
+  <!-- Bell body -->
+  <path filter="url(#glow)" fill="#39ff14"
+    d="M128 54
+       C98 54 74 78 74 110
+       L74 152
+       L56 170
+       L200 170
+       L182 152
+       L182 110
+       C182 78 158 54 128 54Z"/>
+
+  <!-- Bell clapper -->
+  <circle filter="url(#glow)" cx="128" cy="185" r="14" fill="#39ff14"/>
+
+  <!-- Stem at top -->
+  <rect filter="url(#glow)" x="120" y="40" width="16" height="18" rx="8" fill="#39ff14"/>
+</svg>
