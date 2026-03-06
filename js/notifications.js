@@ -10,36 +10,34 @@
 
 const ONESIGNAL_APP_ID = "c3118b25-905b-41f4-a2ca-846d3fe8e073";
 
-if (ONESIGNAL_APP_ID && !ONESIGNAL_APP_ID.startsWith("YOUR_")) {
-  window.OneSignalDeferred = window.OneSignalDeferred || [];
-  OneSignalDeferred.push(async function (OneSignal) {
-    await OneSignal.init({
-      appId: ONESIGNAL_APP_ID,
-      notifyButton: { enable: false },    // use our own button
-      allowLocalhostAsSecureOrigin: true, // lets local dev work over http
-    });
-
-    const btn = document.getElementById("notifications-btn");
-    if (!btn) return;
-
-    async function syncBtn() {
-      const subscribed = !!OneSignal.User.PushSubscription.optedIn;
-      btn.textContent = subscribed ? "🔕 Unsubscribe" : "🔔 Subscribe";
-      btn.disabled = false;
-      btn.classList.remove("hidden");
-    }
-
-    await syncBtn();
-    OneSignal.User.PushSubscription.addEventListener("change", syncBtn);
-
-    btn.addEventListener("click", async () => {
-      btn.disabled = true;
-      if (OneSignal.User.PushSubscription.optedIn) {
-        await OneSignal.User.PushSubscription.optOut();
-      } else {
-        await OneSignal.Notifications.requestPermission();
-      }
-      await syncBtn();
-    });
+window.OneSignalDeferred = window.OneSignalDeferred || [];
+OneSignalDeferred.push(async function (OneSignal) {
+  await OneSignal.init({
+    appId: ONESIGNAL_APP_ID,
+    notifyButton: { enable: false },    // use our own button
+    allowLocalhostAsSecureOrigin: true, // lets local dev work over http
   });
-}
+
+  const btn = document.getElementById("notifications-btn");
+  if (!btn) return;
+
+  async function syncBtn() {
+    const subscribed = !!OneSignal.User.PushSubscription.optedIn;
+    btn.textContent = subscribed ? "🔕 Unsubscribe" : "🔔 Subscribe";
+    btn.disabled = false;
+    btn.classList.remove("hidden");
+  }
+
+  await syncBtn();
+  OneSignal.User.PushSubscription.addEventListener("change", syncBtn);
+
+  btn.addEventListener("click", async () => {
+    btn.disabled = true;
+    if (OneSignal.User.PushSubscription.optedIn) {
+      await OneSignal.User.PushSubscription.optOut();
+    } else {
+      await OneSignal.Notifications.requestPermission();
+    }
+    await syncBtn();
+  });
+});
