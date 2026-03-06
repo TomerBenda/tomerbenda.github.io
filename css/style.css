@@ -309,6 +309,7 @@ nav {
 .pagination-controls button,
 .toggle-crt,
 #toggle-compact,
+#notifications-btn,
 #category-list button {
   background: none;
   border: none;
@@ -349,6 +350,7 @@ nav {
 .toggle-crt:hover,
 .toggle-crt.active,
 #toggle-compact:hover,
+#notifications-btn:hover,
 #category-list button:hover,
 #category-list button.active {
   background: var(--accent-faded);
