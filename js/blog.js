@@ -319,14 +319,13 @@ function fetchMarkdownPreview(post) {
       const categoriesStr = postCategories.length
         ? postCategories.map((cat) => capitalize(cat)).join(", ")
         : "Uncategorized";
-      const mins = readingTime(content);
 
       postDiv.innerHTML = `
   <div class="post-window">
     <div class="post-toolbar">
       <span>
       <span class="post-window-title">$ ${title}</span><br/>
-      <span class="post-meta">${date.split(" ")[0]} | ${categoriesStr} | ${mins} min read</span>
+      <span class="post-meta">${date.split(" ")[0]} | ${categoriesStr}<span class="view-count"></span></span>
       </span>
     </div>
     <div class="post-window-content">
@@ -340,6 +339,9 @@ function fetchMarkdownPreview(post) {
 
       postDiv.style.cursor = "pointer";
       postDiv.addEventListener("click", () => renderFullPost(post));
+      if (typeof fetchViewCountForPreview === "function") {
+        fetchViewCountForPreview(post.filename, postDiv.querySelector(".view-count"));
+      }
       return postDiv;
     })
     .catch((err) => {
@@ -515,7 +517,6 @@ function renderFullPost(post, skipPushState = false) {
       const categoriesStr = postCategories.length
         ? postCategories.map((cat) => capitalize(cat)).join(", ")
         : "Uncategorized";
-      const mins = readingTime(content);
 
       // Prev / Next logic
       const currentIndex = postsMeta.findIndex(
@@ -543,7 +544,7 @@ function renderFullPost(post, skipPushState = false) {
         </div>
         ${navHTML}
         <h2 class="post-title">${title}</h2>
-        <div class="post-meta">${date} | ${categoriesStr} | ${mins} min read</div>
+        <div class="post-meta">${date} | ${categoriesStr}<span class="view-count"></span></div>
         <div class="reactions-container"></div>
         ${tocHTML}
         <div class="post-content" dir="auto">${parseMarkdownWithIDs(content)}</div>
@@ -576,6 +577,7 @@ function renderFullPost(post, skipPushState = false) {
       setupStickyTitle(postDiv, title);
       setupLightbox(postDiv);
       if (typeof setupReactions === "function") setupReactions(post, postDiv);
+      if (typeof setupViewCounter === "function") setupViewCounter(post, postDiv);
     })
     .catch((err) => {
       postsContainer.innerHTML = `<div class='post post-full error'><h2>Error loading post</h2><div>${err}</div></div>`;
@@ -614,11 +616,6 @@ function stopReadingProgress() {
 function capitalize(str) {
   if (!str || typeof str !== "string") return "";
   return str.charAt(0).toUpperCase() + str.slice(1);
-}
-
-function readingTime(text) {
-  const words = text.trim().split(/\s+/).filter((w) => w.length > 0).length;
-  return Math.max(1, Math.ceil(words / 200));
 }
 
 function getPostCategories(post) {

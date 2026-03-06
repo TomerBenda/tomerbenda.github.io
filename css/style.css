@@ -458,6 +458,10 @@ nav {
   margin-bottom: 6px;
 }
 
+.view-count {
+  opacity: 0.55;
+}
+
 /* Optional hover glow on entire window */
 .post-window:hover {
   box-shadow: 0 0 15px var(--accent), 0 0 25px var(--accent-faded);
