@@ -23,7 +23,7 @@ OneSignalDeferred.push(async function (OneSignal) {
 
   async function syncBtn() {
     const subscribed = !!OneSignal.User.PushSubscription.optedIn;
-    btn.textContent = subscribed ? "🔕 Unsubscribe" : "🔔 Subscribe";
+    btn.textContent = subscribed ? "🔕 Stop Notifications" : "🔔 Get Notifications";
     btn.disabled = false;
     btn.classList.remove("hidden");
   }
