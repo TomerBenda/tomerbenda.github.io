@@ -1,0 +1,690 @@
+{
+  "Polarsteps/Hong Kong/149_hong_kong.md": {
+    "lat": 22.349215,
+    "lng": 114.185798,
+    "query": "Hong Kong"
+  },
+  "Polarsteps/Hong Kong/150_hong_kong.md": {
+    "lat": 22.349215,
+    "lng": 114.185798,
+    "query": "Hong Kong"
+  },
+  "Polarsteps/Hong Kong/151_hong_kong.md": {
+    "lat": 22.349215,
+    "lng": 114.185798,
+    "query": "Hong Kong"
+  },
+  "Polarsteps/Hong Kong/152_hong_kong.md": {
+    "lat": 22.349215,
+    "lng": 114.185798,
+    "query": "Hong Kong"
+  },
+  "Polarsteps/India/131_rishikesh.md": {
+    "lat": 30.108654,
+    "lng": 78.291619,
+    "query": "rishikesh, India"
+  },
+  "Polarsteps/India/132_rishikesh.md": {
+    "lat": 30.108654,
+    "lng": 78.291619,
+    "query": "rishikesh, India"
+  },
+  "Polarsteps/India/146_havelock.md": {
+    "lat": 11.965195,
+    "lng": 92.995621,
+    "query": "havelock, India"
+  },
+  "Polarsteps/India/147_andaman.md": {
+    "lat": 12.652888,
+    "lng": 92.779661,
+    "query": "andaman, India"
+  },
+  "Polarsteps/India/148_delhi.md": {
+    "lat": 28.613895,
+    "lng": 77.209006,
+    "query": "delhi, India"
+  },
+  "Polarsteps/Japan/153_fukuoka.md": {
+    "lat": 33.625124,
+    "lng": 130.618002,
+    "query": "fukuoka, Japan"
+  },
+  "Polarsteps/Japan/154_takeo_and_nagasaki.md": {
+    "lat": 36.574844,
+    "lng": 139.239418,
+    "query": "Japan"
+  },
+  "Polarsteps/Japan/155_shimabara_and_kumamoto.md": {
+    "lat": 36.574844,
+    "lng": 139.239418,
+    "query": "Japan"
+  },
+  "Polarsteps/Japan/156_kumamoto.md": {
+    "lat": 32.645047,
+    "lng": 130.634134,
+    "query": "kumamoto, Japan"
+  },
+  "Polarsteps/Japan/157_beppu.md": {
+    "lat": 33.284575,
+    "lng": 131.491306,
+    "query": "beppu, Japan"
+  },
+  "Polarsteps/Singapore/100_singapore.md": {
+    "lat": 1.357107,
+    "lng": 103.819499,
+    "query": "Singapore"
+  },
+  "Polarsteps/Singapore/101_singapore.md": {
+    "lat": 1.357107,
+    "lng": 103.819499,
+    "query": "Singapore"
+  },
+  "Polarsteps/Singapore/102_singapore.md": {
+    "lat": 1.357107,
+    "lng": 103.819499,
+    "query": "Singapore"
+  },
+  "Polarsteps/Singapore/103_singapore.md": {
+    "lat": 1.357107,
+    "lng": 103.819499,
+    "query": "Singapore"
+  },
+  "Polarsteps/Singapore/104_singapore.md": {
+    "lat": 1.357107,
+    "lng": 103.819499,
+    "query": "Singapore"
+  },
+  "Polarsteps/Singapore/105_singapore.md": {
+    "lat": 1.357107,
+    "lng": 103.819499,
+    "query": "Singapore"
+  },
+  "Polarsteps/Singapore/106_singapore.md": {
+    "lat": 1.357107,
+    "lng": 103.819499,
+    "query": "Singapore"
+  },
+  "Polarsteps/Singapore/99_singapore.md": {
+    "lat": 1.357107,
+    "lng": 103.819499,
+    "query": "Singapore"
+  },
+  "Polarsteps/Sri Lanka/107_sri_lanka.md": {
+    "lat": 7.555494,
+    "lng": 80.713785,
+    "query": "Sri Lanka"
+  },
+  "Polarsteps/Sri Lanka/108_ahangama.md": {
+    "lat": 5.973516,
+    "lng": 80.3623,
+    "query": "ahangama, Sri Lanka"
+  },
+  "Polarsteps/Sri Lanka/109_ahangama.md": {
+    "lat": 5.973516,
+    "lng": 80.3623,
+    "query": "ahangama, Sri Lanka"
+  },
+  "Polarsteps/Sri Lanka/110_weligama.md": {
+    "lat": 5.975433,
+    "lng": 80.429561,
+    "query": "weligama, Sri Lanka"
+  },
+  "Polarsteps/Sri Lanka/111_weligama.md": {
+    "lat": 5.975433,
+    "lng": 80.429561,
+    "query": "weligama, Sri Lanka"
+  },
+  "Polarsteps/Sri Lanka/112_weligama.md": {
+    "lat": 5.975433,
+    "lng": 80.429561,
+    "query": "weligama, Sri Lanka"
+  },
+  "Polarsteps/Sri Lanka/113_weligama.md": {
+    "lat": 5.975433,
+    "lng": 80.429561,
+    "query": "weligama, Sri Lanka"
+  },
+  "Polarsteps/Sri Lanka/114_weligama.md": {
+    "lat": 5.975433,
+    "lng": 80.429561,
+    "query": "weligama, Sri Lanka"
+  },
+  "Polarsteps/Sri Lanka/115_weligama.md": {
+    "lat": 5.975433,
+    "lng": 80.429561,
+    "query": "weligama, Sri Lanka"
+  },
+  "Polarsteps/Sri Lanka/116_weligama.md": {
+    "lat": 5.975433,
+    "lng": 80.429561,
+    "query": "weligama, Sri Lanka"
+  },
+  "Polarsteps/Sri Lanka/117_weligama.md": {
+    "lat": 5.975433,
+    "lng": 80.429561,
+    "query": "weligama, Sri Lanka"
+  },
+  "Polarsteps/Sri Lanka/118_weligama.md": {
+    "lat": 5.975433,
+    "lng": 80.429561,
+    "query": "weligama, Sri Lanka"
+  },
+  "Polarsteps/Sri Lanka/119_galle.md": {
+    "lat": 6.032814,
+    "lng": 80.214955,
+    "query": "galle, Sri Lanka"
+  },
+  "Polarsteps/Sri Lanka/120_weligama.md": {
+    "lat": 5.975433,
+    "lng": 80.429561,
+    "query": "weligama, Sri Lanka"
+  },
+  "Polarsteps/Sri Lanka/121_weligama.md": {
+    "lat": 5.975433,
+    "lng": 80.429561,
+    "query": "weligama, Sri Lanka"
+  },
+  "Polarsteps/Sri Lanka/122_weligama.md": {
+    "lat": 5.975433,
+    "lng": 80.429561,
+    "query": "weligama, Sri Lanka"
+  },
+  "Polarsteps/Sri Lanka/123_weligama.md": {
+    "lat": 5.975433,
+    "lng": 80.429561,
+    "query": "weligama, Sri Lanka"
+  },
+  "Polarsteps/Thailand/50_bangkok.md": {
+    "lat": 13.752494,
+    "lng": 100.493509,
+    "query": "bangkok, Thailand"
+  },
+  "Polarsteps/Thailand/51_bangkok.md": {
+    "lat": 13.752494,
+    "lng": 100.493509,
+    "query": "bangkok, Thailand"
+  },
+  "Polarsteps/Thailand/52_bangkok.md": {
+    "lat": 13.752494,
+    "lng": 100.493509,
+    "query": "bangkok, Thailand"
+  },
+  "Polarsteps/Thailand/53_bangkok.md": {
+    "lat": 13.752494,
+    "lng": 100.493509,
+    "query": "bangkok, Thailand"
+  },
+  "Polarsteps/Thailand/54_to_chiang_mai.md": {
+    "lat": 18.788278,
+    "lng": 98.98588,
+    "query": "chiang mai, Thailand"
+  },
+  "Polarsteps/Thailand/55_to_pai.md": {
+    "lat": 19.358106,
+    "lng": 98.440579,
+    "query": "pai, Thailand"
+  },
+  "Polarsteps/Thailand/56_pai.md": {
+    "lat": 19.358106,
+    "lng": 98.440579,
+    "query": "pai, Thailand"
+  },
+  "Polarsteps/Thailand/57_pai.md": {
+    "lat": 19.358106,
+    "lng": 98.440579,
+    "query": "pai, Thailand"
+  },
+  "Polarsteps/Thailand/58_pai.md": {
+    "lat": 19.358106,
+    "lng": 98.440579,
+    "query": "pai, Thailand"
+  },
+  "Polarsteps/Thailand/59_pai.md": {
+    "lat": 19.358106,
+    "lng": 98.440579,
+    "query": "pai, Thailand"
+  },
+  "Polarsteps/Thailand/60_pai.md": {
+    "lat": 19.358106,
+    "lng": 98.440579,
+    "query": "pai, Thailand"
+  },
+  "Polarsteps/Thailand/61_pai.md": {
+    "lat": 19.358106,
+    "lng": 98.440579,
+    "query": "pai, Thailand"
+  },
+  "Polarsteps/Thailand/62_pai.md": {
+    "lat": 19.358106,
+    "lng": 98.440579,
+    "query": "pai, Thailand"
+  },
+  "Polarsteps/Thailand/63_pai.md": {
+    "lat": 19.358106,
+    "lng": 98.440579,
+    "query": "pai, Thailand"
+  },
+  "Polarsteps/Thailand/64_pai.md": {
+    "lat": 19.358106,
+    "lng": 98.440579,
+    "query": "pai, Thailand"
+  },
+  "Polarsteps/Thailand/65_pai.md": {
+    "lat": 19.358106,
+    "lng": 98.440579,
+    "query": "pai, Thailand"
+  },
+  "Polarsteps/Thailand/66_pai.md": {
+    "lat": 19.358106,
+    "lng": 98.440579,
+    "query": "pai, Thailand"
+  },
+  "Polarsteps/Thailand/67_pai.md": {
+    "lat": 19.358106,
+    "lng": 98.440579,
+    "query": "pai, Thailand"
+  },
+  "Polarsteps/Thailand/68_pai.md": {
+    "lat": 19.358106,
+    "lng": 98.440579,
+    "query": "pai, Thailand"
+  },
+  "Polarsteps/Thailand/69_pai.md": {
+    "lat": 19.358106,
+    "lng": 98.440579,
+    "query": "pai, Thailand"
+  },
+  "Polarsteps/Thailand/70_pai.md": {
+    "lat": 19.358106,
+    "lng": 98.440579,
+    "query": "pai, Thailand"
+  },
+  "Polarsteps/Thailand/71_pai.md": {
+    "lat": 19.358106,
+    "lng": 98.440579,
+    "query": "pai, Thailand"
+  },
+  "Polarsteps/Thailand/72_pai.md": {
+    "lat": 19.358106,
+    "lng": 98.440579,
+    "query": "pai, Thailand"
+  },
+  "Polarsteps/Thailand/73_pai.md": {
+    "lat": 19.358106,
+    "lng": 98.440579,
+    "query": "pai, Thailand"
+  },
+  "Polarsteps/Thailand/74_pai.md": {
+    "lat": 19.358106,
+    "lng": 98.440579,
+    "query": "pai, Thailand"
+  },
+  "Polarsteps/Thailand/75_pai.md": {
+    "lat": 19.358106,
+    "lng": 98.440579,
+    "query": "pai, Thailand"
+  },
+  "Polarsteps/Thailand/76_pai.md": {
+    "lat": 19.358106,
+    "lng": 98.440579,
+    "query": "pai, Thailand"
+  },
+  "Polarsteps/Thailand/77_pai.md": {
+    "lat": 19.358106,
+    "lng": 98.440579,
+    "query": "pai, Thailand"
+  },
+  "Polarsteps/Thailand/78_pai.md": {
+    "lat": 19.358106,
+    "lng": 98.440579,
+    "query": "pai, Thailand"
+  },
+  "Polarsteps/Thailand/79_chiang_mai.md": {
+    "lat": 18.788278,
+    "lng": 98.98588,
+    "query": "chiang mai, Thailand"
+  },
+  "Polarsteps/Thailand/80_koh_tao.md": {
+    "lat": 10.092182,
+    "lng": 99.839536,
+    "query": "koh tao, Thailand"
+  },
+  "Polarsteps/Thailand/81_koh_tao.md": {
+    "lat": 10.092182,
+    "lng": 99.839536,
+    "query": "koh tao, Thailand"
+  },
+  "Polarsteps/Thailand/82_koh_tao.md": {
+    "lat": 10.092182,
+    "lng": 99.839536,
+    "query": "koh tao, Thailand"
+  },
+  "Polarsteps/Thailand/83_koh_tao.md": {
+    "lat": 10.092182,
+    "lng": 99.839536,
+    "query": "koh tao, Thailand"
+  },
+  "Polarsteps/Thailand/84_koh_tao.md": {
+    "lat": 10.092182,
+    "lng": 99.839536,
+    "query": "koh tao, Thailand"
+  },
+  "Polarsteps/Thailand/85_koh_tao.md": {
+    "lat": 10.092182,
+    "lng": 99.839536,
+    "query": "koh tao, Thailand"
+  },
+  "Polarsteps/Thailand/86_koh_tao.md": {
+    "lat": 10.092182,
+    "lng": 99.839536,
+    "query": "koh tao, Thailand"
+  },
+  "Polarsteps/Thailand/87_koh_tao.md": {
+    "lat": 10.092182,
+    "lng": 99.839536,
+    "query": "koh tao, Thailand"
+  },
+  "Polarsteps/Thailand/88_koh_tao.md": {
+    "lat": 10.092182,
+    "lng": 99.839536,
+    "query": "koh tao, Thailand"
+  },
+  "Polarsteps/Thailand/89_koh_tao.md": {
+    "lat": 10.092182,
+    "lng": 99.839536,
+    "query": "koh tao, Thailand"
+  },
+  "Polarsteps/Thailand/90_koh_tao.md": {
+    "lat": 10.092182,
+    "lng": 99.839536,
+    "query": "koh tao, Thailand"
+  },
+  "Polarsteps/Thailand/91_koh_tao.md": {
+    "lat": 10.092182,
+    "lng": 99.839536,
+    "query": "koh tao, Thailand"
+  },
+  "Polarsteps/Thailand/92_koh_tao.md": {
+    "lat": 10.092182,
+    "lng": 99.839536,
+    "query": "koh tao, Thailand"
+  },
+  "Polarsteps/Thailand/93_koh_tao.md": {
+    "lat": 10.092182,
+    "lng": 99.839536,
+    "query": "koh tao, Thailand"
+  },
+  "Polarsteps/Thailand/94_koh_tao.md": {
+    "lat": 10.092182,
+    "lng": 99.839536,
+    "query": "koh tao, Thailand"
+  },
+  "Polarsteps/Thailand/95_koh_tao.md": {
+    "lat": 10.092182,
+    "lng": 99.839536,
+    "query": "koh tao, Thailand"
+  },
+  "Polarsteps/Thailand/96_koh_tao.md": {
+    "lat": 10.092182,
+    "lng": 99.839536,
+    "query": "koh tao, Thailand"
+  },
+  "Polarsteps/Thailand/97_koh_tao.md": {
+    "lat": 10.092182,
+    "lng": 99.839536,
+    "query": "koh tao, Thailand"
+  },
+  "Polarsteps/Thailand/98_koh_samui.md": {
+    "lat": 9.501394,
+    "lng": 99.995619,
+    "query": "koh samui, Thailand"
+  },
+  "Polarsteps/Vietnam/10_hoi_an.md": {
+    "lat": 15.88804,
+    "lng": 108.336788,
+    "query": "hoi an, Vietnam"
+  },
+  "Polarsteps/Vietnam/11_hoi_an.md": {
+    "lat": 15.88804,
+    "lng": 108.336788,
+    "query": "hoi an, Vietnam"
+  },
+  "Polarsteps/Vietnam/12_hoi_an.md": {
+    "lat": 15.88804,
+    "lng": 108.336788,
+    "query": "hoi an, Vietnam"
+  },
+  "Polarsteps/Vietnam/13_hoi_an.md": {
+    "lat": 15.88804,
+    "lng": 108.336788,
+    "query": "hoi an, Vietnam"
+  },
+  "Polarsteps/Vietnam/14_hoi_an.md": {
+    "lat": 15.88804,
+    "lng": 108.336788,
+    "query": "hoi an, Vietnam"
+  },
+  "Polarsteps/Vietnam/15_dalat.md": {
+    "lat": 11.940242,
+    "lng": 108.437576,
+    "query": "dalat, Vietnam"
+  },
+  "Polarsteps/Vietnam/16_dalat.md": {
+    "lat": 11.940242,
+    "lng": 108.437576,
+    "query": "dalat, Vietnam"
+  },
+  "Polarsteps/Vietnam/17_dalat.md": {
+    "lat": 11.940242,
+    "lng": 108.437576,
+    "query": "dalat, Vietnam"
+  },
+  "Polarsteps/Vietnam/18_nha_trang.md": {
+    "lat": 12.208499,
+    "lng": 109.28712,
+    "query": "nha trang, Vietnam"
+  },
+  "Polarsteps/Vietnam/19_nha_trang.md": {
+    "lat": 12.208499,
+    "lng": 109.28712,
+    "query": "nha trang, Vietnam"
+  },
+  "Polarsteps/Vietnam/20_nha_trang.md": {
+    "lat": 12.208499,
+    "lng": 109.28712,
+    "query": "nha trang, Vietnam"
+  },
+  "Polarsteps/Vietnam/21_saigon.md": {
+    "lat": 10.775525,
+    "lng": 106.702105,
+    "query": "saigon, Vietnam"
+  },
+  "Polarsteps/Vietnam/22_saigon.md": {
+    "lat": 10.775525,
+    "lng": 106.702105,
+    "query": "saigon, Vietnam"
+  },
+  "Polarsteps/Vietnam/23_saigon.md": {
+    "lat": 10.775525,
+    "lng": 106.702105,
+    "query": "saigon, Vietnam"
+  },
+  "Polarsteps/Vietnam/24_phu_quoc.md": {
+    "lat": 10.228786,
+    "lng": 104.014359,
+    "query": "phu quoc, Vietnam"
+  },
+  "Polarsteps/Vietnam/25_phu_quoc.md": {
+    "lat": 10.228786,
+    "lng": 104.014359,
+    "query": "phu quoc, Vietnam"
+  },
+  "Polarsteps/Vietnam/26_phu_quoc.md": {
+    "lat": 10.228786,
+    "lng": 104.014359,
+    "query": "phu quoc, Vietnam"
+  },
+  "Polarsteps/Vietnam/27_phu_quoc.md": {
+    "lat": 10.228786,
+    "lng": 104.014359,
+    "query": "phu quoc, Vietnam"
+  },
+  "Polarsteps/Vietnam/28_phu_quoc.md": {
+    "lat": 10.228786,
+    "lng": 104.014359,
+    "query": "phu quoc, Vietnam"
+  },
+  "Polarsteps/Vietnam/29_phu_quoc.md": {
+    "lat": 10.228786,
+    "lng": 104.014359,
+    "query": "phu quoc, Vietnam"
+  },
+  "Polarsteps/Vietnam/30_phu_quoc.md": {
+    "lat": 10.228786,
+    "lng": 104.014359,
+    "query": "phu quoc, Vietnam"
+  },
+  "Polarsteps/Vietnam/31_hanoi.md": {
+    "lat": 21.028333,
+    "lng": 105.854041,
+    "query": "hanoi, Vietnam"
+  },
+  "Polarsteps/Vietnam/32_hanoi.md": {
+    "lat": 21.028333,
+    "lng": 105.854041,
+    "query": "hanoi, Vietnam"
+  },
+  "Polarsteps/Vietnam/33_hanoi.md": {
+    "lat": 21.028333,
+    "lng": 105.854041,
+    "query": "hanoi, Vietnam"
+  },
+  "Polarsteps/Vietnam/34_hanoi.md": {
+    "lat": 21.028333,
+    "lng": 105.854041,
+    "query": "hanoi, Vietnam"
+  },
+  "Polarsteps/Vietnam/35_mai_chau.md": {
+    "lat": 20.715875,
+    "lng": 104.979129,
+    "query": "mai chau, Vietnam"
+  },
+  "Polarsteps/Vietnam/36_mai_chau.md": {
+    "lat": 20.715875,
+    "lng": 104.979129,
+    "query": "mai chau, Vietnam"
+  },
+  "Polarsteps/Vietnam/37_mai_chau.md": {
+    "lat": 20.715875,
+    "lng": 104.979129,
+    "query": "mai chau, Vietnam"
+  },
+  "Polarsteps/Vietnam/38_mai_chau.md": {
+    "lat": 20.715875,
+    "lng": 104.979129,
+    "query": "mai chau, Vietnam"
+  },
+  "Polarsteps/Vietnam/39_moving.md": {
+    "lat": 20.220677,
+    "lng": 105.891384,
+    "query": "moving, Vietnam"
+  },
+  "Polarsteps/Vietnam/40_loop.md": {
+    "lat": 15.926666,
+    "lng": 107.965086,
+    "query": "Vietnam"
+  },
+  "Polarsteps/Vietnam/41_loop.md": {
+    "lat": 15.926666,
+    "lng": 107.965086,
+    "query": "Vietnam"
+  },
+  "Polarsteps/Vietnam/42_loop.md": {
+    "lat": 15.926666,
+    "lng": 107.965086,
+    "query": "Vietnam"
+  },
+  "Polarsteps/Vietnam/43_sapa.md": {
+    "lat": 22.335917,
+    "lng": 103.842366,
+    "query": "sapa, Vietnam"
+  },
+  "Polarsteps/Vietnam/44_sapa.md": {
+    "lat": 22.335917,
+    "lng": 103.842366,
+    "query": "sapa, Vietnam"
+  },
+  "Polarsteps/Vietnam/45_sapa.md": {
+    "lat": 22.335917,
+    "lng": 103.842366,
+    "query": "sapa, Vietnam"
+  },
+  "Polarsteps/Vietnam/46_sapa.md": {
+    "lat": 22.335917,
+    "lng": 103.842366,
+    "query": "sapa, Vietnam"
+  },
+  "Polarsteps/Vietnam/47_hanoi.md": {
+    "lat": 21.028333,
+    "lng": 105.854041,
+    "query": "hanoi, Vietnam"
+  },
+  "Polarsteps/Vietnam/48_hanoi.md": {
+    "lat": 21.028333,
+    "lng": 105.854041,
+    "query": "hanoi, Vietnam"
+  },
+  "Polarsteps/Vietnam/49_vietdone.md": {
+    "lat": 15.926666,
+    "lng": 107.965086,
+    "query": "Vietnam"
+  },
+  "Polarsteps/Vietnam/8_hoi_an.md": {
+    "lat": 15.88804,
+    "lng": 108.336788,
+    "query": "hoi an, Vietnam"
+  },
+  "Polarsteps/Vietnam/9_hoi_an.md": {
+    "lat": 15.88804,
+    "lng": 108.336788,
+    "query": "hoi an, Vietnam"
+  },
+  "Polarsteps/Vietnam/Da Nang 1.md": {
+    "lat": 16.068,
+    "lng": 108.212,
+    "query": "Da Nang, Vietnam"
+  },
+  "Polarsteps/Vietnam/Da Nang 2.md": {
+    "lat": 16.068,
+    "lng": 108.212,
+    "query": "Da Nang, Vietnam"
+  },
+  "Polarsteps/Vietnam/Ha Long Bay.md": {
+    "lat": 20.908438,
+    "lng": 107.068278,
+    "query": "Ha Long Bay, Vietnam"
+  },
+  "Polarsteps/Vietnam/Hanoi 1.md": {
+    "lat": 21.028333,
+    "lng": 105.854041,
+    "query": "Hanoi, Vietnam"
+  },
+  "Polarsteps/Vietnam/Hanoi 2.md": {
+    "lat": 21.028333,
+    "lng": 105.854041,
+    "query": "Hanoi, Vietnam"
+  },
+  "Polarsteps/Vietnam/Hanoi again.md": {
+    "lat": 15.926666,
+    "lng": 107.965086,
+    "query": "Vietnam"
+  },
+  "Polarsteps/Vietnam/typhoon_escape.md": {
+    "lat": 15.926666,
+    "lng": 107.965086,
+    "query": "Vietnam"
+  },
+  "Polarsteps/gym_map.md": {
+    "skip": true
+  }
+}
