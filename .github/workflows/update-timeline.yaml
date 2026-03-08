@@ -3,7 +3,7 @@ name: Update timeline from Google Maps export
 on:
   push:
     paths:
-      - 'data/takeout/Timeline.json'
+      - 'data/Timeline.json'
   workflow_dispatch:
 
 jobs:

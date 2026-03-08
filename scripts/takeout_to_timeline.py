@@ -1,7 +1,7 @@
 """
 Convert Google Maps Timeline export to posts/timeline.json.
 
-Input:  data/takeout/Timeline.json  (semanticSegments format, exported from
+Input:  data/Timeline.json  (semanticSegments format, exported from
         Google Maps app -> Your Timeline -> Export)
 Output: posts/timeline.json — array of { lat, lng, date, timestamp, type }
 
@@ -20,7 +20,7 @@ import re
 from pathlib import Path
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
-INPUT_FILE = REPO_ROOT / "data" / "takeout" / "Timeline.json"
+INPUT_FILE = REPO_ROOT / "data" / "Timeline.json"
 OUT_FILE = REPO_ROOT / "posts" / "timeline.json"
 
 
