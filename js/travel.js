@@ -73,7 +73,11 @@
     return null;
   }
 
-  function addSegment(map, latlngs, color) {
+  function addSegment(map, latlngs, color, paused) {
+    if (paused) {
+      L.polyline(latlngs, { color: color, weight: 3, opacity: 0.7, dashArray: "10, 20" }).addTo(map);
+      return;
+    }
     var opts = { color: color, weight: 3, opacity: 0.7, pulseColor: "#000", delay: 600, dashArray: [10, 20] };
     if (L.polyline && L.polyline.antPath) {
       L.polyline.antPath(latlngs, opts).addTo(map);
@@ -184,8 +188,8 @@
 
     allRoutePts.sort(function (a, b) { return a.ts < b.ts ? -1 : a.ts > b.ts ? 1 : 0; });
 
-    // Draw route: static polyline for same-country segments,
-    // antpath only at country transitions (the animated part signals "crossing a border")
+    // Draw route: paused antpath for same-country segments,
+    // animated antpath only at country transitions (signals "crossing a border")
     if (allRoutePts.length >= 2) {
       var curCountry = allRoutePts[0].country;
       var curCoords  = [allRoutePts[0].coords];
@@ -195,9 +199,9 @@
         if (rp.country === curCountry) {
           curCoords.push(rp.coords);
         } else {
-          // Flush same-country segment as static polyline
+          // Flush same-country segment as paused antpath
           if (curCoords.length >= 2) {
-            L.polyline(curCoords, { color: getCountryColor(curCountry), weight: 3, opacity: 0.75 }).addTo(map);
+            addSegment(map, curCoords, getCountryColor(curCountry), true);
           }
           // Animate the border crossing itself
           var last = curCoords[curCoords.length - 1];
@@ -210,7 +214,7 @@
       }
       // Final segment
       if (curCoords.length >= 2) {
-        L.polyline(curCoords, { color: getCountryColor(curCountry), weight: 3, opacity: 0.75 }).addTo(map);
+        addSegment(map, curCoords, getCountryColor(curCountry), true);
       }
     }
 
