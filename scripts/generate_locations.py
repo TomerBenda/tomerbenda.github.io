@@ -5,8 +5,7 @@ Google Timeline data lives in posts/timeline.json (see scripts/takeout_to_timeli
 
 Run from repo root: python scripts/generate_locations.py
 
-Place→coords source: scripts/travel_places.json (keep in sync with js/travel-data.js
-when adding new places).
+Place→coords source: data/travel_places.json (keep in sync when adding new places).
 """
 
 import json
@@ -14,7 +13,7 @@ from pathlib import Path
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
 INDEX_FILE = REPO_ROOT / "posts" / "index.json"
-PLACES_FILE = REPO_ROOT / "scripts" / "travel_places.json"
+PLACES_FILE = REPO_ROOT / "data" / "travel_places.json"
 OUT_FILE = REPO_ROOT / "posts" / "locations.json"
 
 
