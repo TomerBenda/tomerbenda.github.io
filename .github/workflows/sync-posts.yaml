@@ -78,8 +78,8 @@ jobs:
           print(sys.argv[1])
           PYEOF
           title=$(python3 /tmp/get_title.py "$first")
-          filename=$(basename "$first")
-          encoded=$(python3 -c "import urllib.parse, sys; print(urllib.parse.quote(sys.argv[1]))" "$filename")
+          filename="${first#posts/}"
+          encoded=$(python3 -c "import urllib.parse, sys; print(urllib.parse.quote(sys.argv[1], safe='/'))" "$filename")
           if [ "$count" -gt 1 ]; then
             heading="${count} new posts on tbd.codes"
             body="Including: ${title}"
