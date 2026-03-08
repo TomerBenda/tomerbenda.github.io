@@ -10,6 +10,17 @@ window.TRAVEL_PLACES = {
   singapore: [1.3521, 103.8198],
   thailand: [15.8700, 100.9925],
   vietnam: [14.0583, 108.2772],
+  "hong kong": [22.3193, 114.1694],
+  japan: [36.2048, 138.2529],
+  /* Hong Kong */
+  hong_kong: [22.3193, 114.1694],
+  /* Japan */
+  fukuoka: [33.5904, 130.4017],
+  nagasaki: [32.7503, 129.8779],
+  takeo_and_nagasaki: [32.7503, 129.8779],
+  kumamoto: [32.8032, 130.7079],
+  shimabara_and_kumamoto: [32.7803, 130.3674],
+  beppu: [33.2840, 131.4910],
   /* India */
   rishikesh: [30.0869, 78.2676],
   /* Sri Lanka */

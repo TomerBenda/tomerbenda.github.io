@@ -1,244 +1,122 @@
 """
-Convert Google Takeout Location History JSON into posts/timeline.json.
+Convert Google Maps Timeline export to posts/timeline.json.
 
-Reads from data/takeout/ (or TAKEOUT_INPUT_DIR):
-  - Records.json (raw locations[])
-  - Semantic Location History/**/*.json (timelineObjects[]: activitySegment, placeVisit)
+Input:  data/takeout/Timeline.json  (semanticSegments format, exported from
+        Google Maps app -> Your Timeline -> Export)
+Output: posts/timeline.json — array of { lat, lng, date, timestamp, type }
 
-Output: posts/timeline.json — array of { lat, lng, date, timestamp, ... }.
-Merge is rsync-like: add/update from Takeout, never remove existing entries
-by identity (date, timestamp, rounded lat/lng).
+Point types:
+  "visit" — level-0 place visits (primary location data, used to resolve
+             post coordinates on the travel map)
+  "track" — one representative point per movement segment (shows path detail
+             on the map without overwhelming it)
 
-Run from repo root: python scripts/takeout_to_timeline.py
+Run from repo root:
+  python scripts/takeout_to_timeline.py
 """
 
 import json
-import os
 import re
 from pathlib import Path
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
-DEFAULT_INPUT = REPO_ROOT / "data" / "takeout"
+INPUT_FILE = REPO_ROOT / "data" / "takeout" / "Timeline.json"
 OUT_FILE = REPO_ROOT / "posts" / "timeline.json"
-# Identity precision for rsync-like merge
-ROUND = 5
 
 
-def e7_to_deg(e7: int) -> float:
-    return round(e7 / 1e7, ROUND) if e7 is not None else None
+def parse_latlng(s):
+    """Parse "5.9731882°, 80.4337779°" -> (lat, lng) or (None, None)."""
+    if not s:
+        return None, None
+    m = re.match(r"([+-]?\d+\.?\d*)°,\s*([+-]?\d+\.?\d*)°", s.strip())
+    if not m:
+        return None, None
+    return round(float(m.group(1)), 6), round(float(m.group(2)), 6)
 
 
-def parse_ts(ts: str | None) -> str | None:
+def iso_date(ts):
+    """Extract YYYY-MM-DD from any ISO timestamp string."""
     if not ts:
         return None
-    if re.match(r"^\d{4}-\d{2}-\d{2}", ts):
-        return ts
-    return None
-
-
-def date_from_ts(ts: str | None) -> str | None:
-    if not ts:
-        return None
-    m = re.match(r"^(\d{4}-\d{2}-\d{2})", ts)
+    m = re.match(r"(\d{4}-\d{2}-\d{2})", ts)
     return m.group(1) if m else None
 
 
-def point_identity(p: dict) -> tuple:
-    """Stable id for rsync: (date, timestamp, lat, lng) with rounded coords."""
-    return (
-        p.get("date") or "",
-        p.get("timestamp") or "",
-        round(p["lat"], ROUND) if p.get("lat") is not None else None,
-        round(p["lng"], ROUND) if p.get("lng") is not None else None,
-    )
+def process(data):
+    points = []
 
+    for seg in data.get("semanticSegments", []):
 
-def normalize_point(lat: float, lng: float, timestamp: str, **extra) -> dict:
-    date = date_from_ts(timestamp)
-    out = {
-        "lat": lat,
-        "lng": lng,
-        "date": date,
-        "timestamp": timestamp,
-    }
-    for k, v in extra.items():
-        if v is not None:
-            out[k] = v
-    return out
-
-
-def extract_records(data: dict) -> list[dict]:
-    out = []
-    for loc in data.get("locations") or []:
-        lat_e7 = loc.get("latitudeE7")
-        lng_e7 = loc.get("longitudeE7")
-        if lat_e7 is None or lng_e7 is None:
-            continue
-        ts = loc.get("timestamp")
-        if not ts and loc.get("timestampMs") is not None:
-            try:
-                from datetime import datetime
-                ts = datetime.utcfromtimestamp(int(loc["timestampMs"]) / 1000).strftime("%Y-%m-%dT%H:%M:%S.000Z")
-            except Exception:
+        if "visit" in seg:
+            visit = seg["visit"]
+            # Skip sub-visits (hierarchyLevel > 0); only top-level places
+            if visit.get("hierarchyLevel", 0) != 0:
                 continue
-        if not ts or not re.match(r"^\d{4}-\d{2}", str(ts)):
-            continue
-        if isinstance(ts, str) and "T" not in ts and re.match(r"^\d+$", ts):
-            try:
-                from datetime import datetime
-                ts = datetime.utcfromtimestamp(int(ts) / 1000).strftime("%Y-%m-%dT%H:%M:%S.000Z")
-            except Exception:
+            candidate = visit.get("topCandidate") or {}
+            latlng_str = (candidate.get("placeLocation") or {}).get("latLng", "")
+            lat, lng = parse_latlng(latlng_str)
+            if lat is None:
                 continue
-        out.append(
-            normalize_point(
-                e7_to_deg(lat_e7),
-                e7_to_deg(lng_e7),
-                ts,
-                accuracy=loc.get("accuracy"),
-                placeId=loc.get("placeId"),
-                velocity=loc.get("velocity"),
-                heading=loc.get("heading"),
-                source="Records",
-            )
-        )
-    return out
-
-
-def extract_semantic(data: dict) -> list[dict]:
-    out = []
-    for obj in data.get("timelineObjects") or []:
-        if "activitySegment" in obj:
-            seg = obj["activitySegment"]
-            start = seg.get("startLocation") or {}
-            end = seg.get("endLocation") or {}
-            duration = seg.get("duration") or {}
-            start_ts = (duration.get("startTimestamp") or "").replace("Z", ".000Z")
-            end_ts = (duration.get("endTimestamp") or "").replace("Z", ".000Z")
-            activity_type = seg.get("activityType")
-
-            def loc_to_point(loc: dict, ts: str):
-                lat_e7 = loc.get("latitudeE7")
-                lng_e7 = loc.get("longitudeE7")
-                if lat_e7 is None or lng_e7 is None:
-                    return None
-                return normalize_point(
-                    e7_to_deg(lat_e7),
-                    e7_to_deg(lng_e7),
-                    ts,
-                    name=loc.get("name"),
-                    address=loc.get("address"),
-                    placeId=loc.get("placeId"),
-                    activityType=activity_type,
-                    source="Semantic",
-                )
-
-            if start_ts and start:
-                p = loc_to_point(start, start_ts)
-                if p:
-                    out.append(p)
-            if end_ts and end and (start != end or start_ts != end_ts):
-                p = loc_to_point(end, end_ts)
-                if p:
-                    out.append(p)
-            path = seg.get("simplifiedRawPath") or {}
-            for pt in path.get("points") or []:
-                ts = (pt.get("timestamp") or "").replace("Z", ".000Z")
-                if not ts:
-                    continue
-                lat_e7 = pt.get("latE7")
-                lng_e7 = pt.get("lngE7")
-                if lat_e7 is None or lng_e7 is None:
-                    continue
-                out.append(
-                    normalize_point(
-                        e7_to_deg(lat_e7),
-                        e7_to_deg(lng_e7),
-                        ts,
-                        accuracy=pt.get("accuracyMeters"),
-                        activityType=activity_type,
-                        source="Semantic",
-                    )
-                )
-        elif "placeVisit" in obj:
-            visit = obj["placeVisit"]
-            lat_e7 = visit.get("centerLatE7") or (visit.get("location") or {}).get("latitudeE7")
-            lng_e7 = visit.get("centerLngE7") or (visit.get("location") or {}).get("longitudeE7")
-            if lat_e7 is None or lng_e7 is None:
-                loc = visit.get("location") or {}
-                lat_e7 = loc.get("latitudeE7")
-                lng_e7 = loc.get("longitudeE7")
-            if lat_e7 is None or lng_e7 is None:
+            timestamp = seg.get("startTime", "")
+            date = iso_date(timestamp)
+            if not date:
                 continue
-            duration = visit.get("duration") or {}
-            start_ts = (duration.get("startTimestamp") or "").replace("Z", ".000Z")
-            if not start_ts:
+            points.append({
+                "lat": lat,
+                "lng": lng,
+                "date": date,
+                "timestamp": timestamp,
+                "type": "visit",
+            })
+
+        elif "timelinePath" in seg:
+            path = seg["timelinePath"]
+            if not path:
                 continue
-            loc = visit.get("location") or {}
-            out.append(
-                normalize_point(
-                    e7_to_deg(lat_e7),
-                    e7_to_deg(lng_e7),
-                    start_ts,
-                    name=loc.get("name") or visit.get("name"),
-                    address=loc.get("address"),
-                    placeId=loc.get("placeId"),
-                    source="Semantic",
-                )
-            )
-    return out
+            # One representative point per movement segment (middle of the path)
+            mid = path[len(path) // 2]
+            lat, lng = parse_latlng(mid.get("point", ""))
+            if lat is None:
+                continue
+            timestamp = mid.get("time") or seg.get("startTime", "")
+            date = iso_date(timestamp)
+            if not date:
+                continue
+            points.append({
+                "lat": lat,
+                "lng": lng,
+                "date": date,
+                "timestamp": timestamp,
+                "type": "track",
+            })
 
+        # "activity" segments have no location data — skip
 
-def collect_takeout_files(input_dir: Path) -> list[Path]:
-    files = []
-    if not input_dir.exists():
-        return files
-    records = input_dir / "Records.json"
-    if records.is_file():
-        files.append(records)
-    semantic = input_dir / "Semantic Location History"
-    if semantic.is_dir():
-        files.extend(semantic.rglob("*.json"))
-    return sorted(files)
+    points.sort(key=lambda p: p.get("timestamp", ""))
+    return points
 
 
 def main():
-    input_dir = Path(os.environ.get("TAKEOUT_INPUT_DIR", DEFAULT_INPUT))
-    all_points = []
-    for path in collect_takeout_files(input_dir):
-        try:
-            with path.open("r", encoding="utf-8") as f:
-                data = json.load(f)
-        except Exception as e:
-            print(f"Skip {path}: {e}")
-            continue
-        if "locations" in data:
-            all_points.extend(extract_records(data))
-        elif "timelineObjects" in data:
-            all_points.extend(extract_semantic(data))
+    if not INPUT_FILE.exists():
+        print(f"Input not found: {INPUT_FILE}")
+        return
 
-    # Rsync-like merge into existing timeline.json
-    existing = {}
-    if OUT_FILE.exists():
-        try:
-            with OUT_FILE.open("r", encoding="utf-8") as f:
-                arr = json.load(f)
-                for p in arr:
-                    if isinstance(p, dict) and p.get("lat") is not None and p.get("lng") is not None:
-                        existing[point_identity(p)] = p
-        except Exception:
-            pass
+    with INPUT_FILE.open("r", encoding="utf-8") as f:
+        data = json.load(f)
 
-    for p in all_points:
-        if p.get("lat") is None or p.get("lng") is None or not p.get("timestamp"):
-            continue
-        key = point_identity(p)
-        existing[key] = p
+    points = process(data)
 
-    out_list = sorted(existing.values(), key=lambda x: (x.get("date") or "", x.get("timestamp") or ""))
     OUT_FILE.parent.mkdir(parents=True, exist_ok=True)
     with OUT_FILE.open("w", encoding="utf-8") as f:
-        json.dump(out_list, f, indent=2, ensure_ascii=False)
-    print(f"Wrote {len(out_list)} timeline points to {OUT_FILE}")
+        json.dump(points, f, indent=2, ensure_ascii=False)
+
+    visits = sum(1 for p in points if p["type"] == "visit")
+    tracks = sum(1 for p in points if p["type"] == "track")
+    dates = sorted({p["date"] for p in points})
+    date_range = f"{dates[0]} to {dates[-1]}" if dates else "none"
+    print(f"Wrote {len(points)} points ({visits} visits, {tracks} track) "
+          f"covering {date_range}")
+    print(f"Output: {OUT_FILE}")
 
 
 if __name__ == "__main__":

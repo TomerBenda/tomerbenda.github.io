@@ -1,10 +1,9 @@
-# Update posts/timeline.json from Google Takeout Location History (manual Takeout in repo).
-# Place Takeout at data/takeout/ (Records.json and/or Semantic Location History/**/*.json).
-name: Update timeline from Takeout
+name: Update timeline from Google Maps export
 
 on:
-  schedule:
-    - cron: "0 2 * * *"   # Daily at 02:00 UTC
+  push:
+    paths:
+      - 'data/takeout/Timeline.json'
   workflow_dispatch:
 
 jobs:
@@ -16,15 +15,12 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Convert Takeout to timeline.json
-        run: |
-          python3 scripts/takeout_to_timeline.py
-        env:
-          TAKEOUT_INPUT_DIR: ${{ github.workspace }}/data/takeout
+      - name: Generate posts/timeline.json
+        run: python3 scripts/takeout_to_timeline.py
 
-      - name: Commit and push if timeline.json changed
+      - name: Commit and push if changed
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git add posts/timeline.json
-          git diff --cached --quiet || (git commit -m "Update timeline from Takeout" && git pull && git push")
+          git diff --cached --quiet || (git commit -m "Update travel timeline from Google Maps export" && git push)

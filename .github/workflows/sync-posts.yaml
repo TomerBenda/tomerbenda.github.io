@@ -43,6 +43,11 @@ jobs:
           cd blog
           python3 scripts/generate_posts_index.py
 
+      - name: Geocode new travel posts
+        run: |
+          cd blog
+          python3 scripts/geocode_travel_posts.py
+
       - name: Commit and push if changes
         run: |
           cd blog
