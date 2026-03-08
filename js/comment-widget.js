@@ -97,7 +97,7 @@ const v_formHtml = `
         <label class="c-label c-nameLabel" for="entry.${s_nameId}">${s_nameFieldLabel}</label>
     </div>
 
-    <div id="c_websiteWrapper" class="c-inputWrapper">
+    <div id="c_websiteWrapper" class="c-inputWrapper" style="display: none;">
         <input class="c-input c-websiteInput" name="entry.${s_websiteId}" id="entry.${s_websiteId}" type="url" pattern="https://.*" placeholder="https://example.com">
         <label class="c-label c-websiteLabel" for="entry.${s_websiteId}">${s_websiteFieldLabel}</label>
     </div>
