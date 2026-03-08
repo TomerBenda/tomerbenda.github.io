@@ -21,13 +21,13 @@
   }
 
   var COUNTRY_COLORS = {
-    "Vietnam":   "#ff4444",
-    "Thailand":  "#bb44ff",
-    "Sri Lanka": "#00e676",
-    "Singapore": "#29b6f6",
-    "India":     "#ffab40",
-    "Hong Kong": "#ff7043",
-    "Japan":     "#f50057"
+    "Vietnam":   "#ff0040",   // electric red
+    "Thailand":  "#ff9900",   // neon amber
+    "Sri Lanka": "#00ffaa",   // neon teal
+    "Singapore": "#00ccff",   // electric cyan
+    "India":     "#ffff00",   // neon yellow
+    "Hong Kong": "#cc00ff",   // electric violet
+    "Japan":     "#ff00bb"    // hot pink
   };
   function getCountryColor(country) {
     return COUNTRY_COLORS[country] || "#39ff14";

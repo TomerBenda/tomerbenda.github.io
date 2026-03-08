@@ -34,6 +34,15 @@ python scripts/generate_posts_index.py
 
 ## Changelog
 
+### 2026-03 — Travel Map Overhaul
+
+- **Timeline data flow**: replaced the old hardcoded `travel-data.js` with a proper pipeline — export `data/Timeline.json` from Google Maps → `takeout_to_timeline.py` → `posts/timeline.json`; post coordinates resolved at runtime from Timeline visits, with Nominatim geocoding as fallback (`posts/geocoded.json`)
+- **Route accuracy**: country-crossing antpath fires only on post marker transitions; Timeline GPS points fill in route detail without triggering false crossings
+- **Neon colour palette**: 7 countries mapped to distinct hues across the colour wheel; Timeline markers coloured by country
+- **JS restructure**: reorganised `js/` into `js/pages/` and `js/features/` subdirectories
+
+---
+
 ### 2026-03 — Reader Engagement
 
 #### Emoji Reactions
