@@ -341,17 +341,14 @@ function renderFullPost(post, skipPushState = false) {
         if (end !== -1) content = md.slice(end + 3).trim();
       }
 
+      const postDir = post.filename.trim().split("/").slice(0, -1).join("/");
+
       // Replace Obsidian-style image embeds ![[filename.jpg]] with HTML <img> tags
       content = content.replace(/!\[\[(.+?)\]\]/g, (match, filename) => {
         // Only allow image extensions for security
         const allowedExt = [".png", ".jpg", ".jpeg", ".gif", ".webp", ".svg"];
         const ext = filename.slice(filename.lastIndexOf(".")).toLowerCase();
         if (allowedExt.includes(ext)) {
-          const postDir = post.filename
-            .trim()
-            .split("/")
-            .slice(0, -1)
-            .join("/");
           return `<img src='posts/${postDir}/attachments/${filename.trim()}' alt='${filename.trim()}' style='max-width:100%;'>`;
         }
         return match;
@@ -364,7 +361,8 @@ function renderFullPost(post, skipPushState = false) {
         .split("\n")
         .map(l => l.replace(/^#{1,6}\s+/, "").replace(/[*_`~[\]()!]/g, "").trim())
         .find(l => l.length > 0) || "";
-      setPostOGMeta(post, plainPreview);
+      const ogImage = extractFirstImage(content, postDir);
+      setPostOGMeta(post, plainPreview, ogImage);
 
       const postDiv = document.createElement("div");
       postDiv.className = "post post-full";
@@ -450,7 +448,23 @@ function setMeta(name, value) {
   if (el) el.setAttribute("content", value);
 }
 
-function setPostOGMeta(post, previewText) {
+function extractFirstImage(content, postDir) {
+  const allowedExt = /\.(png|jpg|jpeg|gif|webp)/i;
+  // Obsidian-style ![[filename.ext]]
+  const obsidian = content.match(/!\[\[([^\]]+)\]\]/);
+  if (obsidian && allowedExt.test(obsidian[1])) {
+    return `https://tbd.codes/posts/${postDir}/attachments/${obsidian[1].trim()}`;
+  }
+  // Standard markdown ![alt](url)
+  const md = content.match(/!\[.*?\]\(([^)]+)\)/);
+  if (md && allowedExt.test(md[1])) {
+    const src = md[1].trim();
+    return src.startsWith("http") ? src : `https://tbd.codes/${src.replace(/^\//, "")}`;
+  }
+  return null;
+}
+
+function setPostOGMeta(post, previewText, imageUrl) {
   const title = (post.title || "Post") + " | tbd";
   const desc = (previewText || "").replace(/\s+/g, " ").trim().slice(0, 200) || "Read on tbd.codes";
   const url = "https://tbd.codes/blog?post=" + encodeURIComponent(post.filename);
@@ -461,6 +475,15 @@ function setPostOGMeta(post, previewText) {
   setMeta("og:type", "article");
   setMeta("twitter:title", title);
   setMeta("twitter:description", desc);
+  if (imageUrl) {
+    setMeta("og:image", imageUrl);
+    setMeta("twitter:image", imageUrl);
+    setMeta("twitter:card", "summary_large_image");
+  } else {
+    setMeta("og:image", "");
+    setMeta("twitter:image", "");
+    setMeta("twitter:card", "summary");
+  }
 }
 
 function resetOGMeta() {
@@ -470,8 +493,11 @@ function resetOGMeta() {
   setMeta("og:description", defaultDesc);
   setMeta("og:url", "https://tbd.codes/blog");
   setMeta("og:type", "website");
+  setMeta("og:image", "");
   setMeta("twitter:title", defaultTitle);
   setMeta("twitter:description", defaultDesc);
+  setMeta("twitter:image", "");
+  setMeta("twitter:card", "summary");
 }
 
 window.renderPosts = renderPosts;
