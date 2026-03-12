@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>404 | tbd</title>
+    <link rel="stylesheet" href="/css/style.css" />
+    <link rel="icon" type="image/png" href="/favicon.ico" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      .error-terminal {
+        font-family: "Fira Code", monospace;
+        color: var(--accent, #39ff14);
+        max-width: 520px;
+        margin: 4em auto;
+        padding: 2em;
+        text-align: left;
+        line-height: 2;
+      }
+      .error-code {
+        font-size: clamp(3rem, 12vw, 6rem);
+        font-weight: 700;
+        margin: 0;
+        text-shadow: 0 0 24px rgba(57, 255, 20, 0.5);
+        letter-spacing: -2px;
+      }
+      .error-msg {
+        color: var(--fg-bright, #d6f5e3);
+        font-size: 1rem;
+        margin: 0.5em 0 1.5em;
+      }
+      .error-links {
+        display: flex;
+        gap: 1.5em;
+        flex-wrap: wrap;
+      }
+      .error-links a {
+        color: var(--accent, #39ff14);
+        text-decoration: none;
+        border-bottom: 1px solid rgba(57, 255, 20, 0.4);
+        padding-bottom: 2px;
+        transition: border-color 0.2s;
+      }
+      .error-links a:hover {
+        border-color: var(--accent, #39ff14);
+      }
+      .error-prompt::before {
+        content: "> ";
+        opacity: 0.5;
+      }
+    </style>
+  </head>
+  <body>
+    <header></header>
+    <div class="error-terminal">
+      <p class="error-code">404</p>
+      <p class="error-msg error-prompt">page not found</p>
+      <p class="error-msg" style="opacity: 0.6; font-size: 0.85rem;">
+        the path you requested does not exist on this server.
+      </p>
+      <div class="error-links">
+        <a href="/">~ home</a>
+        <a href="/blog">~ blog</a>
+        <a href="/travel">~ travel</a>
+      </div>
+    </div>
+    <footer></footer>
+    <script src="/js/include-components.js"></script>
+    <script src="/js/main.js"></script>
+  </body>
+</html>

@@ -136,6 +136,14 @@ nav {
 
 /* Blog */
 
+.hidden {
+  display: none;
+}
+
+.blog-header-row h1 {
+  margin: 0;
+}
+
 .blog-header-row {
   display: flex;
   align-items: center;
@@ -144,15 +152,41 @@ nav {
   padding-bottom: 1em;
 }
 
-.search-bar {
+.search-wrapper {
   flex: 1;
   min-width: 180px;
-  padding: 0.5em 1em;
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.search-bar {
+  width: 100%;
+  min-width: 0;
+  padding: 0.5em 2.2em 0.5em 1em;
   border-radius: 6px;
   border: 1px solid var(--accent-faded);
   background: var(--bg-dark);
-  color: #d6f5e3;
+  color: var(--fg-bright);
   font-family: "Fira Code", monospace;
+  box-sizing: border-box;
+}
+
+.search-clear {
+  position: absolute;
+  right: 0.4em;
+  background: none;
+  border: none;
+  color: var(--accent-faded);
+  font-size: 1.2em;
+  line-height: 1;
+  cursor: pointer;
+  padding: 0 0.2em;
+  font-family: inherit;
+}
+
+.search-clear:hover {
+  color: var(--accent);
 }
 
 .unread-notification {
@@ -189,6 +223,62 @@ nav {
   padding: 0;
 }
 
+.cat-count {
+  font-size: 0.8em;
+  opacity: 0.6;
+}
+
+/* Post topbar: back + share on same row */
+.post-topbar {
+  display: flex;
+  align-items: center;
+  gap: 0.75em;
+  margin-bottom: 1em;
+}
+
+.share-btn {
+  background: none;
+  border: 1px solid var(--accent-faded, rgba(57,255,20,0.4));
+  color: var(--accent, #39ff14);
+  font-family: "Fira Code", monospace;
+  font-size: 0.85em;
+  padding: 0.3em 0.8em;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.share-btn:hover {
+  background: var(--accent-faded, rgba(57,255,20,0.12));
+}
+
+/* Scroll-to-top button */
+#scroll-top-btn {
+  position: fixed;
+  bottom: 1.5rem;
+  right: 1.5rem;
+  width: 2.4rem;
+  height: 2.4rem;
+  background: var(--bg-darker, #0a0b0e);
+  border: 1px solid var(--accent-faded, rgba(57,255,20,0.4));
+  color: var(--accent, #39ff14);
+  font-size: 1.1rem;
+  border-radius: 50%;
+  cursor: pointer;
+  z-index: 900;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#scroll-top-btn.visible {
+  opacity: 1;
+  pointer-events: auto;
+}
+
 .post-nav,
 .pagination-controls {
   display: flex;
@@ -219,6 +309,7 @@ nav {
 .pagination-controls button,
 .toggle-crt,
 #toggle-compact,
+#notifications-btn,
 #category-list button {
   background: none;
   border: none;
@@ -258,7 +349,8 @@ nav {
 .pagination-controls button:hover,
 .toggle-crt:hover,
 .toggle-crt.active,
-#toggle-comapct:hover,
+#toggle-compact:hover,
+#notifications-btn:hover,
 #category-list button:hover,
 #category-list button.active {
   background: var(--accent-faded);
@@ -288,12 +380,6 @@ nav {
 .post-title {
   margin: 0 0 0.3em 0;
   font-size: 1.1em;
-}
-
-.post-meta {
-  font-size: 0.9em;
-  color: #666;
-  margin-bottom: 0.5em;
 }
 
 /* Blog - Post windows */
@@ -344,9 +430,7 @@ nav {
   /* subtle separator */
 }
 
-/* Markdown-rendered post body: Fira Code for Latin/code; Heebo for Hebrew (Fira Code has no Hebrew glyphs – fallback was platform-dependent) */
-#posts-container .post-content,
-#posts-container .post-content *,
+/* Fira Code for Latin/code; Heebo for Hebrew (Fira Code has no Hebrew glyphs) */
 .post-content,
 .post-content * {
   font-family: "Fira Code", "Heebo", monospace !important;
@@ -356,11 +440,28 @@ nav {
     color: var(--accent);
 }
 
+/* Code blocks: horizontal scroll on overflow instead of breaking layout */
+.post-content pre {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Tables: wrap in scrollable container (applied via JS parseMarkdownWithIDs) */
+.table-scroll {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  margin-bottom: 1em;
+}
+
 /* Post metadata */
 .post-meta {
   font-size: 0.75em;
   color: var(--accent);
   margin-bottom: 6px;
+}
+
+.view-count {
+  opacity: 0.55;
 }
 
 /* Optional hover glow on entire window */
@@ -459,10 +560,12 @@ nav {
 
   .sidebar {
     padding: 0.7em;
+    min-width: 0;
+    margin-bottom: 1em;
   }
 
   .main-content {
-    padding: 0.7em;
+    padding: 1em;
     font-size: 1em;
   }
 
@@ -472,7 +575,7 @@ nav {
   }
 
   .footer-content {
-    padding: 0.5em;
+    padding: 0 1em;
     font-size: 0.95em;
   }
 
@@ -481,24 +584,13 @@ nav {
     gap: 1em;
   }
 
-  .sidebar {
-    min-width: 0;
-    margin-bottom: 1em;
-  }
-
   /* When filters are open on mobile, make the panel scrollable so the list can be used without closing */
   #sidebar-filter:not(.collapsed) {
     max-height: 60vh;
     overflow-y: auto;
     -webkit-overflow-scrolling: touch;
-  }
-
-  .main-content {
-    padding: 1em;
-  }
-
-  .footer-content {
-    padding: 0 1em;
+    overscroll-behavior: contain; /* prevent scroll from chaining to body so panel stays usable */
+    touch-action: pan-y; /* make this element the vertical scroll target so panel scroll works */
   }
 
   .post-nav button,
@@ -564,6 +656,251 @@ nav {
 }
 
 /* End projects */
+
+/* Recent posts widget (home page) */
+.recent-posts-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  font-family: "Fira Code", monospace;
+}
+
+.recent-post-item {
+  padding: 0.3em 0;
+  border-bottom: 1px solid rgba(57, 255, 20, 0.08);
+  font-size: 0.9em;
+}
+
+.recent-post-item a {
+  color: var(--fg-bright, #d6f5e3);
+  text-decoration: none;
+}
+
+.recent-post-item a:hover {
+  color: var(--accent, #39ff14);
+}
+
+.recent-post-date {
+  color: var(--accent, #39ff14);
+  opacity: 0.55;
+  font-size: 0.85em;
+  min-width: 6em;
+  display: inline-block;
+}
+/* End recent posts widget */
+
+/* Boot sequence overlay */
+#boot-overlay {
+  position: fixed;
+  inset: 0;
+  background: var(--bg-dark, #101216);
+  z-index: 10000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: opacity 0.6s ease;
+}
+
+#boot-overlay.boot-fade-out {
+  opacity: 0;
+  pointer-events: none;
+}
+
+#boot-terminal {
+  font-family: "Fira Code", monospace;
+  font-size: clamp(0.75rem, 2vw, 1rem);
+  color: var(--accent, #39ff14);
+  max-width: 480px;
+  width: 90%;
+  padding: 2em;
+  line-height: 1.8;
+  overflow: hidden;
+}
+
+.boot-line {
+  min-height: 1.8em;
+  white-space: pre;
+}
+/* End boot sequence overlay */
+
+/* Reading progress bar */
+#reading-progress-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 3px;
+  width: 0%;
+  background: var(--accent, #39ff14);
+  box-shadow: 0 0 8px rgba(57, 255, 20, 0.7);
+  z-index: 9999;
+  pointer-events: none;
+  display: none;
+  transition: width 0.08s linear;
+}
+/* End reading progress bar */
+
+/* Emoji reactions */
+.reactions-container {
+  margin-bottom: 1em;
+}
+
+.reactions-bar {
+  display: flex;
+  align-items: center;
+  gap: 0.5em;
+  padding: 0.75em 0;
+  border-top: 1px solid var(--accent-faded);
+  flex-wrap: wrap;
+}
+
+.reactions-label {
+  font-size: 0.82em;
+  color: var(--accent-faded);
+  font-family: "Fira Code", monospace;
+  margin-right: 0.15em;
+}
+
+.reaction-btn {
+  background: none;
+  border: 1px solid var(--accent-faded);
+  color: var(--fg-bright);
+  font-size: 0.9em;
+  padding: 0.25em 0.65em;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: border-color 0.15s, background 0.15s;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3em;
+  line-height: 1.4;
+}
+
+.reaction-btn:hover {
+  border-color: var(--accent);
+  background: rgba(57, 255, 20, 0.08);
+}
+
+.reaction-btn.reaction-picked {
+  border-color: var(--accent);
+  background: rgba(57, 255, 20, 0.14);
+  box-shadow: 0 0 6px var(--accent-faded);
+}
+
+.reaction-count {
+  font-size: 0.82em;
+  font-family: "Fira Code", monospace;
+  opacity: 0.85;
+}
+
+.reaction-add {
+  font-size: 1em;
+  opacity: 0.5;
+  padding: 0.2em 0.55em;
+}
+
+.reaction-add:hover {
+  opacity: 1;
+}
+
+.reaction-input-wrapper {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.2em;
+}
+
+.reaction-input {
+  width: 3em;
+  background: var(--bg-dark);
+  border: 1px solid var(--accent);
+  border-radius: 8px;
+  color: var(--fg-bright);
+  font-size: 1em;
+  padding: 0.15em 0.35em;
+  text-align: center;
+  font-family: inherit;
+}
+
+.reaction-input-confirm,
+.reaction-input-cancel {
+  background: none;
+  border: none;
+  color: var(--accent-faded);
+  font-size: 0.9em;
+  cursor: pointer;
+  padding: 0.1em 0.25em;
+  line-height: 1;
+}
+
+.reaction-input-confirm:hover {
+  color: var(--accent);
+}
+
+.reaction-input-cancel:hover {
+  color: #f55;
+}
+/* End emoji reactions */
+
+/* Sticky post title bar — sticks to the top of #posts-container, not the page */
+#sticky-title-bar {
+  position: sticky;
+  top: 0;
+  background: var(--bg-darker);
+  color: var(--accent);
+  font-family: "Fira Code", monospace;
+  font-size: 0.82em;
+  border-bottom: 1px solid var(--accent-faded);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-height: 0;
+  padding: 0 1em;
+  opacity: 0;
+  transition: max-height 0.15s, opacity 0.15s, padding 0.15s;
+}
+
+#sticky-title-bar.visible {
+  max-height: 2.5em;
+  padding: 0.35em 1em;
+  opacity: 1;
+}
+
+/* Image lightbox */
+.lightbox-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.92);
+  z-index: 10000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: zoom-out;
+}
+
+.lightbox-overlay img {
+  max-width: 95vw;
+  max-height: 95vh;
+  object-fit: contain;
+  cursor: default;
+  border-radius: 2px;
+}
+
+.lightbox-close {
+  position: absolute;
+  top: 0.75rem;
+  right: 1rem;
+  background: none;
+  border: none;
+  color: #fff;
+  font-size: 2rem;
+  line-height: 1;
+  cursor: pointer;
+  padding: 0 0.25em;
+  opacity: 0.8;
+}
+
+.lightbox-close:hover {
+  opacity: 1;
+}
 
 /* CRT */
 @keyframes flicker {
