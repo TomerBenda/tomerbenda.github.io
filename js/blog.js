@@ -453,7 +453,7 @@ function setMeta(name, value) {
 function setPostOGMeta(post, previewText) {
   const title = (post.title || "Post") + " | tbd";
   const desc = (previewText || "").replace(/\s+/g, " ").trim().slice(0, 200) || "Read on tbd.codes";
-  const url = "https://tbd.codes/blog.html?post=" + encodeURIComponent(post.filename);
+  const url = "https://tbd.codes/blog?post=" + encodeURIComponent(post.filename);
   document.title = title;
   setMeta("og:title", title);
   setMeta("og:description", desc);
@@ -465,10 +465,10 @@ function setPostOGMeta(post, previewText) {
 
 function resetOGMeta() {
   const defaultTitle = "Blog | tbd";
-  const defaultDesc = "Tomer Ben David's personal blog — travel, tech, and everything in between.";
+  const defaultDesc = "Tomer Ben David's personal blog";
   setMeta("og:title", defaultTitle);
   setMeta("og:description", defaultDesc);
-  setMeta("og:url", "https://tbd.codes/blog.html");
+  setMeta("og:url", "https://tbd.codes/blog");
   setMeta("og:type", "website");
   setMeta("twitter:title", defaultTitle);
   setMeta("twitter:description", defaultDesc);
