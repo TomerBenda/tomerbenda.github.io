@@ -128,6 +128,7 @@ function renderPosts(category = "all", skipPushState = false) {
     history.pushState({ category }, "", `?${params.toString()}`);
   }
 
+  resetOGMeta();
   stopReadingProgress();
   cleanupPostView();
   document.title = "Blog | tbd";
@@ -491,6 +492,13 @@ function renderFullPost(post, skipPushState = false) {
       // TODO: Replace obsidian links [[Post Title]] with actual links
       // TODO: Replace obsidian links []() with actual links
 
+      // Extract plain-text preview for OG description (first non-empty line, stripped of markdown)
+      const plainPreview = content
+        .split("\n")
+        .map(l => l.replace(/^#{1,6}\s+/, "").replace(/[*_`~[\]()!]/g, "").trim())
+        .find(l => l.length > 0) || "";
+      setPostOGMeta(post, plainPreview);
+
       const postDiv = document.createElement("div");
       postDiv.className = "post post-full";
       // Error handling for missing fields
@@ -616,6 +624,35 @@ function stopReadingProgress() {
 function capitalize(str) {
   if (!str || typeof str !== "string") return "";
   return str.charAt(0).toUpperCase() + str.slice(1);
+}
+
+function setMeta(name, value) {
+  let el = document.querySelector(`meta[property="${name}"], meta[name="${name}"]`);
+  if (el) el.setAttribute("content", value);
+}
+
+function setPostOGMeta(post, previewText) {
+  const title = (post.title || "Post") + " | tbd";
+  const desc = (previewText || "").replace(/\s+/g, " ").trim().slice(0, 200) || "Read on tbd.codes";
+  const url = "https://tbd.codes/blog?post=" + encodeURIComponent(post.filename);
+  document.title = title;
+  setMeta("og:title", title);
+  setMeta("og:description", desc);
+  setMeta("og:url", url);
+  setMeta("og:type", "article");
+  setMeta("twitter:title", title);
+  setMeta("twitter:description", desc);
+}
+
+function resetOGMeta() {
+  const defaultTitle = "Blog | tbd";
+  const defaultDesc = "Tomer Ben David's personal blog";
+  setMeta("og:title", defaultTitle);
+  setMeta("og:description", defaultDesc);
+  setMeta("og:url", "https://tbd.codes/blog");
+  setMeta("og:type", "website");
+  setMeta("twitter:title", defaultTitle);
+  setMeta("twitter:description", defaultDesc);
 }
 
 function getPostCategories(post) {
