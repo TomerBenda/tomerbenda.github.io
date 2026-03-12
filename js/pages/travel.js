@@ -228,13 +228,19 @@
     // timeline points always join the current segment without triggering a crossing.
     var allRoutePts = [];
 
+    // Posts whose date has timeline coverage are sentinels only — they detect country
+    // changes but don't add a coordinate to the drawn route, because their resolved
+    // coordinate IS one of the timeline visits (adding it would create a zigzag).
+    // Polarsteps-era posts (no timeline data for that date) contribute coordinates directly.
     withCoords.forEach(function (item) {
       var d = postDate(item.post);
+      var covered = !!(d && timelineByDate[d]);
       allRoutePts.push({
         coords: item.coords,
         country: getCountry(item.post),
-        ts: d + "T00:00:00",   // sort posts to start of their day
-        isPost: true
+        ts: d + "T00:00:00",   // sort before same-day timeline points
+        isPost: true,
+        addToRoute: !covered   // false = sentinel only, no coordinate drawn
       });
     });
 
@@ -245,37 +251,41 @@
         coords: [pt.lat, pt.lng],
         country: countryForDate(d),
         ts: pt.timestamp || d,
-        isPost: false
+        isPost: false,
+        addToRoute: true
       });
     });
 
     allRoutePts.sort(function (a, b) { return a.ts < b.ts ? -1 : a.ts > b.ts ? 1 : 0; });
 
-    // Draw route: paused antpath for same-country segments,
-    // animated antpath only at country transitions (signals "crossing a border").
-    // Crossings are triggered only when a POST marker changes country — timeline
-    // points always extend the current segment regardless of their assigned country.
+    // Draw route: paused dashed polyline for same-country segments,
+    // animated antpath only at country transitions.
+    // Crossings trigger only on POST sentinels that change country.
+    // Timeline points and Polarsteps-era posts (addToRoute=true) extend curCoords.
     if (allRoutePts.length >= 2) {
       var curCountry = allRoutePts[0].country;
-      var curCoords  = [allRoutePts[0].coords];
+      var curCoords  = allRoutePts[0].addToRoute ? [allRoutePts[0].coords] : [];
 
       for (var i = 1; i < allRoutePts.length; i++) {
         var rp = allRoutePts[i];
-        if (!rp.isPost || rp.country === curCountry) {
-          // Timeline point or same-country post — extend current segment
-          curCoords.push(rp.coords);
-        } else {
-          // POST marker changed country — flush segment and draw animated crossing
+        if (rp.isPost && rp.country !== curCountry) {
+          // Country crossing — flush current segment, draw animated arc
           if (curCoords.length >= 2) {
             addSegment(map, curCoords, getCountryColor(curCountry), true);
           }
-          var last = curCoords[curCoords.length - 1];
-          var mid  = [(last[0] + rp.coords[0]) / 2, (last[1] + rp.coords[1]) / 2];
-          addSegment(map, [last, mid], getCountryColor(curCountry));
-          addSegment(map, [mid, rp.coords], getCountryColor(rp.country));
+          if (curCoords.length >= 1) {
+            var last = curCoords[curCoords.length - 1];
+            var mid  = [(last[0] + rp.coords[0]) / 2, (last[1] + rp.coords[1]) / 2];
+            addSegment(map, [last, mid], getCountryColor(curCountry));
+            addSegment(map, [mid, rp.coords], getCountryColor(rp.country));
+          }
           curCountry = rp.country;
-          curCoords  = [rp.coords];
+          curCoords  = rp.addToRoute ? [rp.coords] : [];
+        } else if (rp.addToRoute) {
+          // Timeline point or Polarsteps-era post — extend route
+          curCoords.push(rp.coords);
         }
+        // else: timeline-covered sentinel, same country — skip to avoid zigzag
       }
       // Final segment
       if (curCoords.length >= 2) {
