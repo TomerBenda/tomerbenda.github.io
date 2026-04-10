@@ -575,6 +575,33 @@
     ]
   },
   {
+    "filename": "Polarsteps/Japan/189_yoshino.md",
+    "title": "Day 189 - Yoshino",
+    "date": "2026-04-08 12:07",
+    "categories": [
+      "Travel",
+      "Japan"
+    ]
+  },
+  {
+    "filename": "Polarsteps/Japan/190_nara.md",
+    "title": "Day 190 - Nara",
+    "date": "2026-04-09 17:46",
+    "categories": [
+      "Travel",
+      "Japan"
+    ]
+  },
+  {
+    "filename": "Polarsteps/Japan/191_osaka.md",
+    "title": "Day 191 - Osaka",
+    "date": "2026-04-10 15:46",
+    "categories": [
+      "Travel",
+      "Japan"
+    ]
+  },
+  {
     "filename": "Polarsteps/Singapore/100_singapore.md",
     "title": "Day 100 - Day 100!!!!",
     "date": "2026-01-09 01:51",
@@ -1757,6 +1784,15 @@
     "filename": "Reviews/Albums/heal me good - yufu.md",
     "title": "Heal me Good - Yufu",
     "date": "2025-11-10 23:49",
+    "categories": [
+      "Review",
+      "Album"
+    ]
+  },
+  {
+    "filename": "Reviews/Albums/i can hear music - dump.md",
+    "title": "i can hear music - dump",
+    "date": "2026-04-09 17:46",
     "categories": [
       "Review",
       "Album"
