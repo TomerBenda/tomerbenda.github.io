@@ -703,7 +703,11 @@ function handleInitialLoad() {
     const post = postsMeta.find((p) => p.filename === postFilename);
 
     if (post) renderFullPost(post, true);
-    else postsContainer.innerHTML = `<p>Post "${postFilename}" not found.</p>`;
+    else {
+      const msg = document.createElement("p");
+      msg.textContent = `Post "${postFilename}" not found.`;
+      postsContainer.replaceChildren(msg);
+    }
 
     document
       .querySelectorAll("#category-list button")
