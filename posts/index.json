@@ -8,6 +8,14 @@
     ]
   },
   {
+    "filename": "Polarsteps/212_tel_aviv.md",
+    "title": "Day 212 - Tel Aviv",
+    "date": "2026-05-01 08:05",
+    "categories": [
+      "Travel"
+    ]
+  },
+  {
     "filename": "Polarsteps/Hong Kong/149_hong_kong.md",
     "title": "Day 149 - Hong Kong",
     "date": "2026-02-27 09:41",
@@ -992,6 +1000,33 @@
     "filename": "Polarsteps/Taiwan/208_yilan.md",
     "title": "Day 208 - Yilan",
     "date": "2026-04-27 12:02",
+    "categories": [
+      "Travel",
+      "Taiwan"
+    ]
+  },
+  {
+    "filename": "Polarsteps/Taiwan/209_taipei.md",
+    "title": "Day 209 - Taipei",
+    "date": "2026-04-28 12:56",
+    "categories": [
+      "Travel",
+      "Taiwan"
+    ]
+  },
+  {
+    "filename": "Polarsteps/Taiwan/210_taipei.md",
+    "title": "Day 210 - Taipei",
+    "date": "2026-04-29 14:24",
+    "categories": [
+      "Travel",
+      "Taiwan"
+    ]
+  },
+  {
+    "filename": "Polarsteps/Taiwan/211_taipei.md",
+    "title": "Day 211 - The end",
+    "date": "2026-04-30 10:17",
     "categories": [
       "Travel",
       "Taiwan"
@@ -2000,6 +2035,15 @@
     "filename": "Reviews/Albums/\u05d9\u05d5\u05ea\u05e8 \u05de\u05d3\u05d9 \u05d1\u05d1\u05ea \u05d0\u05d7\u05ea - \u05e8\u05d5\u05ea\u05dd \u05e9\u05e4\u05e8\u05df.md",
     "title": "\u05d9\u05d5\u05ea\u05e8 \u05de\u05d3\u05d9 \u05d1\u05d1\u05ea \u05d0\u05d7\u05ea - \u05e8\u05d5\u05ea\u05dd \u05e9\u05e4\u05e8\u05df",
     "date": "2026-02-25 23:10",
+    "categories": [
+      "Review",
+      "Album"
+    ]
+  },
+  {
+    "filename": "Reviews/Albums/\u05de\u05e7\u05d5\u05de\u05d5\u05ea \u05d0\u05d7\u05e8\u05d9\u05dd - \u05e6\u05d1\u05d9 \u05d1\u05d5\u05de\u05e1, \u05d9\u05d5\u05e8\u05d9\u05e7 \u05d1\u05df \u05d3\u05d5\u05d3.md",
+    "title": "Reviews/Albums/\u05de\u05e7\u05d5\u05de\u05d5\u05ea \u05d0\u05d7\u05e8\u05d9\u05dd   \u05e6\u05d1\u05d9 \u05d1\u05d5\u05de\u05e1, \u05d9\u05d5\u05e8\u05d9\u05e7 \u05d1\u05df \u05d3\u05d5\u05d3",
+    "date": "2026-05-02 11:54",
     "categories": [
       "Review",
       "Album"
