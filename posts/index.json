@@ -2032,6 +2032,15 @@
     ]
   },
   {
+    "filename": "Reviews/Albums/\u05d9\u05d3\u05d9\u05d9\u05dd \u05e2\u05dc \u05d4\u05e8\u05d0\u05e9 - \u05e2\u05d3\u05d9 \u05d1\u05d5\u05d8\u05d1\u05d9\u05e7\u05d4.md",
+    "title": "\u05d9\u05d3\u05d9\u05d9\u05dd \u05e2\u05dc \u05d4\u05e8\u05d0\u05e9 - \u05e2\u05d3\u05d9 \u05d1\u05d5\u05d8\u05d1\u05d9\u05e7\u05d4",
+    "date": "2026-05-26 10:10",
+    "categories": [
+      "Review",
+      "Album"
+    ]
+  },
+  {
     "filename": "Reviews/Albums/\u05d9\u05d5\u05ea\u05e8 \u05de\u05d3\u05d9 \u05d1\u05d1\u05ea \u05d0\u05d7\u05ea - \u05e8\u05d5\u05ea\u05dd \u05e9\u05e4\u05e8\u05df.md",
     "title": "\u05d9\u05d5\u05ea\u05e8 \u05de\u05d3\u05d9 \u05d1\u05d1\u05ea \u05d0\u05d7\u05ea - \u05e8\u05d5\u05ea\u05dd \u05e9\u05e4\u05e8\u05df",
     "date": "2026-02-25 23:10",
@@ -2113,9 +2122,27 @@
     ]
   },
   {
+    "filename": "Reviews/Theatre/\u05d4\u05e8\u05d9\u05d8\u05e8\u05d9\u05d8.md",
+    "title": "\u05d4\u05e8\u05d9\u05d8\u05e8\u05d9\u05d8",
+    "date": "2026-05-27 20:19",
+    "categories": [
+      "Review",
+      "Theatre"
+    ]
+  },
+  {
     "filename": "Reviews/Theatre/\u05dc\u05e2\u05dc\u05d5\u05ea \u05e2\u05dc \u05d4\u05e6\u05d9\u05e7\u05dc\u05d5\u05df - \u05d4\u05d1\u05d9\u05de\u05d4.md",
     "title": "\u05dc\u05e2\u05dc\u05d5\u05ea \u05e2\u05dc \u05d4\u05e6\u05d9\u05e7\u05dc\u05d5\u05df - \u05d4\u05d1\u05d9\u05de\u05d4",
     "date": "2026-05-18 00:03",
+    "categories": [
+      "Review",
+      "Theatre"
+    ]
+  },
+  {
+    "filename": "Reviews/Theatre/\u05de\u05d9\u05d9\u05e7\u05dc.md",
+    "title": "\u05de\u05d9\u05d9\u05e7\u05dc",
+    "date": "2026-05-24 20:45",
     "categories": [
       "Review",
       "Theatre"
