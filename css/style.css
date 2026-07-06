@@ -1,16 +1,48 @@
 :root {
+  /* Phosphor lattice — surfaces go vacuum → tube glass → raised */
+  --ph-0: #0a0b0e;
+  --ph-1: #10141a;
+  --ph-2: #151b22;
+  /* Beam: full excitation + decay levels */
   --accent: #39ff14;
-  --accent-faded: #39ff1499;
-  --bg-dark: #101216;
-  --bg-darker: #0a0b0e;
-  --fg-bright: #d6f5e3;
+  --accent-70: rgba(57, 255, 20, 0.7);
+  --accent-40: rgba(57, 255, 20, 0.4);
+  --accent-15: rgba(57, 255, 20, 0.15);
+  --accent-08: rgba(57, 255, 20, 0.08);
+  /* Text */
+  --fg: #d6f5e3;
+  --fg-dim: #7d9488;
+  /* Utility phosphors: amber counterpoint (♪), terminal errors */
+  --amber: #ffb000;
+  --err: #ff5f56;
+  /* Physics */
+  --bloom: 0 0 8px rgba(57, 255, 20, 0.35);
+  --bezel: inset 0 0 0 1px rgba(57, 255, 20, 0.08), inset 0 0 24px rgba(0, 0, 0, 0.4);
+
+  /* Deprecated aliases — semantics moved: page is now the darkest layer,
+     panels sit raised above it. Migrate usages, then delete. */
+  --bg-dark: var(--ph-0);
+  --bg-darker: var(--ph-1);
+  --fg-bright: var(--fg);
+  --accent-faded: var(--accent-40);
 }
 
 body {
   margin: 0;
   font-family: "Fira Code", "Heebo", monospace;
-  background: var(--bg-dark);
-  color: var(--fg-bright);
+  font-size: 16px;
+  line-height: 1.65;
+  background: var(--ph-0);
+  color: var(--fg);
+}
+
+h1 { font-size: 1.7rem; letter-spacing: 0.02em; }
+h2 { font-size: 1.35rem; letter-spacing: 0.02em; }
+h3 { font-size: 1.15rem; }
+
+:focus-visible {
+  outline: 2px solid var(--accent-40);
+  outline-offset: 2px;
 }
 
 nav {
@@ -30,13 +62,15 @@ nav {
   color: var(--accent);
   letter-spacing: 0.04em;
   position: relative;
+  text-shadow: var(--bloom);
 }
 
 .site-title .cursor {
   display: inline-block;
   font-size: 1.2em;
   background: none;
-  color: var(--accent);
+  color: var(--amber);
+  text-shadow: 0 0 8px rgba(255, 176, 0, 0.4);
   animation: blink-cursor 1s steps(2, start) infinite;
 }
 
@@ -69,8 +103,13 @@ nav {
 }
 
 .nav-links a:hover {
-  background: var(--accent-faded);
-  color: var(--bg-dark);
+  background: var(--accent-15);
+}
+
+/* Current page gets the prompt marker */
+.nav-links a.active::before {
+  content: "> ";
+  opacity: 0.7;
 }
 
 .container {
@@ -85,11 +124,14 @@ nav {
 
 .sidebar {
   min-width: 180px;
-  background: var(--bg-darker);
+  height: fit-content;
+  background: var(--ph-1);
+  border: 1px solid var(--accent-08);
   border-radius: 8px;
   padding: 1em;
   box-sizing: border-box;
-  color: var(--fg-bright);
+  color: var(--fg);
+  box-shadow: var(--bezel);
 }
 
 .sidebar-section h3 {
@@ -103,9 +145,9 @@ nav {
 /* .toggle-crt, */
 .sidebar-collapsible-toggle {
   display: block;
-  background: var(--accent-faded);
-  color: var(--bg-dark);
-  border: none;
+  background: none;
+  color: var(--accent);
+  border: 1px solid var(--accent-40);
   border-radius: 6px;
   font-size: 1em;
   font-family: "Fira Code", monospace;
@@ -116,6 +158,10 @@ nav {
   transition: background 0.2s, color 0.2s;
 }
 
+.sidebar-collapsible-toggle:hover {
+  background: var(--accent-15);
+}
+
 #sidebar-filter.collapsed {
   max-height: 0;
   opacity: 0;
@@ -124,14 +170,20 @@ nav {
   pointer-events: none;
 }
 
+.main-content a {
+  color: var(--accent);
+}
+
 .main-content {
   flex: 1;
-  background: var(--bg-darker);
+  background: var(--ph-1);
+  border: 1px solid var(--accent-08);
   border-radius: 8px;
   padding: 2em;
   box-sizing: border-box;
-  box-shadow: 0 2px 8px #0002;
-  color: var(--fg-bright);
+  box-shadow: var(--bezel);
+  color: var(--fg);
+  min-width: 0;
 }
 
 /* Blog */
@@ -348,21 +400,28 @@ nav {
 .post-nav button:hover,
 .pagination-controls button:hover,
 .toggle-crt:hover,
-.toggle-crt.active,
 #toggle-compact:hover,
 #notifications-btn:hover,
-#category-list button:hover,
+#category-list button:hover {
+  background: var(--accent-15);
+}
+
+.toggle-crt.active,
 #category-list button.active {
-  background: var(--accent-faded);
-  color: var(--bg-dark);
+  background: var(--accent-15);
   font-weight: bold;
 }
 
 .post {
-  background: #090e13;
+  background: var(--ph-2);
+  border: 1px solid var(--accent-08);
   border-radius: 6px;
   padding: 1em;
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.02);
+  transition: border-color 0.15s;
+}
+
+.post:hover {
+  border-color: var(--accent-15);
 }
 
 /*
@@ -384,50 +443,42 @@ nav {
 
 /* Blog - Post windows */
 
-/* Overall post window */
+/* Overall post window: the screen-within-a-screen reading surface */
 .post-window {
-  background: #0d0d0d;
-  /* dark terminal background */
-  border: 2px solid var(--accent);
-  /* neon cyan border */
+  background: var(--ph-0);
+  border: 1px solid var(--accent-40);
   border-radius: 4px;
-  /*margin-bottom: 1.5em;*/
-  font-family: "Courier New", Courier, monospace;
-  box-shadow: 0 0 10px var(--accent), 0 0 20px var(--accent-faded);
-  /* subtle neon glow */
+  font-family: "Fira Code", "Heebo", monospace;
+  box-shadow: 0 0 12px var(--accent-08);
   overflow: hidden;
 }
 
 /* Toolbar at the top */
 .post-toolbar {
-  background: #111;
-  /* slightly lighter than window */
+  background: var(--ph-2);
   color: var(--accent);
-  /* neon text */
   font-weight: bold;
   padding: 6px 10px;
   font-size: 0.9em;
   display: flex;
   align-items: center;
-  border-bottom: 1px solid var(--accent);
+  border-bottom: 1px solid var(--accent-40);
   text-transform: uppercase;
   letter-spacing: 1px;
 }
 
 /* Title glow effect */
 .post-window-title {
-  text-shadow: 0 0 4px var(--accent), 0 0 8px var(--accent);
+  text-shadow: var(--bloom);
   flex: 1;
 }
 
 /* Content area */
 .post-window-content {
   padding: 12px;
-  color: var(--accent);
-  line-height: 1.4em;
-  background: #0d0d0d;
-  border-top: 1px solid var(--accent);
-  /* subtle separator */
+  color: var(--fg);
+  line-height: 1.65;
+  background: var(--ph-0);
 }
 
 /* Fira Code for Latin/code; Heebo for Hebrew (Fira Code has no Hebrew glyphs) */
@@ -466,7 +517,7 @@ nav {
 
 /* Optional hover glow on entire window */
 .post-window:hover {
-  box-shadow: 0 0 15px var(--accent), 0 0 25px var(--accent-faded);
+  box-shadow: 0 0 16px var(--accent-15);
 }
 
 /* End Blog - Post Windows */
@@ -534,8 +585,8 @@ nav {
 
 .footer-copyright {
   text-align: center;
-  font-size: 1em;
-  color: #666;
+  font-size: 0.88em;
+  color: var(--fg-dim);
 }
 
 /* End Footer */
@@ -612,15 +663,15 @@ nav {
 }
 
 .project-card {
-  background: #090e13;
+  background: var(--ph-2);
+  border: 1px solid var(--accent-08);
   border-radius: 6px;
   padding: 1em;
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.02);
-  transition: box-shadow 0.2s;
+  transition: border-color 0.2s;
 }
 
 .project-card:hover {
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+  border-color: var(--accent-15);
 }
 
 .project-title {
@@ -631,13 +682,13 @@ nav {
 .project-meta {
   padding: 0.5em 0.5em 0 0.5em;
   font-size: 0.9em;
-  color: #666;
+  color: var(--fg-dim);
   margin-bottom: 0.5em;
 }
 
 .project-desc {
   font-size: 1em;
-  color: #222;
+  color: var(--fg);
 }
 
 .project-full {
@@ -667,7 +718,7 @@ nav {
 
 .recent-post-item {
   padding: 0.3em 0;
-  border-bottom: 1px solid rgba(57, 255, 20, 0.08);
+  border-bottom: 1px solid var(--accent-08);
   font-size: 0.9em;
 }
 
@@ -1136,3 +1187,13 @@ nav {
 }
 
 /* End CRT */
+
+/* Reduced motion: kill decorative animation, keep function */
+@media (prefers-reduced-motion: reduce) {
+  .crt,
+  .crt::after,
+  .site-title .cursor,
+  .travel-marker-current span {
+    animation: none !important;
+  }
+}
