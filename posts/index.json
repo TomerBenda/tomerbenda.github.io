@@ -1,8 +1,24 @@
 [
   {
+    "filename": "blog updates poll.md",
+    "title": "\u05d4\u05e6\u05d1\u05d9\u05e2\u05d5 \u05d5\u05d4\u05e9\u05e4\u05d9\u05e2\u05d5 - \u05d0\u05d9\u05da \u05dc\u05e2\u05d3\u05db\u05df \u05d0\u05ea\u05db\u05dd?",
+    "date": "2025-09-29 12:59",
+    "categories": [
+      "Community"
+    ]
+  },
+  {
     "filename": "Hello world.md",
     "title": "Hello world",
     "date": "2025-09-27",
+    "categories": [
+      "Tech"
+    ]
+  },
+  {
+    "filename": "how to blog.md",
+    "title": "How To Blog",
+    "date": "2025-09-29 12:38",
     "categories": [
       "Tech"
     ]
@@ -13,6 +29,16 @@
     "date": "2026-05-01 08:05",
     "categories": [
       "Travel"
+    ],
+    "song_of_the_day": "israel - bill evans"
+  },
+  {
+    "filename": "Polarsteps/gym_map.md",
+    "title": "Gym Reviews",
+    "date": "2025-10-05 09:15",
+    "categories": [
+      "Travel",
+      "Review"
     ]
   },
   {
@@ -22,7 +48,8 @@
     "categories": [
       "Travel",
       "Hong Kong"
-    ]
+    ],
+    "song_of_the_day": "taj mahal - Paulinho da costa"
   },
   {
     "filename": "Polarsteps/Hong Kong/150_hong_kong.md",
@@ -31,7 +58,8 @@
     "categories": [
       "Travel",
       "Hong Kong"
-    ]
+    ],
+    "song_of_the_day": "will - Evangeline"
   },
   {
     "filename": "Polarsteps/Hong Kong/151_hong_kong.md",
@@ -40,7 +68,8 @@
     "categories": [
       "Travel",
       "Hong Kong"
-    ]
+    ],
+    "song_of_the_day": "cheer up Mr. Kim - rollercoaster"
   },
   {
     "filename": "Polarsteps/Hong Kong/152_hong_kong.md",
@@ -49,7 +78,8 @@
     "categories": [
       "Travel",
       "Hong Kong"
-    ]
+    ],
+    "song_of_the_day": "\u05d4\u05d0\u05d5\u05e8 \u05d4\u05dc\u05d1\u05df \u05d4\u05de\u05e1\u05e0\u05d5\u05d5\u05e8 - \u05d2\u05d9\u05dc \u05d1\u05e8 \u05d4\u05d3\u05e1"
   },
   {
     "filename": "Polarsteps/India/126_india.md",
@@ -58,7 +88,8 @@
     "categories": [
       "Travel",
       "India"
-    ]
+    ],
+    "song_of_the_day": "\u05d0\u05dd \u05ea\u05dc\u05da - \u05e2\u05d9\u05d3\u05df \u05e8\u05d9\u05d9\u05db\u05dc"
   },
   {
     "filename": "Polarsteps/India/127_rishikesh.md",
@@ -67,7 +98,8 @@
     "categories": [
       "Travel",
       "India"
-    ]
+    ],
+    "song_of_the_day": "\u05d9\u05e9 \u05d1\u05d9 \u05e2\u05d5\u05d3 \u05db\u05d5\u05d7 - \u05e2\u05d9\u05d3\u05df \u05e8\u05d9\u05d9\u05db\u05dc"
   },
   {
     "filename": "Polarsteps/India/128_rishikesh.md",
@@ -76,7 +108,8 @@
     "categories": [
       "Travel",
       "India"
-    ]
+    ],
+    "song_of_the_day": "go now - the moody blues"
   },
   {
     "filename": "Polarsteps/India/129_rishikesh.md",
@@ -85,7 +118,8 @@
     "categories": [
       "Travel",
       "India"
-    ]
+    ],
+    "song_of_the_day": "batman - the BCASA"
   },
   {
     "filename": "Polarsteps/India/130_rishikesh.md",
@@ -94,7 +128,8 @@
     "categories": [
       "Travel",
       "India"
-    ]
+    ],
+    "song_of_the_day": "\u05d1\u05e4\u05e1\u05e0\u05ea\u05e8 - \u05de\u05ea\u05d9 \u05db\u05e1\u05e4\u05d9"
   },
   {
     "filename": "Polarsteps/India/131_rishikesh.md",
@@ -103,7 +138,8 @@
     "categories": [
       "Travel",
       "India"
-    ]
+    ],
+    "song_of_the_day": "\u05d9\u05e4\u05d4 \u05e0\u05d5\u05e8\u05d0 // \u05e2\u05e6\u05d5\u05d1 \u05de\u05d0\u05d5\u05d3 - \u05d3\u05e0\u05d9\u05d0\u05dc \u05e8\u05d5\u05d1\u05d9\u05df"
   },
   {
     "filename": "Polarsteps/India/132_rishikesh.md",
@@ -112,7 +148,8 @@
     "categories": [
       "Travel",
       "India"
-    ]
+    ],
+    "song_of_the_day": "\u05d0\u05d5\u05dc\u05d9 \u05d4\u05e4\u05e2\u05dd - \u05e2\u05d9\u05d3\u05df \u05e8\u05d9\u05d9\u05db\u05dc"
   },
   {
     "filename": "Polarsteps/India/133_rishikesh.md",
@@ -121,7 +158,8 @@
     "categories": [
       "Travel",
       "India"
-    ]
+    ],
+    "song_of_the_day": "\u05ea\u05d5\u05e4\u05e1\u05ea - \u05d8\u05d5\u05e7\u05d9 \u05e9\u05d8\u05e8\u05df"
   },
   {
     "filename": "Polarsteps/India/134_jaipur.md",
@@ -130,7 +168,8 @@
     "categories": [
       "Travel",
       "India"
-    ]
+    ],
+    "song_of_the_day": "each time I think of you - donald byrd"
   },
   {
     "filename": "Polarsteps/India/135_pushkar.md",
@@ -139,7 +178,8 @@
     "categories": [
       "Travel",
       "India"
-    ]
+    ],
+    "song_of_the_day": "\u05e2\u05d5\u05e9\u05d4 \u05d0\u05ea \u05d6\u05d4 \u05d1\u05db\u05dc \u05d6\u05d0\u05ea - \u05e9\u05e8\u05d9 \u05d6\u05e7 \u05dc\u05d5\u05d9"
   },
   {
     "filename": "Polarsteps/India/136_pushkar.md",
@@ -148,7 +188,8 @@
     "categories": [
       "Travel",
       "India"
-    ]
+    ],
+    "song_of_the_day": "against all odds - phil collins"
   },
   {
     "filename": "Polarsteps/India/137_pushkar.md",
@@ -157,7 +198,8 @@
     "categories": [
       "Travel",
       "India"
-    ]
+    ],
+    "song_of_the_day": "Michelle - the beatles"
   },
   {
     "filename": "Polarsteps/India/138_udaipur.md",
@@ -166,7 +208,8 @@
     "categories": [
       "Travel",
       "India"
-    ]
+    ],
+    "song_of_the_day": "\u05d0\u05d4\u05d1\u05d4 - \u05d3\u05e0\u05d9\u05d0\u05dc \u05e1\u05dc\u05d5\u05de\u05d5\u05df"
   },
   {
     "filename": "Polarsteps/India/139_udaipur.md",
@@ -175,7 +218,8 @@
     "categories": [
       "Travel",
       "India"
-    ]
+    ],
+    "song_of_the_day": "wait a little longer - kenny loggins"
   },
   {
     "filename": "Polarsteps/India/140_andaman.md",
@@ -184,7 +228,8 @@
     "categories": [
       "Travel",
       "India"
-    ]
+    ],
+    "song_of_the_day": "\u05de\u05d9\u05e9\u05d4\u05d5 - \u05de\u05ea\u05d9 \u05db\u05e1\u05e4\u05d9"
   },
   {
     "filename": "Polarsteps/India/141_havelock.md",
@@ -193,7 +238,8 @@
     "categories": [
       "Travel",
       "India"
-    ]
+    ],
+    "song_of_the_day": "somewhere that's green - little shop of horrors"
   },
   {
     "filename": "Polarsteps/India/142_havelock.md",
@@ -202,7 +248,8 @@
     "categories": [
       "Travel",
       "India"
-    ]
+    ],
+    "song_of_the_day": "maybe - annie"
   },
   {
     "filename": "Polarsteps/India/143_havelock.md",
@@ -211,7 +258,8 @@
     "categories": [
       "Travel",
       "India"
-    ]
+    ],
+    "song_of_the_day": "\u05d7\u05dc\u05d5\u05de\u05d5\u05ea - \u05e8\u05d5\u05d7\u05de\u05d4 \u05e8\u05d6"
   },
   {
     "filename": "Polarsteps/India/144_havelock.md",
@@ -220,7 +268,8 @@
     "categories": [
       "Travel",
       "India"
-    ]
+    ],
+    "song_of_the_day": "\u05ea\u05d2\u05d9\u05d3\u05d9 - \u05e9\u05dc\u05de\u05d4 \u05d0\u05e8\u05e6\u05d9"
   },
   {
     "filename": "Polarsteps/India/145_havelock.md",
@@ -229,7 +278,8 @@
     "categories": [
       "Travel",
       "India"
-    ]
+    ],
+    "song_of_the_day": "\u05db\u05dc \u05d8\u05d9\u05e4\u05d4 \u05e9\u05dc \u05e8\u05d2\u05e9 - \u05d0\u05dc\u05d5\u05df \u05e2\u05d3\u05e8 \u05d5\u05dc\u05d4\u05e7\u05d4"
   },
   {
     "filename": "Polarsteps/India/146_havelock.md",
@@ -238,7 +288,8 @@
     "categories": [
       "Travel",
       "India"
-    ]
+    ],
+    "song_of_the_day": "everything happens to me - chet baker"
   },
   {
     "filename": "Polarsteps/India/147_andaman.md",
@@ -247,7 +298,8 @@
     "categories": [
       "Travel",
       "India"
-    ]
+    ],
+    "song_of_the_day": "\u05e8\u05d3\u05d5\u05de\u05d9\u05dd - \u05e8\u05d5\u05ea\u05dd \u05e9\u05e4\u05e8\u05df"
   },
   {
     "filename": "Polarsteps/India/148_delhi.md",
@@ -256,7 +308,8 @@
     "categories": [
       "Travel",
       "India"
-    ]
+    ],
+    "song_of_the_day": "\u05d0\u05d5\u05dc\u05d9 \u05ea\u05d1\u05d5\u05d0\u05d9 - \u05d1\u05d5\u05e2\u05d6 \u05e7\u05e8\u05d0\u05d5\u05d6\u05e8"
   },
   {
     "filename": "Polarsteps/Japan/153_fukuoka.md",
@@ -265,7 +318,8 @@
     "categories": [
       "Travel",
       "Japan"
-    ]
+    ],
+    "song_of_the_day": "\u05d3\u05de\u05e2\u05d5\u05ea \u05e9\u05dc \u05de\u05dc\u05d0\u05db\u05d9\u05dd - \u05d9\u05d4\u05d5\u05d3\u05d9\u05ea \u05e8\u05d1\u05d9\u05e5 \u05d5\u05d9\u05d5\u05e0\u05d9 \u05e8\u05db\u05d8\u05e8"
   },
   {
     "filename": "Polarsteps/Japan/154_takeo_and_nagasaki.md",
@@ -274,7 +328,8 @@
     "categories": [
       "Travel",
       "Japan"
-    ]
+    ],
+    "song_of_the_day": "\u05d9\u05d5\u05dd \u05d9\u05e4\u05d4 - \u05d9\u05d5\u05e0\u05d9 \u05e8\u05db\u05d8\u05e8"
   },
   {
     "filename": "Polarsteps/Japan/155_shimabara_and_kumamoto.md",
@@ -283,7 +338,8 @@
     "categories": [
       "Travel",
       "Japan"
-    ]
+    ],
+    "song_of_the_day": "\u05d4\u05e9\u05d9\u05e8 \u05e2\u05dc \u05d4\u05ea\u05d5\u05db\u05d9 \u05d9\u05d5\u05e1\u05d9 - \u05d0\u05e8\u05d9\u05e7 \u05d0\u05d9\u05d9\u05e0\u05e9\u05d8\u05d9\u05d9\u05df, \u05de\u05d9\u05e7\u05d9 \u05d2\u05d1\u05e8\u05d9\u05d0\u05dc\u05d5\u05d1"
   },
   {
     "filename": "Polarsteps/Japan/156_kumamoto.md",
@@ -292,7 +348,8 @@
     "categories": [
       "Travel",
       "Japan"
-    ]
+    ],
+    "song_of_the_day": "\u05d9\u05d5\u05ea\u05e8 \u05de\u05d3\u05d9 \u05d1\u05d1\u05ea \u05d0\u05d7\u05ea - \u05e8\u05d5\u05ea\u05dd \u05e9\u05e4\u05e8\u05df"
   },
   {
     "filename": "Polarsteps/Japan/157_beppu.md",
@@ -301,7 +358,8 @@
     "categories": [
       "Travel",
       "Japan"
-    ]
+    ],
+    "song_of_the_day": "curumim - N\u00f3 Em Pingo D'\u00e1gua"
   },
   {
     "filename": "Polarsteps/Japan/158_usuki.md",
@@ -310,7 +368,8 @@
     "categories": [
       "Travel",
       "Japan"
-    ]
+    ],
+    "song_of_the_day": "\u05d0\u05d5\u05e8 \u05d1\u05e6\u05dc - \u05d0\u05d1\u05d9\u05ea\u05e8 \u05d1\u05e0\u05d0\u05d9"
   },
   {
     "filename": "Polarsteps/Japan/159_kitsuki_and_nakatsu.md",
@@ -319,7 +378,8 @@
     "categories": [
       "Travel",
       "Japan"
-    ]
+    ],
+    "song_of_the_day": "I'm gonna miss her - brad paisley"
   },
   {
     "filename": "Polarsteps/Japan/160_yabakei_and_kokura.md",
@@ -328,7 +388,8 @@
     "categories": [
       "Travel",
       "Japan"
-    ]
+    ],
+    "song_of_the_day": "beautiful love - bill evans trio"
   },
   {
     "filename": "Polarsteps/Japan/161_moji_and_fukouka.md",
@@ -337,7 +398,8 @@
     "categories": [
       "Travel",
       "Japan"
-    ]
+    ],
+    "song_of_the_day": "to love somebody - roberta flack"
   },
   {
     "filename": "Polarsteps/Japan/162_fukuoka.md",
@@ -346,7 +408,8 @@
     "categories": [
       "Travel",
       "Japan"
-    ]
+    ],
+    "song_of_the_day": "don't ask me why - billy joel"
   },
   {
     "filename": "Polarsteps/Japan/163_hita_and_saga.md",
@@ -355,7 +418,8 @@
     "categories": [
       "Travel",
       "Japan"
-    ]
+    ],
+    "song_of_the_day": "shinzo wo sasageyo - linked horizon"
   },
   {
     "filename": "Polarsteps/Japan/164_fukuoka.md",
@@ -364,7 +428,8 @@
     "categories": [
       "Travel",
       "Japan"
-    ]
+    ],
+    "song_of_the_day": "she's always a woman - billy joel"
   },
   {
     "filename": "Polarsteps/Japan/165_fukuoka.md",
@@ -373,7 +438,8 @@
     "categories": [
       "Travel",
       "Japan"
-    ]
+    ],
+    "song_of_the_day": "lord farquaad - shrek is love"
   },
   {
     "filename": "Polarsteps/Japan/166_hiroshima.md",
@@ -382,7 +448,8 @@
     "categories": [
       "Travel",
       "Japan"
-    ]
+    ],
+    "song_of_the_day": "\u05e9\u05ea\u05d9\u05e7\u05ea \u05d4\u05d9\u05dd - \u05d9\u05d4\u05d5\u05d3\u05d9\u05ea \u05e8\u05d1\u05d9\u05e5"
   },
   {
     "filename": "Polarsteps/Japan/167_hiroshima.md",
@@ -391,7 +458,8 @@
     "categories": [
       "Travel",
       "Japan"
-    ]
+    ],
+    "song_of_the_day": "\u05d0\u05e6\u05dc\u05d9 \u05d1\u05d1\u05d9\u05ea - \u05de\u05ea\u05d9 \u05db\u05e1\u05e4\u05d9"
   },
   {
     "filename": "Polarsteps/Japan/168_hiroshima.md",
@@ -400,7 +468,8 @@
     "categories": [
       "Travel",
       "Japan"
-    ]
+    ],
+    "song_of_the_day": "heart to heart - kenny loggins"
   },
   {
     "filename": "Polarsteps/Japan/169_takehara.md",
@@ -409,7 +478,8 @@
     "categories": [
       "Travel",
       "Japan"
-    ]
+    ],
+    "song_of_the_day": "december, 1963 - the four seasons"
   },
   {
     "filename": "Polarsteps/Japan/170_fukuyama.md",
@@ -418,7 +488,8 @@
     "categories": [
       "Travel",
       "Japan"
-    ]
+    ],
+    "song_of_the_day": "\u05d4\u05d7\u05de\u05d4 \u05d1\u05e9\u05de\u05d9 - soul kaktus"
   },
   {
     "filename": "Polarsteps/Japan/171_osaka.md",
@@ -427,7 +498,8 @@
     "categories": [
       "Travel",
       "Japan"
-    ]
+    ],
+    "song_of_the_day": "\u00e1guas de mar\u00e7o - ant\u00f4nio carlos jobim"
   },
   {
     "filename": "Polarsteps/Japan/172_osaka.md",
@@ -436,7 +508,8 @@
     "categories": [
       "Travel",
       "Japan"
-    ]
+    ],
+    "song_of_the_day": "say my name - destiny's child"
   },
   {
     "filename": "Polarsteps/Japan/173_osaka.md",
@@ -445,7 +518,8 @@
     "categories": [
       "Travel",
       "Japan"
-    ]
+    ],
+    "song_of_the_day": "never gonna let you go - s\u00e9rgio mendes"
   },
   {
     "filename": "Polarsteps/Japan/174_kobe.md",
@@ -454,7 +528,8 @@
     "categories": [
       "Travel",
       "Japan"
-    ]
+    ],
+    "song_of_the_day": "\u05dc\u05d5 \u05d4\u05d9\u05d9\u05ea\u05d9 \u05e4\u05d9\u05e8\u05d0\u05d8 - \u05d4\u05e9\u05dc\u05d5\u05e9\u05e8\u05d9\u05dd"
   },
   {
     "filename": "Polarsteps/Japan/175_roadtrip.md",
@@ -463,7 +538,8 @@
     "categories": [
       "Travel",
       "Japan"
-    ]
+    ],
+    "song_of_the_day": "\u05d9\u05d2\u05d0\u05dc \u05d4\u05de\u05d7\u05d6\u05de\u05e8: \u05e8\u05e6\u05d7 \u05e8\u05d1\u05d9\u05df - \u05d1\u05df \u05e8\u05d5\u05d6\u05df"
   },
   {
     "filename": "Polarsteps/Japan/176_roadtrip.md",
@@ -472,7 +548,8 @@
     "categories": [
       "Travel",
       "Japan"
-    ]
+    ],
+    "song_of_the_day": "all the things you are (live 1962) - coleman hawkins"
   },
   {
     "filename": "Polarsteps/Japan/177_roadtrip.md",
@@ -481,7 +558,8 @@
     "categories": [
       "Travel",
       "Japan"
-    ]
+    ],
+    "song_of_the_day": "\u05d2\u05dc\u05e2\u05d3 - \u05e0\u05d5\u05d2\u05d4"
   },
   {
     "filename": "Polarsteps/Japan/178_himeji.md",
@@ -490,7 +568,8 @@
     "categories": [
       "Travel",
       "Japan"
-    ]
+    ],
+    "song_of_the_day": "tsogare wa ginpaku no - takako mamiya"
   },
   {
     "filename": "Polarsteps/Japan/179_tottori.md",
@@ -499,7 +578,8 @@
     "categories": [
       "Travel",
       "Japan"
-    ]
+    ],
+    "song_of_the_day": "Arthur's theme (best that you can do) - christopher cross"
   },
   {
     "filename": "Polarsteps/Japan/180_tottori_and_tsuyama.md",
@@ -508,7 +588,8 @@
     "categories": [
       "Travel",
       "Japan"
-    ]
+    ],
+    "song_of_the_day": "ikigai - super beaver"
   },
   {
     "filename": "Polarsteps/Japan/181_hiroshima.md",
@@ -517,7 +598,8 @@
     "categories": [
       "Travel",
       "Japan"
-    ]
+    ],
+    "song_of_the_day": "M\u00e1s All\u00e1 de todo - Luis Miguel"
   },
   {
     "filename": "Polarsteps/Japan/182_hiroshima.md",
@@ -526,7 +608,8 @@
     "categories": [
       "Travel",
       "Japan"
-    ]
+    ],
+    "song_of_the_day": "scenes from an italian restaurant - billy joel"
   },
   {
     "filename": "Polarsteps/Japan/183_hiroshima.md",
@@ -535,7 +618,8 @@
     "categories": [
       "Travel",
       "Japan"
-    ]
+    ],
+    "song_of_the_day": "her morning elegance - oren lavie"
   },
   {
     "filename": "Polarsteps/Japan/184_hiroshima.md",
@@ -544,7 +628,8 @@
     "categories": [
       "Travel",
       "Japan"
-    ]
+    ],
+    "song_of_the_day": "\u05e2\u05e0\u05e0\u05d4 - \u05d8\u05d9\u05e4\u05e7\u05e1"
   },
   {
     "filename": "Polarsteps/Japan/185_okayama.md",
@@ -553,7 +638,8 @@
     "categories": [
       "Travel",
       "Japan"
-    ]
+    ],
+    "song_of_the_day": "\u05ea\u05e2\u05ea\u05d5\u05e2\u05d9\u05dd - \u05e8\u05d5\u05ea\u05dd \u05e9\u05e4\u05e8\u05df"
   },
   {
     "filename": "Polarsteps/Japan/186_okayama.md",
@@ -562,7 +648,8 @@
     "categories": [
       "Travel",
       "Japan"
-    ]
+    ],
+    "song_of_the_day": "you're beautiful - james blunt"
   },
   {
     "filename": "Polarsteps/Japan/187_okayama.md",
@@ -571,7 +658,8 @@
     "categories": [
       "Travel",
       "Japan"
-    ]
+    ],
+    "song_of_the_day": "\u05e7\u05d5\u05e9\u05e7\u05d5\u05e9\u05d5\u05df - \u05e9\u05dd \u05d8\u05d5\u05d1 \u05dc\u05d5\u05d9, \u05e9\u05dc\u05de\u05d4 \u05d2\u05e8\u05d5\u05e0\u05d9\u05da"
   },
   {
     "filename": "Polarsteps/Japan/188_nara.md",
@@ -580,7 +668,8 @@
     "categories": [
       "Travel",
       "Japan"
-    ]
+    ],
+    "song_of_the_day": "and so it goes - billy joel"
   },
   {
     "filename": "Polarsteps/Japan/189_yoshino.md",
@@ -589,7 +678,8 @@
     "categories": [
       "Travel",
       "Japan"
-    ]
+    ],
+    "song_of_the_day": "the light that has lighted the world - george harrison"
   },
   {
     "filename": "Polarsteps/Japan/190_nara.md",
@@ -598,7 +688,8 @@
     "categories": [
       "Travel",
       "Japan"
-    ]
+    ],
+    "song_of_the_day": "\u05d1\u05d9\u05d5\u05dd \u05d5\u05d1\u05dc\u05d9\u05dc\u05d4 - \u05de\u05e8\u05e1\u05d3\u05e1 \u05d1\u05e0\u05d3"
   },
   {
     "filename": "Polarsteps/Japan/191_osaka.md",
@@ -607,7 +698,8 @@
     "categories": [
       "Travel",
       "Japan"
-    ]
+    ],
+    "song_of_the_day": "hard to say I'm sorry - chicago"
   },
   {
     "filename": "Polarsteps/Japan/192_osaka.md",
@@ -616,7 +708,8 @@
     "categories": [
       "Travel",
       "Japan"
-    ]
+    ],
+    "song_of_the_day": "confirmation - charlie parker"
   },
   {
     "filename": "Polarsteps/Japan/193_osaka.md",
@@ -625,7 +718,8 @@
     "categories": [
       "Travel",
       "Japan"
-    ]
+    ],
+    "song_of_the_day": "not perfect - tim minchin"
   },
   {
     "filename": "Polarsteps/Singapore/100_singapore.md",
@@ -634,7 +728,8 @@
     "categories": [
       "Travel",
       "Singapore"
-    ]
+    ],
+    "song_of_the_day": "you and your friend - dire straits"
   },
   {
     "filename": "Polarsteps/Singapore/101_singapore.md",
@@ -643,7 +738,8 @@
     "categories": [
       "Travel",
       "Singapore"
-    ]
+    ],
+    "song_of_the_day": "gostava tanto de voce - tim maia"
   },
   {
     "filename": "Polarsteps/Singapore/102_singapore.md",
@@ -652,7 +748,8 @@
     "categories": [
       "Travel",
       "Singapore"
-    ]
+    ],
+    "song_of_the_day": "halfsies - may erlewine, packy lundholm"
   },
   {
     "filename": "Polarsteps/Singapore/103_singapore.md",
@@ -661,7 +758,8 @@
     "categories": [
       "Travel",
       "Singapore"
-    ]
+    ],
+    "song_of_the_day": "\u05d4\u05d0\u05d4\u05d1\u05d4 \u05e4\u05e0\u05d9\u05dd \u05e8\u05d1\u05d5\u05ea \u05dc\u05d4 - \u05d0\u05e8\u05d9\u05e7 \u05d0\u05d9\u05d9\u05e0\u05e9\u05d8\u05d9\u05d9\u05df \u05d5\u05d9\u05d5\u05e0\u05d9 \u05e8\u05db\u05d8\u05e8"
   },
   {
     "filename": "Polarsteps/Singapore/104_singapore.md",
@@ -670,7 +768,8 @@
     "categories": [
       "Travel",
       "Singapore"
-    ]
+    ],
+    "song_of_the_day": "\u05d1\u05d9\u05df \u05e7\u05d9\u05e8\u05d5\u05ea \u05d1\u05d9\u05ea\u05d9 - \u05e2\u05d9\u05d3\u05df \u05e8\u05d9\u05d9\u05db\u05dc"
   },
   {
     "filename": "Polarsteps/Singapore/105_singapore.md",
@@ -679,7 +778,8 @@
     "categories": [
       "Travel",
       "Singapore"
-    ]
+    ],
+    "song_of_the_day": "\u05d2\u05d5\u05dc\u05d9\u05d9\u05ea 2 - \u05e0\u05d5\u05e0\u05d5"
   },
   {
     "filename": "Polarsteps/Singapore/106_singapore.md",
@@ -688,7 +788,8 @@
     "categories": [
       "Travel",
       "Singapore"
-    ]
+    ],
+    "song_of_the_day": "it might have to be you - vulfmon"
   },
   {
     "filename": "Polarsteps/Singapore/99_singapore.md",
@@ -697,7 +798,8 @@
     "categories": [
       "Travel",
       "Singapore"
-    ]
+    ],
+    "song_of_the_day": "the sheriff - vulfmon"
   },
   {
     "filename": "Polarsteps/Sri Lanka/107_sri_lanka.md",
@@ -706,7 +808,8 @@
     "categories": [
       "Travel",
       "Sri Lanka"
-    ]
+    ],
+    "song_of_the_day": "for now - avenue Q"
   },
   {
     "filename": "Polarsteps/Sri Lanka/108_ahangama.md",
@@ -715,7 +818,8 @@
     "categories": [
       "Travel",
       "Sri Lanka"
-    ]
+    ],
+    "song_of_the_day": "the yellow jacket - Shaun Martin"
   },
   {
     "filename": "Polarsteps/Sri Lanka/109_ahangama.md",
@@ -724,7 +828,8 @@
     "categories": [
       "Travel",
       "Sri Lanka"
-    ]
+    ],
+    "song_of_the_day": "\u05ea\u05d9\u05d0\u05d8\u05e8\u05d5\u05df \u05e8\u05d5\u05e1\u05d9 - \u05d0\u05d1\u05d9\u05ea\u05e8 \u05d1\u05e0\u05d0\u05d9"
   },
   {
     "filename": "Polarsteps/Sri Lanka/110_weligama.md",
@@ -733,7 +838,8 @@
     "categories": [
       "Travel",
       "Sri Lanka"
-    ]
+    ],
+    "song_of_the_day": "\u05e4\u05d5\u05d2\u05e2, \u05dc\u05d0 \u05d9\u05d5\u05d3\u05e2 - \u05d0\u05d5\u05dc\u05d9 \u05d3\u05e0\u05d5\u05df"
   },
   {
     "filename": "Polarsteps/Sri Lanka/111_weligama.md",
@@ -742,7 +848,8 @@
     "categories": [
       "Travel",
       "Sri Lanka"
-    ]
+    ],
+    "song_of_the_day": "\u05d9\u05de\u05d9\u05dd \u05dc\u05d1\u05e0\u05d9\u05dd - \u05e9\u05dc\u05de\u05d4 \u05d9\u05d3\u05d5\u05d1"
   },
   {
     "filename": "Polarsteps/Sri Lanka/112_weligama.md",
@@ -751,7 +858,8 @@
     "categories": [
       "Travel",
       "Sri Lanka"
-    ]
+    ],
+    "song_of_the_day": "sleep for days - vulfmon, Jackie Evans"
   },
   {
     "filename": "Polarsteps/Sri Lanka/113_weligama.md",
@@ -760,7 +868,8 @@
     "categories": [
       "Travel",
       "Sri Lanka"
-    ]
+    ],
+    "song_of_the_day": "change - mild monk"
   },
   {
     "filename": "Polarsteps/Sri Lanka/114_weligama.md",
@@ -769,7 +878,8 @@
     "categories": [
       "Travel",
       "Sri Lanka"
-    ]
+    ],
+    "song_of_the_day": "\u05d0\u05dc\u05d5\u05e7\u05e1\u05d9\u05d4 \u05dc\u05d5\u05d7\u05de\u05ea \u05d4\u05d0\u05d5\u05e8 \u05e4\u05ea\u05d9\u05d7 \u05e2\u05d5\u05e0\u05d4 2 - TALMA"
   },
   {
     "filename": "Polarsteps/Sri Lanka/115_weligama.md",
@@ -778,7 +888,8 @@
     "categories": [
       "Travel",
       "Sri Lanka"
-    ]
+    ],
+    "song_of_the_day": "\u05dc\u05d4\u05ea\u05d2\u05e2\u05d2\u05e2 \u05dc\u05d0\u05e0\u05e9\u05d9\u05dd \u05e9\u05d0\u05ea\u05d4 \u05dc\u05d0 \u05de\u05db\u05d9\u05e8 - \u05d3\u05e0\u05d9\u05d0\u05dc \u05e8\u05d5\u05d1\u05d9\u05df"
   },
   {
     "filename": "Polarsteps/Sri Lanka/116_weligama.md",
@@ -787,7 +898,8 @@
     "categories": [
       "Travel",
       "Sri Lanka"
-    ]
+    ],
+    "song_of_the_day": "disco man - remi wolf"
   },
   {
     "filename": "Polarsteps/Sri Lanka/117_weligama.md",
@@ -796,7 +908,8 @@
     "categories": [
       "Travel",
       "Sri Lanka"
-    ]
+    ],
+    "song_of_the_day": "die on this hill - sienna spiro"
   },
   {
     "filename": "Polarsteps/Sri Lanka/118_weligama.md",
@@ -805,7 +918,8 @@
     "categories": [
       "Travel",
       "Sri Lanka"
-    ]
+    ],
+    "song_of_the_day": "\u05d0\u05d7\u05e8\u05d9 \u05db\u05dc \u05d4\u05d3\u05d9\u05d1\u05d5\u05e8\u05d9\u05dd - \u05d0\u05e4\u05e8\u05d9\u05dd \u05e9\u05de\u05d9\u05e8"
   },
   {
     "filename": "Polarsteps/Sri Lanka/119_galle.md",
@@ -814,7 +928,8 @@
     "categories": [
       "Travel",
       "Sri Lanka"
-    ]
+    ],
+    "song_of_the_day": "\u05d9\u05e4\u05d4 \u05e0\u05d5\u05e8\u05d0 // \u05e2\u05e6\u05d5\u05d1 \u05de\u05d0\u05d5\u05d3 - \u05d3\u05e0\u05d9\u05d0\u05dc \u05e8\u05d5\u05d1\u05d9\u05df"
   },
   {
     "filename": "Polarsteps/Sri Lanka/120_weligama.md",
@@ -823,7 +938,8 @@
     "categories": [
       "Travel",
       "Sri Lanka"
-    ]
+    ],
+    "song_of_the_day": "\u05d4\u05d1\u05dc\u05d3\u05d4 \u05e2\u05dc \u05d0\u05e8\u05d9 \u05d5\u05d3\u05e8\u05e6'\u05d9 - \u05db\u05d5\u05d5\u05e8\u05ea"
   },
   {
     "filename": "Polarsteps/Sri Lanka/121_weligama.md",
@@ -832,7 +948,8 @@
     "categories": [
       "Travel",
       "Sri Lanka"
-    ]
+    ],
+    "song_of_the_day": "\u05e2\u05d5\u05d3 \u05e7\u05e6\u05ea - \u05e2\u05d5\u05d6\u05d9 \u05e0\u05d1\u05d5\u05df"
   },
   {
     "filename": "Polarsteps/Sri Lanka/122_weligama.md",
@@ -841,7 +958,8 @@
     "categories": [
       "Travel",
       "Sri Lanka"
-    ]
+    ],
+    "song_of_the_day": "La Isla Bonita - Madonna"
   },
   {
     "filename": "Polarsteps/Sri Lanka/123_weligama.md",
@@ -850,7 +968,8 @@
     "categories": [
       "Travel",
       "Sri Lanka"
-    ]
+    ],
+    "song_of_the_day": "espera - bossa nostra"
   },
   {
     "filename": "Polarsteps/Sri Lanka/124_weligama.md",
@@ -859,7 +978,8 @@
     "categories": [
       "Travel",
       "Sri Lanka"
-    ]
+    ],
+    "song_of_the_day": "dance with me - orleans"
   },
   {
     "filename": "Polarsteps/Sri Lanka/125_sri_lanka.md",
@@ -868,7 +988,8 @@
     "categories": [
       "Travel",
       "Sri Lanka"
-    ]
+    ],
+    "song_of_the_day": "\u05d0\u05d5\u05dc\u05d9 \u05d4\u05e4\u05e2\u05dd - \u05e2\u05d9\u05d3\u05df \u05e8\u05d9\u05d9\u05db\u05dc"
   },
   {
     "filename": "Polarsteps/Taiwan/194_taipei.md",
@@ -877,7 +998,8 @@
     "categories": [
       "Travel",
       "Taiwan"
-    ]
+    ],
+    "song_of_the_day": "put me thru - anderson paak"
   },
   {
     "filename": "Polarsteps/Taiwan/195_taipei.md",
@@ -886,7 +1008,8 @@
     "categories": [
       "Travel",
       "Taiwan"
-    ]
+    ],
+    "song_of_the_day": "holy, holy - geordie greep"
   },
   {
     "filename": "Polarsteps/Taiwan/196_taipei.md",
@@ -895,7 +1018,8 @@
     "categories": [
       "Travel",
       "Taiwan"
-    ]
+    ],
+    "song_of_the_day": "the magician - geordie greep"
   },
   {
     "filename": "Polarsteps/Taiwan/197_jiufen.md",
@@ -904,7 +1028,8 @@
     "categories": [
       "Travel",
       "Taiwan"
-    ]
+    ],
+    "song_of_the_day": "Ma Belle Evangeline - the princess and the frog"
   },
   {
     "filename": "Polarsteps/Taiwan/198_taichung.md",
@@ -913,7 +1038,8 @@
     "categories": [
       "Travel",
       "Taiwan"
-    ]
+    ],
+    "song_of_the_day": "overtime (live band sesh) - knower"
   },
   {
     "filename": "Polarsteps/Taiwan/199_sun_moon_lake.md",
@@ -922,7 +1048,8 @@
     "categories": [
       "Travel",
       "Taiwan"
-    ]
+    ],
+    "song_of_the_day": "don't think twice, it's all right - joan baez"
   },
   {
     "filename": "Polarsteps/Taiwan/200_sun_moon_lake.md",
@@ -931,7 +1058,8 @@
     "categories": [
       "Travel",
       "Taiwan"
-    ]
+    ],
+    "song_of_the_day": "\u05d1\u05e2\u05d5\u05d3 \u05e9\u05d1\u05d5\u05e2 - \u05d4\u05d3\u05d5\u05e8\u05d1\u05e0\u05d9\u05dd"
   },
   {
     "filename": "Polarsteps/Taiwan/201_tainan.md",
@@ -940,7 +1068,8 @@
     "categories": [
       "Travel",
       "Taiwan"
-    ]
+    ],
+    "song_of_the_day": "\u05d1\u05d9\u05e7\u05d5\u05e8 \u05de\u05d5\u05dc\u05d3\u05ea - \u05d3\u05d9\u05d5\u05d9\u05d3 \u05d1\u05e8\u05d5\u05d6\u05d4"
   },
   {
     "filename": "Polarsteps/Taiwan/202_tainan.md",
@@ -949,7 +1078,8 @@
     "categories": [
       "Travel",
       "Taiwan"
-    ]
+    ],
+    "song_of_the_day": "\u05d4\u05db\u05dc \u05e2\u05d5\u05d1\u05e8 - \u05e2\u05d9\u05d3\u05df \u05e8\u05d9\u05d9\u05db\u05dc"
   },
   {
     "filename": "Polarsteps/Taiwan/203_kaohsiung.md",
@@ -958,7 +1088,8 @@
     "categories": [
       "Travel",
       "Taiwan"
-    ]
+    ],
+    "song_of_the_day": "\u05dc\u05d0 \u05d0\u05e0\u05d9 - \u05e6\u05d1\u05d9\u05e7\u05d4 \u05e4\u05d9\u05e7"
   },
   {
     "filename": "Polarsteps/Taiwan/204_kaohsiung.md",
@@ -967,7 +1098,8 @@
     "categories": [
       "Travel",
       "Taiwan"
-    ]
+    ],
+    "song_of_the_day": "dont break my heart (acoustic version) - pj morton, rapsody"
   },
   {
     "filename": "Polarsteps/Taiwan/205_taitung.md",
@@ -976,7 +1108,8 @@
     "categories": [
       "Travel",
       "Taiwan"
-    ]
+    ],
+    "song_of_the_day": "\u05d1\u05d7\u05d5\u05dd \u05e9\u05dc \u05ea\u05dc \u05d0\u05d1\u05d9\u05d1 - \u05e9\u05e8\u05d9\u05ea \u05d7\u05d3\u05d3"
   },
   {
     "filename": "Polarsteps/Taiwan/206_hualien.md",
@@ -985,7 +1118,8 @@
     "categories": [
       "Travel",
       "Taiwan"
-    ]
+    ],
+    "song_of_the_day": "\u05e9\u05d1\u05d9\u05e8 - \u05d0\u05e8\u05d9\u05e7 \u05d0\u05d9\u05d9\u05e0\u05e9\u05d8\u05d9\u05d9\u05df, \u05d9\u05e6\u05d7\u05e7 \u05e7\u05dc\u05e4\u05d8\u05e8"
   },
   {
     "filename": "Polarsteps/Taiwan/207_hualien.md",
@@ -994,7 +1128,8 @@
     "categories": [
       "Travel",
       "Taiwan"
-    ]
+    ],
+    "song_of_the_day": "\u05db\u05e9\u05d0\u05ea \u05d0\u05d9\u05ea\u05d9 (\u05d0\u05e0\u05d9 \u05e8\u05d5\u05e6\u05d4 \u05dc\u05de\u05d5\u05ea) - \u05d9\u05d5\u05e0\u05d9 \u05d1\u05dc\u05d5\u05da"
   },
   {
     "filename": "Polarsteps/Taiwan/208_yilan.md",
@@ -1003,7 +1138,8 @@
     "categories": [
       "Travel",
       "Taiwan"
-    ]
+    ],
+    "song_of_the_day": "\u05d6\u05d4 \u05de\u05d4 \u05e9\u05e0\u05e9\u05d0\u05e8 - \u05e9\u05dc\u05de\u05d4 \u05d0\u05e8\u05e6\u05d9"
   },
   {
     "filename": "Polarsteps/Taiwan/209_taipei.md",
@@ -1012,7 +1148,8 @@
     "categories": [
       "Travel",
       "Taiwan"
-    ]
+    ],
+    "song_of_the_day": "five foot two, eyes of blue - bing crosby"
   },
   {
     "filename": "Polarsteps/Taiwan/210_taipei.md",
@@ -1021,7 +1158,8 @@
     "categories": [
       "Travel",
       "Taiwan"
-    ]
+    ],
+    "song_of_the_day": "summer, highland falls - billy joel"
   },
   {
     "filename": "Polarsteps/Taiwan/211_taipei.md",
@@ -1030,7 +1168,8 @@
     "categories": [
       "Travel",
       "Taiwan"
-    ]
+    ],
+    "song_of_the_day": "sour candy - melt"
   },
   {
     "filename": "Polarsteps/Thailand/50_bangkok.md",
@@ -1039,7 +1178,8 @@
     "categories": [
       "Travel",
       "Thailand"
-    ]
+    ],
+    "song_of_the_day": "it's all coming back to me now - Celine Dion"
   },
   {
     "filename": "Polarsteps/Thailand/51_bangkok.md",
@@ -1048,7 +1188,8 @@
     "categories": [
       "Travel",
       "Thailand"
-    ]
+    ],
+    "song_of_the_day": "\u05d0\u05dd \u05e8\u05e7 \u05ea\u05d3\u05d1\u05e8\u05d9 - \u05d4\u05d3\u05d5\u05e8\u05d1\u05e0\u05d9\u05dd"
   },
   {
     "filename": "Polarsteps/Thailand/52_bangkok.md",
@@ -1057,7 +1198,8 @@
     "categories": [
       "Travel",
       "Thailand"
-    ]
+    ],
+    "song_of_the_day": "no good deed - wicked"
   },
   {
     "filename": "Polarsteps/Thailand/53_bangkok.md",
@@ -1066,7 +1208,8 @@
     "categories": [
       "Travel",
       "Thailand"
-    ]
+    ],
+    "song_of_the_day": "karma police - panic at the disco live in denver"
   },
   {
     "filename": "Polarsteps/Thailand/54_to_chiang_mai.md",
@@ -1075,7 +1218,8 @@
     "categories": [
       "Travel",
       "Thailand"
-    ]
+    ],
+    "song_of_the_day": "there's a fine, fine line - avenue Q"
   },
   {
     "filename": "Polarsteps/Thailand/55_to_pai.md",
@@ -1084,7 +1228,8 @@
     "categories": [
       "Travel",
       "Thailand"
-    ]
+    ],
+    "song_of_the_day": "Sparkle - Aretha Franklin"
   },
   {
     "filename": "Polarsteps/Thailand/56_pai.md",
@@ -1093,7 +1238,8 @@
     "categories": [
       "Travel",
       "Thailand"
-    ]
+    ],
+    "song_of_the_day": "Peg - Steely Dan"
   },
   {
     "filename": "Polarsteps/Thailand/57_pai.md",
@@ -1102,7 +1248,8 @@
     "categories": [
       "Travel",
       "Thailand"
-    ]
+    ],
+    "song_of_the_day": "landscape - amazing blondel"
   },
   {
     "filename": "Polarsteps/Thailand/58_pai.md",
@@ -1111,7 +1258,8 @@
     "categories": [
       "Travel",
       "Thailand"
-    ]
+    ],
+    "song_of_the_day": "\u05e4\u05e0\u05d9\u05dd \u05d5\u05e9\u05de\u05d5\u05ea - \u05d3\u05e0\u05d9 \u05e8\u05d5\u05d1\u05e1 \u05d5\u05e9\u05dc\u05de\u05d4 \u05d2\u05e8\u05d5\u05e0\u05d9\u05da"
   },
   {
     "filename": "Polarsteps/Thailand/59_pai.md",
@@ -1120,7 +1268,8 @@
     "categories": [
       "Travel",
       "Thailand"
-    ]
+    ],
+    "song_of_the_day": "\u05d1\u05d3\u05d9\u05d5\u05e7 \u05db\u05de\u05d5 \u05d0\u05d6 - \u05d4\u05e9\u05e0\u05d4 \u05d4\u05d9\u05e4\u05d4 \u05d1\u05d7\u05d9\u05d9"
   },
   {
     "filename": "Polarsteps/Thailand/60_pai.md",
@@ -1129,7 +1278,8 @@
     "categories": [
       "Travel",
       "Thailand"
-    ]
+    ],
+    "song_of_the_day": "if I believed - twisted"
   },
   {
     "filename": "Polarsteps/Thailand/61_pai.md",
@@ -1138,7 +1288,8 @@
     "categories": [
       "Travel",
       "Thailand"
-    ]
+    ],
+    "song_of_the_day": "\u05e2\u05d5\u05d3 \u05e7\u05e6\u05ea - \u05e2\u05d5\u05d6\u05d9 \u05e0\u05d1\u05d5\u05df \u05d5\u05de\u05db\u05e8\u05d9\u05dd"
   },
   {
     "filename": "Polarsteps/Thailand/62_pai.md",
@@ -1147,7 +1298,8 @@
     "categories": [
       "Travel",
       "Thailand"
-    ]
+    ],
+    "song_of_the_day": "it takes a lot to try - aviram"
   },
   {
     "filename": "Polarsteps/Thailand/63_pai.md",
@@ -1156,7 +1308,8 @@
     "categories": [
       "Travel",
       "Thailand"
-    ]
+    ],
+    "song_of_the_day": "Midnight Moves - Brown Oak Assembly"
   },
   {
     "filename": "Polarsteps/Thailand/64_pai.md",
@@ -1165,7 +1318,8 @@
     "categories": [
       "Travel",
       "Thailand"
-    ]
+    ],
+    "song_of_the_day": "\u05d5\u05d0\u05ea \u05d1\u05e8\u05e9\u05d5\u05ea \u05e2\u05e6\u05de\u05da - \u05d9\u05d5\u05e0\u05d9 \u05e8\u05db\u05d8\u05e8"
   },
   {
     "filename": "Polarsteps/Thailand/65_pai.md",
@@ -1174,7 +1328,8 @@
     "categories": [
       "Travel",
       "Thailand"
-    ]
+    ],
+    "song_of_the_day": "Over the hill - John Martyn"
   },
   {
     "filename": "Polarsteps/Thailand/66_pai.md",
@@ -1183,7 +1338,8 @@
     "categories": [
       "Travel",
       "Thailand"
-    ]
+    ],
+    "song_of_the_day": "be my baby - the ronettes"
   },
   {
     "filename": "Polarsteps/Thailand/67_pai.md",
@@ -1192,7 +1348,8 @@
     "categories": [
       "Travel",
       "Thailand"
-    ]
+    ],
+    "song_of_the_day": "it's you I like - mister rogers"
   },
   {
     "filename": "Polarsteps/Thailand/68_pai.md",
@@ -1201,7 +1358,8 @@
     "categories": [
       "Travel",
       "Thailand"
-    ]
+    ],
+    "song_of_the_day": "\u05de\u05d5\u05ea\u05e8 \u05dc\u05d5\u05de\u05e8 - \u05d3\u05d9\u05d5\u05d5\u05d9\u05d3 \u05d1\u05e8\u05d5\u05d6\u05d4"
   },
   {
     "filename": "Polarsteps/Thailand/69_pai.md",
@@ -1210,7 +1368,8 @@
     "categories": [
       "Travel",
       "Thailand"
-    ]
+    ],
+    "song_of_the_day": "\u05de\u05db\u05d0\u05df \u05dc\u05e9\u05dd - \u05d9\u05d5\u05ea\u05dd \u05d6\u05d9\u05dc\u05d1\u05e8\u05e9\u05d8\u05d9\u05d9\u05df"
   },
   {
     "filename": "Polarsteps/Thailand/70_pai.md",
@@ -1219,7 +1378,8 @@
     "categories": [
       "Travel",
       "Thailand"
-    ]
+    ],
+    "song_of_the_day": "All the things you are - Michael Jackson"
   },
   {
     "filename": "Polarsteps/Thailand/71_pai.md",
@@ -1228,7 +1388,8 @@
     "categories": [
       "Travel",
       "Thailand"
-    ]
+    ],
+    "song_of_the_day": "\u05e4\u05d5\u05e8\u05d8\u05d5\u05d2\u05dc - \u05d3\u05e0\u05d9\u05d0\u05dc \u05e8\u05d5\u05d1\u05d9\u05df"
   },
   {
     "filename": "Polarsteps/Thailand/72_pai.md",
@@ -1237,7 +1398,8 @@
     "categories": [
       "Travel",
       "Thailand"
-    ]
+    ],
+    "song_of_the_day": "\u05db\u05e9\u05d0\u05ea\u05d4 \u05dc\u05d0 \u05db\u05d0\u05df - \u05de\u05d9\u05e7\u05d4 \u05d8\u05dc"
   },
   {
     "filename": "Polarsteps/Thailand/73_pai.md",
@@ -1246,7 +1408,8 @@
     "categories": [
       "Travel",
       "Thailand"
-    ]
+    ],
+    "song_of_the_day": "desafinado - stan getz & Joao Gilberto"
   },
   {
     "filename": "Polarsteps/Thailand/74_pai.md",
@@ -1255,7 +1418,8 @@
     "categories": [
       "Travel",
       "Thailand"
-    ]
+    ],
+    "song_of_the_day": "\u05d0\u05e0\u05d5 \u05e0\u05e4\u05d2\u05e9 - \u05d3\u05e0\u05d9 \u05de\u05e1\u05e0\u05d2"
   },
   {
     "filename": "Polarsteps/Thailand/75_pai.md",
@@ -1264,7 +1428,8 @@
     "categories": [
       "Travel",
       "Thailand"
-    ]
+    ],
+    "song_of_the_day": "I can't help it - Michael Jackson"
   },
   {
     "filename": "Polarsteps/Thailand/76_pai.md",
@@ -1273,7 +1438,8 @@
     "categories": [
       "Travel",
       "Thailand"
-    ]
+    ],
+    "song_of_the_day": "\u05dc\u05d5 \u05d3\u05d1\u05e8 \u05dc\u05d0 \u05e7\u05e8\u05d4 - \u05d4\u05d0\u05d7\u05d9\u05dd \u05d1\u05df \u05e2\u05d6\u05e8\u05d0"
   },
   {
     "filename": "Polarsteps/Thailand/77_pai.md",
@@ -1282,7 +1448,8 @@
     "categories": [
       "Travel",
       "Thailand"
-    ]
+    ],
+    "song_of_the_day": "\u00d4djus Fitxadu - \u05e2\u05d9\u05d3\u05df \u05e8\u05d9\u05d9\u05db\u05dc"
   },
   {
     "filename": "Polarsteps/Thailand/78_pai.md",
@@ -1291,7 +1458,8 @@
     "categories": [
       "Travel",
       "Thailand"
-    ]
+    ],
+    "song_of_the_day": "\u05dc\u05d7\u05e9\u05d5\u05d1 \u05e2\u05dc \u05d0\u05d7\u05e8\u05d9\u05dd - \u05e9\u05dc\u05d9 \u05e6\u05d5\u05e7"
   },
   {
     "filename": "Polarsteps/Thailand/79_chiang_mai.md",
@@ -1300,7 +1468,8 @@
     "categories": [
       "Travel",
       "Thailand"
-    ]
+    ],
+    "song_of_the_day": "\u05d7\u05d9\u05db\u05d9\u05ea\u05d9 \u05dc\u05da - \u05e8\u05d9\u05e0\u05ea \u05d1\u05e8"
   },
   {
     "filename": "Polarsteps/Thailand/80_koh_tao.md",
@@ -1309,7 +1478,8 @@
     "categories": [
       "Travel",
       "Thailand"
-    ]
+    ],
+    "song_of_the_day": "All I know - art garfunkel"
   },
   {
     "filename": "Polarsteps/Thailand/81_koh_tao.md",
@@ -1318,7 +1488,8 @@
     "categories": [
       "Travel",
       "Thailand"
-    ]
+    ],
+    "song_of_the_day": "no one mourns the wicked - wicked"
   },
   {
     "filename": "Polarsteps/Thailand/82_koh_tao.md",
@@ -1327,7 +1498,8 @@
     "categories": [
       "Travel",
       "Thailand"
-    ]
+    ],
+    "song_of_the_day": "PINEAPPLE FRIED RICE - joey valence & brae"
   },
   {
     "filename": "Polarsteps/Thailand/83_koh_tao.md",
@@ -1336,7 +1508,8 @@
     "categories": [
       "Travel",
       "Thailand"
-    ]
+    ],
+    "song_of_the_day": "\u05e2\u05d5\u05d3 \u05e1\u05d9\u05e4\u05d5\u05e8 \u05d0\u05d7\u05d3 \u05e9\u05dc \u05d0\u05d4\u05d1\u05d4 - \u05e9\u05d9\u05de\u05d9 \u05ea\u05d1\u05d5\u05e8\u05d9"
   },
   {
     "filename": "Polarsteps/Thailand/84_koh_tao.md",
@@ -1345,7 +1518,8 @@
     "categories": [
       "Travel",
       "Thailand"
-    ]
+    ],
+    "song_of_the_day": "\u05d4\u05e9\u05d1\u05e8 \u05d4\u05e1\u05d5\u05e8\u05d9-\u05d0\u05e4\u05e8\u05d9\u05e7\u05e0\u05d9 - \u05d0\u05d5\u05dc\u05d9 \u05d3\u05e0\u05d5\u05df"
   },
   {
     "filename": "Polarsteps/Thailand/85_koh_tao.md",
@@ -1354,7 +1528,8 @@
     "categories": [
       "Travel",
       "Thailand"
-    ]
+    ],
+    "song_of_the_day": "a remark you made - weather report"
   },
   {
     "filename": "Polarsteps/Thailand/86_koh_tao.md",
@@ -1363,7 +1538,8 @@
     "categories": [
       "Travel",
       "Thailand"
-    ]
+    ],
+    "song_of_the_day": "eternal child - chick corea"
   },
   {
     "filename": "Polarsteps/Thailand/87_koh_tao.md",
@@ -1372,7 +1548,8 @@
     "categories": [
       "Travel",
       "Thailand"
-    ]
+    ],
+    "song_of_the_day": "fall in love alone - Stacy Ryan"
   },
   {
     "filename": "Polarsteps/Thailand/88_koh_tao.md",
@@ -1381,7 +1558,8 @@
     "categories": [
       "Travel",
       "Thailand"
-    ]
+    ],
+    "song_of_the_day": "I love the way - something rotten"
   },
   {
     "filename": "Polarsteps/Thailand/89_koh_tao.md",
@@ -1390,7 +1568,8 @@
     "categories": [
       "Travel",
       "Thailand"
-    ]
+    ],
+    "song_of_the_day": "being alive - Stephen Sondheim (company)"
   },
   {
     "filename": "Polarsteps/Thailand/90_koh_tao.md",
@@ -1399,7 +1578,8 @@
     "categories": [
       "Travel",
       "Thailand"
-    ]
+    ],
+    "song_of_the_day": "\u05dc\u05d4\u05d9\u05d5\u05ea \u05d0\u05d9\u05ea\u05da \u05db\u05e9\u05d4\u05e8\u05e2\u05d9\u05dd \u05d1\u05d0\u05d9\u05dd - \u05d9\u05d5\u05d1\u05dc \u05de\u05e2\u05d9\u05d9\u05df"
   },
   {
     "filename": "Polarsteps/Thailand/91_koh_tao.md",
@@ -1408,7 +1588,8 @@
     "categories": [
       "Travel",
       "Thailand"
-    ]
+    ],
+    "song_of_the_day": "\u05db\u05e1\u05e3 - \u05e4\u05e0\u05d7\u05e1 \u05d5\u05d1\u05e0\u05d9\u05d5"
   },
   {
     "filename": "Polarsteps/Thailand/92_koh_tao.md",
@@ -1417,7 +1598,8 @@
     "categories": [
       "Travel",
       "Thailand"
-    ]
+    ],
+    "song_of_the_day": "something special - Quincy Jones"
   },
   {
     "filename": "Polarsteps/Thailand/93_koh_tao.md",
@@ -1426,7 +1608,8 @@
     "categories": [
       "Travel",
       "Thailand"
-    ]
+    ],
+    "song_of_the_day": "friends - Uzi and the styles"
   },
   {
     "filename": "Polarsteps/Thailand/94_koh_tao.md",
@@ -1435,7 +1618,8 @@
     "categories": [
       "Travel",
       "Thailand"
-    ]
+    ],
+    "song_of_the_day": "\"listen to your heart.\" \"no.\" - cheekface"
   },
   {
     "filename": "Polarsteps/Thailand/95_koh_tao.md",
@@ -1444,7 +1628,8 @@
     "categories": [
       "Travel",
       "Thailand"
-    ]
+    ],
+    "song_of_the_day": "\u05e9\u05d5\u05e9\u05e0\u05d4 - \u05e2\u05d9\u05dc\u05d9\u05d9 \u05d0\u05e9\u05d3\u05d5\u05ea \u05d5\u05d0\u05d5\u05dc\u05d9 \u05d3\u05e0\u05d5\u05df"
   },
   {
     "filename": "Polarsteps/Thailand/96_koh_tao.md",
@@ -1453,7 +1638,8 @@
     "categories": [
       "Travel",
       "Thailand"
-    ]
+    ],
+    "song_of_the_day": "bite my tongue (live) - wilt"
   },
   {
     "filename": "Polarsteps/Thailand/97_koh_tao.md",
@@ -1462,7 +1648,8 @@
     "categories": [
       "Travel",
       "Thailand"
-    ]
+    ],
+    "song_of_the_day": "too young to die - jamiroquai"
   },
   {
     "filename": "Polarsteps/Thailand/98_koh_samui.md",
@@ -1471,7 +1658,8 @@
     "categories": [
       "Travel",
       "Thailand"
-    ]
+    ],
+    "song_of_the_day": "\u05d4\u05db\u05d9 \u05e7\u05e8\u05d5\u05d1 \u05e9\u05d0\u05ea\u05d4 \u05de\u05d2\u05d9\u05e2 - \u05d3\u05e0\u05d9 \u05e8\u05d5\u05d1\u05e1"
   },
   {
     "filename": "Polarsteps/Vietnam/10_hoi_an.md",
@@ -1561,7 +1749,8 @@
     "categories": [
       "Travel",
       "Vietnam"
-    ]
+    ],
+    "song_of_the_day": "Your smiling face - James Taylor"
   },
   {
     "filename": "Polarsteps/Vietnam/20_nha_trang.md",
@@ -1570,7 +1759,8 @@
     "categories": [
       "Travel",
       "Vietnam"
-    ]
+    ],
+    "song_of_the_day": "Carambola - Africa Negra"
   },
   {
     "filename": "Polarsteps/Vietnam/21_saigon.md",
@@ -1579,7 +1769,8 @@
     "categories": [
       "Travel",
       "Vietnam"
-    ]
+    ],
+    "song_of_the_day": "\u05d1\u05dc\u05d1 \u05db\u05d1\u05d3 - \u05de\u05ea\u05d9 \u05db\u05e1\u05e4\u05d9 \u05d5\u05d4\u05e4\u05e8\u05d1\u05e8\u05d9\u05dd"
   },
   {
     "filename": "Polarsteps/Vietnam/22_saigon.md",
@@ -1588,7 +1779,8 @@
     "categories": [
       "Travel",
       "Vietnam"
-    ]
+    ],
+    "song_of_the_day": "Saigon - Emilio Santiago"
   },
   {
     "filename": "Polarsteps/Vietnam/23_saigon.md",
@@ -1597,7 +1789,8 @@
     "categories": [
       "Travel",
       "Vietnam"
-    ]
+    ],
+    "song_of_the_day": "Be the wheel - theo katzman"
   },
   {
     "filename": "Polarsteps/Vietnam/24_phu_quoc.md",
@@ -1606,7 +1799,8 @@
     "categories": [
       "Travel",
       "Vietnam"
-    ]
+    ],
+    "song_of_the_day": "\u05d8\u05e8\u05d0\u05e0\u05e1 \u05e8\u05e0\u05d3\u05d5\u05de\u05dc\u05d9 \u05d1\u05d2\u05e8\u05de\u05e0\u05d9\u05ea \u05e9\u05de\u05d9\u05e9\u05d4\u05d5 \u05e9\u05dd \u05d1\u05de\u05e7\u05dc\u05d7\u05d5\u05ea \u05d1\u05d4\u05d5\u05e1\u05d8\u05dc."
   },
   {
     "filename": "Polarsteps/Vietnam/25_phu_quoc.md",
@@ -1615,7 +1809,8 @@
     "categories": [
       "Travel",
       "Vietnam"
-    ]
+    ],
+    "song_of_the_day": "\u05d1\u05dc\u05ea\u05d9 - \u05d7\u05ea\u05d5\u05dc\u05d4 \u05e0\u05d1\u05dc\u05d4"
   },
   {
     "filename": "Polarsteps/Vietnam/26_phu_quoc.md",
@@ -1624,7 +1819,8 @@
     "categories": [
       "Travel",
       "Vietnam"
-    ]
+    ],
+    "song_of_the_day": "\u05d4\u05e8\u05d1\u05d9 \u05d0\u05dc\u05d9\u05de\u05dc\u05da - \u05e1\u05d3\u05e0\u05ea \u05d4\u05d2'\u05d0\u05d6"
   },
   {
     "filename": "Polarsteps/Vietnam/27_phu_quoc.md",
@@ -1633,7 +1829,8 @@
     "categories": [
       "Travel",
       "Vietnam"
-    ]
+    ],
+    "song_of_the_day": "nothing's gonna change my love for you - George Benson"
   },
   {
     "filename": "Polarsteps/Vietnam/28_phu_quoc.md",
@@ -1651,7 +1848,8 @@
     "categories": [
       "Travel",
       "Vietnam"
-    ]
+    ],
+    "song_of_the_day": "way down hadestown (reprise) - anais mitchell"
   },
   {
     "filename": "Polarsteps/Vietnam/30_phu_quoc.md",
@@ -1660,7 +1858,8 @@
     "categories": [
       "Travel",
       "Vietnam"
-    ]
+    ],
+    "song_of_the_day": "falling grace - Gary button & chick corea"
   },
   {
     "filename": "Polarsteps/Vietnam/31_hanoi.md",
@@ -1669,7 +1868,8 @@
     "categories": [
       "Travel",
       "Vietnam"
-    ]
+    ],
+    "song_of_the_day": "you're everything - chick corea"
   },
   {
     "filename": "Polarsteps/Vietnam/32_hanoi.md",
@@ -1678,7 +1878,8 @@
     "categories": [
       "Travel",
       "Vietnam"
-    ]
+    ],
+    "song_of_the_day": "stars - simply red"
   },
   {
     "filename": "Polarsteps/Vietnam/33_hanoi.md",
@@ -1687,7 +1888,8 @@
     "categories": [
       "Travel",
       "Vietnam"
-    ]
+    ],
+    "song_of_the_day": "landslide - Fleetwood Mac"
   },
   {
     "filename": "Polarsteps/Vietnam/34_hanoi.md",
@@ -1696,7 +1898,8 @@
     "categories": [
       "Travel",
       "Vietnam"
-    ]
+    ],
+    "song_of_the_day": "hard, hard promises - Alice Clark"
   },
   {
     "filename": "Polarsteps/Vietnam/35_mai_chau.md",
@@ -1705,7 +1908,8 @@
     "categories": [
       "Travel",
       "Vietnam"
-    ]
+    ],
+    "song_of_the_day": "sabotage - Beastie boys"
   },
   {
     "filename": "Polarsteps/Vietnam/36_mai_chau.md",
@@ -1714,7 +1918,8 @@
     "categories": [
       "Travel",
       "Vietnam"
-    ]
+    ],
+    "song_of_the_day": "my days - the notebook musical"
   },
   {
     "filename": "Polarsteps/Vietnam/37_mai_chau.md",
@@ -1723,7 +1928,8 @@
     "categories": [
       "Travel",
       "Vietnam"
-    ]
+    ],
+    "song_of_the_day": "\u05e2\u05d5\u05d3 \u05ea\u05e8\u05d0\u05d9 \u05d0\u05ea \u05d4\u05d3\u05e8\u05da - \u05de\u05ea\u05d9 \u05db\u05e1\u05e4\u05d9"
   },
   {
     "filename": "Polarsteps/Vietnam/38_mai_chau.md",
@@ -1732,7 +1938,8 @@
     "categories": [
       "Travel",
       "Vietnam"
-    ]
+    ],
+    "song_of_the_day": "you and me (but mostly me) - book of mormon"
   },
   {
     "filename": "Polarsteps/Vietnam/39_moving.md",
@@ -1741,7 +1948,8 @@
     "categories": [
       "Travel",
       "Vietnam"
-    ]
+    ],
+    "song_of_the_day": "Honey if you're extra - yufu"
   },
   {
     "filename": "Polarsteps/Vietnam/40_loop.md",
@@ -1750,7 +1958,8 @@
     "categories": [
       "Travel",
       "Vietnam"
-    ]
+    ],
+    "song_of_the_day": "the wizard and I - wicked"
   },
   {
     "filename": "Polarsteps/Vietnam/41_loop.md",
@@ -1759,7 +1968,8 @@
     "categories": [
       "Travel",
       "Vietnam"
-    ]
+    ],
+    "song_of_the_day": "\u05e0\u05d0\u05e1\u05e3 \u05ea\u05e9\u05e8\u05d9 (\u05de\u05ea \u05d0\u05d1 \u05d5\u05de\u05ea \u05d0\u05dc\u05d5\u05dc) - \u05e6\u05d1\u05d9\u05e7\u05d4 \u05e4\u05d9\u05e7"
   },
   {
     "filename": "Polarsteps/Vietnam/42_loop.md",
@@ -1768,7 +1978,8 @@
     "categories": [
       "Travel",
       "Vietnam"
-    ]
+    ],
+    "song_of_the_day": "lover, you should've come over - Jeff Buckley"
   },
   {
     "filename": "Polarsteps/Vietnam/43_sapa.md",
@@ -1777,7 +1988,8 @@
     "categories": [
       "Travel",
       "Vietnam"
-    ]
+    ],
+    "song_of_the_day": "\u05d0\u05d5\u05de\u05e7\u05d0 \u05d2\u05d5\u05de\u05e7\u05d0 - \u05d9\u05d5\u05e0\u05d9 \u05e8\u05db\u05d8\u05e8 \u05d5\u05d0\u05d1\u05e0\u05e8 \u05e7\u05e0\u05e8"
   },
   {
     "filename": "Polarsteps/Vietnam/44_sapa.md",
@@ -1786,7 +1998,8 @@
     "categories": [
       "Travel",
       "Vietnam"
-    ]
+    ],
+    "song_of_the_day": "Brazil pandeiro - novos baianos"
   },
   {
     "filename": "Polarsteps/Vietnam/45_sapa.md",
@@ -1795,7 +2008,8 @@
     "categories": [
       "Travel",
       "Vietnam"
-    ]
+    ],
+    "song_of_the_day": "\u05e2\u05d5\u05d3 \u05e7\u05e6\u05ea - \u05e2\u05d5\u05d6\u05d9 \u05e0\u05d1\u05d5\u05df \u05d5\u05de\u05db\u05e8\u05d9\u05dd"
   },
   {
     "filename": "Polarsteps/Vietnam/46_sapa.md",
@@ -1804,7 +2018,8 @@
     "categories": [
       "Travel",
       "Vietnam"
-    ]
+    ],
+    "song_of_the_day": "\u05d4\u05d9\u05d0 \u05d7\u05d6\u05e8\u05d4 \u05d1\u05ea\u05e9\u05d5\u05d1\u05d4 - \u05de\u05ea\u05d9 \u05db\u05e1\u05e4\u05d9"
   },
   {
     "filename": "Polarsteps/Vietnam/47_hanoi.md",
@@ -1813,7 +2028,8 @@
     "categories": [
       "Travel",
       "Vietnam"
-    ]
+    ],
+    "song_of_the_day": "\u05d0\u05d4\u05d1\u05d4 \u05d7\u05d3\u05e9\u05d4 - \u05d0\u05d1\u05d9\u05e9\u05d9 \u05db\u05d4\u05df"
   },
   {
     "filename": "Polarsteps/Vietnam/48_hanoi.md",
@@ -1822,7 +2038,8 @@
     "categories": [
       "Travel",
       "Vietnam"
-    ]
+    ],
+    "song_of_the_day": "\u05d1\u05e6\u05dc \u05db\u05e4\u05d5\u05ea \u05ea\u05de\u05e8 - \u05e2\u05d5\u05d6\u05d9 \u05de\u05d0\u05d9\u05e8\u05d9"
   },
   {
     "filename": "Polarsteps/Vietnam/49_vietdone.md",
@@ -1831,7 +2048,8 @@
     "categories": [
       "Travel",
       "Vietnam"
-    ]
+    ],
+    "song_of_the_day": "\u05d6\u05d4 \u05db\u05dc \u05de\u05d4 \u05e9\u05d9\u05e9 - \u05d9\u05d5\u05e0\u05d9 \u05e8\u05db\u05d8\u05e8"
   },
   {
     "filename": "Polarsteps/Vietnam/8_hoi_an.md",
@@ -1915,63 +2133,9 @@
     ]
   },
   {
-    "filename": "Polarsteps/gym_map.md",
-    "title": "Gym Reviews",
-    "date": "2025-10-05 09:15",
-    "categories": [
-      "Travel",
-      "Review"
-    ]
-  },
-  {
     "filename": "Reviews/Albums/Evangeline - Evangeline.md",
     "title": "Evangeline - Evangeline",
     "date": "2026-02-28 10:39",
-    "categories": [
-      "Review",
-      "Album"
-    ]
-  },
-  {
-    "filename": "Reviews/Albums/Meet The Robinsons unofficial concept album.md",
-    "title": "Meet The Robinsons unofficial concept album",
-    "date": "2026-02-27 17:14",
-    "categories": [
-      "Review",
-      "Theatre"
-    ]
-  },
-  {
-    "filename": "Reviews/Albums/So much country 'till we get there - westside cowboy.md",
-    "title": "So much country 'till we get there - westside cowboy",
-    "date": "2026-03-31 10:37",
-    "categories": [
-      "Review",
-      "Album"
-    ]
-  },
-  {
-    "filename": "Reviews/Albums/The Understudy - Wyatt Waddell.md",
-    "title": "The Understudy - Wyatt Waddell",
-    "date": "2026-03-22 18:11",
-    "categories": [
-      "Review",
-      "Album"
-    ]
-  },
-  {
-    "filename": "Reviews/Albums/The king's critique.md",
-    "title": "The king's critique concept album",
-    "date": "2026-04-21 12:36",
-    "categories": [
-      "Review",
-      "Album"
-    ]
-  },
-  {
-    "filename": "Reviews/Albums/Years - Mild Monk.md",
-    "title": "Years - Mild Monk",
-    "date": "2026-03-27 01:15",
     "categories": [
       "Review",
       "Album"
@@ -2005,9 +2169,54 @@
     ]
   },
   {
+    "filename": "Reviews/Albums/Meet The Robinsons unofficial concept album.md",
+    "title": "Meet The Robinsons unofficial concept album",
+    "date": "2026-02-27 17:14",
+    "categories": [
+      "Review",
+      "Theatre"
+    ]
+  },
+  {
     "filename": "Reviews/Albums/since I left you - the avalanches.md",
     "title": "Since I left you - the avalanches",
     "date": "2025-12-07 00:39",
+    "categories": [
+      "Review",
+      "Album"
+    ]
+  },
+  {
+    "filename": "Reviews/Albums/So much country 'till we get there - westside cowboy.md",
+    "title": "So much country 'till we get there - westside cowboy",
+    "date": "2026-03-31 10:37",
+    "categories": [
+      "Review",
+      "Album"
+    ]
+  },
+  {
+    "filename": "Reviews/Albums/The king's critique.md",
+    "title": "The king's critique concept album",
+    "date": "2026-04-21 12:36",
+    "categories": [
+      "Review",
+      "Album"
+    ]
+  },
+  {
+    "filename": "Reviews/Albums/The Understudy - Wyatt Waddell.md",
+    "title": "The Understudy - Wyatt Waddell",
+    "date": "2026-03-22 18:11",
+    "categories": [
+      "Review",
+      "Album"
+    ]
+  },
+  {
+    "filename": "Reviews/Albums/Years - Mild Monk.md",
+    "title": "Years - Mild Monk",
+    "date": "2026-03-27 01:15",
     "categories": [
       "Review",
       "Album"
@@ -2189,21 +2398,5 @@
     "title": "Reviews/Theatre/\u05e8\u05d9\u05e0\u05d2\u05d5",
     "date": "2026-06-05 22:36",
     "categories": []
-  },
-  {
-    "filename": "blog updates poll.md",
-    "title": "\u05d4\u05e6\u05d1\u05d9\u05e2\u05d5 \u05d5\u05d4\u05e9\u05e4\u05d9\u05e2\u05d5 - \u05d0\u05d9\u05da \u05dc\u05e2\u05d3\u05db\u05df \u05d0\u05ea\u05db\u05dd?",
-    "date": "2025-09-29 12:59",
-    "categories": [
-      "Community"
-    ]
-  },
-  {
-    "filename": "how to blog.md",
-    "title": "How To Blog",
-    "date": "2025-09-29 12:38",
-    "categories": [
-      "Tech"
-    ]
   }
 ]

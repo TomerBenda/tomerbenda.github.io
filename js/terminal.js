@@ -9,7 +9,7 @@
     window.matchMedia &&
     window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-  var PAGES = ["blog", "travel", "projects", "stats"];
+  var PAGES = ["blog", "travel", "music", "projects", "stats"];
   var history = [];
   var historyPos = -1;
   var postsIndex = null; // lazy-loaded for pwd/whoami
@@ -146,6 +146,7 @@
     },
     blog: { desc: "the writing", run: function () { navigate("blog"); } },
     travel: { desc: "the map", run: function () { navigate("travel"); } },
+    music: { desc: "one song per travel day", run: function () { navigate("music"); } },
     whoami: {
       desc: "who is tbd anyway",
       run: function () {

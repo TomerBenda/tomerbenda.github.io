@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Music | tbd</title>
+    <link rel="stylesheet" href="css/style.css" />
+    <link rel="icon" type="image/png" href="favicon.ico" />
+    <link rel="alternate" type="application/rss+xml" title="tbd RSS Feed" href="/feed.xml" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;700&family=Heebo:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <header></header>
+    <div class="container">
+      <aside class="sidebar">
+        <button class="toggle-crt" onclick="toggleCrt()">Toggle screen effect</button>
+      </aside>
+      <main class="main-content">
+        <h1>Music</h1>
+        <p class="song-log-intro">
+          every travel day ends with a song. this is the log — one track per day,
+          in trip order. ♪ plays it, → opens the day.
+        </p>
+        <div id="song-log" class="song-log">
+          <p class="song-log-loading">loading songs…</p>
+        </div>
+      </main>
+    </div>
+    <footer></footer>
+    <script src="js/include-components.js"></script>
+    <script src="js/main.js"></script>
+    <script src="js/music.js"></script>
+  </body>
+</html>

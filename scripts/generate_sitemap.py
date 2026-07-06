@@ -16,7 +16,7 @@ INDEX_FILE = REPO_ROOT / "posts" / "index.json"
 OUTPUT_FILE = REPO_ROOT / "sitemap.xml"
 SITE_URL = "https://tbd.codes"
 
-STATIC_PAGES = ["", "blog", "travel", "projects", "stats"]
+STATIC_PAGES = ["", "blog", "travel", "music", "projects", "stats"]
 
 
 def escape_xml(text: str) -> str:
