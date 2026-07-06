@@ -1,3 +1,5 @@
 user-agent: *
 disallow: /posts/
 disallow: /scripts/
+
+Sitemap: https://tbd.codes/sitemap.xml
