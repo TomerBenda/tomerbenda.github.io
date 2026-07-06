@@ -1,0 +1,20 @@
+name: Health Check
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  health:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install pyyaml
+        run: python3 -m pip install pyyaml
+
+      - name: Run health check
+        run: python3 scripts/check_health.py
