@@ -1,19 +1,22 @@
-# Google Takeout Location History input
+# Google Timeline input (local only — never committed)
 
+⚠️ **Raw location exports are personal data and are gitignored. Do not commit them.**
+The public artifact is `posts/timeline.json` — bounded, per-day points that mirror
+what the travel posts already publish.
 
-# NO LONGER WORKS - Data should be exported from mobile device settings
+## Updating the travel timeline
 
+1. On your phone: Google Maps → your avatar → **Your Timeline** → ⚙️ →
+   **Location & privacy settings** → **Export Timeline data**.
+   (The old takeout.google.com flow no longer includes Timeline.)
+2. Put the export at `data/takeout/Timeline.json` (semanticSegments format).
+3. From the repo root run:
 
-https://takeout.google.com/settings/takeout/custom/location_history
+   ```
+   python scripts/takeout_to_timeline.py
+   ```
 
-Place your Google Takeout Location History export here so the daily workflow can update `posts/timeline.json`.
+4. Commit **only** `posts/timeline.json`.
 
-**Option A – Records (raw points)**  
-- Put `Records.json` in this folder (from Takeout: **Location History** → **Records.json**).
-
-**Option B – Semantic Location History**  
-- Put the `Semantic Location History` folder here (monthly JSON files like `2021_JANUARY.json`).
-
-The script `scripts/takeout_to_timeline.py` reads both. You can add one or both.
-
-If this folder is empty, the workflow will run but leave `timeline.json` unchanged (or empty).
+The travel map matches timeline points to posts by date; days without a travel post
+still draw route detail but link nowhere.
