@@ -60,6 +60,39 @@
   opacity: 0.8;
 }
 
+.journey-stats {
+  margin: 0.5rem 0 0;
+  font-size: 0.72rem;
+  color: var(--fg-dim, #7d9488);
+  background: rgba(10, 11, 14, 0.75);
+  padding: 0.2em 0.5em;
+  border-radius: 4px;
+  width: fit-content;
+  max-width: 80vw;
+}
+
+.journey-stats:empty {
+  display: none;
+}
+
+.journey-replay {
+  pointer-events: auto;
+  margin-top: 0.5rem;
+  background: rgba(10, 11, 14, 0.75);
+  border: 1px solid var(--accent-40, rgba(57, 255, 20, 0.4));
+  border-radius: 4px;
+  color: var(--accent, #39ff14);
+  font-family: "Fira Code", monospace;
+  font-size: 0.75rem;
+  padding: 0.3em 0.8em;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.journey-replay:hover {
+  background: var(--accent-15, rgba(57, 255, 20, 0.15));
+}
+
 /* Leaflet overrides: match dark theme */
 .travel-map .leaflet-popup-content-wrapper {
   background: var(--bg-darker, #0a0b0e);
