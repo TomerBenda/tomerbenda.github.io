@@ -17,6 +17,10 @@ from pathlib import Path
 
 import yaml
 
+# Windows consoles default to cp1252; post filenames are Hebrew/UTF-8
+if sys.stdout.encoding and sys.stdout.encoding.lower() not in ("utf-8", "utf8"):
+    sys.stdout.reconfigure(encoding="utf-8")
+
 POSTS_DIR = Path("posts")
 LOCATIONS_FILE = POSTS_DIR / "locations.json"
 
@@ -45,12 +49,12 @@ def parse_frontmatter(filepath: Path):
 
 
 def get_image_refs(body: str) -> list:
-    """Extract image filenames referenced in the post body."""
+    """Extract (kind, ref) image refs; kind is 'obsidian' or 'markdown'."""
     refs = []
-    # Obsidian embeds: ![[filename.jpg]]
-    refs += re.findall(r"!\[\[(.+?)\]\]", body)
+    # Obsidian embeds: ![[filename.jpg]] or ![[filename.jpg|300]]
+    refs += [("obsidian", m) for m in re.findall(r"!\[\[(.+?)\]\]", body)]
     # Standard markdown images: ![alt](path)
-    refs += re.findall(r"!\[.*?\]\((.+?)\)", body)
+    refs += [("markdown", m) for m in re.findall(r"!\[.*?\]\((.+?)\)", body)]
     return refs
 
 
@@ -72,17 +76,21 @@ def main():
         print("No markdown files found.")
         return
 
-    issues_by_file = {}
+    # Errors fail CI (structural problems this repo must not ship);
+    # warnings are content gaps that live vault-side — report, don't fail.
+    errors_by_file = {}
+    warnings_by_file = {}
 
     for filepath in md_files:
         rel = filepath.relative_to(POSTS_DIR).as_posix()
-        issues = []
+        errors = []
+        warnings = []
 
         fm, body = parse_frontmatter(filepath)
 
         if fm is None:
-            issues.append("MALFORMED frontmatter (YAML parse error)")
-            issues_by_file[rel] = issues
+            errors.append("MALFORMED frontmatter (YAML parse error)")
+            errors_by_file[rel] = errors
             continue
 
         # Skip posts not targeted at the blog
@@ -99,53 +107,79 @@ def main():
 
         # --- checks ---
         if not fm.get("title"):
-            issues.append("Missing title")
+            warnings.append("Missing title")
 
         if not fm.get("date"):
-            issues.append("Missing date")
+            warnings.append("Missing date")
 
         categories = fm.get("categories", [])
         if isinstance(categories, str):
             categories = [c.strip() for c in categories.split(",")]
         if not categories or categories == [""]:
-            issues.append("Missing categories")
+            warnings.append("Missing categories")
 
         # Travel posts should have a location
         cat_lower = [c.lower() for c in (categories or [])]
         if "travel" in cat_lower:
             if rel not in locations:
-                issues.append("Travel post missing location in posts/locations.json")
+                warnings.append("Travel post missing location in posts/locations.json")
 
-        # Referenced images should exist
-        for img_ref in get_image_refs(body):
-            # Strip query strings / anchors
-            img_path_str = img_ref.split("?")[0].split("#")[0]
-            # Resolve relative to post directory
-            if img_path_str.startswith("posts/") or img_path_str.startswith("/"):
-                # Absolute-ish path
+        # Referenced images should exist (blog.js renders ![[X]] from the
+        # post's attachments/ subfolder; markdown paths are site-root relative)
+        for kind, img_ref in get_image_refs(body):
+            img_path_str = img_ref.split("?")[0].split("#")[0].split("|")[0].strip()
+            if img_path_str.startswith(("http://", "https://")):
+                continue
+            if kind == "obsidian":
+                candidate = filepath.parent / "attachments" / img_path_str
+            elif img_path_str.startswith("posts/") or img_path_str.startswith("/"):
                 candidate = Path(img_path_str.lstrip("/"))
             else:
-                post_dir = filepath.parent
-                candidate = post_dir / img_path_str
+                candidate = filepath.parent / img_path_str
             if not candidate.exists():
-                issues.append(f"Image not found: {img_ref}")
+                warnings.append(f"Image not found: {img_ref}")
 
-        if issues:
-            issues_by_file[rel] = issues
+        if errors:
+            errors_by_file[rel] = errors
+        if warnings:
+            warnings_by_file[rel] = warnings
 
     # Report
-    if not issues_by_file:
+    n_errors = sum(len(v) for v in errors_by_file.values())
+    n_warnings = sum(len(v) for v in warnings_by_file.values())
+
+    if not errors_by_file and not warnings_by_file:
         print("[+] All posts look healthy!")
-        return
+    if errors_by_file:
+        print(f"[!] {n_errors} error(s) in {len(errors_by_file)} post(s):\n")
+        for rel, issues in sorted(errors_by_file.items()):
+            print(f"  {rel}")
+            for issue in issues:
+                print(f"    - {issue}")
+            print()
+    if warnings_by_file:
+        print(f"[~] {n_warnings} warning(s) in {len(warnings_by_file)} post(s):\n")
+        for rel, issues in sorted(warnings_by_file.items()):
+            print(f"  {rel}")
+            for issue in issues:
+                print(f"    - {issue}")
+            print()
 
-    print(f"[!] Found issues in {len(issues_by_file)} post(s):\n")
-    for rel, issues in sorted(issues_by_file.items()):
-        print(f"  {rel}")
-        for issue in issues:
-            print(f"    - {issue}")
-        print()
+    summary_path = os.environ.get("GITHUB_STEP_SUMMARY")
+    if summary_path:
+        with open(summary_path, "a", encoding="utf-8") as f:
+            f.write("## Post health\n")
+            f.write(f"- Errors: {n_errors}\n")
+            f.write(f"- Warnings: {n_warnings}\n")
+            for rel, issues in sorted(errors_by_file.items()):
+                for issue in issues:
+                    f.write(f"  - ❌ `{rel}` — {issue}\n")
+            for rel, issues in sorted(warnings_by_file.items()):
+                for issue in issues:
+                    f.write(f"  - ⚠️ `{rel}` — {issue}\n")
 
-    sys.exit(1)
+    if errors_by_file:
+        sys.exit(1)
 
 
 if __name__ == "__main__":
