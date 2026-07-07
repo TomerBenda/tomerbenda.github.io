@@ -4,9 +4,9 @@
 // already inside #terminal when JS is unavailable.
 (function () {
   var root = document.getElementById("terminal");
-  if (!root || !window.TbdTerm) return;
+  if (!root || !window.TbdTerm || !window.TbdCommands) return;
 
-  var PAGES = ["blog", "travel", "music", "projects", "stats"];
+  var PAGES = window.TbdCommands.PAGES;
   var postsIndex = null; // lazy-loaded for pwd/whoami
 
   var term = window.TbdTerm(root, { path: "~", exec: exec });
@@ -20,6 +20,9 @@
       window.location.href = page;
     }, reducedMotion ? 0 : 350);
   }
+
+  // Shared commands (ls/cd/grep/now/crt) — one definition for every terminal
+  var common = window.TbdCommands.common(term, { navigate: navigate, isHome: true });
 
   function latestTravelPost(posts) {
     var travel = posts.filter(function (p) {
@@ -76,35 +79,9 @@
         line("plus a few undocumented ones. it's a terminal, poke around.", "term-dim");
       },
     },
-    ls: {
-      desc: "list what's here",
-      run: function () {
-        line(
-          PAGES.map(function (p) {
-            return "<a href='" + p + "' class='term-dir'>" + p + "/</a>";
-          }).join("&nbsp;&nbsp;")
-        );
-      },
-    },
-    cd: {
-      desc: "go somewhere — try cd blog",
-      run: function (args) {
-        var target = (args[0] || "").replace(/\/$/, "").toLowerCase();
-        if (!target || target === "~") {
-          line("you're home.", "term-dim");
-          return;
-        }
-        if (target === "..") {
-          line("this is the top. there is no up from here.", "term-dim");
-          return;
-        }
-        if (PAGES.indexOf(target) >= 0) {
-          navigate(target);
-          return;
-        }
-        line("cd: no such directory: " + escapeHtml(target) + " — try " + term.cmd("ls"), "term-err");
-      },
-    },
+    ls: common.ls,
+    cd: common.cd,
+    grep: common.grep,
     whoami: {
       desc: "who is tbd anyway",
       run: function () {
@@ -122,29 +99,7 @@
         });
       },
     },
-    now: {
-      desc: "what's happening",
-      run: function () {
-        if (!window.TbdNow) {
-          line("now: status unavailable", "term-err");
-          return;
-        }
-        line("checking…", "term-dim");
-        window.TbdNow.fetch().then(function (data) {
-          var lines = window.TbdNow.lines(data);
-          if (!lines.length) {
-            line("all quiet.", "term-dim");
-            return;
-          }
-          lines.forEach(function (l) {
-            var value = l.url
-              ? "<a href='" + escapeHtml(l.url) + "' class='term-accent'><bdi>" + escapeHtml(l.text) + "</bdi></a>"
-              : "<bdi>" + escapeHtml(l.text) + "</bdi>";
-            line("<span class='term-dim'>" + escapeHtml(l.label) + ":</span> " + value);
-          });
-        });
-      },
-    },
+    now: common.now,
     pwd: {
       desc: "where am i",
       run: function () {
@@ -194,21 +149,7 @@
         term.clear();
       },
     },
-    crt: {
-      desc: "toggle the screen effect",
-      run: function () {
-        if (typeof window.toggleCrt === "function") {
-          window.toggleCrt();
-          line(
-            document.body.classList.contains("crt")
-              ? "crt on. easy on the eyes, hard on the pixels."
-              : "crt off."
-          );
-        } else {
-          line("crt: effect unavailable", "term-err");
-        }
-      },
-    },
+    crt: common.crt,
     sudo: {
       hidden: true,
       desc: "",

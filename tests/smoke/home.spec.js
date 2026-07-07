@@ -28,6 +28,20 @@ test("home terminal responds to commands", async ({ page }) => {
   expect(errors).toEqual([]);
 });
 
+test("grep works in the home terminal (shared command set)", async ({ page, request }) => {
+  const errors = await phosphorPage(page);
+  await page.route("https://tbd-spotify.tomerno6.workers.dev/**", (r) => r.abort());
+  const index = await (await request.get("/posts/index.json")).json();
+  const word = (index[0].title || index[0].filename).split(/\s+/)[0];
+  await page.goto("/", { waitUntil: "domcontentloaded" });
+  await page.waitForSelector("#term-input");
+  await page.fill("#term-input", "grep " + word);
+  await page.press("#term-input", "Enter");
+  await expect(page.locator(".term-grep-hit").first()).toBeVisible();
+  await expect(page.locator(".term-grep-hit a").first()).toHaveAttribute("href", /blog\?post=/);
+  expect(errors).toEqual([]);
+});
+
 test("MOTD strip and `now` command surface living signals", async ({ page }) => {
   const errors = await phosphorPage(page);
   await page.route("https://tbd-spotify.tomerno6.workers.dev/**", (r) =>
