@@ -55,11 +55,10 @@
         run: function () {
           term.line("the palette:");
           [
-            ["ls", "list the pages"],
+            ["ls", "explore the archive (ls blog, ls trips)"],
             ["cd blog", "go somewhere"],
             ["grep osaka", "search the posts"],
-            ["day", "revisit a date (day 107, or bare for on-this-day)"],
-            ["shuffle", "a random day"],
+            ["post", "the corpus (post day 107, post today, post shuffle)"],
             ["now", "what's happening"],
             ["crt", "toggle the screen effect"],
             ["exit", "close (or esc)"],
@@ -71,6 +70,7 @@
       ls: common.ls,
       cd: common.cd,
       grep: common.grep,
+      post: common.post,
       day: common.day,
       shuffle: common.shuffle,
       now: common.now,

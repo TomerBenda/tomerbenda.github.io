@@ -38,8 +38,81 @@
       .catch(function () { imgManifest = {}; fn(imgManifest); });
   }
 
+  var projectsIndex = null;
+  var discogsData = null;
+  var tripsConfig = null;
+
+  function withProjects(fn) {
+    if (projectsIndex) return fn(projectsIndex);
+    fetch("projects/index.json")
+      .then(function (r) { return r.ok ? r.json() : []; })
+      .then(function (d) { projectsIndex = Array.isArray(d) ? d : []; fn(projectsIndex); })
+      .catch(function () { projectsIndex = []; fn(projectsIndex); });
+  }
+
+  function withDiscogs(fn) {
+    if (discogsData) return fn(discogsData);
+    fetch("data/discogs.json")
+      .then(function (r) { return r.ok ? r.json() : []; })
+      .then(function (d) { discogsData = Array.isArray(d) ? d : []; fn(discogsData); })
+      .catch(function () { discogsData = []; fn(discogsData); });
+  }
+
+  function withTrips(fn) {
+    if (tripsConfig) return fn(tripsConfig);
+    fetch("data/trips.json")
+      .then(function (r) { return r.ok ? r.json() : []; })
+      .then(function (d) { tripsConfig = Array.isArray(d) ? d : []; fn(tripsConfig); })
+      .catch(function () { tripsConfig = []; fn(tripsConfig); });
+  }
+
   function postDateStr(p) {
     return (p.date || "").split(" ")[0];
+  }
+
+  function isTravel(p) {
+    return (p.categories || []).some(function (c) { return String(c).toLowerCase() === "travel"; });
+  }
+
+  // Trips are enumerated from data (first path segment of travel posts),
+  // so future trips appear here with zero configuration.
+  function tripSummaries(posts, config) {
+    var order = [];
+    var byRoot = {};
+    var sorted = posts.slice().sort(function (a, b) {
+      return postDateStr(a) < postDateStr(b) ? -1 : 1;
+    });
+    sorted.forEach(function (p) {
+      if (!isTravel(p)) return;
+      var parts = (p.filename || "").split("/");
+      var root = parts[0] || "";
+      if (!root) return;
+      if (!byRoot[root]) {
+        byRoot[root] = { root: root, posts: 0, countries: {}, countryOrder: [], first: postDateStr(p), last: "", maxDay: 0 };
+        order.push(root);
+      }
+      var t = byRoot[root];
+      t.posts++;
+      t.last = postDateStr(p);
+      var day = tripDayNumber(p);
+      if (day !== null && day > t.maxDay) t.maxDay = day;
+      var country = parts.length >= 3 ? parts[parts.length - 2] : "";
+      if (country && !t.countries[country]) {
+        t.countries[country] = 0;
+        t.countryOrder.push(country);
+      }
+      if (country) t.countries[country]++;
+    });
+    return order.map(function (root) {
+      var t = byRoot[root];
+      var cfg = null;
+      for (var i = 0; i < config.length; i++) {
+        if (config[i].root === root) { cfg = config[i]; break; }
+      }
+      t.id = (cfg && cfg.id) || root.toLowerCase().replace(/\s+/g, "-");
+      t.name = (cfg && cfg.name) || root.toLowerCase();
+      return t;
+    });
   }
 
   function categoryTag(p) {
@@ -173,9 +246,9 @@
             }
             renderDayPhotos(dayPosts);
             var nav = [];
-            if (dayNo !== null && dayNo > 1) nav.push(term.cmd("day " + (dayNo - 1)));
-            if (dayNo !== null) nav.push(term.cmd("day " + (dayNo + 1)));
-            nav.push(term.cmd("shuffle"));
+            if (dayNo !== null && dayNo > 1) nav.push(term.cmd("post day " + (dayNo - 1), "← day " + (dayNo - 1)));
+            if (dayNo !== null) nav.push(term.cmd("post day " + (dayNo + 1), "day " + (dayNo + 1) + " →"));
+            nav.push(term.cmd("post shuffle", "shuffle"));
             line(nav.join("&nbsp;·&nbsp;"), "term-dim");
           });
         });
@@ -200,13 +273,189 @@
         });
       }
 
+      function runDay(args) {
+        var arg = (args[0] || "").trim();
+        if (/^\d{4}-\d{2}-\d{2}$/.test(arg)) { showDay(arg); return; }
+        if (/^\d+$/.test(arg)) {
+          var n = parseInt(arg, 10);
+          withPosts(function (posts) {
+            var match = null;
+            for (var i = 0; i < posts.length; i++) {
+              if (tripDayNumber(posts[i]) === n) { match = posts[i]; break; }
+            }
+            if (match) showDay(postDateStr(match));
+            else line("post: no day " + n + " in the log", "term-err");
+          });
+          return;
+        }
+        line("usage: post day [n | yyyy-mm-dd] — or " + term.cmd("post today"), "term-dim");
+      }
+
+      function runShuffle() {
+        withPosts(function (posts) {
+          if (!posts.length) { line("the archive is empty. suspicious.", "term-err"); return; }
+          var p = posts[Math.floor(Math.random() * posts.length)];
+          showDay(postDateStr(p));
+        });
+      }
+
+      // ── ls: the archive as a filesystem ──
+
+      function pad(s, n) {
+        s = String(s);
+        while (s.length < n) s += " ";
+        return s;
+      }
+
+      function dirRow(name, href, statsHtml, drillCmd) {
+        line(
+          "<a href='" + href + "' class='term-dir'>" + pad(name + "/", 11) + "</a>" +
+          "<span class='term-dim'>" + statsHtml + "</span>" +
+          (drillCmd ? "&nbsp;&nbsp;" + term.cmd(drillCmd, "→") : "")
+        );
+      }
+
+      function lsRoot() {
+        withPosts(function (posts) {
+          withSonglog(function (tracks) {
+            withProjects(function (projects) {
+              withDiscogs(function (records) {
+                withTrips(function (config) {
+                  var trips = tripSummaries(posts, config);
+                  var countries = {};
+                  trips.forEach(function (t) { t.countryOrder.forEach(function (c) { countries[c] = 1; }); });
+                  var songCount = posts.filter(function (p) { return p.song_of_the_day; }).length + tracks.length;
+                  dirRow("blog", "blog", posts.length + " posts", "ls blog");
+                  dirRow("trips", "travel", trips.length + (trips.length === 1 ? " trip · " : " trips · ") + Object.keys(countries).length + " countries", "ls trips");
+                  dirRow("music", "music", songCount + " tracks · " + records.length + " records");
+                  dirRow("projects", "projects", projects.length + " projects");
+                  dirRow("stats", "stats", "locked");
+                });
+              });
+            });
+          });
+        });
+      }
+
+      function lsBlog() {
+        withPosts(function (posts) {
+          var counts = {};
+          posts.forEach(function (p) {
+            (p.categories || []).forEach(function (c) {
+              var cat = String(c).trim();
+              if (!cat) return;
+              counts[cat] = (counts[cat] || 0) + 1;
+            });
+          });
+          var cats = Object.keys(counts).sort(function (a, b) { return counts[b] - counts[a]; });
+          if (!cats.length) { line("blog/ is empty. suspicious.", "term-dim"); return; }
+          cats.slice(0, 14).forEach(function (cat) {
+            line(
+              "<a class='term-dir' href='blog?category=" + encodeURIComponent(cat) + "'>" +
+              pad(cat.toLowerCase() + "/", 14) + "</a>" +
+              "<span class='term-dim'>" + counts[cat] + (counts[cat] === 1 ? " post" : " posts") + "</span>" +
+              "&nbsp;&nbsp;" + term.cmd("ls blog/" + cat.toLowerCase(), "→")
+            );
+          });
+          if (cats.length > 14) line("… and " + (cats.length - 14) + " more categories", "term-dim");
+        });
+      }
+
+      function lsCategory(cat) {
+        withPosts(function (posts) {
+          var matches = posts.filter(function (p) {
+            return (p.categories || []).some(function (c) { return String(c).toLowerCase() === cat; });
+          });
+          if (!matches.length) {
+            line("ls: cannot access 'blog/" + term.escapeHtml(cat) + "': no such category — try " + term.cmd("ls blog"), "term-err");
+            return;
+          }
+          matches.sort(function (a, b) { return postDateStr(b) < postDateStr(a) ? 1 : -1; });
+          matches.slice(0, 10).forEach(function (p) {
+            var el = line("", "");
+            var d = document.createElement("span");
+            d.className = "term-dim";
+            d.textContent = postDateStr(p) + "  ";
+            var a = document.createElement("a");
+            a.className = "term-accent";
+            a.href = "blog?post=" + encodeURIComponent(p.filename);
+            var bdi = document.createElement("bdi");
+            bdi.textContent = p.title || p.filename;
+            a.appendChild(bdi);
+            el.appendChild(d);
+            el.appendChild(a);
+          });
+          if (matches.length > 10) {
+            line(
+              "… and " + (matches.length - 10) + " more — <a class='term-accent' href='blog?category=" +
+              encodeURIComponent(cat) + "'>open in the blog →</a>",
+              "term-dim"
+            );
+          }
+        });
+      }
+
+      function lsTrips() {
+        withPosts(function (posts) {
+          withTrips(function (config) {
+            var trips = tripSummaries(posts, config);
+            if (!trips.length) { line("no trips logged yet. the passport is restless.", "term-dim"); return; }
+            trips.forEach(function (t) {
+              var span = t.first.slice(0, 7) + " → " + t.last.slice(0, 7);
+              line(
+                "<a class='term-dir' href='travel'>" + pad(t.name + "/", 14) + "</a>" +
+                "<span class='term-dim'>" +
+                (t.maxDay ? t.maxDay + " days · " : "") +
+                t.countryOrder.length + " countries · " + span +
+                "</span>&nbsp;&nbsp;" + term.cmd("ls trips/" + t.id, "→")
+              );
+            });
+          });
+        });
+      }
+
+      function lsTrip(key) {
+        withPosts(function (posts) {
+          withTrips(function (config) {
+            var trips = tripSummaries(posts, config);
+            var trip = null;
+            for (var i = 0; i < trips.length; i++) {
+              if (trips[i].id === key || trips[i].root.toLowerCase() === key || trips[i].name === key) {
+                trip = trips[i];
+                break;
+              }
+            }
+            if (!trip) {
+              line("ls: cannot access 'trips/" + term.escapeHtml(key) + "': no such trip — try " + term.cmd("ls trips"), "term-err");
+              return;
+            }
+            trip.countryOrder.forEach(function (c) {
+              line(
+                "<a class='term-dir' href='blog?category=" + encodeURIComponent(c) + "'>" +
+                pad(c.toLowerCase() + "/", 14) + "</a>" +
+                "<span class='term-dim'>" + trip.countries[c] + " posts</span>"
+              );
+            });
+            var rootLevel = trip.posts - trip.countryOrder.reduce(function (s, c) { return s + trip.countries[c]; }, 0);
+            if (rootLevel > 0) line(pad("./", 14) + "<span class='term-dim'>" + rootLevel + " posts between places</span>");
+          });
+        });
+      }
+
       return {
         ls: {
-          desc: "list what's here",
-          run: function () {
-            line(PAGES.map(function (p) {
-              return "<a href='" + p + "' class='term-dir'>" + p + "/</a>";
-            }).join("&nbsp;&nbsp;"));
+          desc: "explore the archive — ls blog, ls trips",
+          run: function (args) {
+            var path = (args[0] || "").replace(/\/+$/, "").toLowerCase();
+            if (!path || path === "~") return lsRoot();
+            var parts = path.split("/");
+            if (parts[0] === "blog") return parts[1] ? lsCategory(parts.slice(1).join("/")) : lsBlog();
+            if (parts[0] === "trips" || parts[0] === "travel") return parts[1] ? lsTrip(parts[1]) : lsTrips();
+            if (PAGES.indexOf(parts[0]) >= 0) {
+              line(term.escapeHtml(parts[0]) + "/ is a page — " + term.cmd("cd " + parts[0]), "term-dim");
+              return;
+            }
+            line("ls: cannot access '" + term.escapeHtml(path) + "': no such directory", "term-err");
           },
         },
 
@@ -296,37 +545,60 @@
           },
         },
 
-        day: {
-          desc: "revisit a date — day 107, day 2026-03-22, or just day",
+        post: {
+          desc: "the corpus — post day 107, post today, post shuffle",
           run: function (args) {
-            var arg = (args[0] || "").trim();
-            if (!arg) { onThisDay(); return; }
-            if (/^\d{4}-\d{2}-\d{2}$/.test(arg)) { showDay(arg); return; }
-            if (/^\d+$/.test(arg)) {
-              var n = parseInt(arg, 10);
-              withPosts(function (posts) {
-                var match = null;
-                for (var i = 0; i < posts.length; i++) {
-                  if (tripDayNumber(posts[i]) === n) { match = posts[i]; break; }
-                }
-                if (match) showDay(postDateStr(match));
-                else line("day: no day " + n + " in the log", "term-err");
-              });
+            var sub = (args[0] || "").trim().toLowerCase();
+            if (sub === "day") { runDay(args.slice(1)); return; }
+            if (sub === "today") { onThisDay(); return; }
+            if (sub === "shuffle" || sub === "random") { runShuffle(); return; }
+            if (/^\d{4}-\d{2}-\d{2}$/.test(sub) || /^\d+$/.test(sub)) { runDay(args); return; }
+            if (sub) {
+              line("post: unknown subcommand '" + term.escapeHtml(sub) + "' — try " + term.cmd("post"), "term-err");
               return;
             }
-            line("usage: day [n | yyyy-mm-dd] — or bare for on-this-day", "term-dim");
+            // Bare post: the corpus census
+            withPosts(function (posts) {
+              var kinds = {};
+              posts.forEach(function (p) {
+                var kind;
+                if (isTravel(p)) kind = "travel";
+                else {
+                  var cats = (p.categories || []).map(function (c) { return String(c).toLowerCase(); });
+                  kind = cats[0] || "uncategorized";
+                }
+                kinds[kind] = (kinds[kind] || 0) + 1;
+              });
+              var parts = Object.keys(kinds)
+                .sort(function (a, b) { return kinds[b] - kinds[a]; })
+                .map(function (k) { return kinds[k] + " " + k; });
+              line(posts.length + " posts: " + term.escapeHtml(parts.join(" · ")), "term-dim");
+              [
+                ["post day 107", "a trip day"],
+                ["post day 2026-03-22", "any date"],
+                ["post today", "on this day, in past years"],
+                ["post shuffle", "a random day"],
+              ].forEach(function (c) {
+                line("&nbsp;&nbsp;" + term.cmd(c[0]) + "&nbsp;&mdash; " + c[1], "term-dim");
+              });
+            });
+          },
+        },
+
+        // Hidden aliases: day/shuffle predate the post taxonomy
+        day: {
+          hidden: true,
+          desc: "",
+          run: function (args) {
+            if (!args.length) { onThisDay(); return; }
+            runDay(args);
           },
         },
 
         shuffle: {
-          desc: "a random day from the archive",
-          run: function () {
-            withPosts(function (posts) {
-              if (!posts.length) { line("the archive is empty. suspicious.", "term-err"); return; }
-              var p = posts[Math.floor(Math.random() * posts.length)];
-              showDay(postDateStr(p));
-            });
-          },
+          hidden: true,
+          desc: "",
+          run: function () { runShuffle(); },
         },
 
         crt: {

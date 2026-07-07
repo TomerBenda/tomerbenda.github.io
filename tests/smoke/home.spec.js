@@ -54,6 +54,39 @@ test("rm -rf / asks first, declines gracefully, and the show ends fine", async (
   expect(errors).toEqual([]);
 });
 
+test("the archive is a filesystem: ls paths, post census", async ({ page }) => {
+  const errors = await phosphorPage(page);
+  await page.route("https://tbd-spotify.tomerno6.workers.dev/**", (r) => r.abort());
+  await page.goto("/", { waitUntil: "domcontentloaded" });
+  await page.waitForSelector("#term-input");
+  const type = async (cmd) => {
+    await page.fill("#term-input", cmd);
+    await page.press("#term-input", "Enter");
+    await page.waitForTimeout(400);
+  };
+  await type("ls");
+  await expect(page.locator(".term-scrollback")).toContainText("posts");
+  await expect(page.locator(".term-scrollback")).toContainText("trip ·");
+  await type("ls blog");
+  await expect(page.locator(".term-scrollback")).toContainText("travel/");
+  await type("ls trips");
+  await expect(page.locator(".term-scrollback")).toContainText("the big trip/");
+  await expect(page.locator(".term-scrollback")).toContainText("212 days");
+  await type("ls trips/big-trip");
+  await expect(page.locator(".term-scrollback")).toContainText("japan/");
+  await type("ls blog/tech");
+  await expect(page.locator(".term-scrollback .term-line", { hasText: /2\d{3}-\d{2}-\d{2}/ }).last()).toBeVisible();
+  await type("ls nosuchdir");
+  await expect(page.locator(".term-line.term-err").last()).toContainText("no such directory");
+  await type("post");
+  await expect(page.locator(".term-scrollback")).toContainText("posts: ");
+  await expect(page.locator(".term-scrollback")).toContainText("travel");
+  await type("post today");
+  await type("post shuffle");
+  await expect(page.locator(".term-scrollback .term-line", { hasText: "──" }).last()).toBeVisible();
+  expect(errors).toEqual([]);
+});
+
 test("day cards join posts, song, and nav for a date", async ({ page, request }) => {
   const errors = await phosphorPage(page);
   await page.route("https://tbd-spotify.tomerno6.workers.dev/**", (r) => r.abort());
