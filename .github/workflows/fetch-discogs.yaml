@@ -1,0 +1,37 @@
+name: Update Discogs Collection
+
+on:
+  schedule:
+    - cron: "0 12 * * 1"  # every Monday at noon UTC
+  workflow_dispatch:      # allow manual trigger
+
+jobs:
+  update-discogs:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: pip install requests
+
+      - name: Fetch Discogs collection
+        env:
+          DISCOGS_USERNAME: "tbdtbd"
+          DISCOGS_TOKEN: ${{ secrets.DISCOGS_TOKEN }}
+        run: python scripts/fetch_discogs_collection.py
+
+      - name: Commit and push updates
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add data/discogs.json
+          git diff --staged --quiet || git commit -m "Update Discogs collection"
+          git pull && git push
