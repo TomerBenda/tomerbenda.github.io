@@ -329,7 +329,6 @@
                   dirRow("trips", "travel", trips.length + (trips.length === 1 ? " trip · " : " trips · ") + Object.keys(countries).length + " countries", "ls trips");
                   dirRow("music", "music", songCount + " tracks · " + records.length + " records");
                   dirRow("projects", "projects", projects.length + " projects");
-                  dirRow("stats", "stats", "locked");
                 });
               });
             });

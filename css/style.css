@@ -1312,6 +1312,13 @@ nav {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
   gap: 1em;
+  /* The shelf scrolls in place (like the song log) — 119 records
+     shouldn't stretch the page; the genre chips stay visible above */
+  max-height: 65vh;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: var(--accent-40) transparent;
+  padding-right: 0.4em;
 }
 
 .vinyl-card {
@@ -1441,24 +1448,6 @@ html {
 /* Links bloom on hover, consistently */
 a:hover {
   text-shadow: 0 0 8px var(--accent-40);
-}
-
-/* Footer page links: navigation for the scrolled-to-bottom case */
-.footer-nav {
-  display: flex;
-  justify-content: center;
-  gap: 1.2em;
-  margin-bottom: 0.9em;
-}
-
-.footer-nav a {
-  color: var(--fg-dim);
-  text-decoration: none;
-  font-size: 0.88em;
-}
-
-.footer-nav a:hover {
-  color: var(--accent);
 }
 
 /* Cross-document page fade (progressive: older browsers navigate instantly) */
