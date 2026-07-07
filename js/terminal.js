@@ -82,6 +82,7 @@
     ls: common.ls,
     cd: common.cd,
     grep: common.grep,
+    post: common.post,
     day: common.day,
     shuffle: common.shuffle,
     whoami: {
