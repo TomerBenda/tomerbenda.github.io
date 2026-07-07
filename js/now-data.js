@@ -56,6 +56,22 @@
             if (isTravel) { travel = sorted[i]; break; }
           }
           if (travel) out.lastSeen = { text: placeFromFilename(travel.filename), url: "travel" };
+
+          // On this day, in an earlier year (any kind of post)
+          var today = new Date();
+          var mmdd = String(today.getMonth() + 1).padStart(2, "0") + "-" + String(today.getDate()).padStart(2, "0");
+          var thisYear = today.getFullYear();
+          var memories = sorted.filter(function (p) {
+            var d = (p.date || "").split(" ")[0];
+            return d.slice(5) === mmdd && parseInt(d.slice(0, 4), 10) < thisYear;
+          });
+          if (memories.length) {
+            var mem = memories[0]; // sorted desc → most recent past year
+            out.onThisDay = {
+              text: (mem.title || mem.filename) + " (" + (mem.date || "").slice(0, 4) + ")",
+              url: "blog?post=" + encodeURIComponent(mem.filename)
+            };
+          }
           for (var s = 0; s < sorted.length; s++) {
             if (sorted[s].song_of_the_day) {
               out.latestTrack = { text: sorted[s].song_of_the_day, url: null };
@@ -86,6 +102,7 @@
       var L = [];
       if (data.nowPlaying) L.push({ label: data.nowPlaying.live ? "▸ now playing" : "▸ last played", text: data.nowPlaying.text, url: data.nowPlaying.url });
       if (data.lastSeen) L.push({ label: "◈ last seen", text: data.lastSeen.text, url: data.lastSeen.url });
+      if (data.onThisDay) L.push({ label: "◷ on this day", text: data.onThisDay.text, url: data.onThisDay.url });
       if (data.latestTrack) L.push({ label: "♪ latest track", text: data.latestTrack.text, url: data.latestTrack.url });
       if (data.newestVinyl) L.push({ label: "◎ newest vinyl", text: data.newestVinyl.text, url: data.newestVinyl.url });
       if (data.latestPost) L.push({ label: "✎ latest post", text: data.latestPost.text, url: data.latestPost.url });

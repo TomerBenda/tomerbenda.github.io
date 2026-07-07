@@ -82,6 +82,8 @@
     ls: common.ls,
     cd: common.cd,
     grep: common.grep,
+    day: common.day,
+    shuffle: common.shuffle,
     whoami: {
       desc: "who is tbd anyway",
       run: function () {

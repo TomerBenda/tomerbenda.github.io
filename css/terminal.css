@@ -312,3 +312,22 @@ body.melting {
 .meltdown-blink {
   animation: blink-cursor 1s steps(2, start) infinite;
 }
+
+/* Day-card photo thumbs in the scrollback */
+.term-day-photos {
+  display: flex;
+  gap: 6px;
+  padding: 4px 0;
+}
+
+.term-day-photos img {
+  height: 64px;
+  width: auto;
+  border-radius: 4px;
+  border: 1px solid var(--accent-08);
+  display: block;
+}
+
+.term-day-photos a:hover img {
+  border-color: var(--accent-40);
+}
