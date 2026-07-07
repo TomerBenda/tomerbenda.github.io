@@ -184,3 +184,37 @@
 .travel-marker-current span {
   animation: travel-pin-pulse 1.8s ease-out infinite;
 }
+
+/* Trip selector chips (rendered only when >1 trip exists) */
+.journey-trips {
+  display: flex;
+  gap: 0.4em;
+  flex-wrap: wrap;
+  margin: 0.4em 0;
+}
+.journey-chip {
+  --chip-color: var(--accent, #39ff14);
+  pointer-events: auto; /* .travel-overlay is pointer-events:none */
+  background: none;
+  border: 1px solid var(--chip-color);
+  color: var(--chip-color);
+  font-family: "Fira Code", monospace;
+  font-size: 0.8em;
+  border-radius: 4px;
+  padding: 0.15em 0.6em;
+  cursor: pointer;
+}
+.journey-chip.active {
+  background: var(--chip-color);
+  color: #0a0b0e;
+  font-weight: bold;
+}
+
+/* Replay HUD: current stop name during replay */
+.journey-replay-hud {
+  font-family: "Fira Code", monospace;
+  font-size: 0.85em;
+  color: var(--accent, #39ff14);
+  min-height: 1.2em;
+  margin: 0.2em 0;
+}
