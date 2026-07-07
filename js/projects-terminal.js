@@ -110,6 +110,54 @@
       .catch(function () { return null; });
   }
 
+  // A full README dumped mid-session breaks the shell flow, so cat offers
+  // it behind a [y/N] prompt. The next input answers; any other command
+  // silently cancels the offer and runs normally.
+  var pendingReadme = null;
+
+  function renderReadme(p) {
+    var loading = line("reading " + escapeHtml(p.repo) + "/README.md…", "term-dim");
+    fetchReadme(p.repo).then(function (md) {
+      loading.remove();
+      if (!md) {
+        line("could not read " + escapeHtml(p.repo) + "/README.md", "term-dim");
+        return;
+      }
+      var el = line("", "term-cat-body");
+      el.innerHTML = window.marked.parse(md);
+      // Relative README asset paths resolve against the raw repo root
+      var base = "https://raw.githubusercontent.com/" + GH_USER + "/" + p.repo + "/HEAD/";
+      el.querySelectorAll("img").forEach(function (img) {
+        var src = img.getAttribute("src") || "";
+        if (src && !/^([a-z]+:)?\/\//i.test(src) && !src.startsWith("data:")) img.src = base + src.replace(/^\.?\//, "");
+        img.loading = "lazy";
+      });
+      el.querySelectorAll("a").forEach(function (a) {
+        a.target = "_blank";
+        a.rel = "noopener";
+      });
+      line("&nbsp;");
+      root.scrollTop = root.scrollHeight;
+    });
+  }
+
+  function offerReadme(p) {
+    var prompt = line("", "term-dim");
+    prompt.appendChild(document.createTextNode("read " + p.repo + "/README.md? ["));
+    var yes = document.createElement("a");
+    yes.href = "#";
+    yes.className = "term-accent";
+    yes.textContent = "y";
+    yes.addEventListener("click", function (e) {
+      e.preventDefault();
+      term.run("y");
+      term.focus();
+    });
+    prompt.appendChild(yes);
+    prompt.appendChild(document.createTextNode("/N]"));
+    pendingReadme = p;
+  }
+
   function cat(slug) {
     var p = bySlug[slug];
     if (!p) {
@@ -124,28 +172,10 @@
     if (links.length) line(links.join("&nbsp;&nbsp;"));
 
     if (p.repo && window.marked) {
-      var loading = line("reading " + escapeHtml(p.repo) + "/README.md…", "term-dim");
-      fetchReadme(p.repo).then(function (md) {
-        loading.remove();
-        if (!md) return; // repo private/renamed/offline — blurb already printed
-        var el = line("", "term-cat-body");
-        el.innerHTML = window.marked.parse(md);
-        // Relative README asset paths resolve against the raw repo root
-        var base = "https://raw.githubusercontent.com/" + GH_USER + "/" + p.repo + "/HEAD/";
-        el.querySelectorAll("img").forEach(function (img) {
-          var src = img.getAttribute("src") || "";
-          if (src && !/^([a-z]+:)?\/\//i.test(src) && !src.startsWith("data:")) img.src = base + src.replace(/^\.?\//, "");
-          img.loading = "lazy";
-        });
-        el.querySelectorAll("a").forEach(function (a) {
-          a.target = "_blank";
-          a.rel = "noopener";
-        });
-        line("&nbsp;");
-        root.scrollTop = root.scrollHeight;
-      });
+      offerReadme(p);
+    } else {
+      line("&nbsp;");
     }
-    line("&nbsp;");
   }
 
   var COMMANDS = {
@@ -192,6 +222,15 @@
   };
 
   function exec(cmd) {
+    if (pendingReadme) {
+      var offered = pendingReadme;
+      pendingReadme = null;
+      var answer = cmd.trim().toLowerCase();
+      if (answer === "y" || answer === "yes") { renderReadme(offered); return; }
+      if (answer === "n" || answer === "no") { line("(skipped)", "term-dim"); return; }
+      // any other input: drop the offer and run it as a normal command
+    }
+
     var parts = cmd.split(/\s+/);
     var name = parts[0].toLowerCase();
     var args = parts.slice(1);
