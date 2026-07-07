@@ -34,6 +34,12 @@ jobs:
           echo "- Posts added/updated: $added" >> $GITHUB_STEP_SUMMARY
           echo "- Posts deleted: $deleted" >> $GITHUB_STEP_SUMMARY
 
+      - name: Generate responsive image variants
+        run: |
+          python3 -m pip install pillow
+          cd blog
+          python3 scripts/generate_image_variants.py
+
       - name: Install pyyaml
         run: |
           python3 -m pip install pyyaml
@@ -59,7 +65,7 @@ jobs:
           cd blog
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add posts/ feed.xml sitemap.xml
+          git add posts/ assets/ feed.xml sitemap.xml
           git diff --cached --name-only --diff-filter=A | grep '\.md$' > /tmp/new_posts.txt || true
           git diff --cached --quiet || git commit -m "Sync posts from vault and update index.json"
           git pull && git push

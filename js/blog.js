@@ -4,6 +4,13 @@ const postsContainer = document.getElementById("posts-container");
 const categoryList = document.getElementById("category-list");
 let postsMeta = [];
 
+// Responsive image manifest (assets/img) — resolves to {} when absent
+let imageManifest = {};
+const imageManifestReady = fetch("assets/img/manifest.json")
+  .then((r) => (r.ok ? r.json() : {}))
+  .catch(() => ({}))
+  .then((m) => { imageManifest = m || {}; });
+
 const POSTS_PER_BATCH = 10;
 
 let currentSearch = "";
@@ -465,8 +472,8 @@ function renderFullPost(post, skipPushState = false) {
     : `${document.title}`;
   document.getElementById("c_widget")?.classList.remove("hidden");
 
-  fetch(`posts/${post.filename}`)
-    .then((res) => res.text())
+  Promise.all([fetch(`posts/${post.filename}`), imageManifestReady])
+    .then(([res]) => res.text())
     .then((md) => {
       let content = md;
       if (md.startsWith("---")) {
@@ -485,7 +492,14 @@ function renderFullPost(post, skipPushState = false) {
             .split("/")
             .slice(0, -1)
             .join("/");
-          return `<img src='posts/${postDir}/attachments/${filename.trim()}' alt='${filename.trim()}' loading="lazy" style='max-width:100%;'>`;
+          const srcPath = `${postDir}/attachments/${filename.trim()}`;
+          const orig = `posts/${srcPath}`;
+          const entry = imageManifest[srcPath];
+          if (entry && entry.variants && entry.variants.length) {
+            const srcset = entry.variants.map((v) => `${v.path} ${v.w}w`).join(", ");
+            return `<img src='${orig}' srcset='${srcset}' sizes='(max-width: 900px) 100vw, 800px' width='${entry.w}' height='${entry.h}' alt='${filename.trim()}' loading="lazy" style='max-width:100%;height:auto;'>`;
+          }
+          return `<img src='${orig}' alt='${filename.trim()}' loading="lazy" style='max-width:100%;'>`;
         }
         return match;
       });
