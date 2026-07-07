@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Projects | tbd</title>
     <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="css/terminal.css" />
     <link rel="icon" type="image/png" href="favicon.ico" />
     <link rel="alternate" type="application/rss+xml" title="tbd RSS Feed" href="/feed.xml" />
     <link
@@ -16,15 +17,19 @@
   <body>
     <header></header>
     <div class="container">
-      <aside class="sidebar"></aside>
       <main class="main-content">
         <h1>Projects</h1>
-        <div id="projects-grid" class="projects-grid"></div>
+        <div id="projects-term" class="term term-tall">
+          <!-- Static fallback, replaced when projects-terminal.js runs -->
+          <p>the projects live on <a href="https://github.com/TomerBenda">github</a>.</p>
+        </div>
+        <div id="projects-chips" class="term-chips"></div>
       </main>
     </div>
     <footer></footer>
-    <script src="js/main.js"></script>
     <script src="js/include-components.js"></script>
-    <script src="js/projects.js"></script>
+    <script src="js/main.js"></script>
+    <script src="js/term-core.js"></script>
+    <script src="js/projects-terminal.js"></script>
   </body>
 </html>
