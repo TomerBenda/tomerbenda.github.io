@@ -28,6 +28,32 @@ test("home terminal responds to commands", async ({ page }) => {
   expect(errors).toEqual([]);
 });
 
+test("rm -rf / asks first, declines gracefully, and the show ends fine", async ({ page }) => {
+  const errors = await phosphorPage(page);
+  await page.route("https://tbd-spotify.tomerno6.workers.dev/**", (r) => r.abort());
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  await page.goto("/", { waitUntil: "domcontentloaded" });
+  await page.waitForSelector("#term-input");
+  const type = async (cmd) => {
+    await page.fill("#term-input", cmd);
+    await page.press("#term-input", "Enter");
+    await page.waitForTimeout(200);
+  };
+  await type("rm -rf /");
+  await expect(page.locator(".term-scrollback")).toContainText("remove write-protected system directory");
+  await type("n");
+  await expect(page.locator(".term-scrollback")).toContainText("wise.");
+  await type("sudo rm -rf /");
+  await expect(page.locator(".term-scrollback")).toContainText("absolutely not");
+  // The connoisseur flag skips the prompt; reduced motion gets the quiet apocalypse
+  await type("rm -rf --no-preserve-root /");
+  await expect(page.locator(".term-scrollback")).toContainText("everything is fine. nothing was lost.");
+  await expect(page.locator(".term-scrollback")).toContainText("attempt #1");
+  await type("vim");
+  await expect(page.locator(".term-scrollback")).toContainText("protecting you");
+  expect(errors).toEqual([]);
+});
+
 test("grep works in the home terminal (shared command set)", async ({ page, request }) => {
   const errors = await phosphorPage(page);
   await page.route("https://tbd-spotify.tomerno6.workers.dev/**", (r) => r.abort());

@@ -170,32 +170,163 @@
         }, reducedMotion ? 0 : 800);
       },
     },
+    vim: {
+      hidden: true,
+      desc: "",
+      run: function () {
+        line("you wouldn't be able to exit. i'm protecting you.", "term-dim");
+      },
+    },
+    emacs: {
+      hidden: true,
+      desc: "",
+      run: function () {
+        line("this terminal is too small to contain an operating system.", "term-dim");
+      },
+    },
+    ping: {
+      hidden: true,
+      desc: "",
+      run: function (args) {
+        var host = args[0] || "tbd.codes";
+        line("PING " + escapeHtml(host) + ": 64 bytes, 12ms. it's alive.", "term-dim");
+      },
+    },
+    make: {
+      hidden: true,
+      desc: "",
+      run: function (args) {
+        line("make: *** No rule to make target '" + escapeHtml(args[0] || "sense") + "'. Stop.", "term-err");
+      },
+    },
+    coffee: {
+      hidden: true,
+      desc: "",
+      run: function () {
+        line("HTTP 418: i'm a teapot.", "term-err");
+      },
+    },
   };
 
+  // --- rm -rf /: the show. Confirmed via [y/N] (a true terminal user
+  // passes --no-preserve-root and skips the formalities). The site
+  // appears to die — deletion log, shake, kernel panic, recovery boot —
+  // and keeps count of how many times you've done this to it.
+  var pendingMeltdown = false;
+  var melting = false;
+
+  function meltdownCount() {
+    var n = 0;
+    try { n = parseInt(localStorage.getItem("tbd-meltdowns") || "0", 10) + 1; localStorage.setItem("tbd-meltdowns", String(n)); } catch (e) { n = 1; }
+    return n;
+  }
+
   function meltdown() {
-    line("rm: descending into /…", "term-err");
+    melting = true;
+    var hadCrt = document.cookie.split("; ").some(function (r) { return r === "crt=1"; });
+
     if (reducedMotion) {
-      line("just kidding. everything is fine.", "term-dim");
+      // The quiet apocalypse
+      line("rm: descending into /…", "term-err");
+      line("removing everything. done.", "term-err");
+      line("everything is fine. nothing was lost.", "term-dim");
+      line("(that was attempt #" + meltdownCount() + ".)", "term-dim");
+      melting = false;
       return;
     }
-    var garbage = ["/bin gone", "/usr gone", "/home gone", "0x0000DEAD 0x0000BEEF", "▓▒░ signal lost ░▒▓"];
-    var i = 0;
-    document.body.classList.add("crt");
-    var t = setInterval(function () {
-      if (i >= garbage.length) {
-        clearInterval(t);
-        if (!document.cookie.split("; ").some(function (r) { return r === "crt=1"; })) {
-          document.body.classList.remove("crt");
-        }
-        line("just kidding. everything is fine.", "term-dim");
-        return;
+
+    var steps = [];
+    function at(delay, fn) { steps.push({ delay: delay, fn: fn }); }
+
+    at(500, function () { line("rm: descending into /…", "term-err"); });
+    at(900, function () { line("removing /bin… done", "term-dim"); });
+    at(600, function () { line("removing /usr… done", "term-dim"); });
+    at(700, function () {
+      withPosts(function (posts) {
+        var songs = posts.filter(function (p) { return p.song_of_the_day; }).length;
+        line("removing /blog… " + posts.length + " posts, gone", "term-err");
+        setTimeout(function () {
+          line("removing /music/song_of_the_day.log… " + songs + " tracks, silenced", "term-err");
+        }, 800);
+      });
+    });
+    at(1900, function () {
+      line("removing /travel… the whole journey, unwalked", "term-err");
+      document.body.classList.add("melting");
+    });
+    at(1100, function () { line("removing /home/visitor… that's you.", "term-err"); });
+    at(1200, function () {
+      line("0x0000DEAD 0x0000BEEF ▓▒░ SIGNAL LOST ░▒▓", "term-err");
+      document.body.classList.add("crt");
+    });
+    at(900, function () {
+      var blackout = document.createElement("div");
+      blackout.className = "meltdown-blackout";
+      blackout.id = "meltdown-blackout";
+      blackout.innerHTML = "<div class='meltdown-panic'>KERNEL PANIC — not syncing: attempted to kill init<br>&nbsp;</div>";
+      document.body.appendChild(blackout);
+      requestAnimationFrame(function () { blackout.classList.add("on"); });
+    });
+    at(2200, function () {
+      var panic = document.querySelector("#meltdown-blackout .meltdown-panic");
+      if (panic) {
+        panic.classList.add("recovery");
+        panic.innerHTML = "tbd.codes recovery mode v0.1<br>";
+        var boots = ["fsck /dev/blog… clean", "fsck /dev/travel… clean", "restoring from backup… ok", "reticulating splines… ok"];
+        boots.forEach(function (b, i) {
+          setTimeout(function () { panic.innerHTML += b + "<br>"; }, 450 * (i + 1));
+        });
       }
-      line(garbage[i++], "term-err");
-    }, 220);
+    });
+    at(2600, function () {
+      var blackout = document.getElementById("meltdown-blackout");
+      if (blackout) {
+        blackout.classList.remove("on");
+        setTimeout(function () { blackout.remove(); }, 700);
+      }
+      document.body.classList.remove("melting");
+      if (!hadCrt) document.body.classList.remove("crt");
+    });
+    at(900, function () {
+      line("everything is fine. nothing was lost.", "term-dim");
+      line("(that was attempt #" + meltdownCount() + ". the site remembers.)", "term-dim");
+      melting = false;
+    });
+
+    var t = 0;
+    steps.forEach(function (s) {
+      t += s.delay;
+      setTimeout(s.fn, t);
+    });
   }
 
   function exec(cmd) {
-    if (/^rm\s+-rf\s+\/\s*$/.test(cmd)) return meltdown();
+    if (pendingMeltdown) {
+      pendingMeltdown = false;
+      var answer = cmd.trim().toLowerCase();
+      if (answer === "y" || answer === "yes") return meltdown();
+      line("wise.", "term-dim");
+      if (answer === "n" || answer === "no") return;
+      // anything else already declined the apocalypse; run it normally
+    }
+    if (melting) {
+      line("the system is busy dying. please hold.", "term-err");
+      return;
+    }
+    if (/^rm\s+-rf\s+--no-preserve-root\s+\/\s*$/.test(cmd)) {
+      // You knew the flag. No questions asked.
+      return meltdown();
+    }
+    if (/^rm\s+-rf\s+\/\s*$/.test(cmd)) {
+      line("rm: remove write-protected system directory '/'? [" +
+        term.cmd("y") + "/N]", "term-dim");
+      pendingMeltdown = true;
+      return;
+    }
+    if (/^sudo\s+rm\s+-rf\s+/.test(cmd)) {
+      line("with root powers? absolutely not.", "term-err");
+      return;
+    }
 
     var parts = cmd.split(/\s+/);
     var name = parts[0].toLowerCase();

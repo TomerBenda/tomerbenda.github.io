@@ -255,3 +255,52 @@ a.term-motd-value:hover {
 .nav-term-btn:hover {
   background: var(--accent-15);
 }
+
+/* rm -rf /: the show */
+@keyframes meltdown-shake {
+  0% { transform: translate(0, 0) rotate(0deg); }
+  25% { transform: translate(2px, -1px) rotate(0.15deg); }
+  50% { transform: translate(-2px, 1px) rotate(-0.2deg); }
+  75% { transform: translate(1px, 2px) rotate(0.1deg); }
+  100% { transform: translate(-1px, -1px) rotate(0deg); }
+}
+
+body.melting {
+  animation: meltdown-shake 0.25s linear infinite;
+}
+
+.meltdown-blackout {
+  position: fixed;
+  inset: 0;
+  background: #000;
+  z-index: 3000;
+  opacity: 0;
+  transition: opacity 0.6s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: left;
+}
+
+.meltdown-blackout.on {
+  opacity: 1;
+}
+
+.meltdown-panic {
+  font-family: "Fira Code", monospace;
+  color: var(--err);
+  font-size: 0.95em;
+  max-width: 560px;
+  padding: 1em;
+  line-height: 1.8;
+}
+
+.meltdown-panic.recovery {
+  color: var(--accent);
+  text-shadow: var(--bloom);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  body.melting { animation: none; }
+  .meltdown-blackout { transition: none; }
+}
