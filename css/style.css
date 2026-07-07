@@ -89,7 +89,10 @@ nav {
 .nav-links {
   list-style: none;
   display: flex;
-  gap: 1em;
+  /* Wrap between items (nowrap on the links keeps "> label" whole) */
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 0.2em 1em;
   margin: 0;
   padding: 0;
 }
@@ -100,6 +103,8 @@ nav {
   padding: 0.2em 0.5em;
   border-radius: 3px;
   transition: background 0.2s, color 0.2s;
+  /* Never split the "> " active marker from its label on narrow screens */
+  white-space: nowrap;
 }
 
 .nav-links a:hover {

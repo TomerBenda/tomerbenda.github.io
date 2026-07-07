@@ -74,7 +74,7 @@
       var row = document.createElement("div");
       row.className = "term-line";
       var html =
-        "<span class='term-dim'>drwxr-xr-x  </span>" +
+        "<span class='term-dim proj-perm'>drwxr-xr-x  </span>" +
         "<a class='term-dir proj-open' data-slug='" + escapeHtml(p.slug) + "' href='#'>" +
         pad(escapeHtml(p.slug) + "/", slugW) + "</a>" +
         "<span class='term-dim'>" + pad(escapeHtml(p.lang || "-"), langW) + "</span>" +

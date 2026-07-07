@@ -95,6 +95,7 @@
         play.target = "_blank";
         play.rel = "noopener";
         play.title = "search on youtube";
+        play.setAttribute("aria-label", "search on youtube: " + post.song_of_the_day);
         play.textContent = "♪";
 
         var song = document.createElement("span");
@@ -109,6 +110,7 @@
         link.className = "song-log-link";
         link.href = "blog?post=" + encodeURIComponent(post.filename);
         link.title = post.title || post.filename;
+        link.setAttribute("aria-label", "open the post: " + (post.title || post.filename));
         link.textContent = "→";
 
         row.appendChild(date);

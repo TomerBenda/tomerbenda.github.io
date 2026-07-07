@@ -133,3 +133,10 @@
 .term-cat-body {
   color: var(--fg);
 }
+
+/* Narrow screens: drop the permissions column so ls rows fit one line */
+@media (max-width: 480px) {
+  .proj-perm {
+    display: none;
+  }
+}
