@@ -1,0 +1,219 @@
+/* Music page: song log, vinyl shelf, now-playing (split from style.css) */
+
+/* Song-of-the-day log (music page) */
+.song-log-intro {
+  color: var(--fg-dim);
+  font-size: 0.9em;
+}
+
+/* The log scrolls in place (same pattern as #posts-container) so the
+   vinyl shelf below isn't buried under 190+ rows */
+.song-log {
+  max-height: 60vh;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: var(--accent-40) transparent;
+  padding-right: 0.4em;
+}
+
+.song-log-header {
+  color: var(--fg-dim);
+  font-size: 0.85em;
+  margin: 1.2em 0 0.4em;
+}
+
+.song-log-crossing {
+  color: var(--accent-40);
+  font-size: 0.8em;
+  margin: 1.1em 0 0.5em;
+  letter-spacing: 0.05em;
+}
+
+.song-log-row {
+  display: flex;
+  align-items: baseline;
+  gap: 0.7em;
+  padding: 0.22em 0;
+  border-bottom: 1px solid var(--accent-08);
+  font-size: 0.9em;
+}
+
+.song-log-date {
+  color: var(--accent);
+  opacity: 0.55;
+  min-width: 6.5em;
+  flex-shrink: 0;
+  font-size: 0.85em;
+}
+
+.song-log-play {
+  color: var(--amber);
+  text-decoration: none;
+  flex-shrink: 0;
+}
+
+.song-log-play:hover {
+  text-shadow: 0 0 8px rgba(255, 176, 0, 0.6);
+}
+
+.song-log-title {
+  flex: 1;
+  min-width: 0;
+  overflow-wrap: break-word;
+  /* All rows share a left anchor; <bdi> handles per-title direction */
+  text-align: left;
+}
+
+.song-log-link {
+  color: var(--accent);
+  text-decoration: none;
+  flex-shrink: 0;
+}
+
+.song-log-link:hover {
+  text-shadow: var(--bloom);
+}
+
+.song-log-loading {
+  color: var(--fg-dim);
+}
+/* End song log */
+
+/* Music - vinyl shelf */
+.vinyl-shelf {
+  margin-top: 2.5em;
+}
+
+.vinyl-genres {
+  display: flex;
+  gap: 0.4em;
+  flex-wrap: wrap;
+  margin: 0.6em 0 1em;
+}
+
+.vinyl-genre-chip {
+  background: none;
+  border: 1px solid var(--accent-40);
+  color: var(--accent);
+  font-family: "Fira Code", monospace;
+  font-size: 0.8em;
+  border-radius: 4px;
+  padding: 0.15em 0.6em;
+  cursor: pointer;
+}
+
+.vinyl-genre-chip:hover {
+  background: var(--accent-15);
+}
+
+.vinyl-genre-chip.active {
+  background: var(--accent);
+  color: var(--ph-0);
+  font-weight: bold;
+}
+
+.vinyl-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  gap: 1em;
+  /* The shelf scrolls in place (like the song log) — 119 records
+     shouldn't stretch the page; the genre chips stay visible above */
+  max-height: 65vh;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: var(--accent-40) transparent;
+  padding-right: 0.4em;
+}
+
+.vinyl-card {
+  display: block;
+  background: var(--ph-2);
+  border: 1px solid var(--accent-08);
+  border-radius: 6px;
+  padding: 0.6em;
+  transition: border-color 0.15s;
+  text-decoration: none;
+  color: inherit;
+}
+
+.vinyl-card:hover {
+  border-color: var(--accent-40);
+}
+
+.vinyl-cover {
+  aspect-ratio: 1;
+  background: var(--ph-0);
+  border-radius: 4px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--amber);
+  font-size: 2em;
+  margin-bottom: 0.5em;
+}
+
+.vinyl-cover img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.vinyl-title {
+  font-size: 0.85em;
+  color: var(--fg);
+  overflow-wrap: break-word;
+}
+
+.vinyl-meta {
+  font-size: 0.75em;
+  color: var(--fg-dim);
+}
+
+/* Music - now playing line (hidden until the spotify worker responds) */
+.now-playing {
+  font-size: 0.85em;
+  color: var(--accent);
+  margin: -0.4em 0 1em;
+}
+
+.now-playing a {
+  color: var(--amber);
+  text-decoration: none;
+}
+
+.now-playing a:hover {
+  text-decoration: underline;
+}
+
+.eq {
+  display: inline-flex;
+  align-items: flex-end;
+  gap: 2px;
+  height: 0.9em;
+  vertical-align: text-bottom;
+}
+
+.eq i {
+  width: 3px;
+  background: var(--accent);
+  animation: eq-bounce 1s ease-in-out infinite;
+}
+
+.eq i:nth-child(1) { height: 40%; animation-delay: 0s; }
+.eq i:nth-child(2) { height: 100%; animation-delay: 0.2s; }
+.eq i:nth-child(3) { height: 65%; animation-delay: 0.4s; }
+
+@keyframes eq-bounce {
+  0%, 100% { transform: scaleY(0.4); }
+  50% { transform: scaleY(1); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .eq i { animation: none; }
+}
+
+.vinyl-logged {
+  color: var(--amber);
+}

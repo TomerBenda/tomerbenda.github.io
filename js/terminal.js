@@ -7,7 +7,7 @@
   if (!root || !window.TbdTerm || !window.TbdCommands) return;
 
   var PAGES = window.TbdCommands.PAGES;
-  var postsIndex = null; // lazy-loaded for pwd/whoami
+  var D = window.TbdData;
 
   var term = window.TbdTerm(root, { path: "~", exec: exec });
   var line = term.line;
@@ -25,43 +25,17 @@
   var common = window.TbdCommands.common(term, { navigate: navigate, isHome: true });
 
   function latestTravelPost(posts) {
-    var travel = posts.filter(function (p) {
-      return (p.categories || []).some(function (c) {
-        return String(c).toLowerCase() === "travel";
-      });
-    });
+    var travel = posts.filter(D.isTravel);
     travel.sort(function (a, b) {
       return (Date.parse(b.date) || 0) - (Date.parse(a.date) || 0);
     });
     return travel[0] || null;
   }
 
-  function placeFromFilename(filename) {
-    // "Polarsteps/Japan/193_osaka.md" → { country: "japan", place: "osaka" }
-    var parts = filename.replace(/\.md$/, "").split("/");
-    var last = parts[parts.length - 1];
-    var under = last.indexOf("_");
-    var place = (under >= 0 ? last.slice(under + 1) : last)
-      .toLowerCase()
-      .replace(/\s+/g, "_");
-    var country =
-      parts.length >= 3 ? parts[parts.length - 2].toLowerCase().replace(/\s+/g, "_") : "";
-    return { country: country, place: place };
-  }
+  var placeFromFilename = D.placeFromFilename;
 
   function withPosts(fn) {
-    if (postsIndex) return fn(postsIndex);
-    fetch("posts/index.json")
-      .then(function (r) {
-        return r.ok ? r.json() : [];
-      })
-      .then(function (posts) {
-        postsIndex = posts;
-        fn(posts);
-      })
-      .catch(function () {
-        fn([]);
-      });
+    D.posts().then(fn);
   }
 
   var COMMANDS = {

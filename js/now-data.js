@@ -3,6 +3,7 @@
 // drops its line. No errors escape.
 (function () {
   var WORKER = "https://tbd-spotify.tomerno6.workers.dev";
+  var D = window.TbdData;
 
   function j(url) {
     return fetch(url).then(function (r) { return r.ok ? r.json() : null; }).catch(function () { return null; });
@@ -12,22 +13,15 @@
     return Promise.race([promise, new Promise(function (res) { setTimeout(function () { res(null); }, ms); })]);
   }
 
-  function placeFromFilename(filename) {
-    var parts = filename.replace(/\.md$/, "").split("/");
-    var last = parts[parts.length - 1];
-    var under = last.indexOf("_");
-    return (under >= 0 ? last.slice(under + 1) : last).replace(/_/g, " ").toLowerCase();
-  }
-
   window.TbdNow = {
     fetch: function () {
       return Promise.all([
         withTimeout(j(WORKER + "/now"), 2500),
-        j("posts/index.json"),
-        j("data/songlog.json"),
-        j("data/discogs.json")
+        D.posts(),
+        D.songlog(),
+        D.discogs()
       ]).then(function (results) {
-        var now = results[0], posts = results[1], songlog = results[2], discogs = results[3];
+        var now = results[0], posts = results[1], tracks = results[2], discogs = results[3];
         var out = {};
 
         if (now && now.track) {
@@ -51,11 +45,14 @@
           }
           var travel = null;
           for (var i = 0; i < sorted.length; i++) {
-            var cats = sorted[i].categories || [];
-            var isTravel = cats.some(function (c) { return String(c).toLowerCase() === "travel"; });
-            if (isTravel) { travel = sorted[i]; break; }
+            if (D.isTravel(sorted[i])) { travel = sorted[i]; break; }
           }
-          if (travel) out.lastSeen = { text: placeFromFilename(travel.filename), url: "travel" };
+          if (travel) {
+            out.lastSeen = {
+              text: D.placeFromFilename(travel.filename).place.replace(/_/g, " "),
+              url: "travel"
+            };
+          }
 
           // On this day, in an earlier year (any kind of post)
           var today = new Date();
@@ -80,8 +77,8 @@
           }
         }
 
-        if (songlog && Array.isArray(songlog.tracks) && songlog.tracks.length) {
-          var t = songlog.tracks[songlog.tracks.length - 1];
+        if (tracks.length) {
+          var t = tracks[tracks.length - 1];
           out.latestTrack = { text: t.song, url: t.url || null };
         }
 

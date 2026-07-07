@@ -149,3 +149,4 @@ data/takeout/Semantic Location History/
 tests/node_modules/
 tests/test-results/
 tests/playwright-report/
+__pycache__/
