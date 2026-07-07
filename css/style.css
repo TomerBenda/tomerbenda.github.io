@@ -1348,3 +1348,46 @@ nav {
   font-size: 0.75em;
   color: var(--fg-dim);
 }
+
+/* Music - now playing line (hidden until the spotify worker responds) */
+.now-playing {
+  font-size: 0.85em;
+  color: var(--accent);
+  margin: -0.4em 0 1em;
+}
+
+.now-playing a {
+  color: var(--amber);
+  text-decoration: none;
+}
+
+.now-playing a:hover {
+  text-decoration: underline;
+}
+
+.eq {
+  display: inline-flex;
+  align-items: flex-end;
+  gap: 2px;
+  height: 0.9em;
+  vertical-align: text-bottom;
+}
+
+.eq i {
+  width: 3px;
+  background: var(--accent);
+  animation: eq-bounce 1s ease-in-out infinite;
+}
+
+.eq i:nth-child(1) { height: 40%; animation-delay: 0s; }
+.eq i:nth-child(2) { height: 100%; animation-delay: 0.2s; }
+.eq i:nth-child(3) { height: 65%; animation-delay: 0.4s; }
+
+@keyframes eq-bounce {
+  0%, 100% { transform: scaleY(0.4); }
+  50% { transform: scaleY(1); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .eq i { animation: none; }
+}
