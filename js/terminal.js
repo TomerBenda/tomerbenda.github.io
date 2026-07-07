@@ -1,73 +1,18 @@
 // Interactive terminal for the home page.
-// No dependencies; builds into #terminal. Falls back to the static HTML
+// Shell machinery (prompt, echo, history) comes from js/term-core.js;
+// this file is the home page's command set. Falls back to the static HTML
 // already inside #terminal when JS is unavailable.
 (function () {
   var root = document.getElementById("terminal");
-  if (!root) return;
-
-  var reducedMotion =
-    window.matchMedia &&
-    window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  if (!root || !window.TbdTerm) return;
 
   var PAGES = ["blog", "travel", "music", "projects", "stats"];
-  var history = [];
-  var historyPos = -1;
   var postsIndex = null; // lazy-loaded for pwd/whoami
 
-  // --- build DOM ---
-  root.innerHTML = "";
-  var scrollback = document.createElement("div");
-  scrollback.className = "term-scrollback";
-  scrollback.setAttribute("aria-live", "polite");
-
-  var form = document.createElement("form");
-  form.className = "term-prompt-row";
-  var promptLabel = document.createElement("label");
-  promptLabel.className = "term-prompt";
-  promptLabel.htmlFor = "term-input";
-  promptLabel.innerHTML =
-    "<span class='term-user'>visitor@tbd.codes</span>:<span class='term-path'>~</span>$&nbsp;";
-  var input = document.createElement("input");
-  input.id = "term-input";
-  input.className = "term-input";
-  input.type = "text";
-  input.autocomplete = "off";
-  input.autocapitalize = "off";
-  input.spellcheck = false;
-  input.setAttribute("aria-label", "terminal command input");
-  form.appendChild(promptLabel);
-  form.appendChild(input);
-
-  root.appendChild(scrollback);
-  root.appendChild(form);
-
-  // Click anywhere in the terminal focuses the input (unless selecting text)
-  root.addEventListener("click", function () {
-    if (!window.getSelection || String(window.getSelection()) === "") input.focus();
-  });
-
-  function line(html, cls) {
-    var el = document.createElement("div");
-    el.className = "term-line" + (cls ? " " + cls : "");
-    el.innerHTML = html;
-    scrollback.appendChild(el);
-    root.scrollTop = root.scrollHeight;
-    return el;
-  }
-
-  function echoCommand(cmd) {
-    line(
-      "<span class='term-user'>visitor@tbd.codes</span>:<span class='term-path'>~</span>$ " +
-        escapeHtml(cmd)
-    );
-  }
-
-  function escapeHtml(s) {
-    return s
-      .replace(/&/g, "&amp;")
-      .replace(/</g, "&lt;")
-      .replace(/>/g, "&gt;");
-  }
+  var term = window.TbdTerm(root, { path: "~", exec: exec });
+  var line = term.line;
+  var escapeHtml = term.escapeHtml;
+  var reducedMotion = term.reducedMotion;
 
   function navigate(page) {
     line("opening " + page + "…", "term-dim");
@@ -210,7 +155,7 @@
     clear: {
       desc: "wipe the screen",
       run: function () {
-        scrollback.innerHTML = "";
+        term.clear();
       },
     },
     crt: {
@@ -228,7 +173,7 @@
         }
       },
     },
-    projects: { hidden: true, desc: "", run: function () { navigate("projects"); } },
+    projects: { desc: "the code", run: function () { navigate("projects"); } },
     stats: { hidden: true, desc: "", run: function () { navigate("stats"); } },
     sudo: {
       hidden: true,
@@ -274,13 +219,7 @@
     }, 220);
   }
 
-  function run(raw) {
-    var cmd = raw.trim();
-    echoCommand(cmd);
-    if (!cmd) return;
-    history.push(cmd);
-    historyPos = history.length;
-
+  function exec(cmd) {
     if (/^rm\s+-rf\s+\/\s*$/.test(cmd)) return meltdown();
 
     var parts = cmd.split(/\s+/);
@@ -305,27 +244,6 @@
     }
   }
 
-  form.addEventListener("submit", function (e) {
-    e.preventDefault();
-    run(input.value);
-    input.value = "";
-  });
-
-  input.addEventListener("keydown", function (e) {
-    if (e.key === "ArrowUp") {
-      e.preventDefault();
-      if (historyPos > 0) input.value = history[--historyPos];
-    } else if (e.key === "ArrowDown") {
-      e.preventDefault();
-      if (historyPos < history.length - 1) {
-        input.value = history[++historyPos];
-      } else {
-        historyPos = history.length;
-        input.value = "";
-      }
-    }
-  });
-
   // Command chips: mobile/touch users shouldn't have to type
   var chips = document.getElementById("term-chips");
   if (chips) {
@@ -335,8 +253,8 @@
       b.className = "term-chip";
       b.textContent = name;
       b.addEventListener("click", function () {
-        run(name);
-        input.focus();
+        term.run(name);
+        term.focus();
       });
       chips.appendChild(b);
     });
@@ -347,6 +265,6 @@
 
   // Autofocus on non-touch screens only (don't pop the mobile keyboard)
   if (window.matchMedia && window.matchMedia("(hover: hover)").matches) {
-    input.focus();
+    term.focus();
   }
 })();
