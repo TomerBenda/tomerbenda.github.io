@@ -13,7 +13,7 @@ test("home terminal responds to commands", async ({ page }) => {
   await type("help");
   await type("ls");
   await type("nosuchcmd");
-  await expect(page.locator(".term-dir")).toHaveCount(5); // ls pages
+  await expect(page.locator(".term-dir")).toHaveCount(4); // ls rows (stats stays unlisted)
   await expect(page.locator(".term-line.term-err").last()).toContainText("command not found: nosuchcmd");
   // Navigation is consolidated under cd (no per-page commands in help)
   await type("cd");
@@ -24,7 +24,7 @@ test("home terminal responds to commands", async ({ page }) => {
   await expect(page.locator(".term-line.term-err").last()).toContainText("cd: no such directory: nosuchpage");
   // Highlighted command mentions are clickable (e.g. `ls` in the cd error)
   await page.locator(".term-cmd", { hasText: "ls" }).last().click();
-  await expect(page.locator(".term-dir")).toHaveCount(10); // second ls output
+  await expect(page.locator(".term-dir")).toHaveCount(8); // second ls output
   expect(errors).toEqual([]);
 });
 
@@ -67,6 +67,8 @@ test("the archive is a filesystem: ls paths, post census", async ({ page }) => {
   await type("ls");
   await expect(page.locator(".term-scrollback")).toContainText("posts");
   await expect(page.locator(".term-scrollback")).toContainText("trip ·");
+  await expect(page.locator(".term-scrollback")).not.toContainText("stats"); // private page stays unlisted
+  await expect(page.locator(".footer-nav")).toHaveCount(0); // vetoed duplicate nav
   await type("ls blog");
   await expect(page.locator(".term-scrollback")).toContainText("travel/");
   await type("ls trips");

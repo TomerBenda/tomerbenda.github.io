@@ -97,5 +97,8 @@ test("vinyl shelf renders from data and hides without it", async ({ page }) => {
   // the log scrolls in place
   const scrolls = await page.$eval(".song-log", (el) => el.scrollHeight > el.clientHeight);
   expect(scrolls).toBe(true);
+  // the shelf grid scrolls in place too (instead of stretching the page)
+  const gridOverflow = await page.$eval(".vinyl-grid", (el) => getComputedStyle(el).overflowY);
+  expect(gridOverflow).toBe("auto");
   expect(errors).toEqual([]);
 });
