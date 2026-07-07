@@ -22,6 +22,9 @@ test("home terminal responds to commands", async ({ page }) => {
   await expect(page.locator(".term-scrollback")).toContainText("this is the top");
   await type("cd nosuchpage");
   await expect(page.locator(".term-line.term-err").last()).toContainText("cd: no such directory: nosuchpage");
+  // Highlighted command mentions are clickable (e.g. `ls` in the cd error)
+  await page.locator(".term-cmd", { hasText: "ls" }).last().click();
+  await expect(page.locator(".term-dir")).toHaveCount(10); // second ls output
   expect(errors).toEqual([]);
 });
 
