@@ -188,8 +188,18 @@
       hidden: true,
       desc: "",
       run: function (args) {
-        var host = args[0] || "tbd.codes";
-        line("PING " + escapeHtml(host) + ": 64 bytes, 12ms. it's alive.", "term-dim");
+        var host = escapeHtml(args[0] || "tbd.codes");
+        var roll = Math.random();
+        if (roll < 0.07) {
+          line("PING " + host + ": request timed out. probably fine.", "term-err");
+        } else if (roll < 0.12) {
+          line("PING " + host + ": 64 bytes, time=" + (300 + Math.floor(Math.random() * 500)) + "ms. someone's on hotel wifi.", "term-err");
+        } else if (roll < 0.17) {
+          line("PING " + host + ": 64 bytes, time=0.02ms. suspiciously close.", "term-dim");
+        } else {
+          var ms = 8 + Math.floor(Math.random() * 31);
+          line("PING " + host + ": 64 bytes, time=" + ms + "ms. it's alive.", "term-dim");
+        }
       },
     },
     make: {
@@ -269,28 +279,46 @@
     });
     at(2200, function () {
       var panic = document.querySelector("#meltdown-blackout .meltdown-panic");
-      if (panic) {
-        panic.classList.add("recovery");
-        panic.innerHTML = "tbd.codes recovery mode v0.1<br>";
-        var boots = ["fsck /dev/blog… clean", "fsck /dev/travel… clean", "restoring from backup… ok", "reticulating splines… ok"];
-        boots.forEach(function (b, i) {
-          setTimeout(function () { panic.innerHTML += b + "<br>"; }, 450 * (i + 1));
-        });
-      }
-    });
-    at(2600, function () {
-      var blackout = document.getElementById("meltdown-blackout");
-      if (blackout) {
-        blackout.classList.remove("on");
-        setTimeout(function () { blackout.remove(); }, 700);
-      }
-      document.body.classList.remove("melting");
-      if (!hadCrt) document.body.classList.remove("crt");
-    });
-    at(900, function () {
-      line("everything is fine. nothing was lost.", "term-dim");
-      line("(that was attempt #" + meltdownCount() + ". the site remembers.)", "term-dim");
-      melting = false;
+      if (!panic) return;
+      panic.classList.add("recovery");
+      panic.innerHTML = "tbd.codes recovery mode v0.1<br>";
+      var boots = ["fsck /dev/blog… clean", "fsck /dev/travel… clean", "restoring from backup… ok", "reticulating splines… ok"];
+      boots.forEach(function (b, i) {
+        setTimeout(function () { panic.innerHTML += b + "<br>"; }, 600 * (i + 1));
+      });
+      // Bootloader hold: wait for the visitor, however long that takes
+      setTimeout(function () {
+        panic.innerHTML += "<br><span class='meltdown-continue'>press enter to continue<span class='meltdown-blink'>_</span></span>";
+        var done = false;
+        function finish() {
+          if (done) return;
+          done = true;
+          document.removeEventListener("keydown", onKey);
+          var blackout = document.getElementById("meltdown-blackout");
+          if (blackout) {
+            blackout.removeEventListener("click", finish);
+            blackout.classList.remove("on");
+            setTimeout(function () { blackout.remove(); }, 700);
+          }
+          document.body.classList.remove("melting");
+          if (!hadCrt) document.body.classList.remove("crt");
+          setTimeout(function () {
+            line("everything is fine. nothing was lost.", "term-dim");
+            line("(that was attempt #" + meltdownCount() + ". the site remembers.)", "term-dim");
+            melting = false;
+            term.focus();
+          }, 500);
+        }
+        function onKey(e) {
+          if (e.key === "Enter" || e.key === " " || e.key === "Escape") {
+            e.preventDefault();
+            finish();
+          }
+        }
+        document.addEventListener("keydown", onKey);
+        var blackout = document.getElementById("meltdown-blackout");
+        if (blackout) blackout.addEventListener("click", finish);
+      }, 600 * 5);
     });
 
     var t = 0;
