@@ -1,8 +1,47 @@
 [
   {
-    "title": "Test Project",
-    "date": "2025-09-01",
-    "description": "A demo project to show the grid and navigation system.",
-    "filename": "test.html"
+    "slug": "ilsochrone",
+    "name": "ilsochrone",
+    "repo": "ilsochrone",
+    "lang": "TypeScript",
+    "year": 2026,
+    "blurb": "where can i get in X minutes? isochrone maps for israeli public transit.",
+    "links": { "github": "https://github.com/TomerBenda/ilsochrone" }
+  },
+  {
+    "slug": "researcher-agent",
+    "name": "researcher-agent",
+    "repo": "researcher-agent",
+    "lang": "Python",
+    "year": 2026,
+    "blurb": "an LLM agent that does background research so i don't have to.",
+    "links": { "github": "https://github.com/TomerBenda/researcher-agent" }
+  },
+  {
+    "slug": "tbd.codes",
+    "name": "tbd.codes",
+    "repo": "tomerbenda.github.io",
+    "lang": "JavaScript",
+    "year": 2026,
+    "blurb": "this site. vanilla js, phosphor terminal aesthetic, no build step — the terminal you are typing into right now.",
+    "links": { "live": "https://tbd.codes", "github": "https://github.com/TomerBenda/tomerbenda.github.io" }
+  },
+  {
+    "slug": "turbulence",
+    "name": "turbulence",
+    "repo": "turbulence",
+    "lang": "TypeScript",
+    "year": 2025,
+    "blurb": "a work in progress. it's turbulent.",
+    "links": { "github": "https://github.com/TomerBenda/turbulence" }
+  },
+  {
+    "slug": "magshichess",
+    "name": "MagshiChess",
+    "repo": "MagshiChess",
+    "lang": "C++",
+    "year": 2017,
+    "blurb": "high-school chess project from the Magshimim program. the star is well earned.",
+    "links": { "github": "https://github.com/TomerBenda/MagshiChess" }
   }
 ]

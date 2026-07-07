@@ -119,3 +119,17 @@
     font-size: 0.85em;
   }
 }
+
+/* Projects page terminal */
+.term-tall {
+  max-height: 65vh;
+  min-height: 380px;
+}
+
+.proj-stars {
+  color: var(--amber);
+}
+
+.term-cat-body {
+  color: var(--fg);
+}
