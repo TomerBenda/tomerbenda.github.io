@@ -401,13 +401,11 @@
       });
     }
 
-    var bounds = [];
     trips.forEach(function (trip) {
       trip.markerLayer = makeClusterGroup();
       trip.latLngs = [];
       trip.items.forEach(function (item) {
         var post = item.post;
-        bounds.push(item.coords);
         trip.latLngs.push(item.coords);
         var popup = "<div class='travel-popup'>" +
           "<strong>" + (post.title || post.filename) + "</strong><br>" +
@@ -521,57 +519,127 @@
 
     applySelection();
 
-    // --- Replay: fly chronologically through the journey ---
+    // --- Replay v2: camera stays fixed; a tracer draws the route ---
     var replayBtn = document.getElementById("journey-replay");
+    var hudEl = document.getElementById("journey-replay-hud");
     if (replayBtn) {
-      // Stops: first post of each new city (coords differ meaningfully from previous stop)
-      var stops = [];
-      withCoords.forEach(function (item) {
-        var prev = stops[stops.length - 1];
-        if (!prev || dist2(prev.coords[0], prev.coords[1], item.coords[0], item.coords[1]) > 0.002) {
-          stops.push(item);
-        }
-      });
+      function tripStops(trip) {
+        // First post of each new city (coords differ meaningfully from previous stop)
+        var stops = [];
+        trip.items.forEach(function (item) {
+          var prev = stops[stops.length - 1];
+          if (!prev || dist2(prev.coords[0], prev.coords[1], item.coords[0], item.coords[1]) > 0.002) {
+            stops.push(item);
+          }
+        });
+        return stops;
+      }
 
       var replaying = false;
-      var replayTimer = null;
+      var rafId = null;
+      var stepTimer = null;
+      var tracerLine = null;
+      var tracerHead = null;
+
+      function setHud(text) {
+        if (hudEl) hudEl.textContent = text || "";
+      }
+
+      function clearTracer() {
+        if (tracerLine) { map.removeLayer(tracerLine); tracerLine = null; }
+        if (tracerHead) { map.removeLayer(tracerHead); tracerHead = null; }
+      }
 
       function stopReplay() {
         replaying = false;
-        if (replayTimer) { clearTimeout(replayTimer); replayTimer = null; }
+        if (rafId) { cancelAnimationFrame(rafId); rafId = null; }
+        if (stepTimer) { clearTimeout(stepTimer); stepTimer = null; }
+        clearTracer();
+        setHud("");
         replayBtn.textContent = "▶ replay journey";
-        map.closePopup();
       }
 
-      function playStop(idx) {
-        if (!replaying) return;
-        if (idx >= stops.length) {
-          stopReplay();
-          map.fitBounds(L.latLngBounds(bounds), { padding: [40, 40], maxZoom: 10 });
+      // Animate one trip's tracer; then() is called when its line completes
+      function playTrip(trip, then) {
+        var stops = tripStops(trip);
+        if (stops.length < 2) { then(); return; }
+        var segKm = [];
+        var totalKm = 0;
+        for (var i = 1; i < stops.length; i++) {
+          var d = haversineKm(stops[i - 1].coords, stops[i].coords);
+          segKm.push(d);
+          totalKm += d;
+        }
+        // Whole trip draws in ~4ms per km, clamped to 8-25s
+        var durMs = Math.max(8000, Math.min(25000, totalKm * 4));
+
+        tracerLine = L.polyline([stops[0].coords], {
+          color: trip.color, weight: 3, opacity: 0.95
+        }).addTo(map);
+        tracerHead = L.circleMarker(stops[0].coords, {
+          radius: 6, color: trip.color, fillColor: trip.color, fillOpacity: 1
+        }).addTo(map);
+        setHud("· " + (stops[0].post.title || stops[0].post.filename));
+
+        if (reducedMotion) {
+          // Discrete steps, no continuous animation
+          var idx = 1;
+          (function step() {
+            if (!replaying) return;
+            if (idx >= stops.length) { then(); return; }
+            tracerLine.addLatLng(stops[idx].coords);
+            tracerHead.setLatLng(stops[idx].coords);
+            setHud("· " + (stops[idx].post.title || stops[idx].post.filename));
+            idx++;
+            stepTimer = setTimeout(step, 600);
+          })();
           return;
         }
-        var item = stops[idx];
-        if (reducedMotion) {
-          map.setView(item.coords, 8);
-        } else {
-          map.flyTo(item.coords, 8, { duration: 1.1 });
+
+        var start = null;
+        function frame(ts) {
+          if (!replaying) return;
+          if (start === null) start = ts;
+          var progressKm = Math.min(totalKm, ((ts - start) / durMs) * totalKm);
+          // Locate the segment the head is currently inside. <= so that at
+          // progressKm === totalKm the walk passes the final segment and the
+          // completion branch below fires (with < it would interpolate f=1 forever).
+          var acc = 0, seg = 0;
+          while (seg < segKm.length && acc + segKm[seg] <= progressKm) { acc += segKm[seg]; seg++; }
+          if (seg >= segKm.length) {
+            tracerLine.setLatLngs(stops.map(function (s) { return s.coords; }));
+            tracerHead.setLatLng(stops[stops.length - 1].coords);
+            setHud("· " + (stops[stops.length - 1].post.title || ""));
+            then();
+            return;
+          }
+          var f = segKm[seg] > 0 ? (progressKm - acc) / segKm[seg] : 1;
+          var a = stops[seg].coords, b = stops[seg + 1].coords;
+          var cur = [a[0] + (b[0] - a[0]) * f, a[1] + (b[1] - a[1]) * f];
+          var pts = stops.slice(0, seg + 1).map(function (s) { return s.coords; });
+          pts.push(cur);
+          tracerLine.setLatLngs(pts);
+          tracerHead.setLatLng(cur);
+          setHud("· " + (stops[seg + 1].post.title || stops[seg + 1].post.filename));
+          rafId = requestAnimationFrame(frame);
         }
-        L.popup({ closeButton: false, autoClose: true, className: "travel-replay-popup" })
-          .setLatLng(item.coords)
-          .setContent(
-            "<div class='travel-popup'><strong>" +
-              (item.post.title || item.post.filename) +
-              "</strong></div>"
-          )
-          .openOn(map);
-        replayTimer = setTimeout(function () { playStop(idx + 1); }, reducedMotion ? 900 : 1900);
+        rafId = requestAnimationFrame(frame);
       }
 
       replayBtn.addEventListener("click", function () {
         if (replaying) { stopReplay(); return; }
         replaying = true;
         replayBtn.textContent = "■ stop";
-        playStop(0);
+        var queue = selectedTrips().slice();
+        var multi = queue.length > 1;
+        (function next() {
+          if (!replaying) return;
+          clearTracer();
+          var trip = queue.shift();
+          if (!trip) { stopReplay(); return; }
+          if (multi) setHud("=== " + trip.name + " ===");
+          stepTimer = setTimeout(function () { playTrip(trip, next); }, multi ? 900 : 100);
+        })();
       });
     }
   })
