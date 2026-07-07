@@ -54,6 +54,45 @@ test("rm -rf / asks first, declines gracefully, and the show ends fine", async (
   expect(errors).toEqual([]);
 });
 
+test("day cards join posts, song, and nav for a date", async ({ page, request }) => {
+  const errors = await phosphorPage(page);
+  await page.route("https://tbd-spotify.tomerno6.workers.dev/**", (r) => r.abort());
+  const index = await (await request.get("/posts/index.json")).json();
+  const withSong = index.find((p) => p.song_of_the_day && /^Day\s+\d+/i.test(p.title || ""));
+  const date = withSong.date.split(" ")[0];
+  await page.goto("/", { waitUntil: "domcontentloaded" });
+  await page.waitForSelector("#term-input");
+  await page.fill("#term-input", "day " + date);
+  await page.press("#term-input", "Enter");
+  await expect(page.locator(".term-scrollback")).toContainText("── day");
+  await expect(page.locator(".term-scrollback")).toContainText(withSong.title.slice(0, 15));
+  await expect(page.locator(".term-scrollback")).toContainText("♪");
+  await expect(page.locator(".term-cmd", { hasText: "shuffle" }).first()).toBeVisible();
+  // shuffle prints another card
+  await page.fill("#term-input", "shuffle");
+  await page.press("#term-input", "Enter");
+  await expect(page.locator(".term-scrollback .term-line", { hasText: "──" }).nth(1)).toBeVisible();
+  expect(errors).toEqual([]);
+});
+
+test("on this day surfaces year-old posts in the MOTD", async ({ page }) => {
+  const errors = await phosphorPage(page);
+  await page.route("https://tbd-spotify.tomerno6.workers.dev/**", (r) => r.abort());
+  const today = new Date();
+  const lastYear = `${today.getFullYear() - 1}-${String(today.getMonth() + 1).padStart(2, "0")}-${String(today.getDate()).padStart(2, "0")}`;
+  await page.route("**/posts/index.json", async (route) => {
+    const res = await route.fetch();
+    const posts = await res.json();
+    posts.push({ filename: "Tech/memory_lane.md", title: "A Year-Old Memory", date: lastYear + " 12:00", categories: ["tech"] });
+    await route.fulfill({ response: res, json: posts });
+  });
+  await page.goto("/", { waitUntil: "domcontentloaded" });
+  await page.waitForSelector("#motd.visible", { timeout: 15000 });
+  await expect(page.locator("#motd")).toContainText("on this day");
+  await expect(page.locator("#motd")).toContainText("A Year-Old Memory");
+  expect(errors).toEqual([]);
+});
+
 test("grep works in the home terminal (shared command set)", async ({ page, request }) => {
   const errors = await phosphorPage(page);
   await page.route("https://tbd-spotify.tomerno6.workers.dev/**", (r) => r.abort());
