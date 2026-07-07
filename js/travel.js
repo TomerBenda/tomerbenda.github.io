@@ -48,25 +48,13 @@
     });
   }
 
-  function getCountry(post) {
-    var cats = post.categories || (post.category ? [post.category] : []);
-    for (var i = 0; i < cats.length; i++) {
-      var c = (cats[i] || "").trim();
-      if (c && c.toLowerCase() !== "travel") return c;
-    }
-    return "";
-  }
-
-  function tripRootOf(filename) {
-    return (filename || "").split("/")[0] || "";
-  }
+  var D = window.TbdData;
+  var getCountry = D.getCountry;
+  var tripRootOf = D.tripRootOf;
+  var postDate = D.postDateStr;
 
   // Fallback colors for trips not listed in data/trips.json
   var TRIP_FALLBACK_COLORS = ["#39ff14", "#ffb000", "#00ccff", "#ff00bb", "#ffff00"];
-
-  function postDate(post) {
-    return (post.date || "").split(/[\sT]/)[0];
-  }
 
   function dist2(lat1, lng1, lat2, lng2) {
     var dlat = lat1 - lat2, dlng = lng1 - lng2;
@@ -182,20 +170,20 @@
   }
 
   Promise.all([
-    fetch("posts/index.json").then(function (r) { return r.ok ? r.json() : []; }),
+    D.posts(),
     fetch("posts/locations.json").then(function (r) { return r.ok ? r.json() : {}; }).catch(function () { return {}; }),
     fetch("posts/timeline.json").then(function (r) { return r.ok ? r.json() : []; }).catch(function () { return []; }),
     fetch("posts/geocoded.json").then(function (r) { return r.ok ? r.json() : {}; }).catch(function () { return {}; }),
-    fetch("data/trips.json").then(function (r) { return r.ok ? r.json() : []; }).catch(function () { return []; }),
-    fetch("data/songlog.json").then(function (r) { return r.ok ? r.json() : null; }).catch(function () { return null; })
+    D.trips(),
+    D.songlog()
   ])
   .then(function (results) {
-    var posts           = results[0] || [];
+    var posts           = results[0];
     var manualOverrides = results[1] || {};
     var timelinePoints  = Array.isArray(results[2]) ? results[2] : [];
     var geocoded        = results[3] || {};
-    var tripsConfig     = Array.isArray(results[4]) ? results[4] : [];
-    var songlogTracks   = results[5] && Array.isArray(results[5].tracks) ? results[5].tracks : [];
+    var tripsConfig     = results[4];
+    var songlogTracks   = results[5];
 
     // The map and the song log describe the same days — join them.
     var dateToSong = {};
@@ -211,7 +199,7 @@
       var song = dateToSong[d];
       var songHtml = "";
       if (song) {
-        var href = song.url || ("https://www.youtube.com/results?search_query=" + encodeURIComponent(song.text));
+        var href = song.url || D.youtubeSearchUrl(song.text);
         songHtml = "<span class='travel-popup-song'>♪ <a target='_blank' rel='noopener' href='" + href + "'><bdi>" + song.text + "</bdi></a></span><br>";
       }
       return "<div class='travel-popup'>" +

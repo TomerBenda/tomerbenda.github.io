@@ -4,12 +4,9 @@
   const shelfEl = document.getElementById("vinyl-shelf");
   if (!shelfEl) return;
 
-  Promise.all([
-    fetch("data/discogs.json").then((r) => (r.ok ? r.json() : [])),
-    fetch("posts/index.json").then((r) => (r.ok ? r.json() : [])).catch(() => []),
-    fetch("data/songlog.json").then((r) => (r.ok ? r.json() : null)).catch(() => null),
-  ])
-    .then(([releases, posts, songlogData]) => {
+  const D = window.TbdData;
+  Promise.all([D.discogs(), D.posts(), D.songlog()])
+    .then(([releases, posts, tracks]) => {
       if (!Array.isArray(releases) || releases.length === 0) return;
 
       // Shelf ∩ song log: count each shelf artist's appearances in the log
@@ -17,10 +14,7 @@
       const songs = posts
         .filter((p) => p.song_of_the_day)
         .map((p) => p.song_of_the_day.toLowerCase())
-        .concat(
-          (songlogData && Array.isArray(songlogData.tracks) ? songlogData.tracks : [])
-            .map((t) => (t.song || "").toLowerCase())
-        );
+        .concat(tracks.map((t) => (t.song || "").toLowerCase()));
       const loggedCount = (artist) => {
         const names = (artist || "").split(", ").map((a) => a.trim().toLowerCase()).filter((a) => a.length > 2);
         let n = 0;

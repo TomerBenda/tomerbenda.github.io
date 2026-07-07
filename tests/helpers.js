@@ -9,4 +9,11 @@ async function phosphorPage(page) {
   return errors;
 }
 
-module.exports = { phosphorPage };
+// Type a command into a terminal input and submit it
+async function typeCmd(page, cmd, selector = "#term-input", settle = 300) {
+  await page.fill(selector, cmd);
+  await page.press(selector, "Enter");
+  await page.waitForTimeout(settle);
+}
+
+module.exports = { phosphorPage, typeCmd };

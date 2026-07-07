@@ -7,72 +7,19 @@
 // Commands are { desc, run(args) } — same shape the terminals already use.
 (function () {
   var PAGES = ["blog", "travel", "music", "projects", "stats"];
-  var postsIndex = null; // one cache per page load, shared by both terminals
-  var songlog = null;
-  var imgManifest = null;
+  var D = window.TbdData;
 
-  function withPosts(fn) {
-    if (postsIndex) return fn(postsIndex);
-    fetch("posts/index.json")
-      .then(function (r) { return r.ok ? r.json() : []; })
-      .then(function (posts) { postsIndex = posts; fn(posts); })
-      .catch(function () { fn([]); });
-  }
+  // Thin callback adapters over the shared data layer
+  function withPosts(fn) { D.posts().then(fn); }
+  function withSonglog(fn) { D.songlog().then(fn); }
+  function withManifest(fn) { D.manifest().then(fn); }
+  function withProjects(fn) { D.projects().then(fn); }
+  function withDiscogs(fn) { D.discogs().then(fn); }
+  function withTrips(fn) { D.trips().then(fn); }
 
-  function withSonglog(fn) {
-    if (songlog) return fn(songlog);
-    fetch("data/songlog.json")
-      .then(function (r) { return r.ok ? r.json() : null; })
-      .then(function (d) {
-        songlog = d && Array.isArray(d.tracks) ? d.tracks : [];
-        fn(songlog);
-      })
-      .catch(function () { songlog = []; fn(songlog); });
-  }
-
-  function withManifest(fn) {
-    if (imgManifest) return fn(imgManifest);
-    fetch("assets/img/manifest.json")
-      .then(function (r) { return r.ok ? r.json() : {}; })
-      .then(function (m) { imgManifest = m || {}; fn(imgManifest); })
-      .catch(function () { imgManifest = {}; fn(imgManifest); });
-  }
-
-  var projectsIndex = null;
-  var discogsData = null;
-  var tripsConfig = null;
-
-  function withProjects(fn) {
-    if (projectsIndex) return fn(projectsIndex);
-    fetch("projects/index.json")
-      .then(function (r) { return r.ok ? r.json() : []; })
-      .then(function (d) { projectsIndex = Array.isArray(d) ? d : []; fn(projectsIndex); })
-      .catch(function () { projectsIndex = []; fn(projectsIndex); });
-  }
-
-  function withDiscogs(fn) {
-    if (discogsData) return fn(discogsData);
-    fetch("data/discogs.json")
-      .then(function (r) { return r.ok ? r.json() : []; })
-      .then(function (d) { discogsData = Array.isArray(d) ? d : []; fn(discogsData); })
-      .catch(function () { discogsData = []; fn(discogsData); });
-  }
-
-  function withTrips(fn) {
-    if (tripsConfig) return fn(tripsConfig);
-    fetch("data/trips.json")
-      .then(function (r) { return r.ok ? r.json() : []; })
-      .then(function (d) { tripsConfig = Array.isArray(d) ? d : []; fn(tripsConfig); })
-      .catch(function () { tripsConfig = []; fn(tripsConfig); });
-  }
-
-  function postDateStr(p) {
-    return (p.date || "").split(" ")[0];
-  }
-
-  function isTravel(p) {
-    return (p.categories || []).some(function (c) { return String(c).toLowerCase() === "travel"; });
-  }
+  var postDateStr = D.postDateStr;
+  var isTravel = D.isTravel;
+  var tripDayNumber = D.tripDayNumber;
 
   // Trips are enumerated from data (first path segment of travel posts),
   // so future trips appear here with zero configuration.
@@ -126,26 +73,15 @@
   function songForDate(posts, tracks, dateStr) {
     for (var i = 0; i < posts.length; i++) {
       if (posts[i].song_of_the_day && postDateStr(posts[i]) === dateStr) {
-        return {
-          text: posts[i].song_of_the_day,
-          url: "https://www.youtube.com/results?search_query=" + encodeURIComponent(posts[i].song_of_the_day),
-        };
+        return { text: posts[i].song_of_the_day, url: D.youtubeSearchUrl(posts[i].song_of_the_day) };
       }
     }
     for (var j = 0; j < tracks.length; j++) {
       if (tracks[j].date === dateStr && tracks[j].song) {
-        return {
-          text: tracks[j].song,
-          url: tracks[j].url || "https://www.youtube.com/results?search_query=" + encodeURIComponent(tracks[j].song),
-        };
+        return { text: tracks[j].song, url: tracks[j].url || D.youtubeSearchUrl(tracks[j].song) };
       }
     }
     return null;
-  }
-
-  function tripDayNumber(p) {
-    var m = /^Day\s+(\d+)\b/i.exec(p.title || "");
-    return m ? parseInt(m[1], 10) : null;
   }
 
   window.TbdCommands = {

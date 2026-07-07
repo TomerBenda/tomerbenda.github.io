@@ -6,33 +6,15 @@
   var logEl = document.getElementById("song-log");
   if (!logEl) return;
 
-  function getCountry(post) {
-    var cats = post.categories || [];
-    for (var i = 0; i < cats.length; i++) {
-      var c = (cats[i] || "").trim();
-      if (c && c.toLowerCase() !== "travel") return c;
-    }
-    // Fall back to the folder name: "Polarsteps/Japan/172_osaka.md" -> "Japan"
-    var parts = (post.filename || "").split("/");
-    return parts.length >= 3 ? parts[parts.length - 2] : "";
-  }
+  var D = window.TbdData;
+  var getCountry = D.getCountry;
+  var youtubeSearchUrl = D.youtubeSearchUrl;
 
-  function youtubeSearchUrl(songText) {
-    return (
-      "https://www.youtube.com/results?search_query=" +
-      encodeURIComponent(songText)
-    );
-  }
-
-  Promise.all([
-    fetch("posts/index.json").then(function (r) { return r.ok ? r.json() : []; }),
-    fetch("data/trips.json").then(function (r) { return r.ok ? r.json() : []; }).catch(function () { return []; }),
-    fetch("data/songlog.json").then(function (r) { return r.ok ? r.json() : null; }).catch(function () { return null; })
-  ])
+  Promise.all([D.posts(), D.trips(), D.songlog()])
     .then(function (results) {
-      var posts = results[0] || [];
-      var tripsConfig = Array.isArray(results[1]) ? results[1] : [];
-      var songlog = results[2] && Array.isArray(results[2].tracks) ? results[2].tracks : [];
+      var posts = results[0];
+      var tripsConfig = results[1];
+      var songlog = results[2];
       function tripNameOf(filename) {
         var root = (filename || "").split("/")[0] || "";
         for (var i = 0; i < tripsConfig.length; i++) {

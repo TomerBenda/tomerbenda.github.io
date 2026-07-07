@@ -1,15 +1,11 @@
 const { test, expect } = require("@playwright/test");
-const { phosphorPage } = require("../helpers");
+const { phosphorPage, typeCmd } = require("../helpers");
 
 test("home terminal responds to commands", async ({ page }) => {
   const errors = await phosphorPage(page);
   await page.goto("/", { waitUntil: "domcontentloaded" });
   await page.waitForSelector("#term-input");
-  const type = async (cmd) => {
-    await page.fill("#term-input", cmd);
-    await page.press("#term-input", "Enter");
-    await page.waitForTimeout(300);
-  };
+  const type = (cmd) => typeCmd(page, cmd);
   await type("help");
   await type("ls");
   await type("nosuchcmd");
@@ -34,11 +30,7 @@ test("rm -rf / asks first, declines gracefully, and the show ends fine", async (
   await page.emulateMedia({ reducedMotion: "reduce" });
   await page.goto("/", { waitUntil: "domcontentloaded" });
   await page.waitForSelector("#term-input");
-  const type = async (cmd) => {
-    await page.fill("#term-input", cmd);
-    await page.press("#term-input", "Enter");
-    await page.waitForTimeout(200);
-  };
+  const type = (cmd) => typeCmd(page, cmd);
   await type("rm -rf /");
   await expect(page.locator(".term-scrollback")).toContainText("remove write-protected system directory");
   await type("n");
@@ -59,11 +51,7 @@ test("the archive is a filesystem: ls paths, post census", async ({ page }) => {
   await page.route("https://tbd-spotify.tomerno6.workers.dev/**", (r) => r.abort());
   await page.goto("/", { waitUntil: "domcontentloaded" });
   await page.waitForSelector("#term-input");
-  const type = async (cmd) => {
-    await page.fill("#term-input", cmd);
-    await page.press("#term-input", "Enter");
-    await page.waitForTimeout(400);
-  };
+  const type = (cmd) => typeCmd(page, cmd);
   await type("ls");
   await expect(page.locator(".term-scrollback")).toContainText("posts");
   await expect(page.locator(".term-scrollback")).toContainText("trip ·");
