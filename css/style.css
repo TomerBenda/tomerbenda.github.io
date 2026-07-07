@@ -1402,3 +1402,89 @@ nav {
 @media (prefers-reduced-motion: reduce) {
   .eq i { animation: none; }
 }
+
+/* --- Style micro-pack: the small things that read as designed --- */
+
+/* Phosphor text selection */
+::selection {
+  background: var(--accent);
+  color: var(--ph-0);
+  text-shadow: none;
+}
+
+/* The typing caret glows like the rest of the beam */
+input,
+textarea {
+  caret-color: var(--accent);
+}
+
+/* Unified thin accent scrollbars (containers that hide theirs override this) */
+html {
+  scrollbar-width: thin;
+  scrollbar-color: var(--accent-40) transparent;
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--accent-40);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+/* Links bloom on hover, consistently */
+a:hover {
+  text-shadow: 0 0 8px var(--accent-40);
+}
+
+/* Footer page links: navigation for the scrolled-to-bottom case */
+.footer-nav {
+  display: flex;
+  justify-content: center;
+  gap: 1.2em;
+  margin-bottom: 0.9em;
+}
+
+.footer-nav a {
+  color: var(--fg-dim);
+  text-decoration: none;
+  font-size: 0.88em;
+}
+
+.footer-nav a:hover {
+  color: var(--accent);
+}
+
+/* Cross-document page fade (progressive: older browsers navigate instantly) */
+@view-transition {
+  navigation: auto;
+}
+
+::view-transition-old(root) {
+  animation: page-fade-out 0.14s ease-in both;
+}
+
+::view-transition-new(root) {
+  animation: page-fade-in 0.18s ease-out both;
+}
+
+@keyframes page-fade-out {
+  to { opacity: 0; }
+}
+
+@keyframes page-fade-in {
+  from { opacity: 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-old(root),
+  ::view-transition-new(root) {
+    animation: none;
+  }
+}
