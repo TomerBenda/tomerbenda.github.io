@@ -4,15 +4,42 @@
   const shelfEl = document.getElementById("vinyl-shelf");
   if (!shelfEl) return;
 
-  fetch("data/discogs.json")
-    .then((r) => (r.ok ? r.json() : []))
-    .then((releases) => {
+  Promise.all([
+    fetch("data/discogs.json").then((r) => (r.ok ? r.json() : [])),
+    fetch("posts/index.json").then((r) => (r.ok ? r.json() : [])).catch(() => []),
+    fetch("data/songlog.json").then((r) => (r.ok ? r.json() : null)).catch(() => null),
+  ])
+    .then(([releases, posts, songlogData]) => {
       if (!Array.isArray(releases) || releases.length === 0) return;
+
+      // Shelf ∩ song log: count each shelf artist's appearances in the log
+      // (substring joins — works for Hebrew and Latin names alike)
+      const songs = posts
+        .filter((p) => p.song_of_the_day)
+        .map((p) => p.song_of_the_day.toLowerCase())
+        .concat(
+          (songlogData && Array.isArray(songlogData.tracks) ? songlogData.tracks : [])
+            .map((t) => (t.song || "").toLowerCase())
+        );
+      const loggedCount = (artist) => {
+        const names = (artist || "").split(", ").map((a) => a.trim().toLowerCase()).filter((a) => a.length > 2);
+        let n = 0;
+        songs.forEach((s) => {
+          if (names.some((name) => s.includes(name))) n++;
+        });
+        return n;
+      };
+      releases.forEach((r) => { r._logged = loggedCount(r.artist); });
+      const overlap = new Set(
+        releases.filter((r) => r._logged > 0).map((r) => r.artist)
+      ).size;
 
       shelfEl.classList.remove("hidden");
       const header = document.createElement("p");
       header.className = "song-log-header";
-      header.textContent = `$ ls ~/vinyl  # ${releases.length} records`;
+      header.textContent =
+        `$ ls ~/vinyl  # ${releases.length} records` +
+        (overlap > 0 ? ` · ${overlap} artists also in the song log` : "");
       shelfEl.appendChild(header);
 
       // Genre chips (top genres by count, max 8)
@@ -64,6 +91,13 @@
             mbdi.textContent = r.artist || "";
             meta.appendChild(mbdi);
             if (r.year) meta.appendChild(document.createTextNode(` · ${r.year}`));
+            if (r._logged > 0) {
+              const badge = document.createElement("span");
+              badge.className = "vinyl-logged";
+              badge.textContent = ` ♪×${r._logged}`;
+              badge.title = `in the song log ${r._logged} time${r._logged === 1 ? "" : "s"}`;
+              meta.appendChild(badge);
+            }
             card.appendChild(cover);
             card.appendChild(title);
             card.appendChild(meta);

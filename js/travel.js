@@ -186,7 +186,8 @@
     fetch("posts/locations.json").then(function (r) { return r.ok ? r.json() : {}; }).catch(function () { return {}; }),
     fetch("posts/timeline.json").then(function (r) { return r.ok ? r.json() : []; }).catch(function () { return []; }),
     fetch("posts/geocoded.json").then(function (r) { return r.ok ? r.json() : {}; }).catch(function () { return {}; }),
-    fetch("data/trips.json").then(function (r) { return r.ok ? r.json() : []; }).catch(function () { return []; })
+    fetch("data/trips.json").then(function (r) { return r.ok ? r.json() : []; }).catch(function () { return []; }),
+    fetch("data/songlog.json").then(function (r) { return r.ok ? r.json() : null; }).catch(function () { return null; })
   ])
   .then(function (results) {
     var posts           = results[0] || [];
@@ -194,6 +195,33 @@
     var timelinePoints  = Array.isArray(results[2]) ? results[2] : [];
     var geocoded        = results[3] || {};
     var tripsConfig     = Array.isArray(results[4]) ? results[4] : [];
+    var songlogTracks   = results[5] && Array.isArray(results[5].tracks) ? results[5].tracks : [];
+
+    // The map and the song log describe the same days — join them.
+    var dateToSong = {};
+    posts.forEach(function (p) {
+      if (p.song_of_the_day) dateToSong[postDate(p)] = { text: p.song_of_the_day, url: null };
+    });
+    songlogTracks.forEach(function (t) {
+      if (t.date && t.song && !dateToSong[t.date]) dateToSong[t.date] = { text: t.song, url: t.url || null };
+    });
+
+    function postPopup(post, headerHtml) {
+      var d = postDate(post);
+      var song = dateToSong[d];
+      var songHtml = "";
+      if (song) {
+        var href = song.url || ("https://www.youtube.com/results?search_query=" + encodeURIComponent(song.text));
+        songHtml = "<span class='travel-popup-song'>♪ <a target='_blank' rel='noopener' href='" + href + "'><bdi>" + song.text + "</bdi></a></span><br>";
+      }
+      return "<div class='travel-popup'>" +
+        (headerHtml || "") +
+        "<strong>" + (post.title || post.filename) + "</strong><br>" +
+        "<span class='travel-popup-date'>" + d + "</span><br>" +
+        songHtml +
+        "<a href='blog?post=" + encodeURIComponent(post.filename) + "'>Read post &rarr;</a>" +
+        "</div>";
+    }
 
     // Build date -> [{lat, lng}] from timeline visits (all visits per day)
     var timelineByDate = {};
@@ -389,12 +417,7 @@
       var ptCountry = countryForDate(d);
       var marker = L.marker([pt.lat, pt.lng], { icon: makeDotIcon(getCountryColor(ptCountry)), zIndexOffset: -100 });
       if (post) {
-        var popup = "<div class='travel-popup'>" +
-          "<strong>" + (post.title || post.filename) + "</strong><br>" +
-          "<span class='travel-popup-date'>" + (post.date || "").split(" ")[0] + "</span><br>" +
-          "<a href='blog?post=" + encodeURIComponent(post.filename) + "'>Read post &rarr;</a>" +
-          "</div>";
-        marker.bindPopup(popup);
+        marker.bindPopup(postPopup(post));
       }
       owner.routeLayer.addLayer(marker);
     });
@@ -431,14 +454,10 @@
       trip.markerLayer = makeClusterGroup();
       trip.latLngs = [];
       trip.items.forEach(function (item) {
-        var post = item.post;
         trip.latLngs.push(item.coords);
-        var popup = "<div class='travel-popup'>" +
-          "<strong>" + (post.title || post.filename) + "</strong><br>" +
-          "<span class='travel-popup-date'>" + (post.date || "").split(" ")[0] + "</span><br>" +
-          "<a href='blog?post=" + encodeURIComponent(post.filename) + "'>Read post &rarr;</a>" +
-          "</div>";
-        trip.markerLayer.addLayer(L.marker(item.coords, { icon: postIcon }).bindPopup(popup));
+        trip.markerLayer.addLayer(
+          L.marker(item.coords, { icon: postIcon }).bindPopup(postPopup(item.post))
+        );
       });
     });
 
@@ -450,14 +469,8 @@
       iconSize: [16, 16],
       iconAnchor: [8, 8]
     });
-    var currentPopup = "<div class='travel-popup'>" +
-      "<strong style='font-size:0.9em;opacity:0.7;'>📍 last stop</strong><br>" +
-      "<strong>" + (latest.post.title || latest.post.filename) + "</strong><br>" +
-      "<span class='travel-popup-date'>" + (latest.post.date || "").split(" ")[0] + "</span><br>" +
-      "<a href='blog?post=" + encodeURIComponent(latest.post.filename) + "'>Read post &rarr;</a>" +
-      "</div>";
     L.marker(latest.coords, { icon: currentIcon, zIndexOffset: 1000 })
-      .bindPopup(currentPopup)
+      .bindPopup(postPopup(latest.post, "<strong style='font-size:0.9em;opacity:0.7;'>📍 last stop</strong><br>"))
       .addTo(map);
 
     // --- Trip selection ---

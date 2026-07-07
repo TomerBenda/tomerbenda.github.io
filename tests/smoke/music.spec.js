@@ -60,6 +60,30 @@ test("playlist era extends the log with month separators", async ({ page, reques
   expect(errors).toEqual([]);
 });
 
+test("vinyl shelf badges artists that appear in the song log", async ({ page }) => {
+  const errors = await phosphorPage(page);
+  await page.route("https://tbd-spotify.tomerno6.workers.dev/**", (r) => r.abort());
+  await page.route("**/data/discogs.json", (r) => r.fulfill({ json: MOCK_VINYL }));
+  await page.route("**/data/songlog.json", (r) =>
+    r.fulfill({
+      json: {
+        tracks: [
+          { date: "2026-07-01", song: "Pyramid Song - Radiohead", month: "2026-07" },
+          { date: "2026-07-02", song: "Weird Fishes - Radiohead", month: "2026-07" },
+        ],
+      },
+    })
+  );
+  await page.goto("/music.html", { waitUntil: "domcontentloaded" });
+  await page.waitForSelector(".vinyl-card");
+  await expect(page.locator(".vinyl-shelf .song-log-header")).toContainText("1 artists also in the song log");
+  const radiohead = page.locator(".vinyl-card", { hasText: "In Rainbows" });
+  await expect(radiohead.locator(".vinyl-logged")).toHaveText(/♪×2/);
+  const miles = page.locator(".vinyl-card", { hasText: "Kind of Blue" });
+  await expect(miles.locator(".vinyl-logged")).toHaveCount(0);
+  expect(errors).toEqual([]);
+});
+
 test("vinyl shelf renders from data and hides without it", async ({ page }) => {
   const errors = await phosphorPage(page);
   await page.route("https://tbd-spotify.tomerno6.workers.dev/**", (r) => r.abort());

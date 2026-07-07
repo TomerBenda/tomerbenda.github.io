@@ -1488,3 +1488,7 @@ a:hover {
     animation: none;
   }
 }
+
+.vinyl-logged {
+  color: var(--amber);
+}

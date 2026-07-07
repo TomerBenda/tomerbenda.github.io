@@ -218,3 +218,12 @@
   min-height: 1.2em;
   margin: 0.2em 0;
 }
+
+/* The day's song in marker popups */
+.travel-popup-song {
+  font-size: 0.85em;
+}
+
+.travel-popup-song a {
+  color: var(--amber, #ffb000);
+}
