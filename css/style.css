@@ -446,10 +446,10 @@ nav {
 /* Overall post window: the screen-within-a-screen reading surface */
 .post-window {
   background: var(--ph-0);
-  border: 1px solid var(--accent-40);
+  border: 2px solid var(--accent);
   border-radius: 4px;
   font-family: "Fira Code", "Heebo", monospace;
-  box-shadow: 0 0 12px var(--accent-08);
+  box-shadow: 0 0 10px var(--accent), 0 0 20px var(--accent-40);
   overflow: hidden;
 }
 
@@ -462,7 +462,7 @@ nav {
   font-size: 0.9em;
   display: flex;
   align-items: center;
-  border-bottom: 1px solid var(--accent-40);
+  border-bottom: 1px solid var(--accent);
   text-transform: uppercase;
   letter-spacing: 1px;
 }
@@ -517,7 +517,7 @@ nav {
 
 /* Optional hover glow on entire window */
 .post-window:hover {
-  box-shadow: 0 0 16px var(--accent-15);
+  box-shadow: 0 0 15px var(--accent), 0 0 25px var(--accent-40);
 }
 
 /* End Blog - Post Windows */
