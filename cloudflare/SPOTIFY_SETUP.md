@@ -35,6 +35,19 @@ Until these steps are done, the line simply stays hidden — nothing breaks.
    see `{"playing":...}` JSON. Play something on Spotify and reload the music
    page; the `▶ now playing:` line appears in the header within ~45 s.
 
+5. **Song-log playlists** (same Spotify app, no extra tokens): the daily
+   `fetch-songlog.yaml` workflow reads your public monthly playlists. In the
+   repo settings add:
+
+   - Secrets: `SPOTIFY_CLIENT_ID`, `SPOTIFY_CLIENT_SECRET` (same values as
+     the worker's)
+   - Variables: `SPOTIFY_USER` (your profile id from your Spotify profile
+     URL), `SONGLOG_PLAYLIST_PATTERN` (regex the monthly playlist names
+     match; leave unset for the default `^\d{4}-\d{2}$`, i.e. names like
+     `2026-07`)
+
+   Until these exist the workflow prints a notice and exits green.
+
 Scopes used: `user-read-currently-playing`, `user-read-recently-played` (read-only).
 The worker caches responses for 30 s at the edge, so page traffic never hits
 Spotify rate limits.
