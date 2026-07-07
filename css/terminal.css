@@ -304,3 +304,11 @@ body.melting {
   body.melting { animation: none; }
   .meltdown-blackout { transition: none; }
 }
+
+.meltdown-continue {
+  color: var(--fg-dim);
+}
+
+.meltdown-blink {
+  animation: blink-cursor 1s steps(2, start) infinite;
+}
