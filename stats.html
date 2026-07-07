@@ -9,200 +9,10 @@
       rel="stylesheet"
     />
     <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="css/terminal.css" />
+    <link rel="stylesheet" href="css/stats.css" />
     <link rel="icon" type="image/png" href="favicon.ico" />
     <link rel="alternate" type="application/rss+xml" title="tbd RSS Feed" href="/feed.xml" />
-    <style>
-      #auth-screen {
-        padding: 2em 0;
-        display: flex;
-        flex-direction: column;
-        gap: 0.6em;
-      }
-
-      .auth-line {
-        font-family: "Fira Code", monospace;
-        font-size: 0.95em;
-        color: var(--fg, #c8c8c8);
-        display: flex;
-        align-items: center;
-        gap: 0.5em;
-      }
-
-      .auth-line .prompt {
-        color: var(--accent, #39ff14);
-      }
-
-      #token-input {
-        background: transparent;
-        border: none;
-        border-bottom: 1px solid var(--accent, #39ff14);
-        color: var(--accent, #39ff14);
-        font-family: "Fira Code", monospace;
-        font-size: 0.95em;
-        width: 18em;
-        outline: none;
-        caret-color: var(--accent, #39ff14);
-        padding: 0.1em 0.2em;
-      }
-
-      #auth-error {
-        font-family: "Fira Code", monospace;
-        font-size: 0.85em;
-        color: #ff5555;
-        padding-left: 1.2em;
-      }
-
-      /* ── Dashboard ─────────────────────────────────────── */
-
-      #dashboard {
-        padding: 0.5em 0 2em;
-      }
-
-      .stats-summary {
-        font-family: "Fira Code", monospace;
-        font-size: 0.88em;
-        color: var(--fg-dim, #888);
-        margin-bottom: 1.8em;
-        line-height: 2;
-        border-left: 2px solid var(--accent-40, rgba(57, 255, 20, 0.25));
-        padding-left: 1em;
-      }
-
-      .stats-summary .hl {
-        color: var(--accent, #39ff14);
-        font-weight: 700;
-      }
-
-      /* ── Table ─────────────────────────────────────────── */
-
-      .stats-table {
-        width: 100%;
-        border-collapse: collapse;
-        font-family: "Fira Code", monospace;
-        font-size: 0.83em;
-      }
-
-      .stats-table thead th {
-        text-align: left;
-        padding: 0.4em 0.7em;
-        border-bottom: 1px solid var(--accent-40, rgba(57, 255, 20, 0.3));
-        color: var(--accent, #39ff14);
-        white-space: nowrap;
-        user-select: none;
-      }
-
-      .stats-table thead th[data-sort] {
-        cursor: pointer;
-      }
-
-      .stats-table thead th[data-sort]:hover {
-        color: #fff;
-      }
-
-      .stats-table thead th.sorted {
-        color: #fff;
-      }
-
-      .stats-table tbody tr:hover td {
-        background: rgba(57, 255, 20, 0.03);
-      }
-
-      .stats-table td {
-        padding: 0.32em 0.7em;
-        border-bottom: 1px solid rgba(255, 255, 255, 0.035);
-        vertical-align: middle;
-        color: var(--fg, #c8c8c8);
-      }
-
-      .td-rank {
-        color: var(--fg-dim, #555);
-        text-align: right;
-        width: 2.2em;
-        padding-right: 0.4em;
-      }
-
-      .td-title {
-        max-width: 28em;
-      }
-
-      .td-title a {
-        color: var(--fg, #c8c8c8);
-        text-decoration: none;
-        display: block;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        white-space: nowrap;
-      }
-
-      .td-title a:hover {
-        color: var(--accent, #39ff14);
-      }
-
-      .td-date {
-        color: var(--fg-dim, #666);
-        white-space: nowrap;
-        width: 7em;
-        font-size: 0.9em;
-      }
-
-      .td-views {
-        text-align: right;
-        width: 4.5em;
-        color: #aaa;
-        white-space: nowrap;
-      }
-
-      .td-views.zero {
-        color: var(--fg-dim, #444);
-      }
-
-      .td-bar {
-        width: 7em;
-        padding: 0 0.6em;
-      }
-
-      .bar-track {
-        height: 5px;
-        background: rgba(57, 255, 20, 0.07);
-        border-radius: 3px;
-      }
-
-      .bar-fill {
-        height: 5px;
-        background: var(--accent, #39ff14);
-        border-radius: 3px;
-        opacity: 0.55;
-        min-width: 1px;
-      }
-
-      .td-reactions {
-        white-space: nowrap;
-        font-size: 0.88em;
-        color: var(--fg-dim, #777);
-      }
-
-      .r-chip {
-        display: inline-block;
-        margin-right: 0.4em;
-      }
-
-      .r-chip .r-count {
-        font-size: 0.85em;
-        color: var(--fg-dim, #666);
-        margin-left: 0.1em;
-      }
-
-      .sort-arrow {
-        font-size: 0.7em;
-        opacity: 0.6;
-        margin-left: 0.2em;
-      }
-
-      .th-bar,
-      .th-rank {
-        width: 1px;
-      }
-    </style>
   </head>
   <body>
     <header></header>
@@ -230,6 +40,26 @@
 
         <div id="dashboard" class="hidden">
           <div class="stats-summary" id="summary"></div>
+
+          <div class="stats-charts">
+            <div class="chart-card">
+              <p class="chart-title">$ reads --by-category</p>
+              <div id="chart-categories"></div>
+            </div>
+            <div class="chart-card">
+              <p class="chart-title">$ reads --by-post-month</p>
+              <div id="chart-months"></div>
+            </div>
+            <div class="chart-card">
+              <p class="chart-title">$ reactions --by-emoji</p>
+              <div id="chart-emoji"></div>
+            </div>
+            <div class="chart-card">
+              <p class="chart-title">$ reads --over-time</p>
+              <div id="chart-history"></div>
+            </div>
+          </div>
+
           <table class="stats-table" id="stats-table">
             <thead>
               <tr>
@@ -255,210 +85,10 @@
     <footer></footer>
     <script src="js/main.js"></script>
     <script src="js/include-components.js"></script>
-    <script>
-      const COUNTER_BASE =
-        "https://tbd-blog-view-counter.tomerno6.workers.dev";
-      const REACTIONS_BASE =
-        "https://tbd-blog-post-reactions.tomerno6.workers.dev";
-
-      function postKey(filename) {
-        return filename.split("/").pop().replace(/\.[^.]+$/, "");
-      }
-
-      // ── Auth ────────────────────────────────────────────
-
-      const authScreen = document.getElementById("auth-screen");
-      const authError = document.getElementById("auth-error");
-      const tokenInput = document.getElementById("token-input");
-      const dashboard = document.getElementById("dashboard");
-
-      function showAuth(errorMsg) {
-        dashboard.classList.add("hidden");
-        authScreen.classList.remove("hidden");
-        if (errorMsg) {
-          authError.textContent = "> " + errorMsg;
-          authError.classList.remove("hidden");
-        } else {
-          authError.classList.add("hidden");
-        }
-        tokenInput.value = "";
-        tokenInput.focus();
-      }
-
-      tokenInput.addEventListener("keydown", (e) => {
-        if (e.key === "Enter") {
-          const token = tokenInput.value.trim();
-          if (token) loadDashboard(token);
-        }
-      });
-
-      // ── Data loading ─────────────────────────────────────
-
-      let allPosts = [];
-      let currentSort = { key: "views", dir: -1 };
-
-      async function loadDashboard(token) {
-        authError.textContent = "> authenticating...";
-        authError.classList.remove("hidden");
-        tokenInput.disabled = true;
-
-        const headers = { Authorization: `Bearer ${token}` };
-
-        try {
-          const [index, views, reactions] = await Promise.all([
-            fetch("posts/index.json").then((r) => r.json()),
-            fetch(`${COUNTER_BASE}/all`, { headers }).then((r) => {
-              if (r.status === 401) throw new Error("access denied");
-              if (!r.ok) throw new Error(`view counter: ${r.status}`);
-              return r.json();
-            }),
-            fetch(`${REACTIONS_BASE}/reactions/all`, { headers }).then((r) => {
-              if (r.status === 401) throw new Error("access denied");
-              if (!r.ok) throw new Error(`reactions: ${r.status}`);
-              return r.json();
-            }),
-          ]);
-
-          sessionStorage.setItem("stats_token", token);
-
-          allPosts = index.map((post) => {
-            const key = postKey(post.filename);
-            const postViews = views[key] || 0;
-            const postReactions = reactions[key] || {};
-            const totalReactions = Object.values(postReactions).reduce(
-              (s, v) => s + v,
-              0
-            );
-            return { ...post, key, views: postViews, reactions: postReactions, totalReactions };
-          });
-
-          authScreen.classList.add("hidden");
-          dashboard.classList.remove("hidden");
-          renderSummary();
-          renderTable();
-          setupSortHeaders();
-        } catch (e) {
-          tokenInput.disabled = false;
-          showAuth(e.message);
-        }
-      }
-
-      // ── Summary ──────────────────────────────────────────
-
-      function renderSummary() {
-        const totalViews = allPosts.reduce((s, p) => s + p.views, 0);
-        const viewedPosts = allPosts.filter((p) => p.views > 0).length;
-        const totalReactions = allPosts.reduce((s, p) => s + p.totalReactions, 0);
-        const reactedPosts = allPosts.filter((p) => p.totalReactions > 0).length;
-
-        // Top emoji across all posts
-        const emojiTotals = {};
-        allPosts.forEach((p) => {
-          Object.entries(p.reactions).forEach(([em, c]) => {
-            emojiTotals[em] = (emojiTotals[em] || 0) + c;
-          });
-        });
-        const topEmojis = Object.entries(emojiTotals)
-          .sort((a, b) => b[1] - a[1])
-          .slice(0, 5)
-          .map(([em, c]) => `${em} ${c}`)
-          .join("  ");
-
-        const summary = document.getElementById("summary");
-        summary.innerHTML =
-          `<span class="hl">${totalViews.toLocaleString()}</span> total reads across ` +
-          `<span class="hl">${viewedPosts}</span> of <span class="hl">${allPosts.length}</span> posts<br>` +
-          `<span class="hl">${totalReactions.toLocaleString()}</span> reactions on ` +
-          `<span class="hl">${reactedPosts}</span> posts` +
-          (topEmojis ? `<br>top reactions: ${topEmojis}` : "");
-      }
-
-      // ── Table ────────────────────────────────────────────
-
-      function sortedPosts() {
-        const { key, dir } = currentSort;
-        return [...allPosts].sort((a, b) => {
-          let av, bv;
-          if (key === "views") { av = a.views; bv = b.views; }
-          else if (key === "reactions") { av = a.totalReactions; bv = b.totalReactions; }
-          else if (key === "date") { av = a.date || ""; bv = b.date || ""; }
-          else { av = (a.title || "").toLowerCase(); bv = (b.title || "").toLowerCase(); }
-          if (av < bv) return dir;
-          if (av > bv) return -dir;
-          return 0;
-        });
-      }
-
-      function renderTable() {
-        const posts = sortedPosts();
-        const maxViews = Math.max(...posts.map((p) => p.views), 1);
-        const tbody = document.getElementById("stats-tbody");
-        tbody.innerHTML = "";
-
-        posts.forEach((post, i) => {
-          const tr = document.createElement("tr");
-          const dateStr = (post.date || "").slice(0, 10);
-          const pct = Math.round((post.views / maxViews) * 100);
-          const url = `blog.html?post=${encodeURIComponent(post.filename)}`;
-
-          const reactionHtml = Object.entries(post.reactions)
-            .sort((a, b) => b[1] - a[1])
-            .slice(0, 4)
-            .map(([em, c]) => `<span class="r-chip">${em}<span class="r-count">${c}</span></span>`)
-            .join("");
-
-          const titleEl = document.createElement("td");
-          titleEl.className = "td-title";
-          const a = document.createElement("a");
-          a.href = url;
-          a.textContent = post.title || post.filename;
-          a.title = post.title || post.filename;
-          titleEl.appendChild(a);
-
-          tr.innerHTML = `
-            <td class="td-rank">${i + 1}</td>
-            <td class="td-date">${dateStr}</td>
-            <td class="td-views${post.views === 0 ? " zero" : ""}">${post.views > 0 ? post.views.toLocaleString() : "—"}</td>
-            <td class="td-bar"><div class="bar-track"><div class="bar-fill" style="width:${pct}%"></div></div></td>
-            <td class="td-reactions">${reactionHtml || '<span style="opacity:0.3">—</span>'}</td>`;
-
-          tr.insertBefore(titleEl, tr.children[1]);
-          tbody.appendChild(tr);
-        });
-      }
-
-      function setupSortHeaders() {
-        document.querySelectorAll(".stats-table thead th[data-sort]").forEach((th) => {
-          th.addEventListener("click", () => {
-            const key = th.dataset.sort;
-            if (currentSort.key === key) {
-              currentSort.dir *= -1;
-            } else {
-              currentSort = { key, dir: -1 };
-            }
-            updateSortArrows();
-            renderTable();
-          });
-        });
-      }
-
-      function updateSortArrows() {
-        document.querySelectorAll(".stats-table thead th[data-sort]").forEach((th) => {
-          const arrow = th.querySelector(".sort-arrow");
-          const isActive = th.dataset.sort === currentSort.key;
-          th.classList.toggle("sorted", isActive);
-          arrow.textContent = isActive ? (currentSort.dir === -1 ? "▼" : "▲") : "";
-        });
-      }
-
-      // ── Init ─────────────────────────────────────────────
-
-      const saved = sessionStorage.getItem("stats_token");
-      if (saved) {
-        loadDashboard(saved);
-      } else {
-        tokenInput.focus();
-      }
-    </script>
+    <script src="js/term-core.js"></script>
+    <script src="js/term-commands.js"></script>
+    <script src="js/now-data.js"></script>
+    <script src="js/term-overlay.js"></script>
+    <script src="js/stats.js"></script>
   </body>
 </html>
