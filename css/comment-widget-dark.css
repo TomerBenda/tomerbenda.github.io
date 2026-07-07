@@ -73,7 +73,7 @@
     /* text-transform: uppercase; */
     color: var(--accent);
     background: none;
-    border: 1px solid var(--accent-faded);
+    border: 1px solid var(--accent-40);
     border-radius: 3px;
     transition: background 0.2s, color 0.2s;
     font-family: 'Fira Code', monospace;
@@ -201,7 +201,7 @@
     font-size: 14px;
     text-align: justify;
     color: var(--accent);
-    background-color: var(--bg-darker);
+    background-color: var(--ph-1);
     font-family: 'Fira Code', monospace;
 }
 
