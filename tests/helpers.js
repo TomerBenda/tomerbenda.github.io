@@ -3,7 +3,9 @@
 async function phosphorPage(page) {
   const errors = [];
   page.on("pageerror", (e) => errors.push(String(e)));
-  await page.route("**cdn.onesignal.com**", (r) => r.abort());
+  // NB: protocol-explicit glob — with a baseURL configured, protocol-less
+  // patterns get resolved against it and never match cross-origin URLs.
+  await page.route("https://cdn.onesignal.com/**", (r) => r.abort());
   return errors;
 }
 

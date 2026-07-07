@@ -8,7 +8,7 @@ const MOCK_VINYL = [
 
 test("log rows share columns across scripts (bidi)", async ({ page }) => {
   const errors = await phosphorPage(page);
-  await page.route("**tbd-spotify**", (r) => r.abort());
+  await page.route("https://tbd-spotify.tomerno6.workers.dev/**", (r) => r.abort());
   await page.goto("/music.html", { waitUntil: "domcontentloaded" });
   await page.waitForSelector(".song-log-row");
   const geo = await page.evaluate(() => {
@@ -35,7 +35,7 @@ test("log rows share columns across scripts (bidi)", async ({ page }) => {
 
 test("playlist era extends the log with month separators", async ({ page, request }) => {
   const errors = await phosphorPage(page);
-  await page.route("**tbd-spotify**", (r) => r.abort());
+  await page.route("https://tbd-spotify.tomerno6.workers.dev/**", (r) => r.abort());
   await page.route("**/data/songlog.json", (r) =>
     r.fulfill({
       json: {
@@ -62,7 +62,7 @@ test("playlist era extends the log with month separators", async ({ page, reques
 
 test("vinyl shelf renders from data and hides without it", async ({ page }) => {
   const errors = await phosphorPage(page);
-  await page.route("**tbd-spotify**", (r) => r.abort());
+  await page.route("https://tbd-spotify.tomerno6.workers.dev/**", (r) => r.abort());
   await page.route("**/data/discogs.json", (r) => r.fulfill({ json: MOCK_VINYL }));
   await page.goto("/music.html", { waitUntil: "domcontentloaded" });
   await page.waitForSelector(".vinyl-card");
