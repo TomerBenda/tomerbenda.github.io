@@ -46,6 +46,7 @@ def fetch_collection():
             info = r.get("basic_information", {})
             all_releases.append({
                 "id": info.get("id"),
+                "date_added": (r.get("date_added") or "")[:10],
                 "title": info.get("title"),
                 "artist": ", ".join(a["name"] for a in info.get("artists", [])),
                 "year": info.get("year"),
