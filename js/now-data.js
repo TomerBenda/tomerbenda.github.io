@@ -3,6 +3,7 @@
 // drops its line. No errors escape.
 (function () {
   var WORKER = "https://tbd-spotify.tomerno6.workers.dev";
+  var VISITORS = "https://tbd-visitors.tomerno6.workers.dev";
   var D = window.TbdData;
 
   function j(url) {
@@ -19,10 +20,19 @@
         withTimeout(j(WORKER + "/now"), 2500),
         D.posts(),
         D.songlog(),
-        D.discogs()
+        D.discogs(),
+        withTimeout(j(VISITORS + "/wall"), 2000),
+        withTimeout(j(VISITORS + "/presence"), 2000)
       ]).then(function (results) {
-        var now = results[0], posts = results[1], tracks = results[2], discogs = results[3];
+        var now = results[0], posts = results[1], tracks = results[2], discogs = results[3], wall = results[4], presence = results[5];
         var out = {};
+
+        if (wall && Array.isArray(wall.messages) && wall.messages.length) {
+          out.wall = { text: wall.messages[0].text, url: null };
+        }
+        if (presence && typeof presence.here === "number" && presence.here >= 2) {
+          out.presence = { text: presence.here + " on the site right now", url: null };
+        }
 
         if (now && now.track) {
           out.nowPlaying = {
@@ -100,6 +110,8 @@
       if (data.nowPlaying) L.push({ label: data.nowPlaying.live ? "▸ now playing" : "▸ last played", text: data.nowPlaying.text, url: data.nowPlaying.url });
       if (data.lastSeen) L.push({ label: "◈ last seen", text: data.lastSeen.text, url: data.lastSeen.url });
       if (data.onThisDay) L.push({ label: "◷ on this day", text: data.onThisDay.text, url: data.onThisDay.url });
+      if (data.presence) L.push({ label: "◉ here now", text: data.presence.text, url: data.presence.url });
+      if (data.wall) L.push({ label: "✉ the wall", text: data.wall.text, url: data.wall.url });
       if (data.latestTrack) L.push({ label: "♪ latest track", text: data.latestTrack.text, url: data.latestTrack.url });
       if (data.newestVinyl) L.push({ label: "◎ newest vinyl", text: data.newestVinyl.text, url: data.newestVinyl.url });
       if (data.latestPost) L.push({ label: "✎ latest post", text: data.latestPost.text, url: data.latestPost.url });

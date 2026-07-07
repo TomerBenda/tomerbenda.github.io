@@ -59,6 +59,7 @@
     post: common.post,
     day: common.day,
     shuffle: common.shuffle,
+    wall: common.wall,
     whoami: {
       desc: "who is tbd anyway",
       run: function () {
@@ -208,17 +209,43 @@
     return n;
   }
 
+  // The site remembers every attempt — globally. Resolves to null when
+  // the visitors worker is silent, and the line degrades to local-only.
+  function reportMeltdown(localCount) {
+    return fetch("https://tbd-visitors.tomerno6.workers.dev/meltdown", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ first: localCount === 1 }),
+    })
+      .then(function (r) { return r.ok ? r.json() : null; })
+      .then(function (d) { return d && typeof d.attempts === "number" ? d : null; })
+      .catch(function () { return null; });
+  }
+
+  function aftermathLine(localCount, global) {
+    var text = "(that was attempt #" + localCount + " for you";
+    if (global) {
+      text += ", #" + global.attempts.toLocaleString("en-US") + " globally";
+      if (global.vandals > 1) text += " — you are one of " + global.vandals.toLocaleString("en-US") + " vandals";
+    }
+    return text + ". the site remembers.)";
+  }
+
   function meltdown() {
     melting = true;
     var hadCrt = document.cookie.split("; ").some(function (r) { return r === "crt=1"; });
+    var localCount = meltdownCount();
+    var globalPromise = reportMeltdown(localCount);
 
     if (reducedMotion) {
       // The quiet apocalypse
       line("rm: descending into /…", "term-err");
       line("removing everything. done.", "term-err");
       line("everything is fine. nothing was lost.", "term-dim");
-      line("(that was attempt #" + meltdownCount() + ".)", "term-dim");
-      melting = false;
+      globalPromise.then(function (global) {
+        line(aftermathLine(localCount, global), "term-dim");
+        melting = false;
+      });
       return;
     }
 
@@ -281,9 +308,11 @@
           if (!hadCrt) document.body.classList.remove("crt");
           setTimeout(function () {
             line("everything is fine. nothing was lost.", "term-dim");
-            line("(that was attempt #" + meltdownCount() + ". the site remembers.)", "term-dim");
-            melting = false;
-            term.focus();
+            globalPromise.then(function (global) {
+              line(aftermathLine(localCount, global), "term-dim");
+              melting = false;
+              term.focus();
+            });
           }, 500);
         }
         function onKey(e) {

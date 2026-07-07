@@ -1,0 +1,7 @@
+name = "tbd-visitors"
+main = "visitors-worker.js"
+compatibility_date = "2025-01-01"
+
+[[kv_namespaces]]
+binding = "VISITORS"
+id = "tbd-visitors"
