@@ -746,6 +746,16 @@ nav {
   font-size: 0.9em;
 }
 
+/* The log scrolls in place (same pattern as #posts-container) so the
+   vinyl shelf below isn't buried under 190+ rows */
+.song-log {
+  max-height: 60vh;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: var(--accent-40) transparent;
+  padding-right: 0.4em;
+}
+
 .song-log-header {
   color: var(--fg-dim);
   font-size: 0.85em;
@@ -1307,11 +1317,14 @@ nav {
 }
 
 .vinyl-card {
+  display: block;
   background: var(--ph-2);
   border: 1px solid var(--accent-08);
   border-radius: 6px;
   padding: 0.6em;
   transition: border-color 0.15s;
+  text-decoration: none;
+  color: inherit;
 }
 
 .vinyl-card:hover {
