@@ -177,3 +177,31 @@ a.term-motd-value {
 a.term-motd-value:hover {
   text-decoration: underline;
 }
+
+/* README rendering inside cat output */
+.term-cat-body img {
+  max-width: 100%;
+  border-radius: 4px;
+  display: block;
+  margin: 0.5em 0;
+}
+
+.term-cat-body h1,
+.term-cat-body h2,
+.term-cat-body h3 {
+  color: var(--accent);
+  font-size: 1.05em;
+  margin: 0.8em 0 0.3em;
+}
+
+.term-cat-body pre {
+  background: var(--ph-1);
+  border: 1px solid var(--accent-08);
+  border-radius: 4px;
+  padding: 0.6em;
+  overflow-x: auto;
+}
+
+.term-cat-body code {
+  color: var(--amber);
+}
