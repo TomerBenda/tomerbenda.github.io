@@ -69,10 +69,7 @@
         Object.keys(COMMANDS).forEach(function (name) {
           if (COMMANDS[name].hidden) return;
           line(
-            "&nbsp;&nbsp;<span class='term-accent'>" +
-              name +
-              "</span>&nbsp;&mdash; " +
-              COMMANDS[name].desc,
+            "&nbsp;&nbsp;" + term.cmd(name) + "&nbsp;&mdash; " + COMMANDS[name].desc,
             "term-dim"
           );
         });
@@ -105,7 +102,7 @@
           navigate(target);
           return;
         }
-        line("cd: no such directory: " + escapeHtml(target) + " — try <span class='term-accent'>ls</span>", "term-err");
+        line("cd: no such directory: " + escapeHtml(target) + " — try " + term.cmd("ls"), "term-err");
       },
     },
     whoami: {
@@ -273,7 +270,7 @@
       line(
         "command not found: " +
           escapeHtml(name) +
-          " — try <span class='term-accent'>help</span>",
+          " — try " + term.cmd("help"),
         "term-err"
       );
     }
@@ -296,7 +293,7 @@
   }
 
   // Greeting
-  line("type <span class='term-accent'>help</span> to get started.", "term-dim");
+  line("type " + term.cmd("help") + " to get started.", "term-dim");
 
   // Autofocus on non-touch screens only (don't pop the mobile keyboard)
   if (window.matchMedia && window.matchMedia("(hover: hover)").matches) {

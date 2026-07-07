@@ -161,7 +161,7 @@
   function cat(slug) {
     var p = bySlug[slug];
     if (!p) {
-      line("cat: " + escapeHtml(slug) + ": no such project — try <span class='term-accent'>ls</span>", "term-err");
+      line("cat: " + escapeHtml(slug) + ": no such project — try " + term.cmd("ls"), "term-err");
       return;
     }
     line("<span class='term-accent'>" + escapeHtml(p.name) + "</span> <span class='term-dim'>(" + escapeHtml(p.lang || "") + (p.year ? " · " + p.year : "") + ")</span>");
@@ -190,7 +190,7 @@
           ["clear", "wipe the screen"],
           ["cd ..", "back to the home terminal"],
         ].forEach(function (c) {
-          line("&nbsp;&nbsp;<span class='term-accent'>" + c[0] + "</span>&nbsp;&mdash; " + c[1], "term-dim");
+          line("&nbsp;&nbsp;" + term.cmd(c[0].split(" ")[0], c[0]) + "&nbsp;&mdash; " + c[1], "term-dim");
         });
       },
     },
@@ -198,7 +198,7 @@
     cat: {
       desc: "",
       run: function (args) {
-        if (!args.length) { line("usage: cat &lt;name&gt; — try <span class='term-accent'>ls</span>", "term-dim"); return; }
+        if (!args.length) { line("usage: cat &lt;name&gt; — try " + term.cmd("ls") + "", "term-dim"); return; }
         cat(args[0].replace(/\/$/, "").toLowerCase());
       },
     },
@@ -248,7 +248,7 @@
     } else if (bySlug[name]) {
       cat(name);
     } else {
-      line("command not found: " + escapeHtml(name) + " — try <span class='term-accent'>help</span>", "term-err");
+      line("command not found: " + escapeHtml(name) + " — try " + term.cmd("help") + "", "term-err");
     }
   }
 
@@ -257,7 +257,7 @@
     var bootCmd = "ls -la ~/projects";
     if (term.reducedMotion) {
       term.run(bootCmd);
-      line("click a project, or type <span class='term-accent'>help</span>.", "term-dim");
+      line("click a project, or type " + term.cmd("help") + ".", "term-dim");
       return;
     }
     var i = 0;
@@ -268,7 +268,7 @@
         setTimeout(function () {
           term.input.value = "";
           term.run(bootCmd);
-          line("click a project, or type <span class='term-accent'>help</span>.", "term-dim");
+          line("click a project, or type " + term.cmd("help") + ".", "term-dim");
         }, 250);
       }
     }, 40);

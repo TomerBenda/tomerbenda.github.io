@@ -50,6 +50,14 @@
       if (!window.getSelection || String(window.getSelection()) === "") input.focus();
     });
 
+    // Any highlighted command mention (term.cmd(...)) runs on click
+    scrollback.addEventListener("click", function (e) {
+      var el = e.target && e.target.closest ? e.target.closest(".term-cmd") : null;
+      if (!el) return;
+      e.preventDefault();
+      run(el.getAttribute("data-cmd") || "");
+    });
+
     function escapeHtml(s) {
       return s
         .replace(/&/g, "&amp;")
@@ -105,10 +113,22 @@
       }
     });
 
+    // A clickable command mention: renders accent, runs itself on click
+    function cmd(name, label) {
+      return (
+        "<a href='#' class='term-accent term-cmd' data-cmd='" +
+        escapeHtml(name) +
+        "'>" +
+        escapeHtml(label || name) +
+        "</a>"
+      );
+    }
+
     var term = {
       line: line,
       echo: echo,
       run: run,
+      cmd: cmd,
       escapeHtml: escapeHtml,
       clear: function () { scrollback.innerHTML = ""; },
       focus: function () { input.focus(); },
