@@ -207,3 +207,51 @@ a.term-motd-value:hover {
 .term-cmd:hover {
   text-decoration: underline;
 }
+
+/* Site-wide command palette (Ctrl/Cmd+K) */
+.term-overlay-backdrop {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(4, 5, 7, 0.75);
+  z-index: 2000;
+}
+
+.term-overlay-backdrop.open {
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 12vh 1em 0;
+}
+
+.term-overlay {
+  width: 100%;
+  max-width: 640px;
+  max-height: 60vh;
+  min-height: 0;
+  box-shadow: 0 0 24px var(--accent-15), 0 12px 48px rgba(0, 0, 0, 0.6);
+  animation: palette-in 0.12s ease-out;
+}
+
+@keyframes palette-in {
+  from { transform: translateY(-8px); opacity: 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .term-overlay { animation: none; }
+}
+
+.nav-term-btn {
+  background: none;
+  border: 1px solid var(--accent-40);
+  color: var(--accent);
+  font-family: "Fira Code", monospace;
+  font-size: 0.85em;
+  border-radius: 4px;
+  padding: 0.15em 0.5em;
+  cursor: pointer;
+}
+
+.nav-term-btn:hover {
+  background: var(--accent-15);
+}
