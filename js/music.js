@@ -23,9 +23,21 @@
     );
   }
 
-  fetch("posts/index.json")
-    .then(function (r) { return r.ok ? r.json() : []; })
-    .then(function (posts) {
+  Promise.all([
+    fetch("posts/index.json").then(function (r) { return r.ok ? r.json() : []; }),
+    fetch("data/trips.json").then(function (r) { return r.ok ? r.json() : []; }).catch(function () { return []; })
+  ])
+    .then(function (results) {
+      var posts = results[0] || [];
+      var tripsConfig = Array.isArray(results[1]) ? results[1] : [];
+      function tripNameOf(filename) {
+        var root = (filename || "").split("/")[0] || "";
+        for (var i = 0; i < tripsConfig.length; i++) {
+          if (tripsConfig[i].root === root) return tripsConfig[i].name;
+        }
+        return root.toLowerCase();
+      }
+
       var songs = posts.filter(function (p) { return p.song_of_the_day; });
       songs.sort(function (a, b) {
         return (Date.parse(a.date) || 0) - (Date.parse(b.date) || 0);
@@ -44,12 +56,28 @@
       frag.appendChild(header);
 
       var currentCountry = null;
+      var currentTrip = null;
       songs.forEach(function (post) {
+        var trip = (post.filename || "").split("/")[0] || "";
+        if (currentTrip !== null && trip !== currentTrip) {
+          var tsep = document.createElement("div");
+          tsep.className = "song-log-crossing song-log-trip";
+          tsep.textContent = "=== " + tripNameOf(post.filename) + " ===";
+          frag.appendChild(tsep);
+          currentCountry = null; // new trip: next country announces itself
+        }
+        currentTrip = trip;
+
         var country = getCountry(post);
         if (country && country !== currentCountry) {
           var sep = document.createElement("div");
           sep.className = "song-log-crossing";
-          sep.textContent = "--- crossing into " + country.toLowerCase() + " ---";
+          // <bdi> keeps Hebrew country names from reordering the dashes
+          sep.appendChild(document.createTextNode("--- crossing into "));
+          var cbdi = document.createElement("bdi");
+          cbdi.textContent = country.toLowerCase();
+          sep.appendChild(cbdi);
+          sep.appendChild(document.createTextNode(" ---"));
           frag.appendChild(sep);
           currentCountry = country;
         }
@@ -71,8 +99,11 @@
 
         var song = document.createElement("span");
         song.className = "song-log-title";
-        song.dir = "auto"; // Hebrew titles render RTL, English LTR
-        song.textContent = post.song_of_the_day;
+        // <bdi> isolates each title's direction: Hebrew reads RTL internally
+        // without flipping the row or dragging Latin chunks across the line.
+        var bdi = document.createElement("bdi");
+        bdi.textContent = post.song_of_the_day;
+        song.appendChild(bdi);
 
         var link = document.createElement("a");
         link.className = "song-log-link";

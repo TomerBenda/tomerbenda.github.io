@@ -790,6 +790,8 @@ nav {
   flex: 1;
   min-width: 0;
   overflow-wrap: break-word;
+  /* All rows share a left anchor; <bdi> handles per-title direction */
+  text-align: left;
 }
 
 .song-log-link {
