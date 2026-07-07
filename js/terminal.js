@@ -89,9 +89,25 @@
         );
       },
     },
-    blog: { desc: "the writing", run: function () { navigate("blog"); } },
-    travel: { desc: "the map", run: function () { navigate("travel"); } },
-    music: { desc: "one song per travel day", run: function () { navigate("music"); } },
+    cd: {
+      desc: "go somewhere — try cd blog",
+      run: function (args) {
+        var target = (args[0] || "").replace(/\/$/, "").toLowerCase();
+        if (!target || target === "~") {
+          line("you're home.", "term-dim");
+          return;
+        }
+        if (target === "..") {
+          line("this is the top. there is no up from here.", "term-dim");
+          return;
+        }
+        if (PAGES.indexOf(target) >= 0) {
+          navigate(target);
+          return;
+        }
+        line("cd: no such directory: " + escapeHtml(target) + " — try <span class='term-accent'>ls</span>", "term-err");
+      },
+    },
     whoami: {
       desc: "who is tbd anyway",
       run: function () {
@@ -196,8 +212,6 @@
         }
       },
     },
-    projects: { desc: "the code", run: function () { navigate("projects"); } },
-    stats: { hidden: true, desc: "", run: function () { navigate("stats"); } },
     sudo: {
       hidden: true,
       desc: "",
@@ -249,14 +263,12 @@
     var name = parts[0].toLowerCase();
     var args = parts.slice(1);
 
-    if (name === "cd" && args.length) {
-      name = args[0].replace(/\/$/, "").toLowerCase();
-      args = [];
-    }
-
     var command = COMMANDS[name];
     if (command) {
       command.run(args);
+    } else if (PAGES.indexOf(name.replace(/\/$/, "")) >= 0) {
+      // zsh-style auto_cd: a bare page name navigates (undocumented)
+      navigate(name.replace(/\/$/, ""));
     } else {
       line(
         "command not found: " +
@@ -270,7 +282,7 @@
   // Command chips: mobile/touch users shouldn't have to type
   var chips = document.getElementById("term-chips");
   if (chips) {
-    ["help", "whoami", "pwd", "blog", "travel", "crt"].forEach(function (name) {
+    ["help", "now", "whoami", "pwd", "cd blog", "crt"].forEach(function (name) {
       var b = document.createElement("button");
       b.type = "button";
       b.className = "term-chip";

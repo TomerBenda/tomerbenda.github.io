@@ -15,6 +15,13 @@ test("home terminal responds to commands", async ({ page }) => {
   await type("nosuchcmd");
   await expect(page.locator(".term-dir")).toHaveCount(5); // ls pages
   await expect(page.locator(".term-line.term-err").last()).toContainText("command not found: nosuchcmd");
+  // Navigation is consolidated under cd (no per-page commands in help)
+  await type("cd");
+  await expect(page.locator(".term-scrollback")).toContainText("you're home.");
+  await type("cd ..");
+  await expect(page.locator(".term-scrollback")).toContainText("this is the top");
+  await type("cd nosuchpage");
+  await expect(page.locator(".term-line.term-err").last()).toContainText("cd: no such directory: nosuchpage");
   expect(errors).toEqual([]);
 });
 
