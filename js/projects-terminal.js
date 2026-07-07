@@ -92,6 +92,24 @@
     enrich();
   }
 
+  // The write-up IS the repo's README — no separate content to maintain.
+  function fetchReadme(repo) {
+    var key = "readme:" + repo;
+    try {
+      var cached = JSON.parse(sessionStorage.getItem(key) || "null");
+      if (cached && Date.now() - cached.ts < 60 * 60 * 1000) return Promise.resolve(cached.md);
+    } catch (e) { /* fall through to fetch */ }
+    return fetch("https://raw.githubusercontent.com/" + GH_USER + "/" + repo + "/HEAD/README.md")
+      .then(function (r) { return r.ok ? r.text() : null; })
+      .then(function (md) {
+        if (md) {
+          try { sessionStorage.setItem(key, JSON.stringify({ md: md, ts: Date.now() })); } catch (e) { /* full */ }
+        }
+        return md;
+      })
+      .catch(function () { return null; });
+  }
+
   function cat(slug) {
     var p = bySlug[slug];
     if (!p) {
@@ -104,9 +122,28 @@
     if (p.links && p.links.live) links.push("<a class='term-dir' target='_blank' rel='noopener' href='" + escapeHtml(p.links.live) + "'>live ↗</a>");
     if (p.links && p.links.github) links.push("<a class='term-dir' target='_blank' rel='noopener' href='" + escapeHtml(p.links.github) + "'>github ↗</a>");
     if (links.length) line(links.join("&nbsp;&nbsp;"));
-    if (p.body_md && window.marked) {
-      var el = line("", "term-cat-body");
-      el.innerHTML = window.marked.parse(p.body_md);
+
+    if (p.repo && window.marked) {
+      var loading = line("reading " + escapeHtml(p.repo) + "/README.md…", "term-dim");
+      fetchReadme(p.repo).then(function (md) {
+        loading.remove();
+        if (!md) return; // repo private/renamed/offline — blurb already printed
+        var el = line("", "term-cat-body");
+        el.innerHTML = window.marked.parse(md);
+        // Relative README asset paths resolve against the raw repo root
+        var base = "https://raw.githubusercontent.com/" + GH_USER + "/" + p.repo + "/HEAD/";
+        el.querySelectorAll("img").forEach(function (img) {
+          var src = img.getAttribute("src") || "";
+          if (src && !/^([a-z]+:)?\/\//i.test(src) && !src.startsWith("data:")) img.src = base + src.replace(/^\.?\//, "");
+          img.loading = "lazy";
+        });
+        el.querySelectorAll("a").forEach(function (a) {
+          a.target = "_blank";
+          a.rel = "noopener";
+        });
+        line("&nbsp;");
+        root.scrollTop = root.scrollHeight;
+      });
     }
     line("&nbsp;");
   }
