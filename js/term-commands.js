@@ -7,6 +7,7 @@
 // Commands are { desc, run(args) } — same shape the terminals already use.
 (function () {
   var PAGES = ["blog", "travel", "music", "projects", "stats"];
+  var VISITORS_WORKER = "https://tbd-visitors.tomerno6.workers.dev";
   var D = window.TbdData;
 
   // Thin callback adapters over the shared data layer
@@ -534,6 +535,54 @@
           hidden: true,
           desc: "",
           run: function () { runShuffle(); },
+        },
+
+        wall: {
+          desc: "the visitors' wall — wall <a line> to write on it",
+          run: function (args) {
+            var text = args.join(" ").trim();
+            if (!text) {
+              fetch(VISITORS_WORKER + "/wall")
+                .then(function (r) { return r.ok ? r.json() : null; })
+                .then(function (d) {
+                  if (!d || !Array.isArray(d.messages)) {
+                    line("the wall is unreachable.", "term-err");
+                    return;
+                  }
+                  if (!d.messages.length) {
+                    line("the wall is blank. be the first: " + term.cmd("wall hello", "wall <something>"), "term-dim");
+                    return;
+                  }
+                  d.messages.forEach(function (m) {
+                    var el = line("", "");
+                    var date = document.createElement("span");
+                    date.className = "term-dim";
+                    date.textContent = new Date(m.ts).toISOString().slice(0, 10) + "  ";
+                    var bdi = document.createElement("bdi");
+                    bdi.textContent = m.text;
+                    el.appendChild(date);
+                    el.appendChild(bdi);
+                  });
+                })
+                .catch(function () { line("the wall is unreachable.", "term-err"); });
+              return;
+            }
+            if (text.length > 120) {
+              line("keep it under 120 characters — it's a wall, not a blog.", "term-err");
+              return;
+            }
+            fetch(VISITORS_WORKER + "/wall", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({ text: text }),
+            })
+              .then(function (r) {
+                if (r.ok) { line("posted. the wall remembers.", "term-dim"); return; }
+                if (r.status === 429) { line("the wall needs a breather — three lines an hour.", "term-err"); return; }
+                line("the wall refused that one.", "term-err");
+              })
+              .catch(function () { line("the wall is unreachable.", "term-err"); });
+          },
         },
 
         crt: {

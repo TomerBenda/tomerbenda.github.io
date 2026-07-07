@@ -60,6 +60,7 @@
             ["grep osaka", "search the posts"],
             ["post", "the corpus (post day 107, post today, post shuffle)"],
             ["now", "what's happening"],
+            ["wall", "the visitors' wall (wall <a line> to write)"],
             ["crt", "toggle the screen effect"],
             ["exit", "close (or esc)"],
           ].forEach(function (c) {
@@ -73,6 +74,7 @@
       post: common.post,
       day: common.day,
       shuffle: common.shuffle,
+      wall: common.wall,
       now: common.now,
       crt: common.crt,
       clear: { desc: "", run: function () { term.clear(); } },
