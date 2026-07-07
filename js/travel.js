@@ -1,10 +1,14 @@
 /**
  * Travel page: map of travel posts. Each marker links to a post.
- * Uses Leaflet + MarkerCluster + Carto dark tiles. Route in chronological order
- * with color per country; segment between countries uses a blend of both colors.
+ * Uses Leaflet + MarkerCluster + ant-path + Carto dark tiles.
  *
- * Data: posts/locations.json (manual/pre-timeline); posts/timeline.json (Google
- * Timeline, matched to posts by date). Fallback: js/travel-data.js for posts not in locations.
+ * Coordinate resolution priority (per post):
+ *   1. posts/locations.json  — explicit manual override keyed by filename
+ *   2. posts/timeline.json   — Google Maps Timeline visits matched by post date
+ *   3. posts/geocoded.json   — Nominatim build-time cache (Polarsteps era fallback)
+ *
+ * Route antpath is drawn through all timeline points (visits + tracks) in
+ * chronological order, colored by the country of the nearest travel post.
  */
 (function () {
   var mapEl = document.getElementById("travel-map");
@@ -16,21 +20,35 @@
     return;
   }
 
-  /** Country → hex color for route segments (stable order for blend) */
+  var reducedMotion =
+    window.matchMedia &&
+    window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
   var COUNTRY_COLORS = {
-    "Vietnam": "#e74c3c",
-    "Thailand": "#9b59b6",
-    "Sri Lanka": "#27ae60",
-    "Singapore": "#3498db",
-    "India": "#f39c12",
-    "Hong Kong": "#e67e22"
+    "Vietnam":   "#ff0040",   // electric red
+    "Thailand":  "#ff9900",   // neon amber
+    "Sri Lanka": "#00ffaa",   // neon teal
+    "Singapore": "#00ccff",   // electric cyan
+    "India":     "#ffff00",   // neon yellow
+    "Hong Kong": "#cc00ff",   // electric violet
+    "Japan":     "#ff00bb",   // hot pink
+    "Taiwan":    "#3d7bff",   // electric blue
+    "Israel":    "#ffffff"    // home: every phosphor at once
   };
   function getCountryColor(country) {
     return COUNTRY_COLORS[country] || "#39ff14";
   }
 
-  /** First category that is not "Travel" (country convention) */
-  function getCountryFromPost(post) {
+  function makeDotIcon(color) {
+    return L.divIcon({
+      className: "",
+      html: "<span style='background:" + color + ";width:6px;height:6px;border-radius:50%;display:block;box-shadow:0 0 5px " + color + ";opacity:0.85;'></span>",
+      iconSize: [6, 6],
+      iconAnchor: [3, 3]
+    });
+  }
+
+  function getCountry(post) {
     var cats = post.categories || (post.category ? [post.category] : []);
     for (var i = 0; i < cats.length; i++) {
       var c = (cats[i] || "").trim();
@@ -39,197 +57,593 @@
     return "";
   }
 
-  /** Resolve [lat, lng] for a post: locations.json first, then travel-data fallback */
-  function getCoords(post, locations, getLocation, getCoordsFromPlace) {
+  function tripRootOf(filename) {
+    return (filename || "").split("/")[0] || "";
+  }
+
+  // Fallback colors for trips not listed in data/trips.json
+  var TRIP_FALLBACK_COLORS = ["#39ff14", "#ffb000", "#00ccff", "#ff00bb", "#ffff00"];
+
+  function postDate(post) {
+    return (post.date || "").split(/[\sT]/)[0];
+  }
+
+  function dist2(lat1, lng1, lat2, lng2) {
+    var dlat = lat1 - lat2, dlng = lng1 - lng2;
+    return dlat * dlat + dlng * dlng;
+  }
+
+  function haversineKm(a, b) {
+    var R = 6371;
+    var dLat = (b[0] - a[0]) * Math.PI / 180;
+    var dLng = (b[1] - a[1]) * Math.PI / 180;
+    var s =
+      Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+      Math.cos(a[0] * Math.PI / 180) * Math.cos(b[0] * Math.PI / 180) *
+      Math.sin(dLng / 2) * Math.sin(dLng / 2);
+    return 2 * R * Math.asin(Math.sqrt(s));
+  }
+
+  function resolveCoords(post, manualOverrides, timelineByDate, geocoded, countryGeoCoords) {
     var filename = post.filename || "";
-    var loc = locations[filename];
-    if (loc && typeof loc.lat === "number" && typeof loc.lng === "number") {
-      return [loc.lat, loc.lng];
+    // 1. Manual override
+    var manual = manualOverrides[filename];
+    if (manual && typeof manual.lat === "number" && typeof manual.lng === "number") {
+      return [manual.lat, manual.lng];
     }
-    var fromPath = getLocation(filename);
-    var c = getCoordsFromPlace(fromPath.place, fromPath.country);
-    if (c) return c;
-    if (fromPath.country) c = getCoordsFromPlace(fromPath.country.toLowerCase(), null);
-    return c || null;
+    // 2. Timeline visits matched by post date
+    var d = postDate(post);
+    var visits = d && timelineByDate[d];
+    if (visits && visits.length) {
+      var geo = geocoded[filename];
+      var best;
+      if (geo) {
+        // Find visit closest to geocoded coords
+        var closest = visits[0];
+        var closestDist = dist2(geo.lat, geo.lng, closest.lat, closest.lng);
+        for (var i = 1; i < visits.length; i++) {
+          var dd = dist2(geo.lat, geo.lng, visits[i].lat, visits[i].lng);
+          if (dd < closestDist) { closestDist = dd; closest = visits[i]; }
+        }
+        if (closestDist < 2) {
+          // Geocoded and closest visit agree on city — GPS-accurate
+          best = closest;
+        } else {
+          // Geocoded is far from all visits (country centroid or flight day).
+          // Check if any visit is near a known post location for this country.
+          var countryCoords = countryGeoCoords[getCountry(post)] || [];
+          var visitsInCountry = visits.filter(function (v) {
+            return countryCoords.some(function (c) { return dist2(c[0], c[1], v.lat, v.lng) < 50; });
+          });
+          if (visitsInCountry.length > 0) {
+            // Visits are in the right country (compound/ambiguous post name, bad centroid)
+            best = visitsInCountry[visitsInCountry.length - 1];
+          } else {
+            // All visits are in a foreign country — flight/travel day, skip timeline
+            return [geo.lat, geo.lng];
+          }
+        }
+      } else {
+        // No geocoded hint — use last visit that's near a known post location for this country
+        var countryCoords2 = countryGeoCoords[getCountry(post)] || [];
+        var inCountry2 = visits.filter(function (v) {
+          return countryCoords2.some(function (c) { return dist2(c[0], c[1], v.lat, v.lng) < 50; });
+        });
+        best = inCountry2.length > 0 ? inCountry2[inCountry2.length - 1] : visits[visits.length - 1];
+      }
+      return [best.lat, best.lng];
+    }
+    // 3. Nominatim-geocoded coords (build-time cache)
+    var geo = geocoded[filename];
+    if (geo && typeof geo.lat === "number" && typeof geo.lng === "number") {
+      return [geo.lat, geo.lng];
+    }
+    return null;
+  }
+
+  function addSegment(map, latlngs, color, paused) {
+    if (paused || reducedMotion) {
+      L.polyline(latlngs, { color: color, weight: 3, opacity: 0.7, dashArray: "10, 20" }).addTo(map);
+      return;
+    }
+    var opts = { color: color, weight: 3, opacity: 0.7, pulseColor: "#000", delay: 600, dashArray: [10, 20] };
+    if (L.polyline && L.polyline.antPath) {
+      L.polyline.antPath(latlngs, opts).addTo(map);
+    } else if (L.Polyline && L.Polyline.AntPath) {
+      new L.Polyline.AntPath(latlngs, opts).addTo(map);
+    } else {
+      L.polyline(latlngs, { color: color, weight: 3, opacity: 0.85 }).addTo(map);
+    }
   }
 
   Promise.all([
     fetch("posts/index.json").then(function (r) { return r.ok ? r.json() : []; }),
-    fetch("posts/locations.json").then(function (r) { return r.ok ? r.json() : {}; }),
-    fetch("posts/timeline.json").then(function (r) { return r.ok ? r.json() : []; })
+    fetch("posts/locations.json").then(function (r) { return r.ok ? r.json() : {}; }).catch(function () { return {}; }),
+    fetch("posts/timeline.json").then(function (r) { return r.ok ? r.json() : []; }).catch(function () { return []; }),
+    fetch("posts/geocoded.json").then(function (r) { return r.ok ? r.json() : {}; }).catch(function () { return {}; }),
+    fetch("data/trips.json").then(function (r) { return r.ok ? r.json() : []; }).catch(function () { return []; })
   ])
-    .then(function (results) {
-      var posts = results[0] || [];
-      var locations = results[1] || {};
-      var timelinePoints = Array.isArray(results[2]) ? results[2] : [];
-      var getLocation = window.getLocationFromFilename || function (f) {
-        var parts = (f || "").replace(/\.md$/i, "").split("/");
-        var country = parts.length >= 2 ? parts[parts.length - 2].trim() : "";
-        var last = parts[parts.length - 1] || "";
-        var under = last.indexOf("_");
-        var place = (under >= 0 ? last.slice(under + 1) : last).toLowerCase().replace(/\s+/g, "_");
-        return { country: country, place: place };
-      };
-      var getCoordsFromPlace = window.getCoordinatesForPlace || function () { return null; };
+  .then(function (results) {
+    var posts           = results[0] || [];
+    var manualOverrides = results[1] || {};
+    var timelinePoints  = Array.isArray(results[2]) ? results[2] : [];
+    var geocoded        = results[3] || {};
+    var tripsConfig     = Array.isArray(results[4]) ? results[4] : [];
 
-      var travel = posts.filter(function (p) {
-        var cats = p.categories || (p.category ? [p.category] : []);
-        return cats.some(function (c) { return (c || "").toLowerCase() === "travel"; });
-      });
-
-      var withCoords = [];
-      travel.forEach(function (post) {
-        var coords = getCoords(post, locations, getLocation, getCoordsFromPlace);
-        if (coords) withCoords.push({ post: post, coords: coords });
-      });
-
-      if (withCoords.length === 0) {
-        mapEl.innerHTML = "<p class='travel-map-fallback'>No travel posts with known locations yet. Run <code>scripts/generate_locations.py</code> or add places to <code>js/travel-data.js</code>.</p>";
-        return;
+    // Build date -> [{lat, lng}] from timeline visits (all visits per day)
+    var timelineByDate = {};
+    timelinePoints.forEach(function (pt) {
+      if (pt.type !== "visit") return;
+      var d = pt.date || (pt.timestamp && pt.timestamp.split("T")[0]);
+      if (d && typeof pt.lat === "number" && typeof pt.lng === "number") {
+        if (!timelineByDate[d]) timelineByDate[d] = [];
+        timelineByDate[d].push({ lat: pt.lat, lng: pt.lng });
       }
+    });
 
-      // Chronological order (journey from the beginning)
-      withCoords.sort(function (a, b) { return new Date(a.post.date) - new Date(b.post.date); });
+    // Filter to travel posts and resolve coordinates
+    var travel = posts.filter(function (p) {
+      var cats = p.categories || (p.category ? [p.category] : []);
+      return cats.some(function (c) { return (c || "").toLowerCase() === "travel"; });
+    });
 
-      // Date (YYYY-MM-DD) -> first travel post for that day (for timeline points)
-      var dateToPost = {};
-      travel.forEach(function (post) {
-        var d = (post.date || "").split(/\s/)[0];
-        if (d && !dateToPost[d]) dateToPost[d] = post;
+    // Build country -> [geocoded coords] from geocoded.json only.
+    // Used in resolveCoords to distinguish "visits are in right country but geocoded is a
+    // bad centroid" (use last visit) from "all visits are abroad on a flight day" (use geocoded).
+    var countryGeoCoords = {};
+    travel.forEach(function (post) {
+      var g = geocoded[post.filename || ""];
+      if (!g || typeof g.lat !== "number") return;
+      var c = getCountry(post);
+      if (c) {
+        if (!countryGeoCoords[c]) countryGeoCoords[c] = [];
+        countryGeoCoords[c].push([g.lat, g.lng]);
+      }
+    });
+
+    var withCoords = [];
+    travel.forEach(function (post) {
+      var coords = resolveCoords(post, manualOverrides, timelineByDate, geocoded, countryGeoCoords);
+      if (coords) withCoords.push({ post: post, coords: coords });
+    });
+
+    if (withCoords.length === 0) {
+      mapEl.innerHTML = "<p class='travel-map-fallback'>No travel posts with known locations yet.</p>";
+      return;
+    }
+
+    withCoords.sort(function (a, b) { return new Date(a.post.date) - new Date(b.post.date); });
+
+    // --- Group by trip: first path segment of the filename is the trip root ---
+    var tripsByRoot = {};
+    var trips = [];
+    withCoords.forEach(function (item) {
+      var root = tripRootOf(item.post.filename);
+      if (!tripsByRoot[root]) {
+        var cfg = null;
+        for (var t = 0; t < tripsConfig.length; t++) {
+          if (tripsConfig[t].root === root) { cfg = tripsConfig[t]; break; }
+        }
+        tripsByRoot[root] = {
+          id: (cfg && cfg.id) || root.toLowerCase().replace(/\s+/g, "-"),
+          root: root,
+          name: (cfg && cfg.name) || root.toLowerCase(),
+          color: (cfg && cfg.color) || TRIP_FALLBACK_COLORS[trips.length % TRIP_FALLBACK_COLORS.length],
+          items: []
+        };
+        trips.push(tripsByRoot[root]);
+      }
+      tripsByRoot[root].items.push(item);
+    });
+    // Trip date ranges (for assigning timeline points to trips)
+    trips.forEach(function (trip) {
+      trip.firstDate = postDate(trip.items[0].post);
+      trip.lastDate  = postDate(trip.items[trip.items.length - 1].post);
+    });
+    trips.sort(function (a, b) { return a.firstDate < b.firstDate ? -1 : 1; });
+    function tripForDate(d) {
+      if (!d) return null;
+      for (var i = 0; i < trips.length; i++) {
+        if (d >= trips[i].firstDate && d <= trips[i].lastDate) return trips[i];
+      }
+      return null; // timeline point outside any trip range — skip
+    }
+
+    // Build date -> post and date -> country lookups (for timeline point popups + route coloring)
+    var dateToPost    = {};
+    var dateToCountry = {};
+    withCoords.forEach(function (item) {
+      var d = postDate(item.post);
+      if (d) {
+        if (!dateToPost[d]) dateToPost[d] = item.post;
+        dateToCountry[d] = getCountry(item.post);
+      }
+    });
+
+    // For any date, return the country of the most recent travel post on or before it
+    var countryDates = Object.keys(dateToCountry).sort();
+    function countryForDate(d) {
+      var c = "";
+      for (var i = 0; i < countryDates.length; i++) {
+        if (countryDates[i] <= d) c = dateToCountry[countryDates[i]];
+        else break;
+      }
+      return c;
+    }
+
+    // --- Map setup ---
+    var map = L.map("travel-map", { zoomControl: false });
+    L.control.zoom({ position: "topright" }).addTo(map);
+    L.tileLayer("https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png", {
+      attribution: "&copy; <a href='https://www.openstreetmap.org/copyright'>OpenStreetMap</a> &copy; <a href='https://carto.com/attributions'>CARTO</a>",
+      subdomains: "abcd",
+      maxZoom: 19
+    }).addTo(map);
+
+    var accent = "#39ff14";
+
+    // --- Per-trip routes: no line connects separate trips ---
+    // Within a trip: post positions cover the full journey, timeline points add
+    // GPS detail. Country crossings are detected only when consecutive POST
+    // markers change countries; timeline points always join the current segment.
+    // Posts whose date has timeline coverage are sentinels only — they detect
+    // country changes but don't add a coordinate (their resolved coordinate IS
+    // one of the timeline visits; adding it would create a zigzag).
+    // Route segments keep COUNTRY coloring; trip colors mark chips + replay.
+    trips.forEach(function (trip) {
+      trip.routeLayer = L.layerGroup();
+      var allRoutePts = [];
+
+      trip.items.forEach(function (item) {
+        var d = postDate(item.post);
+        var covered = !!(d && timelineByDate[d]);
+        allRoutePts.push({
+          coords: item.coords,
+          country: getCountry(item.post),
+          ts: d + "T00:00:00",   // sort before same-day timeline points
+          isPost: true,
+          addToRoute: !covered   // false = sentinel only, no coordinate drawn
+        });
       });
 
-      var map = L.map("travel-map", { zoomControl: false });
-      L.control.zoom({ position: "topright" }).addTo(map);
-      L.tileLayer("https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png", {
-        attribution: "&copy; <a href='https://www.openstreetmap.org/copyright'>OpenStreetMap</a> &copy; <a href='https://carto.com/attributions'>CARTO</a>",
-        subdomains: "abcd",
-        maxZoom: 19
-      }).addTo(map);
-
-      var accent = "#39ff14";
-      var icon = L.divIcon({
-        className: "travel-marker",
-        html: "<span style='background:" + accent + ";width:12px;height:12px;border-radius:50%;display:block;box-shadow:0 0 8px " + accent + ";'></span>",
-        iconSize: [12, 12],
-        iconAnchor: [6, 6]
+      timelinePoints.forEach(function (pt) {
+        if (typeof pt.lat !== "number" || typeof pt.lng !== "number") return;
+        var d = pt.date || (pt.timestamp && pt.timestamp.split("T")[0]) || "";
+        if (tripForDate(d) !== trip) return;
+        allRoutePts.push({
+          coords: [pt.lat, pt.lng],
+          country: countryForDate(d),
+          ts: pt.timestamp || d,
+          isPost: false,
+          addToRoute: true
+        });
       });
 
-      var bounds = [];
-      var points = withCoords.map(function (item) { return item.coords; });
-      var countries = withCoords.map(function (item) { return getCountryFromPost(item.post); });
+      allRoutePts.sort(function (a, b) { return a.ts < b.ts ? -1 : a.ts > b.ts ? 1 : 0; });
 
-      // Route: ant-path (animated dashed flow) per segment, chronological = direction; country colors, blend at boundaries
-      function addRouteSegment(latlngs, color) {
-        var opts = { color: color, weight: 3, opacity: 0.7, pulseColor: "#000", delay: 600, dashArray: [10, 20] };
-        if (L.polyline && L.polyline.antPath) {
-          L.polyline.antPath(latlngs, opts).addTo(map);
-        } else if (L.Polyline && L.Polyline.AntPath) {
-          new L.Polyline.AntPath(latlngs, opts).addTo(map);
-        } else {
-          L.polyline(latlngs, { color: color, weight: 3, opacity: 0.85 }).addTo(map);
+      if (allRoutePts.length >= 2) {
+        var curCountry = allRoutePts[0].country;
+        var curCoords  = allRoutePts[0].addToRoute ? [allRoutePts[0].coords] : [];
+
+        for (var i = 1; i < allRoutePts.length; i++) {
+          var rp = allRoutePts[i];
+          if (rp.isPost && rp.country !== curCountry) {
+            // Country crossing — flush current segment, draw animated arc
+            if (curCoords.length >= 2) {
+              addSegment(trip.routeLayer, curCoords, getCountryColor(curCountry), true);
+            }
+            if (curCoords.length >= 1) {
+              var last = curCoords[curCoords.length - 1];
+              var mid  = [(last[0] + rp.coords[0]) / 2, (last[1] + rp.coords[1]) / 2];
+              addSegment(trip.routeLayer, [last, mid], getCountryColor(curCountry));
+              addSegment(trip.routeLayer, [mid, rp.coords], getCountryColor(rp.country));
+            }
+            curCountry = rp.country;
+            curCoords  = rp.addToRoute ? [rp.coords] : [];
+          } else if (rp.addToRoute) {
+            // Timeline point or pre-timeline post — extend route
+            curCoords.push(rp.coords);
+          }
+          // else: timeline-covered sentinel, same country — skip to avoid zigzag
+        }
+        // Final segment
+        if (curCoords.length >= 2) {
+          addSegment(trip.routeLayer, curCoords, getCountryColor(curCountry), true);
         }
       }
-      for (var i = 0; i < points.length - 1; i++) {
-        var a = points[i];
-        var b = points[i + 1];
-        var countryA = countries[i];
-        var countryB = countries[i + 1];
-        var colorA = getCountryColor(countryA);
-        var colorB = getCountryColor(countryB);
-        if (countryA === countryB) {
-          addRouteSegment([a, b], colorA);
-        } else {
-          var mid = [(a[0] + b[0]) / 2, (a[1] + b[1]) / 2];
-          addRouteSegment([a, mid], colorA);
-          addRouteSegment([mid, b], colorB);
-        }
-      }
+    });
 
-      // Clustering: disable at high zoom so individual markers show (no spiral); when spiderfy used, circle layout
-      var clusterGroup = L.markerClusterGroup({
+    // --- Timeline point markers (clickable, link to post of that day) ---
+    timelinePoints.forEach(function (pt) {
+      if (typeof pt.lat !== "number" || typeof pt.lng !== "number") return;
+      var d = pt.date || (pt.timestamp && pt.timestamp.split("T")[0]);
+      var owner = tripForDate(d);
+      if (!owner) return;
+      var post = d && dateToPost[d];
+      var ptCountry = countryForDate(d);
+      var marker = L.marker([pt.lat, pt.lng], { icon: makeDotIcon(getCountryColor(ptCountry)), zIndexOffset: -100 });
+      if (post) {
+        var popup = "<div class='travel-popup'>" +
+          "<strong>" + (post.title || post.filename) + "</strong><br>" +
+          "<span class='travel-popup-date'>" + (post.date || "").split(" ")[0] + "</span><br>" +
+          "<a href='blog?post=" + encodeURIComponent(post.filename) + "'>Read post &rarr;</a>" +
+          "</div>";
+        marker.bindPopup(popup);
+      }
+      owner.routeLayer.addLayer(marker);
+    });
+
+    // --- Post markers (clustered, on top) ---
+    var postIcon = L.divIcon({
+      className: "travel-marker",
+      html: "<span style='background:" + accent + ";width:12px;height:12px;border-radius:50%;display:block;box-shadow:0 0 8px " + accent + ";'></span>",
+      iconSize: [12, 12],
+      iconAnchor: [6, 6]
+    });
+
+    function makeClusterGroup() {
+      return L.markerClusterGroup({
         maxClusterRadius: 60,
         disableClusteringAtZoom: 16,
         spiderfyOnMaxZoom: false,
         spiderfyShapePositions: function (count, centerPt) {
-          var circumference = 25 * (2 + count);
-          var legLength = Math.max(circumference / (2 * Math.PI), 40);
+          var legLength = Math.max(25 * (2 + count) / (2 * Math.PI), 40);
           var angleStep = (2 * Math.PI) / count;
           var out = [];
           for (var k = 0; k < count; k++) {
-            var angle = k * angleStep;
             out.push(new L.Point(
-              centerPt.x + legLength * Math.cos(angle),
-              centerPt.y + legLength * Math.sin(angle)
+              centerPt.x + legLength * Math.cos(k * angleStep),
+              centerPt.y + legLength * Math.sin(k * angleStep)
             )._round());
           }
           return out;
         }
       });
-      withCoords.forEach(function (item) {
+    }
+
+    trips.forEach(function (trip) {
+      trip.markerLayer = makeClusterGroup();
+      trip.latLngs = [];
+      trip.items.forEach(function (item) {
         var post = item.post;
-        var coords = item.coords;
-        bounds.push(coords);
+        trip.latLngs.push(item.coords);
         var popup = "<div class='travel-popup'>" +
           "<strong>" + (post.title || post.filename) + "</strong><br>" +
           "<span class='travel-popup-date'>" + (post.date || "").split(" ")[0] + "</span><br>" +
           "<a href='blog?post=" + encodeURIComponent(post.filename) + "'>Read post &rarr;</a>" +
           "</div>";
-        var marker = L.marker(coords, { icon: icon }).bindPopup(popup);
-        marker._post = post;
-        marker._coords = coords;
-        clusterGroup.addLayer(marker);
+        trip.markerLayer.addLayer(L.marker(item.coords, { icon: postIcon }).bindPopup(popup));
       });
-
-      // Timeline points: match by date to travel post; smaller marker, same popup link
-      var timelineIcon = L.divIcon({
-        className: "travel-marker travel-marker-timeline",
-        html: "<span style='background:rgba(57,255,20,0.6);width:8px;height:8px;border-radius:50%;display:block;border:1px solid " + accent + ";'></span>",
-        iconSize: [8, 8],
-        iconAnchor: [4, 4]
-      });
-      timelinePoints.forEach(function (pt) {
-        var d = pt.date || (pt.timestamp && pt.timestamp.split(/T/)[0]);
-        if (!d || !pt.lat || !pt.lng) return;
-        var post = dateToPost[d];
-        if (!post) return;
-        var coords = [pt.lat, pt.lng];
-        bounds.push(coords);
-        var popup = "<div class='travel-popup'>" +
-          "<strong>" + (post.title || post.filename) + "</strong><br>" +
-          "<span class='travel-popup-date'>" + (post.date || "").split(" ")[0] + "</span><br>" +
-          "<a href='blog?post=" + encodeURIComponent(post.filename) + "'>Read post &rarr;</a>" +
-          "</div>";
-        var marker = L.marker(coords, { icon: timelineIcon }).bindPopup(popup);
-        clusterGroup.addLayer(marker);
-      });
-      map.addLayer(clusterGroup);
-
-      // "Where I am now" pin: most recent post in chronological order
-      if (withCoords.length > 0) {
-        var latest = withCoords[withCoords.length - 1];
-        var currentIcon = L.divIcon({
-          className: "travel-marker travel-marker-current",
-          html: "<span style='background:" + accent + ";width:16px;height:16px;border-radius:50%;display:block;'></span>",
-          iconSize: [16, 16],
-          iconAnchor: [8, 8]
-        });
-        var currentPopup = "<div class='travel-popup'>" +
-          "<strong style='font-size:0.9em;opacity:0.7;'>📍 last stop</strong><br>" +
-          "<strong>" + (latest.post.title || latest.post.filename) + "</strong><br>" +
-          "<span class='travel-popup-date'>" + (latest.post.date || "").split(" ")[0] + "</span><br>" +
-          "<a href='blog?post=" + encodeURIComponent(latest.post.filename) + "'>Read post &rarr;</a>" +
-          "</div>";
-        L.marker(latest.coords, { icon: currentIcon, zIndexOffset: 1000 })
-          .bindPopup(currentPopup)
-          .addTo(map);
-      }
-
-      if (bounds.length > 0) {
-        var b = L.latLngBounds(bounds);
-        map.fitBounds(b, { padding: [40, 40], maxZoom: 10 });
-      }
-    })
-    .catch(function () {
-      if (mapEl) mapEl.innerHTML = "<p class='travel-map-fallback'>Could not load travel posts or locations.</p>";
     });
+
+    // --- "Where I am now" pin: most recent post in chronological order ---
+    var latest = withCoords[withCoords.length - 1];
+    var currentIcon = L.divIcon({
+      className: "travel-marker travel-marker-current",
+      html: "<span style='background:" + accent + ";width:16px;height:16px;border-radius:50%;display:block;'></span>",
+      iconSize: [16, 16],
+      iconAnchor: [8, 8]
+    });
+    var currentPopup = "<div class='travel-popup'>" +
+      "<strong style='font-size:0.9em;opacity:0.7;'>📍 last stop</strong><br>" +
+      "<strong>" + (latest.post.title || latest.post.filename) + "</strong><br>" +
+      "<span class='travel-popup-date'>" + (latest.post.date || "").split(" ")[0] + "</span><br>" +
+      "<a href='blog?post=" + encodeURIComponent(latest.post.filename) + "'>Read post &rarr;</a>" +
+      "</div>";
+    L.marker(latest.coords, { icon: currentIcon, zIndexOffset: 1000 })
+      .bindPopup(currentPopup)
+      .addTo(map);
+
+    // --- Trip selection ---
+    var selectedId = "all";
+    function selectedTrips() {
+      if (selectedId === "all") return trips;
+      return trips.filter(function (t) { return t.id === selectedId; });
+    }
+
+    function applySelection() {
+      trips.forEach(function (trip) {
+        var on = selectedId === "all" || trip.id === selectedId;
+        if (on) {
+          if (!map.hasLayer(trip.routeLayer)) map.addLayer(trip.routeLayer);
+          if (!map.hasLayer(trip.markerLayer)) map.addLayer(trip.markerLayer);
+        } else {
+          if (map.hasLayer(trip.routeLayer)) map.removeLayer(trip.routeLayer);
+          if (map.hasLayer(trip.markerLayer)) map.removeLayer(trip.markerLayer);
+        }
+      });
+      var pts = [];
+      selectedTrips().forEach(function (t) { pts = pts.concat(t.latLngs); });
+      if (pts.length > 0) {
+        map.fitBounds(L.latLngBounds(pts), { padding: [40, 40], maxZoom: 10 });
+      }
+      renderStats();
+      var chips = document.querySelectorAll(".journey-chip");
+      for (var i = 0; i < chips.length; i++) {
+        chips[i].classList.toggle("active", chips[i].getAttribute("data-trip") === selectedId);
+      }
+    }
+
+    // --- Journey stats strip (per selection) ---
+    // Days come from "Day N - ..." titles: max per trip, summed across trips.
+    var statsEl = document.getElementById("journey-stats");
+    function renderStats() {
+      if (!statsEl) return;
+      var sel = selectedTrips();
+      var countries = {};
+      var postsCount = 0, km = 0, days = 0;
+      sel.forEach(function (trip) {
+        var maxDay = 0;
+        trip.items.forEach(function (item) {
+          var c = getCountry(item.post);
+          if (c) countries[c] = true;
+          var m = /^Day\s+(\d+)/i.exec(item.post.title || "");
+          if (m) maxDay = Math.max(maxDay, parseInt(m[1], 10));
+        });
+        postsCount += trip.items.length;
+        days += maxDay;
+        for (var s = 1; s < trip.items.length; s++) {
+          km += haversineKm(trip.items[s - 1].coords, trip.items[s].coords);
+        }
+      });
+      var statParts = [];
+      if (trips.length > 1 && selectedId === "all") statParts.push(trips.length + " trips");
+      statParts.push(Object.keys(countries).length + " countries");
+      if (days > 0) statParts.push(days + " days");
+      statParts.push(postsCount + " posts");
+      statParts.push("~" + Math.round(km).toLocaleString("en-US") + " km");
+      statsEl.textContent = "$ journey --stats: " + statParts.join(" · ");
+    }
+
+    // --- Trip selector chips (only when >1 trip) ---
+    var chipsEl = document.getElementById("journey-trips");
+    if (chipsEl && trips.length > 1) {
+      var mkChip = function (id, label, color) {
+        var b = document.createElement("button");
+        b.type = "button";
+        b.className = "journey-chip";
+        b.setAttribute("data-trip", id);
+        b.textContent = label;
+        if (color) b.style.setProperty("--chip-color", color);
+        b.addEventListener("click", function () {
+          selectedId = id;
+          applySelection();
+        });
+        return b;
+      };
+      chipsEl.appendChild(mkChip("all", "all", null));
+      trips.forEach(function (trip) {
+        chipsEl.appendChild(mkChip(trip.id, trip.name, trip.color));
+      });
+    }
+
+    applySelection();
+
+    // --- Replay v2: camera stays fixed; a tracer draws the route ---
+    var replayBtn = document.getElementById("journey-replay");
+    var hudEl = document.getElementById("journey-replay-hud");
+    if (replayBtn) {
+      function tripStops(trip) {
+        // First post of each new city (coords differ meaningfully from previous stop)
+        var stops = [];
+        trip.items.forEach(function (item) {
+          var prev = stops[stops.length - 1];
+          if (!prev || dist2(prev.coords[0], prev.coords[1], item.coords[0], item.coords[1]) > 0.002) {
+            stops.push(item);
+          }
+        });
+        return stops;
+      }
+
+      var replaying = false;
+      var rafId = null;
+      var stepTimer = null;
+      var tracerLine = null;
+      var tracerHead = null;
+
+      function setHud(text) {
+        if (hudEl) hudEl.textContent = text || "";
+      }
+
+      function clearTracer() {
+        if (tracerLine) { map.removeLayer(tracerLine); tracerLine = null; }
+        if (tracerHead) { map.removeLayer(tracerHead); tracerHead = null; }
+      }
+
+      function stopReplay() {
+        replaying = false;
+        if (rafId) { cancelAnimationFrame(rafId); rafId = null; }
+        if (stepTimer) { clearTimeout(stepTimer); stepTimer = null; }
+        clearTracer();
+        setHud("");
+        replayBtn.textContent = "▶ replay journey";
+      }
+
+      // Animate one trip's tracer; then() is called when its line completes
+      function playTrip(trip, then) {
+        var stops = tripStops(trip);
+        if (stops.length < 2) { then(); return; }
+        var segKm = [];
+        var totalKm = 0;
+        for (var i = 1; i < stops.length; i++) {
+          var d = haversineKm(stops[i - 1].coords, stops[i].coords);
+          segKm.push(d);
+          totalKm += d;
+        }
+        // Whole trip draws in ~4ms per km, clamped to 8-25s
+        var durMs = Math.max(8000, Math.min(25000, totalKm * 4));
+
+        tracerLine = L.polyline([stops[0].coords], {
+          color: trip.color, weight: 3, opacity: 0.95
+        }).addTo(map);
+        tracerHead = L.circleMarker(stops[0].coords, {
+          radius: 6, color: trip.color, fillColor: trip.color, fillOpacity: 1
+        }).addTo(map);
+        setHud("· " + (stops[0].post.title || stops[0].post.filename));
+
+        if (reducedMotion) {
+          // Discrete steps, no continuous animation
+          var idx = 1;
+          (function step() {
+            if (!replaying) return;
+            if (idx >= stops.length) { then(); return; }
+            tracerLine.addLatLng(stops[idx].coords);
+            tracerHead.setLatLng(stops[idx].coords);
+            setHud("· " + (stops[idx].post.title || stops[idx].post.filename));
+            idx++;
+            stepTimer = setTimeout(step, 600);
+          })();
+          return;
+        }
+
+        var start = null;
+        function frame(ts) {
+          if (!replaying) return;
+          if (start === null) start = ts;
+          var progressKm = Math.min(totalKm, ((ts - start) / durMs) * totalKm);
+          // Locate the segment the head is currently inside. <= so that at
+          // progressKm === totalKm the walk passes the final segment and the
+          // completion branch below fires (with < it would interpolate f=1 forever).
+          var acc = 0, seg = 0;
+          while (seg < segKm.length && acc + segKm[seg] <= progressKm) { acc += segKm[seg]; seg++; }
+          if (seg >= segKm.length) {
+            tracerLine.setLatLngs(stops.map(function (s) { return s.coords; }));
+            tracerHead.setLatLng(stops[stops.length - 1].coords);
+            setHud("· " + (stops[stops.length - 1].post.title || ""));
+            then();
+            return;
+          }
+          var f = segKm[seg] > 0 ? (progressKm - acc) / segKm[seg] : 1;
+          var a = stops[seg].coords, b = stops[seg + 1].coords;
+          var cur = [a[0] + (b[0] - a[0]) * f, a[1] + (b[1] - a[1]) * f];
+          var pts = stops.slice(0, seg + 1).map(function (s) { return s.coords; });
+          pts.push(cur);
+          tracerLine.setLatLngs(pts);
+          tracerHead.setLatLng(cur);
+          setHud("· " + (stops[seg + 1].post.title || stops[seg + 1].post.filename));
+          rafId = requestAnimationFrame(frame);
+        }
+        rafId = requestAnimationFrame(frame);
+      }
+
+      replayBtn.addEventListener("click", function () {
+        if (replaying) { stopReplay(); return; }
+        replaying = true;
+        replayBtn.textContent = "■ stop";
+        var queue = selectedTrips().slice();
+        var multi = queue.length > 1;
+        (function next() {
+          if (!replaying) return;
+          clearTracer();
+          var trip = queue.shift();
+          if (!trip) { stopReplay(); return; }
+          if (multi) setHud("=== " + trip.name + " ===");
+          stepTimer = setTimeout(function () { playTrip(trip, next); }, multi ? 900 : 100);
+        })();
+      });
+    }
+  })
+  .catch(function () {
+    if (mapEl) mapEl.innerHTML = "<p class='travel-map-fallback'>Could not load travel data.</p>";
+  });
 })();

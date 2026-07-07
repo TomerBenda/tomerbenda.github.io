@@ -63,11 +63,34 @@ def main():
         print(f"[!] Posts directory '{POSTS_DIR}' not found. Run from repo root.")
         sys.exit(1)
 
-    # Load locations for travel-post checks
+    # Load coordinate sources for travel-post checks — a travel post is mappable
+    # if ANY source covers it (same resolution order as js/travel.js)
     locations = {}
     if LOCATIONS_FILE.exists():
         try:
             locations = json.loads(LOCATIONS_FILE.read_text(encoding="utf-8"))
+        except Exception:
+            pass
+
+    geocoded = {}
+    geocoded_file = POSTS_DIR / "geocoded.json"
+    if geocoded_file.exists():
+        try:
+            raw = json.loads(geocoded_file.read_text(encoding="utf-8"))
+            geocoded = {
+                k: v for k, v in raw.items()
+                if isinstance(v, dict) and isinstance(v.get("lat"), (int, float))
+            }
+        except Exception:
+            pass
+
+    timeline_dates = set()
+    timeline_file = POSTS_DIR / "timeline.json"
+    if timeline_file.exists():
+        try:
+            for pt in json.loads(timeline_file.read_text(encoding="utf-8")):
+                if pt.get("date"):
+                    timeline_dates.add(pt["date"])
         except Exception:
             pass
 
@@ -118,11 +141,17 @@ def main():
         if not categories or categories == [""]:
             warnings.append("Missing categories")
 
-        # Travel posts should have a location
+        # Travel posts should be resolvable to map coordinates by some source
         cat_lower = [c.lower() for c in (categories or [])]
         if "travel" in cat_lower:
-            if rel not in locations:
-                warnings.append("Travel post missing location in posts/locations.json")
+            date_part = str(fm.get("date", "")).strip().split(" ")[0].split("T")[0]
+            covered = (
+                rel in locations
+                or rel in geocoded
+                or (date_part and date_part in timeline_dates)
+            )
+            if not covered:
+                warnings.append("Travel post not mappable (no locations/geocoded/timeline coverage)")
 
         # Referenced images should exist (blog.js renders ![[X]] from the
         # post's attachments/ subfolder; markdown paths are site-root relative)

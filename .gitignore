@@ -137,3 +137,10 @@ dist
 # Vite logs files
 vite.config.js.timestamp-*
 vite.config.ts.timestamp-*
+
+# Raw Google Takeout GPS history — personal location data, never commit.
+# Processed, bounded artifacts (posts/timeline.json) are the public form.
+data/takeout/Timeline.json
+data/Timeline.json
+data/takeout/Records.json
+data/takeout/Semantic Location History/
