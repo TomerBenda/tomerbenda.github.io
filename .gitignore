@@ -144,3 +144,8 @@ data/takeout/Timeline.json
 data/Timeline.json
 data/takeout/Records.json
 data/takeout/Semantic Location History/
+
+# Smoke tests
+tests/node_modules/
+tests/test-results/
+tests/playwright-report/
