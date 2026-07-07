@@ -40,6 +40,34 @@ test("replay never loads tiles and stops cleanly", async ({ page }) => {
   expect(errors).toEqual([]);
 });
 
+test("marker popups carry the day's song", async ({ page }) => {
+  const errors = await phosphorPage(page);
+  await page.route("**/posts/index.json", async (route) => {
+    const res = await route.fetch();
+    const posts = await res.json();
+    posts.push({
+      filename: "Polarsteps/Israel/999_haifa.md",
+      title: "Day 999 - Haifa",
+      date: "2027-01-01 10:00",
+      categories: ["travel", "Israel"],
+      song_of_the_day: "Karma Police - Radiohead",
+    });
+    await route.fulfill({ response: res, json: posts });
+  });
+  await page.route("**/posts/locations.json", async (route) => {
+    const res = await route.fetch();
+    const loc = await res.json();
+    loc["Polarsteps/Israel/999_haifa.md"] = { lat: 32.79, lng: 34.98 };
+    await route.fulfill({ response: res, json: loc });
+  });
+  await page.goto("/travel.html", { waitUntil: "domcontentloaded" });
+  await page.waitForSelector(".travel-marker-current", { timeout: 20000 });
+  await page.locator(".travel-marker-current").click();
+  await expect(page.locator(".leaflet-popup")).toContainText("Day 999 - Haifa");
+  await expect(page.locator(".leaflet-popup .travel-popup-song")).toContainText("Karma Police");
+  expect(errors).toEqual([]);
+});
+
 test("second trip gets chips and disconnected routes", async ({ page }) => {
   const errors = await phosphorPage(page);
   await page.route("**/posts/index.json", async (route) => {
