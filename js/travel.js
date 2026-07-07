@@ -146,7 +146,11 @@
       L.polyline(latlngs, { color: color, weight: 3, opacity: 0.7, dashArray: "10, 20" }).addTo(map);
       return;
     }
-    var opts = { color: color, weight: 3, opacity: 0.7, pulseColor: "#000", delay: 600, dashArray: [10, 20] };
+    // White pulse: the moving "ants" must contrast with the dark tiles
+    // (a dark pulse renders the animation invisible).
+    // smoothFactor 0: don't let Leaflet simplify the bezier arc back into
+    // a straight line at low zooms.
+    var opts = { color: color, weight: 3, opacity: 0.85, pulseColor: "#ffffff", delay: 800, dashArray: [10, 20], smoothFactor: 0 };
     if (L.polyline && L.polyline.antPath) {
       L.polyline.antPath(latlngs, opts).addTo(map);
     } else if (L.Polyline && L.Polyline.AntPath) {
@@ -154,6 +158,27 @@
     } else {
       L.polyline(latlngs, { color: color, weight: 3, opacity: 0.85 }).addTo(map);
     }
+  }
+
+  // Border crossings draw as quadratic bezier arcs (the "border arcs" the
+  // music log's separators mirror) bulging perpendicular to the travel
+  // direction — a straight midpoint split is collinear and reads as a
+  // plain line.
+  function arcPoints(a, b) {
+    var dLat = b[0] - a[0];
+    var dLng = b[1] - a[1];
+    var cLat = (a[0] + b[0]) / 2 + dLng * 0.22;
+    var cLng = (a[1] + b[1]) / 2 - dLat * 0.22;
+    var pts = [];
+    for (var i = 0; i <= 24; i++) {
+      var t = i / 24;
+      var u = 1 - t;
+      pts.push([
+        u * u * a[0] + 2 * u * t * cLat + t * t * b[0],
+        u * u * a[1] + 2 * u * t * cLng + t * t * b[1]
+      ]);
+    }
+    return pts;
   }
 
   Promise.all([
@@ -328,18 +353,19 @@
         for (var i = 1; i < allRoutePts.length; i++) {
           var rp = allRoutePts[i];
           if (rp.isPost && rp.country !== curCountry) {
-            // Country crossing — flush current segment, draw animated arc
+            // Country crossing — flush current segment, draw an animated
+            // border arc colored by the destination country.
             if (curCoords.length >= 2) {
               addSegment(trip.routeLayer, curCoords, getCountryColor(curCountry), true);
             }
             if (curCoords.length >= 1) {
               var last = curCoords[curCoords.length - 1];
-              var mid  = [(last[0] + rp.coords[0]) / 2, (last[1] + rp.coords[1]) / 2];
-              addSegment(trip.routeLayer, [last, mid], getCountryColor(curCountry));
-              addSegment(trip.routeLayer, [mid, rp.coords], getCountryColor(rp.country));
+              addSegment(trip.routeLayer, arcPoints(last, rp.coords), getCountryColor(rp.country));
             }
             curCountry = rp.country;
-            curCoords  = rp.addToRoute ? [rp.coords] : [];
+            // Seed with the crossing endpoint so the next dashed segment
+            // continues from the arc's tip instead of leaving a gap.
+            curCoords  = [rp.coords];
           } else if (rp.addToRoute) {
             // Timeline point or pre-timeline post — extend route
             curCoords.push(rp.coords);
