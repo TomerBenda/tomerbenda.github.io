@@ -39,10 +39,6 @@ COUNTRY_CODES = {
     "Laos": "la", "Nepal": "np",
 }
 
-# Path segments that are not real geographic locations
-NON_GEOGRAPHIC = {"polarsteps"}
-
-
 def extract_query(filename):
     """
     Derive a Nominatim search query from a post filename.
@@ -59,11 +55,10 @@ def extract_query(filename):
     if len(parts) < 2:
         return None, None
 
-    country = parts[-2].strip()
-    if country.lower() in NON_GEOGRAPHIC:
-        # Root-level post (e.g. "Polarsteps/212_tel_aviv.md") — geocode the
-        # place name alone, unrestricted, unless it isn't a real place.
-        country = ""
+    # The first path segment is the trip root (e.g. "Polarsteps"), never a
+    # geographic name. A 2-segment path ("Trip/212_tel_aviv.md") is a
+    # root-level post — geocode the place name alone, unrestricted.
+    country = parts[-2].strip() if len(parts) >= 3 else ""
 
     country_code = COUNTRY_CODES.get(country)
     last = parts[-1]
