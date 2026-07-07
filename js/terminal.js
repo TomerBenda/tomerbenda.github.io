@@ -109,6 +109,29 @@
         });
       },
     },
+    now: {
+      desc: "what's happening",
+      run: function () {
+        if (!window.TbdNow) {
+          line("now: status unavailable", "term-err");
+          return;
+        }
+        line("checking…", "term-dim");
+        window.TbdNow.fetch().then(function (data) {
+          var lines = window.TbdNow.lines(data);
+          if (!lines.length) {
+            line("all quiet.", "term-dim");
+            return;
+          }
+          lines.forEach(function (l) {
+            var value = l.url
+              ? "<a href='" + escapeHtml(l.url) + "' class='term-accent'><bdi>" + escapeHtml(l.text) + "</bdi></a>"
+              : "<bdi>" + escapeHtml(l.text) + "</bdi>";
+            line("<span class='term-dim'>" + escapeHtml(l.label) + ":</span> " + value);
+          });
+        });
+      },
+    },
     pwd: {
       desc: "where am i",
       run: function () {

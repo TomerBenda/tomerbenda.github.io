@@ -8,7 +8,7 @@ const MOCK_VINYL = [
 
 test("log rows share columns across scripts (bidi)", async ({ page }) => {
   const errors = await phosphorPage(page);
-  await page.route("**tbd-spotify**", (r) => r.abort());
+  await page.route("https://tbd-spotify.tomerno6.workers.dev/**", (r) => r.abort());
   await page.goto("/music.html", { waitUntil: "domcontentloaded" });
   await page.waitForSelector(".song-log-row");
   const geo = await page.evaluate(() => {
@@ -33,9 +33,36 @@ test("log rows share columns across scripts (bidi)", async ({ page }) => {
   expect(errors).toEqual([]);
 });
 
+test("playlist era extends the log with month separators", async ({ page, request }) => {
+  const errors = await phosphorPage(page);
+  await page.route("https://tbd-spotify.tomerno6.workers.dev/**", (r) => r.abort());
+  await page.route("**/data/songlog.json", (r) =>
+    r.fulfill({
+      json: {
+        generated_at: "2026-07-07T00:00:00+00:00",
+        tracks: [
+          { date: "2026-07-01", song: "Pyramid Song - Radiohead", url: "https://open.spotify.com/track/a", month: "2026-07" },
+          { date: "2026-07-03", song: "Round Midnight - Thelonious Monk", url: "https://open.spotify.com/track/b", month: "2026-07" },
+        ],
+      },
+    })
+  );
+  const index = await (await request.get("/posts/index.json")).json();
+  const vaultCount = index.filter((p) => p.song_of_the_day).length;
+  await page.goto("/music.html", { waitUntil: "domcontentloaded" });
+  await page.waitForSelector(".song-log-row");
+  await expect(page.locator(".song-log-row")).toHaveCount(vaultCount + 2);
+  await expect(page.locator(".song-log .song-log-header")).toContainText(String(vaultCount + 2) + " tracks");
+  await expect(page.locator(".song-log-crossing", { hasText: "=== 2026-07 ===" })).toHaveCount(1);
+  // Playlist-era ♪ links to the actual Spotify track
+  const lastPlay = page.locator(".song-log-row").last().locator(".song-log-play");
+  await expect(lastPlay).toHaveAttribute("href", /open\.spotify\.com\/track\/b/);
+  expect(errors).toEqual([]);
+});
+
 test("vinyl shelf renders from data and hides without it", async ({ page }) => {
   const errors = await phosphorPage(page);
-  await page.route("**tbd-spotify**", (r) => r.abort());
+  await page.route("https://tbd-spotify.tomerno6.workers.dev/**", (r) => r.abort());
   await page.route("**/data/discogs.json", (r) => r.fulfill({ json: MOCK_VINYL }));
   await page.goto("/music.html", { waitUntil: "domcontentloaded" });
   await page.waitForSelector(".vinyl-card");

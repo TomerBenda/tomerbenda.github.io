@@ -1,0 +1,38 @@
+name: Update song log from Spotify playlists
+
+on:
+  schedule:
+    - cron: "30 3 * * *" # daily
+  workflow_dispatch:
+
+jobs:
+  songlog:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        run: pip install requests
+
+      - name: Fetch songlog playlists
+        env:
+          SPOTIFY_CLIENT_ID: ${{ secrets.SPOTIFY_CLIENT_ID }}
+          SPOTIFY_CLIENT_SECRET: ${{ secrets.SPOTIFY_CLIENT_SECRET }}
+          SPOTIFY_USER: ${{ vars.SPOTIFY_USER }}
+          SONGLOG_PLAYLIST_PATTERN: ${{ vars.SONGLOG_PLAYLIST_PATTERN }}
+        run: python scripts/fetch_songlog_playlists.py
+
+      - name: Commit and push updates
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add data/songlog.json
+          git diff --staged --quiet || git commit -m "Update song log from playlists"
+          git pull && git push

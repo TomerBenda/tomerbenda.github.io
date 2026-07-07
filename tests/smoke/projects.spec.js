@@ -3,7 +3,7 @@ const { phosphorPage } = require("../helpers");
 
 test("projects terminal boots, lists, cats", async ({ page, request }) => {
   const errors = await phosphorPage(page);
-  await page.route("**api.github.com/repos/**", (r) =>
+  await page.route("https://api.github.com/repos/**", (r) =>
     r.fulfill({ json: { stargazers_count: 7 } })
   );
   const index = await (await request.get("/projects/index.json")).json();
