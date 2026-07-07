@@ -740,6 +740,75 @@ nav {
 }
 /* End recent posts widget */
 
+/* Song-of-the-day log (music page) */
+.song-log-intro {
+  color: var(--fg-dim);
+  font-size: 0.9em;
+}
+
+.song-log-header {
+  color: var(--fg-dim);
+  font-size: 0.85em;
+  margin: 1.2em 0 0.4em;
+}
+
+.song-log-crossing {
+  color: var(--accent-40);
+  font-size: 0.8em;
+  margin: 1.1em 0 0.5em;
+  letter-spacing: 0.05em;
+}
+
+.song-log-row {
+  display: flex;
+  align-items: baseline;
+  gap: 0.7em;
+  padding: 0.22em 0;
+  border-bottom: 1px solid var(--accent-08);
+  font-size: 0.9em;
+}
+
+.song-log-date {
+  color: var(--accent);
+  opacity: 0.55;
+  min-width: 6.5em;
+  flex-shrink: 0;
+  font-size: 0.85em;
+}
+
+.song-log-play {
+  color: var(--amber);
+  text-decoration: none;
+  flex-shrink: 0;
+}
+
+.song-log-play:hover {
+  text-shadow: 0 0 8px rgba(255, 176, 0, 0.6);
+}
+
+.song-log-title {
+  flex: 1;
+  min-width: 0;
+  overflow-wrap: break-word;
+  /* All rows share a left anchor; <bdi> handles per-title direction */
+  text-align: left;
+}
+
+.song-log-link {
+  color: var(--accent);
+  text-decoration: none;
+  flex-shrink: 0;
+}
+
+.song-log-link:hover {
+  text-shadow: var(--bloom);
+}
+
+.song-log-loading {
+  color: var(--fg-dim);
+}
+/* End song log */
+
 /* Boot sequence overlay */
 #boot-overlay {
   position: fixed;
