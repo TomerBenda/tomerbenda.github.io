@@ -172,7 +172,7 @@
         var popup = "<div class='travel-popup'>" +
           "<strong>" + (post.title || post.filename) + "</strong><br>" +
           "<span class='travel-popup-date'>" + (post.date || "").split(" ")[0] + "</span><br>" +
-          "<a href='blog.html?post=" + encodeURIComponent(post.filename) + "'>Read post &rarr;</a>" +
+          "<a href='blog?post=" + encodeURIComponent(post.filename) + "'>Read post &rarr;</a>" +
           "</div>";
         var marker = L.marker(coords, { icon: icon }).bindPopup(popup);
         marker._post = post;
@@ -197,7 +197,7 @@
         var popup = "<div class='travel-popup'>" +
           "<strong>" + (post.title || post.filename) + "</strong><br>" +
           "<span class='travel-popup-date'>" + (post.date || "").split(" ")[0] + "</span><br>" +
-          "<a href='blog.html?post=" + encodeURIComponent(post.filename) + "'>Read post &rarr;</a>" +
+          "<a href='blog?post=" + encodeURIComponent(post.filename) + "'>Read post &rarr;</a>" +
           "</div>";
         var marker = L.marker(coords, { icon: timelineIcon }).bindPopup(popup);
         clusterGroup.addLayer(marker);
@@ -217,7 +217,7 @@
           "<strong style='font-size:0.9em;opacity:0.7;'>📍 last stop</strong><br>" +
           "<strong>" + (latest.post.title || latest.post.filename) + "</strong><br>" +
           "<span class='travel-popup-date'>" + (latest.post.date || "").split(" ")[0] + "</span><br>" +
-          "<a href='blog.html?post=" + encodeURIComponent(latest.post.filename) + "'>Read post &rarr;</a>" +
+          "<a href='blog?post=" + encodeURIComponent(latest.post.filename) + "'>Read post &rarr;</a>" +
           "</div>";
         L.marker(latest.coords, { icon: currentIcon, zIndexOffset: 1000 })
           .bindPopup(currentPopup)

@@ -20,14 +20,14 @@
       recent.forEach(function (post) {
         var date = (post.date || "").split(" ")[0];
         var title = post.title || post.filename;
-        var url = "blog.html?post=" + encodeURIComponent(post.filename);
+        var url = "blog?post=" + encodeURIComponent(post.filename);
         html += '<li class="recent-post-item">'
           + '<span class="recent-post-date">' + date + '</span> '
           + '<a href="' + url + '">' + title + '</a>'
           + '</li>';
       });
       html += '</ul>';
-      html += '<p style="margin:0.75em 0 0;"><a href="blog.html" style="font-size:0.85em; opacity:0.7;">All posts →</a></p>';
+      html += '<p style="margin:0.75em 0 0;"><a href="blog" style="font-size:0.85em; opacity:0.7;">All posts →</a></p>';
 
       container.innerHTML = html;
     })

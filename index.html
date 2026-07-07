@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>tbd</title>
     <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="css/terminal.css" />
     <link rel="icon" type="image/png" href="favicon.ico" />
     <link rel="alternate" type="application/rss+xml" title="tbd RSS Feed" href="/feed.xml" />
     <link
@@ -18,12 +19,20 @@
       <aside class="sidebar">
         <button class="toggle-crt" onclick="toggleCrt()">Toggle screen effect</button>
       </aside>
-      <main class="main-content" style="text-align: center">
-        <h1>Welcome!</h1>
-        <p>This website is.</p>
-        <p>For now it's mostly the <a href="blog">blog</a>,</p>
-        <p>Hope you have a good time!</p>
-        <div id="recent-posts" style="margin-top:2em; text-align:left;"></div>
+      <main class="main-content home-main">
+        <p class="term-heading">// a terminal that is also a travel journal</p>
+        <div id="terminal" class="term" aria-label="interactive terminal">
+          <!-- Static fallback, replaced when terminal.js runs -->
+          <div class="term-line">welcome!</div>
+          <div class="term-line">this website is.</div>
+          <div class="term-line">
+            mostly the <a href="blog">blog</a>, sometimes the
+            <a href="travel">map</a>.
+          </div>
+          <div class="term-line">hope you have a good time!</div>
+        </div>
+        <div id="term-chips" class="term-chips"></div>
+        <div id="recent-posts" style="margin-top: 2em"></div>
       </main>
     </div>
     <footer></footer>
@@ -31,6 +40,7 @@
     <script src="js/include-components.js"></script>
     <script src="js/main.js"></script>
     <script src="js/index-redirect.js"></script>
+    <script src="js/terminal.js"></script>
     <script src="js/recent-posts.js"></script>
   </body>
 </html>

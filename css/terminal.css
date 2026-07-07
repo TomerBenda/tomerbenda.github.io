@@ -1,0 +1,121 @@
+/* Interactive terminal (home page) */
+
+.term {
+  background: var(--ph-0);
+  border: 1px solid var(--accent-40);
+  border-radius: 6px;
+  box-shadow: 0 0 12px var(--accent-08);
+  padding: 1em;
+  min-height: 260px;
+  max-height: 420px;
+  overflow-y: auto;
+  font-size: 0.92em;
+  text-align: left;
+  cursor: text;
+  scrollbar-width: thin;
+  scrollbar-color: var(--accent-40) transparent;
+}
+
+.term-line {
+  white-space: pre-wrap;
+  word-break: break-word;
+  min-height: 1.4em;
+}
+
+.term-line a {
+  color: var(--accent);
+}
+
+.term-dim {
+  color: var(--fg-dim);
+}
+
+.term-err {
+  color: var(--err);
+}
+
+.term-accent {
+  color: var(--accent);
+}
+
+.term-dir {
+  color: var(--accent);
+  font-weight: bold;
+  text-decoration: none;
+}
+
+.term-dir:hover {
+  text-decoration: underline;
+}
+
+.term-prompt-row {
+  display: flex;
+  align-items: baseline;
+  margin-top: 0.2em;
+}
+
+.term-prompt {
+  white-space: nowrap;
+  cursor: text;
+}
+
+.term-user {
+  color: var(--accent);
+}
+
+.term-path {
+  color: var(--amber);
+}
+
+.term-input {
+  flex: 1;
+  min-width: 0;
+  background: none;
+  border: none;
+  outline: none;
+  color: var(--fg);
+  font-family: inherit;
+  font-size: inherit;
+  caret-color: var(--accent);
+  padding: 0;
+}
+
+/* Chips: tappable commands for touch users */
+.term-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5em;
+  margin-top: 0.8em;
+}
+
+.term-chip {
+  background: none;
+  border: 1px solid var(--accent-40);
+  border-radius: 999px;
+  color: var(--accent);
+  font-family: inherit;
+  font-size: 0.82em;
+  padding: 0.25em 0.9em;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.term-chip:hover {
+  background: var(--accent-15);
+}
+
+/* Home layout bits */
+.home-main .term-heading {
+  margin: 0 0 0.75em;
+  font-size: 1.1rem;
+  color: var(--fg-dim);
+  font-weight: normal;
+}
+
+@media (max-width: 700px) {
+  .term {
+    min-height: 200px;
+    max-height: 320px;
+    font-size: 0.85em;
+  }
+}
