@@ -33,8 +33,15 @@
         releases
           .filter((r) => !activeGenre || (r.genres || []).includes(activeGenre))
           .forEach((r) => {
-            const card = document.createElement("div");
+            // Cards link to the release on Discogs (details, pressings, market)
+            const card = document.createElement(r.id ? "a" : "div");
             card.className = "vinyl-card";
+            if (r.id) {
+              card.href = "https://www.discogs.com/release/" + r.id;
+              card.target = "_blank";
+              card.rel = "noopener";
+              card.title = (r.artist || "") + " — " + (r.title || "") + " on Discogs";
+            }
             const cover = document.createElement("div");
             cover.className = "vinyl-cover";
             if (r.cover) {
