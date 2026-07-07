@@ -1,0 +1,299 @@
+/* Stats dashboard (password-gated) */
+
+#auth-screen {
+  padding: 2em 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6em;
+}
+
+/* The ID rule above outweighs .hidden's class specificity — restate it */
+#auth-screen.hidden {
+  display: none;
+}
+
+.auth-line {
+  font-family: "Fira Code", monospace;
+  font-size: 0.95em;
+  color: var(--fg);
+  display: flex;
+  align-items: center;
+  gap: 0.5em;
+}
+
+.auth-line .prompt {
+  color: var(--accent);
+}
+
+#token-input {
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid var(--accent);
+  color: var(--accent);
+  font-family: "Fira Code", monospace;
+  font-size: 0.95em;
+  width: 18em;
+  outline: none;
+  padding: 0.1em 0.2em;
+}
+
+#auth-error {
+  font-family: "Fira Code", monospace;
+  font-size: 0.85em;
+  color: var(--err);
+  padding-left: 1.2em;
+}
+
+/* ── Dashboard ─────────────────────────────────────── */
+
+#dashboard {
+  padding: 0.5em 0 2em;
+}
+
+.stats-summary {
+  font-family: "Fira Code", monospace;
+  font-size: 0.88em;
+  color: var(--fg-dim);
+  margin-bottom: 1.4em;
+  line-height: 2;
+  border-left: 2px solid var(--accent-40);
+  padding-left: 1em;
+}
+
+.stats-summary .hl {
+  color: var(--accent);
+  font-weight: 700;
+}
+
+/* ── Charts ────────────────────────────────────────── */
+
+.stats-charts {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
+  gap: 1em;
+  margin-bottom: 1.8em;
+}
+
+.chart-card {
+  background: var(--ph-1);
+  border: 1px solid var(--accent-08);
+  border-radius: 6px;
+  box-shadow: var(--bezel);
+  padding: 0.8em 1em 1em;
+  min-width: 0;
+}
+
+.chart-title {
+  font-family: "Fira Code", monospace;
+  font-size: 0.8em;
+  color: var(--fg-dim);
+  margin: 0 0 0.7em;
+}
+
+.hbar-row {
+  display: flex;
+  align-items: center;
+  gap: 0.6em;
+  padding: 2px 0; /* 2px surface gap between adjacent bars */
+  font-family: "Fira Code", monospace;
+  font-size: 0.78em;
+}
+
+.hbar-label {
+  color: var(--fg-dim);
+  width: 7.5em;
+  flex-shrink: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  text-align: right;
+}
+
+.hbar-track {
+  flex: 1;
+  min-width: 0;
+}
+
+.hbar-fill {
+  height: 8px;
+  /* validated mark color: accent @ .55 over ph-1 ≈ #24910f (passes
+     lightness band + contrast; full accent is reserved for thin marks) */
+  background: rgba(57, 255, 20, 0.55);
+  border-radius: 0 2px 2px 0; /* rounded data-end, flat baseline edge */
+  min-width: 1px;
+  transition: background 0.12s;
+}
+
+.hbar-row:hover .hbar-fill {
+  background: rgba(57, 255, 20, 0.8);
+}
+
+.hbar-value {
+  color: var(--fg);
+  width: 3.8em;
+  flex-shrink: 0;
+  text-align: right;
+}
+
+.chart-empty {
+  font-family: "Fira Code", monospace;
+  font-size: 0.78em;
+  color: var(--fg-dim);
+  padding: 0.5em 0;
+}
+
+/* Reads-over-time line */
+.spark-svg {
+  width: 100%;
+  height: 90px;
+  display: block;
+}
+
+.spark-svg .spark-line {
+  fill: none;
+  stroke: var(--accent);
+  stroke-width: 2;
+}
+
+.spark-svg .spark-fill {
+  fill: rgba(57, 255, 20, 0.12);
+  stroke: none;
+}
+
+.spark-svg .spark-dot {
+  fill: var(--accent);
+}
+
+.spark-caption {
+  font-family: "Fira Code", monospace;
+  font-size: 0.72em;
+  color: var(--fg-dim);
+  display: flex;
+  justify-content: space-between;
+  margin-top: 0.3em;
+}
+
+/* ── Table ─────────────────────────────────────────── */
+
+.stats-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: "Fira Code", monospace;
+  font-size: 0.83em;
+}
+
+.stats-table thead th {
+  text-align: left;
+  padding: 0.4em 0.7em;
+  border-bottom: 1px solid var(--accent-40);
+  color: var(--accent);
+  white-space: nowrap;
+  user-select: none;
+}
+
+.stats-table thead th[data-sort] {
+  cursor: pointer;
+}
+
+.stats-table thead th[data-sort]:hover,
+.stats-table thead th.sorted {
+  color: #fff;
+}
+
+.stats-table tbody tr:hover td {
+  background: rgba(57, 255, 20, 0.03);
+}
+
+.stats-table td {
+  padding: 0.32em 0.7em;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.035);
+  vertical-align: middle;
+  color: var(--fg);
+}
+
+.td-rank {
+  color: var(--fg-dim);
+  text-align: right;
+  width: 2.2em;
+  padding-right: 0.4em;
+}
+
+.td-title {
+  max-width: 28em;
+}
+
+.td-title a {
+  color: var(--fg);
+  text-decoration: none;
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.td-title a:hover {
+  color: var(--accent);
+}
+
+.td-date {
+  color: var(--fg-dim);
+  white-space: nowrap;
+  width: 7em;
+  font-size: 0.9em;
+}
+
+.td-views {
+  text-align: right;
+  width: 4.5em;
+  white-space: nowrap;
+}
+
+.td-views.zero {
+  color: var(--fg-dim);
+}
+
+.td-bar {
+  width: 7em;
+  padding: 0 0.6em;
+}
+
+.bar-track {
+  height: 5px;
+  background: rgba(57, 255, 20, 0.07);
+  border-radius: 3px;
+}
+
+.bar-fill {
+  height: 5px;
+  background: rgba(57, 255, 20, 0.55);
+  border-radius: 3px;
+  min-width: 1px;
+}
+
+.td-reactions {
+  white-space: nowrap;
+  font-size: 0.88em;
+  color: var(--fg-dim);
+}
+
+.r-chip {
+  display: inline-block;
+  margin-right: 0.4em;
+}
+
+.r-chip .r-count {
+  font-size: 0.85em;
+  color: var(--fg-dim);
+  margin-left: 0.1em;
+}
+
+.sort-arrow {
+  font-size: 0.7em;
+  opacity: 0.6;
+  margin-left: 0.2em;
+}
+
+.th-bar,
+.th-rank {
+  width: 1px;
+}
