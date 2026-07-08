@@ -1,23 +1,53 @@
 {
+  "Polarsteps/212_tel_aviv.md": {
+    "lat": 32.0853,
+    "lng": 34.781806,
+    "query": "tel aviv"
+  },
   "Polarsteps/Hong Kong/149_hong_kong.md": {
-    "lat": 22.349215,
-    "lng": 114.185798,
+    "lat": 22.281833,
+    "lng": 114.158283,
     "query": "Hong Kong"
   },
   "Polarsteps/Hong Kong/150_hong_kong.md": {
-    "lat": 22.349215,
-    "lng": 114.185798,
+    "lat": 22.281833,
+    "lng": 114.158283,
     "query": "Hong Kong"
   },
   "Polarsteps/Hong Kong/151_hong_kong.md": {
-    "lat": 22.349215,
-    "lng": 114.185798,
+    "lat": 22.281833,
+    "lng": 114.158283,
     "query": "Hong Kong"
   },
   "Polarsteps/Hong Kong/152_hong_kong.md": {
-    "lat": 22.349215,
-    "lng": 114.185798,
+    "lat": 22.281833,
+    "lng": 114.158283,
     "query": "Hong Kong"
+  },
+  "Polarsteps/India/126_india.md": {
+    "lat": 22.351115,
+    "lng": 78.667743,
+    "query": "India"
+  },
+  "Polarsteps/India/127_rishikesh.md": {
+    "lat": 30.108654,
+    "lng": 78.291619,
+    "query": "rishikesh, India"
+  },
+  "Polarsteps/India/128_rishikesh.md": {
+    "lat": 30.108654,
+    "lng": 78.291619,
+    "query": "rishikesh, India"
+  },
+  "Polarsteps/India/129_rishikesh.md": {
+    "lat": 30.108654,
+    "lng": 78.291619,
+    "query": "rishikesh, India"
+  },
+  "Polarsteps/India/130_rishikesh.md": {
+    "lat": 30.108654,
+    "lng": 78.291619,
+    "query": "rishikesh, India"
   },
   "Polarsteps/India/131_rishikesh.md": {
     "lat": 30.108654,
@@ -29,14 +59,79 @@
     "lng": 78.291619,
     "query": "rishikesh, India"
   },
+  "Polarsteps/India/133_rishikesh.md": {
+    "lat": 30.108654,
+    "lng": 78.291619,
+    "query": "rishikesh, India"
+  },
+  "Polarsteps/India/134_jaipur.md": {
+    "lat": 26.915458,
+    "lng": 75.818982,
+    "query": "jaipur, India"
+  },
+  "Polarsteps/India/135_pushkar.md": {
+    "lat": 26.487647,
+    "lng": 74.557848,
+    "query": "pushkar, India"
+  },
+  "Polarsteps/India/136_pushkar.md": {
+    "lat": 26.487647,
+    "lng": 74.557848,
+    "query": "pushkar, India"
+  },
+  "Polarsteps/India/137_pushkar.md": {
+    "lat": 26.487647,
+    "lng": 74.557848,
+    "query": "pushkar, India"
+  },
+  "Polarsteps/India/138_udaipur.md": {
+    "lat": 24.578721,
+    "lng": 73.686257,
+    "query": "udaipur, India"
+  },
+  "Polarsteps/India/139_udaipur.md": {
+    "lat": 24.578721,
+    "lng": 73.686257,
+    "query": "udaipur, India"
+  },
+  "Polarsteps/India/140_andaman.md": {
+    "lat": 13.51112,
+    "lng": 92.917388,
+    "query": "andaman, India"
+  },
+  "Polarsteps/India/141_havelock.md": {
+    "lat": 11.965195,
+    "lng": 92.995621,
+    "query": "havelock, India"
+  },
+  "Polarsteps/India/142_havelock.md": {
+    "lat": 11.965195,
+    "lng": 92.995621,
+    "query": "havelock, India"
+  },
+  "Polarsteps/India/143_havelock.md": {
+    "lat": 11.965195,
+    "lng": 92.995621,
+    "query": "havelock, India"
+  },
+  "Polarsteps/India/144_havelock.md": {
+    "lat": 11.965195,
+    "lng": 92.995621,
+    "query": "havelock, India"
+  },
+  "Polarsteps/India/145_havelock.md": {
+    "lat": 11.965195,
+    "lng": 92.995621,
+    "query": "havelock, India"
+  },
   "Polarsteps/India/146_havelock.md": {
     "lat": 11.965195,
     "lng": 92.995621,
     "query": "havelock, India"
   },
   "Polarsteps/India/147_andaman.md": {
-    "lat": 12.652888,
-    "lng": 92.779661,
+    "lat": 13.51112,
+    "lng": 92.917388,
     "query": "andaman, India"
   },
   "Polarsteps/India/148_delhi.md": {
@@ -68,6 +163,186 @@
     "lat": 33.284575,
     "lng": 131.491306,
     "query": "beppu, Japan"
+  },
+  "Polarsteps/Japan/158_usuki.md": {
+    "lat": 33.126103,
+    "lng": 131.804845,
+    "query": "usuki, Japan"
+  },
+  "Polarsteps/Japan/159_kitsuki_and_nakatsu.md": {
+    "lat": 36.574844,
+    "lng": 139.239418,
+    "query": "Japan"
+  },
+  "Polarsteps/Japan/160_yabakei_and_kokura.md": {
+    "lat": 36.574844,
+    "lng": 139.239418,
+    "query": "Japan"
+  },
+  "Polarsteps/Japan/161_moji_and_fukouka.md": {
+    "lat": 36.574844,
+    "lng": 139.239418,
+    "query": "Japan"
+  },
+  "Polarsteps/Japan/162_fukuoka.md": {
+    "lat": 33.625124,
+    "lng": 130.618002,
+    "query": "fukuoka, Japan"
+  },
+  "Polarsteps/Japan/163_hita_and_saga.md": {
+    "lat": 36.574844,
+    "lng": 139.239418,
+    "query": "Japan"
+  },
+  "Polarsteps/Japan/164_fukuoka.md": {
+    "lat": 33.625124,
+    "lng": 130.618002,
+    "query": "fukuoka, Japan"
+  },
+  "Polarsteps/Japan/165_fukuoka.md": {
+    "lat": 33.625124,
+    "lng": 130.618002,
+    "query": "fukuoka, Japan"
+  },
+  "Polarsteps/Japan/166_hiroshima.md": {
+    "lat": 34.391724,
+    "lng": 132.451759,
+    "query": "hiroshima, Japan"
+  },
+  "Polarsteps/Japan/167_hiroshima.md": {
+    "lat": 34.391724,
+    "lng": 132.451759,
+    "query": "hiroshima, Japan"
+  },
+  "Polarsteps/Japan/168_hiroshima.md": {
+    "lat": 34.391724,
+    "lng": 132.451759,
+    "query": "hiroshima, Japan"
+  },
+  "Polarsteps/Japan/169_takehara.md": {
+    "lat": 34.341838,
+    "lng": 132.907048,
+    "query": "takehara, Japan"
+  },
+  "Polarsteps/Japan/170_fukuyama.md": {
+    "lat": 34.485704,
+    "lng": 133.36231,
+    "query": "fukuyama, Japan"
+  },
+  "Polarsteps/Japan/171_osaka.md": {
+    "lat": 34.693757,
+    "lng": 135.501454,
+    "query": "osaka, Japan"
+  },
+  "Polarsteps/Japan/172_osaka.md": {
+    "lat": 34.693757,
+    "lng": 135.501454,
+    "query": "osaka, Japan"
+  },
+  "Polarsteps/Japan/173_osaka.md": {
+    "lat": 34.693757,
+    "lng": 135.501454,
+    "query": "osaka, Japan"
+  },
+  "Polarsteps/Japan/174_kobe.md": {
+    "lat": 34.693238,
+    "lng": 135.194376,
+    "query": "kobe, Japan"
+  },
+  "Polarsteps/Japan/175_roadtrip.md": {
+    "lat": 36.574844,
+    "lng": 139.239418,
+    "query": "Japan"
+  },
+  "Polarsteps/Japan/176_roadtrip.md": {
+    "lat": 36.574844,
+    "lng": 139.239418,
+    "query": "Japan"
+  },
+  "Polarsteps/Japan/177_roadtrip.md": {
+    "lat": 36.574844,
+    "lng": 139.239418,
+    "query": "Japan"
+  },
+  "Polarsteps/Japan/178_himeji.md": {
+    "lat": 34.815353,
+    "lng": 134.685479,
+    "query": "himeji, Japan"
+  },
+  "Polarsteps/Japan/179_tottori.md": {
+    "lat": 35.355508,
+    "lng": 133.867852,
+    "query": "tottori, Japan"
+  },
+  "Polarsteps/Japan/180_tottori_and_tsuyama.md": {
+    "lat": 36.574844,
+    "lng": 139.239418,
+    "query": "Japan"
+  },
+  "Polarsteps/Japan/181_hiroshima.md": {
+    "lat": 34.391724,
+    "lng": 132.451759,
+    "query": "hiroshima, Japan"
+  },
+  "Polarsteps/Japan/182_hiroshima.md": {
+    "lat": 34.391724,
+    "lng": 132.451759,
+    "query": "hiroshima, Japan"
+  },
+  "Polarsteps/Japan/183_hiroshima.md": {
+    "lat": 34.391724,
+    "lng": 132.451759,
+    "query": "hiroshima, Japan"
+  },
+  "Polarsteps/Japan/184_hiroshima.md": {
+    "lat": 34.391724,
+    "lng": 132.451759,
+    "query": "hiroshima, Japan"
+  },
+  "Polarsteps/Japan/185_okayama.md": {
+    "lat": 34.858133,
+    "lng": 133.775926,
+    "query": "okayama, Japan"
+  },
+  "Polarsteps/Japan/186_okayama.md": {
+    "lat": 34.858133,
+    "lng": 133.775926,
+    "query": "okayama, Japan"
+  },
+  "Polarsteps/Japan/187_okayama.md": {
+    "lat": 34.858133,
+    "lng": 133.775926,
+    "query": "okayama, Japan"
+  },
+  "Polarsteps/Japan/188_nara.md": {
+    "lat": 34.684545,
+    "lng": 135.804836,
+    "query": "nara, Japan"
+  },
+  "Polarsteps/Japan/189_yoshino.md": {
+    "lat": 34.39598,
+    "lng": 135.857514,
+    "query": "yoshino, Japan"
+  },
+  "Polarsteps/Japan/190_nara.md": {
+    "lat": 34.684545,
+    "lng": 135.804836,
+    "query": "nara, Japan"
+  },
+  "Polarsteps/Japan/191_osaka.md": {
+    "lat": 34.693757,
+    "lng": 135.501454,
+    "query": "osaka, Japan"
+  },
+  "Polarsteps/Japan/192_osaka.md": {
+    "lat": 34.693757,
+    "lng": 135.501454,
+    "query": "osaka, Japan"
+  },
+  "Polarsteps/Japan/193_osaka.md": {
+    "lat": 34.693757,
+    "lng": 135.501454,
+    "query": "osaka, Japan"
   },
   "Polarsteps/Singapore/100_singapore.md": {
     "lat": 1.357107,
@@ -125,48 +400,48 @@
     "query": "ahangama, Sri Lanka"
   },
   "Polarsteps/Sri Lanka/110_weligama.md": {
-    "lat": 5.975433,
-    "lng": 80.429561,
+    "lat": 5.97513,
+    "lng": 80.429139,
     "query": "weligama, Sri Lanka"
   },
   "Polarsteps/Sri Lanka/111_weligama.md": {
-    "lat": 5.975433,
-    "lng": 80.429561,
+    "lat": 5.97513,
+    "lng": 80.429139,
     "query": "weligama, Sri Lanka"
   },
   "Polarsteps/Sri Lanka/112_weligama.md": {
-    "lat": 5.975433,
-    "lng": 80.429561,
+    "lat": 5.97513,
+    "lng": 80.429139,
     "query": "weligama, Sri Lanka"
   },
   "Polarsteps/Sri Lanka/113_weligama.md": {
-    "lat": 5.975433,
-    "lng": 80.429561,
+    "lat": 5.97513,
+    "lng": 80.429139,
     "query": "weligama, Sri Lanka"
   },
   "Polarsteps/Sri Lanka/114_weligama.md": {
-    "lat": 5.975433,
-    "lng": 80.429561,
+    "lat": 5.97513,
+    "lng": 80.429139,
     "query": "weligama, Sri Lanka"
   },
   "Polarsteps/Sri Lanka/115_weligama.md": {
-    "lat": 5.975433,
-    "lng": 80.429561,
+    "lat": 5.97513,
+    "lng": 80.429139,
     "query": "weligama, Sri Lanka"
   },
   "Polarsteps/Sri Lanka/116_weligama.md": {
-    "lat": 5.975433,
-    "lng": 80.429561,
+    "lat": 5.97513,
+    "lng": 80.429139,
     "query": "weligama, Sri Lanka"
   },
   "Polarsteps/Sri Lanka/117_weligama.md": {
-    "lat": 5.975433,
-    "lng": 80.429561,
+    "lat": 5.97513,
+    "lng": 80.429139,
     "query": "weligama, Sri Lanka"
   },
   "Polarsteps/Sri Lanka/118_weligama.md": {
-    "lat": 5.975433,
-    "lng": 80.429561,
+    "lat": 5.97513,
+    "lng": 80.429139,
     "query": "weligama, Sri Lanka"
   },
   "Polarsteps/Sri Lanka/119_galle.md": {
@@ -175,24 +450,124 @@
     "query": "galle, Sri Lanka"
   },
   "Polarsteps/Sri Lanka/120_weligama.md": {
-    "lat": 5.975433,
-    "lng": 80.429561,
+    "lat": 5.97513,
+    "lng": 80.429139,
     "query": "weligama, Sri Lanka"
   },
   "Polarsteps/Sri Lanka/121_weligama.md": {
-    "lat": 5.975433,
-    "lng": 80.429561,
+    "lat": 5.97513,
+    "lng": 80.429139,
     "query": "weligama, Sri Lanka"
   },
   "Polarsteps/Sri Lanka/122_weligama.md": {
-    "lat": 5.975433,
-    "lng": 80.429561,
+    "lat": 5.97513,
+    "lng": 80.429139,
     "query": "weligama, Sri Lanka"
   },
   "Polarsteps/Sri Lanka/123_weligama.md": {
-    "lat": 5.975433,
-    "lng": 80.429561,
+    "lat": 5.97513,
+    "lng": 80.429139,
     "query": "weligama, Sri Lanka"
+  },
+  "Polarsteps/Sri Lanka/124_weligama.md": {
+    "lat": 5.97513,
+    "lng": 80.429139,
+    "query": "weligama, Sri Lanka"
+  },
+  "Polarsteps/Sri Lanka/125_sri_lanka.md": {
+    "lat": 7.555494,
+    "lng": 80.713785,
+    "query": "Sri Lanka"
+  },
+  "Polarsteps/Taiwan/194_taipei.md": {
+    "lat": 25.03752,
+    "lng": 121.56368,
+    "query": "taipei, Taiwan"
+  },
+  "Polarsteps/Taiwan/195_taipei.md": {
+    "lat": 25.03752,
+    "lng": 121.56368,
+    "query": "taipei, Taiwan"
+  },
+  "Polarsteps/Taiwan/196_taipei.md": {
+    "lat": 25.03752,
+    "lng": 121.56368,
+    "query": "taipei, Taiwan"
+  },
+  "Polarsteps/Taiwan/197_jiufen.md": {
+    "lat": 25.111656,
+    "lng": 121.845069,
+    "query": "jiufen, Taiwan"
+  },
+  "Polarsteps/Taiwan/198_taichung.md": {
+    "lat": 24.163162,
+    "lng": 120.647828,
+    "query": "taichung, Taiwan"
+  },
+  "Polarsteps/Taiwan/199_sun_moon_lake.md": {
+    "lat": 23.852328,
+    "lng": 120.928607,
+    "query": "sun moon lake, Taiwan"
+  },
+  "Polarsteps/Taiwan/200_sun_moon_lake.md": {
+    "lat": 23.852328,
+    "lng": 120.928607,
+    "query": "sun moon lake, Taiwan"
+  },
+  "Polarsteps/Taiwan/201_tainan.md": {
+    "lat": 22.991235,
+    "lng": 120.184982,
+    "query": "tainan, Taiwan"
+  },
+  "Polarsteps/Taiwan/202_tainan.md": {
+    "lat": 22.991235,
+    "lng": 120.184982,
+    "query": "tainan, Taiwan"
+  },
+  "Polarsteps/Taiwan/203_kaohsiung.md": {
+    "lat": 22.620335,
+    "lng": 120.312038,
+    "query": "kaohsiung, Taiwan"
+  },
+  "Polarsteps/Taiwan/204_kaohsiung.md": {
+    "lat": 22.620335,
+    "lng": 120.312038,
+    "query": "kaohsiung, Taiwan"
+  },
+  "Polarsteps/Taiwan/205_taitung.md": {
+    "lat": 22.755367,
+    "lng": 121.1506,
+    "query": "taitung, Taiwan"
+  },
+  "Polarsteps/Taiwan/206_hualien.md": {
+    "lat": 23.991342,
+    "lng": 121.619728,
+    "query": "hualien, Taiwan"
+  },
+  "Polarsteps/Taiwan/207_hualien.md": {
+    "lat": 23.991342,
+    "lng": 121.619728,
+    "query": "hualien, Taiwan"
+  },
+  "Polarsteps/Taiwan/208_yilan.md": {
+    "lat": 24.751954,
+    "lng": 121.753334,
+    "query": "yilan, Taiwan"
+  },
+  "Polarsteps/Taiwan/209_taipei.md": {
+    "lat": 25.03752,
+    "lng": 121.56368,
+    "query": "taipei, Taiwan"
+  },
+  "Polarsteps/Taiwan/210_taipei.md": {
+    "lat": 25.03752,
+    "lng": 121.56368,
+    "query": "taipei, Taiwan"
+  },
+  "Polarsteps/Taiwan/211_taipei.md": {
+    "lat": 25.03752,
+    "lng": 121.56368,
+    "query": "taipei, Taiwan"
   },
   "Polarsteps/Thailand/50_bangkok.md": {
     "lat": 13.752494,
@@ -465,18 +840,18 @@
     "query": "hoi an, Vietnam"
   },
   "Polarsteps/Vietnam/15_dalat.md": {
-    "lat": 11.940242,
-    "lng": 108.437576,
+    "lat": 11.908263,
+    "lng": 108.457209,
     "query": "dalat, Vietnam"
   },
   "Polarsteps/Vietnam/16_dalat.md": {
-    "lat": 11.940242,
-    "lng": 108.437576,
+    "lat": 11.908263,
+    "lng": 108.457209,
     "query": "dalat, Vietnam"
   },
   "Polarsteps/Vietnam/17_dalat.md": {
-    "lat": 11.940242,
-    "lng": 108.437576,
+    "lat": 11.908263,
+    "lng": 108.457209,
     "query": "dalat, Vietnam"
   },
   "Polarsteps/Vietnam/18_nha_trang.md": {
@@ -495,18 +870,18 @@
     "query": "nha trang, Vietnam"
   },
   "Polarsteps/Vietnam/21_saigon.md": {
-    "lat": 10.775525,
-    "lng": 106.702105,
+    "lat": 10.773726,
+    "lng": 106.716601,
     "query": "saigon, Vietnam"
   },
   "Polarsteps/Vietnam/22_saigon.md": {
-    "lat": 10.775525,
-    "lng": 106.702105,
+    "lat": 10.773726,
+    "lng": 106.716601,
     "query": "saigon, Vietnam"
   },
   "Polarsteps/Vietnam/23_saigon.md": {
-    "lat": 10.775525,
-    "lng": 106.702105,
+    "lat": 10.773726,
+    "lng": 106.716601,
     "query": "saigon, Vietnam"
   },
   "Polarsteps/Vietnam/24_phu_quoc.md": {
@@ -605,23 +980,23 @@
     "query": "Vietnam"
   },
   "Polarsteps/Vietnam/43_sapa.md": {
-    "lat": 22.335917,
-    "lng": 103.842366,
+    "lat": 22.340505,
+    "lng": 103.8457,
     "query": "sapa, Vietnam"
   },
   "Polarsteps/Vietnam/44_sapa.md": {
-    "lat": 22.335917,
-    "lng": 103.842366,
+    "lat": 22.340505,
+    "lng": 103.8457,
     "query": "sapa, Vietnam"
   },
   "Polarsteps/Vietnam/45_sapa.md": {
-    "lat": 22.335917,
-    "lng": 103.842366,
+    "lat": 22.340505,
+    "lng": 103.8457,
     "query": "sapa, Vietnam"
   },
   "Polarsteps/Vietnam/46_sapa.md": {
-    "lat": 22.335917,
-    "lng": 103.842366,
+    "lat": 22.340505,
+    "lng": 103.8457,
     "query": "sapa, Vietnam"
   },
   "Polarsteps/Vietnam/47_hanoi.md": {
@@ -650,13 +1025,13 @@
     "query": "hoi an, Vietnam"
   },
   "Polarsteps/Vietnam/Da Nang 1.md": {
-    "lat": 16.068,
-    "lng": 108.212,
+    "lat": 16.068501,
+    "lng": 108.224024,
     "query": "Da Nang, Vietnam"
   },
   "Polarsteps/Vietnam/Da Nang 2.md": {
-    "lat": 16.068,
-    "lng": 108.212,
+    "lat": 16.068501,
+    "lng": 108.224024,
     "query": "Da Nang, Vietnam"
   },
   "Polarsteps/Vietnam/Ha Long Bay.md": {
@@ -686,275 +1061,5 @@
   },
   "Polarsteps/gym_map.md": {
     "skip": true
-  },
-  "Polarsteps/Japan/159_kitsuki_and_nakatsu.md": {
-    "lat": 36.574844,
-    "lng": 139.239418,
-    "query": "Japan"
-  },
-  "Polarsteps/Japan/160_yabakei_and_kokura.md": {
-    "lat": 36.574844,
-    "lng": 139.239418,
-    "query": "Japan"
-  },
-  "Polarsteps/Japan/161_moji_and_fukouka.md": {
-    "lat": 36.574844,
-    "lng": 139.239418,
-    "query": "Japan"
-  },
-  "Polarsteps/Japan/162_fukuoka.md": {
-    "lat": 33.625124,
-    "lng": 130.618002,
-    "query": "fukuoka, Japan"
-  },
-  "Polarsteps/Japan/163_hita_and_saga.md": {
-    "lat": 36.574844,
-    "lng": 139.239418,
-    "query": "Japan"
-  },
-  "Polarsteps/Japan/164_fukuoka.md": {
-    "lat": 33.625124,
-    "lng": 130.618002,
-    "query": "fukuoka, Japan"
-  },
-  "Polarsteps/Japan/165_fukuoka.md": {
-    "lat": 33.625124,
-    "lng": 130.618002,
-    "query": "fukuoka, Japan"
-  },
-  "Polarsteps/Japan/166_hiroshima.md": {
-    "lat": 34.391724,
-    "lng": 132.451759,
-    "query": "hiroshima, Japan"
-  },
-  "Polarsteps/Japan/167_hiroshima.md": {
-    "lat": 34.391724,
-    "lng": 132.451759,
-    "query": "hiroshima, Japan"
-  },
-  "Polarsteps/Japan/168_hiroshima.md": {
-    "lat": 34.391724,
-    "lng": 132.451759,
-    "query": "hiroshima, Japan"
-  },
-  "Polarsteps/Japan/169_takehara.md": {
-    "lat": 34.341838,
-    "lng": 132.907048,
-    "query": "takehara, Japan"
-  },
-  "Polarsteps/Japan/170_fukuyama.md": {
-    "lat": 34.485704,
-    "lng": 133.36231,
-    "query": "fukuyama, Japan"
-  },
-  "Polarsteps/Japan/171_osaka.md": {
-    "lat": 34.693757,
-    "lng": 135.501454,
-    "query": "osaka, Japan"
-  },
-  "Polarsteps/Japan/172_osaka.md": {
-    "lat": 34.693757,
-    "lng": 135.501454,
-    "query": "osaka, Japan"
-  },
-  "Polarsteps/Japan/173_osaka.md": {
-    "lat": 34.693757,
-    "lng": 135.501454,
-    "query": "osaka, Japan"
-  },
-  "Polarsteps/Japan/174_kobe.md": {
-    "lat": 34.693238,
-    "lng": 135.194376,
-    "query": "kobe, Japan"
-  },
-  "Polarsteps/Japan/175_roadtrip.md": {
-    "lat": 36.574844,
-    "lng": 139.239418,
-    "query": "Japan"
-  },
-  "Polarsteps/Japan/176_roadtrip.md": {
-    "lat": 36.574844,
-    "lng": 139.239418,
-    "query": "Japan"
-  },
-  "Polarsteps/Japan/177_roadtrip.md": {
-    "lat": 36.574844,
-    "lng": 139.239418,
-    "query": "Japan"
-  },
-  "Polarsteps/Japan/178_himeji.md": {
-    "lat": 34.815353,
-    "lng": 134.685479,
-    "query": "himeji, Japan"
-  },
-  "Polarsteps/Japan/179_tottori.md": {
-    "lat": 35.355508,
-    "lng": 133.867852,
-    "query": "tottori, Japan"
-  },
-  "Polarsteps/Japan/180_tottori_and_tsuyama.md": {
-    "lat": 36.574844,
-    "lng": 139.239418,
-    "query": "Japan"
-  },
-  "Polarsteps/Japan/181_hiroshima.md": {
-    "lat": 34.391724,
-    "lng": 132.451759,
-    "query": "hiroshima, Japan"
-  },
-  "Polarsteps/Japan/182_hiroshima.md": {
-    "lat": 34.391724,
-    "lng": 132.451759,
-    "query": "hiroshima, Japan"
-  },
-  "Polarsteps/Japan/183_hiroshima.md": {
-    "lat": 34.391724,
-    "lng": 132.451759,
-    "query": "hiroshima, Japan"
-  },
-  "Polarsteps/Japan/184_hiroshima.md": {
-    "lat": 34.391724,
-    "lng": 132.451759,
-    "query": "hiroshima, Japan"
-  },
-  "Polarsteps/Japan/185_okayama.md": {
-    "lat": 34.858133,
-    "lng": 133.775926,
-    "query": "okayama, Japan"
-  },
-  "Polarsteps/Japan/186_okayama.md": {
-    "lat": 34.858133,
-    "lng": 133.775926,
-    "query": "okayama, Japan"
-  },
-  "Polarsteps/Japan/187_okayama.md": {
-    "lat": 34.858133,
-    "lng": 133.775926,
-    "query": "okayama, Japan"
-  },
-  "Polarsteps/Japan/188_nara.md": {
-    "lat": 34.684545,
-    "lng": 135.804836,
-    "query": "nara, Japan"
-  },
-  "Polarsteps/Japan/189_yoshino.md": {
-    "lat": 34.39598,
-    "lng": 135.857514,
-    "query": "yoshino, Japan"
-  },
-  "Polarsteps/Japan/190_nara.md": {
-    "lat": 34.684545,
-    "lng": 135.804836,
-    "query": "nara, Japan"
-  },
-  "Polarsteps/Japan/191_osaka.md": {
-    "lat": 34.693757,
-    "lng": 135.501454,
-    "query": "osaka, Japan"
-  },
-  "Polarsteps/Japan/192_osaka.md": {
-    "lat": 34.693757,
-    "lng": 135.501454,
-    "query": "osaka, Japan"
-  },
-  "Polarsteps/Japan/193_osaka.md": {
-    "lat": 34.693757,
-    "lng": 135.501454,
-    "query": "osaka, Japan"
-  },
-  "Polarsteps/Taiwan/194_taipei.md": {
-    "lat": 25.03752,
-    "lng": 121.56368,
-    "query": "taipei, Taiwan"
-  },
-  "Polarsteps/Taiwan/195_taipei.md": {
-    "lat": 25.03752,
-    "lng": 121.56368,
-    "query": "taipei, Taiwan"
-  },
-  "Polarsteps/Taiwan/196_taipei.md": {
-    "lat": 25.03752,
-    "lng": 121.56368,
-    "query": "taipei, Taiwan"
-  },
-  "Polarsteps/Taiwan/197_jiufen.md": {
-    "lat": 25.111656,
-    "lng": 121.845069,
-    "query": "jiufen, Taiwan"
-  },
-  "Polarsteps/Taiwan/198_taichung.md": {
-    "lat": 24.163162,
-    "lng": 120.647828,
-    "query": "taichung, Taiwan"
-  },
-  "Polarsteps/Taiwan/199_sun_moon_lake.md": {
-    "lat": 23.852328,
-    "lng": 120.928607,
-    "query": "sun moon lake, Taiwan"
-  },
-  "Polarsteps/Taiwan/200_sun_moon_lake.md": {
-    "lat": 23.852328,
-    "lng": 120.928607,
-    "query": "sun moon lake, Taiwan"
-  },
-  "Polarsteps/Taiwan/201_tainan.md": {
-    "lat": 22.991235,
-    "lng": 120.184982,
-    "query": "tainan, Taiwan"
-  },
-  "Polarsteps/Taiwan/202_tainan.md": {
-    "lat": 22.991235,
-    "lng": 120.184982,
-    "query": "tainan, Taiwan"
-  },
-  "Polarsteps/Taiwan/203_kaohsiung.md": {
-    "lat": 22.620335,
-    "lng": 120.312038,
-    "query": "kaohsiung, Taiwan"
-  },
-  "Polarsteps/Taiwan/204_kaohsiung.md": {
-    "lat": 22.620335,
-    "lng": 120.312038,
-    "query": "kaohsiung, Taiwan"
-  },
-  "Polarsteps/Taiwan/205_taitung.md": {
-    "lat": 22.755367,
-    "lng": 121.1506,
-    "query": "taitung, Taiwan"
-  },
-  "Polarsteps/Taiwan/206_hualien.md": {
-    "lat": 23.991342,
-    "lng": 121.619728,
-    "query": "hualien, Taiwan"
-  },
-  "Polarsteps/Taiwan/207_hualien.md": {
-    "lat": 23.991342,
-    "lng": 121.619728,
-    "query": "hualien, Taiwan"
-  },
-  "Polarsteps/Taiwan/208_yilan.md": {
-    "lat": 24.751954,
-    "lng": 121.753334,
-    "query": "yilan, Taiwan"
-  },
-  "Polarsteps/Taiwan/209_taipei.md": {
-    "lat": 25.03752,
-    "lng": 121.56368,
-    "query": "taipei, Taiwan"
-  },
-  "Polarsteps/Taiwan/210_taipei.md": {
-    "lat": 25.03752,
-    "lng": 121.56368,
-    "query": "taipei, Taiwan"
-  },
-  "Polarsteps/Taiwan/211_taipei.md": {
-    "lat": 25.03752,
-    "lng": 121.56368,
-    "query": "taipei, Taiwan"
-  },
-  "Polarsteps/212_tel_aviv.md": {
-    "lat": 32.0853,
-    "lng": 34.781806,
-    "query": "tel aviv"
   }
 }

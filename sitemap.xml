@@ -19,24 +19,12 @@
     <loc>https://tbd.codes/stats</loc>
   </url>
   <url>
-    <loc>https://tbd.codes/blog?post=blog%20updates%20poll.md</loc>
-    <lastmod>2025-09-29</lastmod>
-  </url>
-  <url>
     <loc>https://tbd.codes/blog?post=Hello%20world.md</loc>
     <lastmod>2025-09-27</lastmod>
   </url>
   <url>
-    <loc>https://tbd.codes/blog?post=how%20to%20blog.md</loc>
-    <lastmod>2025-09-29</lastmod>
-  </url>
-  <url>
     <loc>https://tbd.codes/blog?post=Polarsteps%2F212_tel_aviv.md</loc>
     <lastmod>2026-05-01</lastmod>
-  </url>
-  <url>
-    <loc>https://tbd.codes/blog?post=Polarsteps%2Fgym_map.md</loc>
-    <lastmod>2025-10-05</lastmod>
   </url>
   <url>
     <loc>https://tbd.codes/blog?post=Polarsteps%2FHong%20Kong%2F149_hong_kong.md</loc>
@@ -883,8 +871,32 @@
     <lastmod>2025-10-05</lastmod>
   </url>
   <url>
+    <loc>https://tbd.codes/blog?post=Polarsteps%2Fgym_map.md</loc>
+    <lastmod>2025-10-05</lastmod>
+  </url>
+  <url>
     <loc>https://tbd.codes/blog?post=Reviews%2FAlbums%2FEvangeline%20-%20Evangeline.md</loc>
     <lastmod>2026-02-28</lastmod>
+  </url>
+  <url>
+    <loc>https://tbd.codes/blog?post=Reviews%2FAlbums%2FMeet%20The%20Robinsons%20unofficial%20concept%20album.md</loc>
+    <lastmod>2026-02-27</lastmod>
+  </url>
+  <url>
+    <loc>https://tbd.codes/blog?post=Reviews%2FAlbums%2FSo%20much%20country%20%27till%20we%20get%20there%20-%20westside%20cowboy.md</loc>
+    <lastmod>2026-03-31</lastmod>
+  </url>
+  <url>
+    <loc>https://tbd.codes/blog?post=Reviews%2FAlbums%2FThe%20Understudy%20-%20Wyatt%20Waddell.md</loc>
+    <lastmod>2026-03-22</lastmod>
+  </url>
+  <url>
+    <loc>https://tbd.codes/blog?post=Reviews%2FAlbums%2FThe%20king%27s%20critique.md</loc>
+    <lastmod>2026-04-21</lastmod>
+  </url>
+  <url>
+    <loc>https://tbd.codes/blog?post=Reviews%2FAlbums%2FYears%20-%20Mild%20Monk.md</loc>
+    <lastmod>2026-03-27</lastmod>
   </url>
   <url>
     <loc>https://tbd.codes/blog?post=Reviews%2FAlbums%2Fheal%20me%20good%20-%20yufu.md</loc>
@@ -899,28 +911,8 @@
     <lastmod>2026-04-13</lastmod>
   </url>
   <url>
-    <loc>https://tbd.codes/blog?post=Reviews%2FAlbums%2FMeet%20The%20Robinsons%20unofficial%20concept%20album.md</loc>
-    <lastmod>2026-02-27</lastmod>
-  </url>
-  <url>
     <loc>https://tbd.codes/blog?post=Reviews%2FAlbums%2Fsince%20I%20left%20you%20-%20the%20avalanches.md</loc>
     <lastmod>2025-12-07</lastmod>
-  </url>
-  <url>
-    <loc>https://tbd.codes/blog?post=Reviews%2FAlbums%2FSo%20much%20country%20%27till%20we%20get%20there%20-%20westside%20cowboy.md</loc>
-    <lastmod>2026-03-31</lastmod>
-  </url>
-  <url>
-    <loc>https://tbd.codes/blog?post=Reviews%2FAlbums%2FThe%20king%27s%20critique.md</loc>
-    <lastmod>2026-04-21</lastmod>
-  </url>
-  <url>
-    <loc>https://tbd.codes/blog?post=Reviews%2FAlbums%2FThe%20Understudy%20-%20Wyatt%20Waddell.md</loc>
-    <lastmod>2026-03-22</lastmod>
-  </url>
-  <url>
-    <loc>https://tbd.codes/blog?post=Reviews%2FAlbums%2FYears%20-%20Mild%20Monk.md</loc>
-    <lastmod>2026-03-27</lastmod>
   </url>
   <url>
     <loc>https://tbd.codes/blog?post=Reviews%2FAlbums%2F%D7%91%D7%99%D7%9F%20%D7%94%D7%A9%D7%95%D7%A8%D7%95%D7%AA%20-%20MILLY%2C%20%D7%9C%D7%99%20%D7%A9%D7%99.md</loc>
@@ -1001,5 +993,13 @@
   <url>
     <loc>https://tbd.codes/blog?post=Reviews%2FTheatre%2F%D7%A8%D7%99%D7%A0%D7%92%D7%95.md</loc>
     <lastmod>2026-06-05</lastmod>
+  </url>
+  <url>
+    <loc>https://tbd.codes/blog?post=blog%20updates%20poll.md</loc>
+    <lastmod>2025-09-29</lastmod>
+  </url>
+  <url>
+    <loc>https://tbd.codes/blog?post=how%20to%20blog.md</loc>
+    <lastmod>2025-09-29</lastmod>
   </url>
 </urlset>
