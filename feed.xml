@@ -5,7 +5,7 @@
     <link>https://tbd.codes</link>
     <description>Tomer Ben David's personal blog — travel, tech, and everything in between.</description>
     <language>en</language>
-    <lastBuildDate>Mon, 13 Jul 2026 03:34:11 +0000</lastBuildDate>
+    <lastBuildDate>Mon, 13 Jul 2026 06:49:01 +0000</lastBuildDate>
     <atom:link href="https://tbd.codes/feed.xml" rel="self" type="application/rss+xml"/>
   <item>
     <title>ימח שמי</title>
@@ -17,9 +17,9 @@
       <category>Theatre</category>
   </item>
   <item>
-    <title>Reviews/Theatre/הלווייתן   קאמרי</title>
-    <link>https://tbd.codes/blog?post=Reviews%2FTheatre%2F%D7%94%D7%9C%D7%95%D7%95%D7%99%D7%99%D7%AA%D7%9F%20-%20%D7%A7%D7%90%D7%9E%D7%A8%D7%99.md</link>
-    <guid isPermaLink="true">https://tbd.codes/blog?post=Reviews%2FTheatre%2F%D7%94%D7%9C%D7%95%D7%95%D7%99%D7%99%D7%AA%D7%9F%20-%20%D7%A7%D7%90%D7%9E%D7%A8%D7%99.md</guid>
+    <title>הלווייתן</title>
+    <link>https://tbd.codes/blog?post=Reviews%2FTheatre%2F%D7%94%D7%9C%D7%95%D7%95%D7%99%D7%99%D7%AA%D7%9F.md</link>
+    <guid isPermaLink="true">https://tbd.codes/blog?post=Reviews%2FTheatre%2F%D7%94%D7%9C%D7%95%D7%95%D7%99%D7%99%D7%AA%D7%9F.md</guid>
     <pubDate>Fri, 10 Jul 2026 12:04:00 +0000</pubDate>
     <description>הוידאו ארט והמוזיקה ביחד ממש נתנו תחושה של סרט.</description>
     <category>Review</category>
@@ -33,6 +33,15 @@
     <description>בגדול מה שקרה זה שראיתי שהוא הלחין את רינגו וראיתי שיש לו אלבום אז מתבקש.</description>
     <category>Review</category>
       <category>Album</category>
+  </item>
+  <item>
+    <title>the guy who didn&apos;t like musicals</title>
+    <link>https://tbd.codes/blog?post=Reviews%2FTheatre%2Fthe%20guy%20who%20didn%27t%20like%20musicals.md</link>
+    <guid isPermaLink="true">https://tbd.codes/blog?post=Reviews%2FTheatre%2Fthe%20guy%20who%20didn%27t%20like%20musicals.md</guid>
+    <pubDate>Mon, 13 Jul 2026 06:49:01 +0000</pubDate>
+    <description>אין כמו לראות אנשים טובים ומוכשרים עושים משהו באמת טוב ויפה.</description>
+    <category>Review</category>
+      <category>Theatre</category>
   </item>
   <item>
     <title>יום אפרורי ברמת גן - בן לוי, לי שי</title>
@@ -446,15 +455,6 @@
     <description>היום נסעתי לkojima jeans street המפורסם. ספוילר - יופי שהנמכתי ציפיות.</description>
     <category>Travel</category>
       <category>Japan</category>
-  </item>
-  <item>
-    <title>הקיץ שלנו תם - בועז קראוזר</title>
-    <link>https://tbd.codes/blog?post=Reviews%2FAlbums%2F%D7%94%D7%A7%D7%99%D7%A5%20%D7%A9%D7%9C%D7%A0%D7%95%20%D7%AA%D7%9D%20-%20%D7%91%D7%95%D7%A2%D7%96%20%D7%A7%D7%A8%D7%90%D7%95%D7%96%D7%A8.md</link>
-    <guid isPermaLink="true">https://tbd.codes/blog?post=Reviews%2FAlbums%2F%D7%94%D7%A7%D7%99%D7%A5%20%D7%A9%D7%9C%D7%A0%D7%95%20%D7%AA%D7%9D%20-%20%D7%91%D7%95%D7%A2%D7%96%20%D7%A7%D7%A8%D7%90%D7%95%D7%96%D7%A8.md</guid>
-    <pubDate>Sun, 05 Apr 2026 23:09:00 +0000</pubDate>
-    <description>מטורף על המוזיקה של בועז קראוזר. הוא פשוט מצוין אין מה להגיד. לקח לי רגע להגיע לשמוע ואני שמח שהגעתי.</description>
-    <category>Review</category>
-      <category>Album</category>
   </item>
   </channel>
 </rss>
