@@ -609,25 +609,6 @@
     "cover": "https://i.discogs.com/pIuHhRmaYEQhtzn8LZD-DapuzFl77lCsLugasyLfTcE/rs:fit/g:sm/q:90/h:600/w:599/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTMzMDg2/OTItMTQyNTM5MDUz/MC03NTM4LmpwZWc.jpeg"
   },
   {
-    "id": 720625,
-    "date_added": "2025-08-27",
-    "title": "The Stranger",
-    "artist": "Billy Joel",
-    "year": 1977,
-    "genres": [
-      "Rock",
-      "Pop"
-    ],
-    "styles": [
-      "Pop Rock",
-      "Classic Rock"
-    ],
-    "formats": [
-      "Vinyl"
-    ],
-    "cover": "https://i.discogs.com/WJw4o4JDBhMuoTaWNsKitIrG_2LIXaADHm5uhrcb9To/rs:fit/g:sm/q:90/h:426/w:427/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTcyMDYy/NS0xMzE0MDg4MDI1/LmpwZWc.jpeg"
-  },
-  {
     "id": 205846,
     "date_added": "2025-07-05",
     "title": "I Am",
@@ -645,6 +626,25 @@
       "Vinyl"
     ],
     "cover": "https://i.discogs.com/YierMogfbD8sfjqziFuuTuq7AzUWQVwkZCFh0BcilA8/rs:fit/g:sm/q:90/h:500/w:500/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTIwNTg0/Ni0xMjQ4MjAzMDYw/LmpwZWc.jpeg"
+  },
+  {
+    "id": 720625,
+    "date_added": "2025-08-27",
+    "title": "The Stranger",
+    "artist": "Billy Joel",
+    "year": 1977,
+    "genres": [
+      "Rock",
+      "Pop"
+    ],
+    "styles": [
+      "Pop Rock",
+      "Classic Rock"
+    ],
+    "formats": [
+      "Vinyl"
+    ],
+    "cover": "https://i.discogs.com/WJw4o4JDBhMuoTaWNsKitIrG_2LIXaADHm5uhrcb9To/rs:fit/g:sm/q:90/h:426/w:427/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTcyMDYy/NS0xMzE0MDg4MDI1/LmpwZWc.jpeg"
   },
   {
     "id": 720870,
