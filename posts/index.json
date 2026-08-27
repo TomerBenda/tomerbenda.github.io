@@ -2424,7 +2424,7 @@
   },
   {
     "filename": "Reviews/Theatre/tgwdlm (remount).md",
-    "title": "Reviews/Theatre/Tgwdlm (Remount)",
+    "title": "tgwdlm (remount)",
     "date": "2026-07-16 09:09",
     "categories": [
       "Review",
@@ -2673,6 +2673,16 @@
       "Review",
       "Theatre"
     ]
+  },
+  {
+    "filename": "Travel/Greece26/1_oropos.md",
+    "title": "\u05d9\u05d0\u05e1\u05d5 \u05d0\u05d9\u05df \u05d9\u05d5\u05d5\u05df \u05d8\u05d9\u05d5\u05dc \u05d7\u05d3\u05e9\u05e9\u05e9\u05e9",
+    "date": "2026-08-27 18:04:00",
+    "categories": [
+      "Travel",
+      "Greece"
+    ],
+    "song_of_the_day": "i will survive - gloria gaynor"
   },
   {
     "filename": "blog updates poll.md",
