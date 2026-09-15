@@ -1,3 +1,4 @@
 [
-  { "id": "big-trip", "root": "Polarsteps", "name": "the big trip", "color": "#39ff14" }
+  { "id": "big-trip", "root": "Polarsteps", "name": "the big trip", "color": "#39ff14" },
+  { "id": "greece26", "root": "Travel/Greece26", "name": "greece '26", "color": "#00b3ff" }
 ]

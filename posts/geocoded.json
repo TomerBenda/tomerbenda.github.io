@@ -1062,8 +1062,24 @@
   "Polarsteps/gym_map.md": {
     "skip": true
   },
-  "Travel/Greece26/1_oropos.md": null,
-  "Travel/Greece26/2_oropos.md": null,
-  "Travel/Greece26/3_egina.md": null,
-  "Travel/Greece26/4_hydra.md": null
+  "Travel/Greece26/1_oropos.md": {
+    "lat": 38.304395,
+    "lng": 23.753307,
+    "query": "oropos, Greece"
+  },
+  "Travel/Greece26/2_oropos.md": {
+    "lat": 38.304395,
+    "lng": 23.753307,
+    "query": "oropos, Greece"
+  },
+  "Travel/Greece26/3_egina.md": {
+    "lat": 37.724369,
+    "lng": 23.493811,
+    "query": "egina, Greece"
+  },
+  "Travel/Greece26/4_hydra.md": {
+    "lat": 37.332108,
+    "lng": 23.466424,
+    "query": "hydra, Greece"
+  }
 }
