@@ -360,7 +360,8 @@ nav {
 .toggle-crt,
 #toggle-compact,
 #notifications-btn,
-#category-list button {
+#category-list button,
+#trip-list button {
   background: none;
   border: none;
   color: var(--accent);
@@ -371,6 +372,24 @@ nav {
   font-size: 1em;
   font-family: "Fira Code", monospace;
   transition: background 0.2s, color 0.2s;
+}
+
+#trip-list {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 0.4em 0;
+}
+
+/* Trip accent dot in the blog sidebar — mirrors the travel map's chip color */
+.trip-dot {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  margin-right: 0.5em;
+  vertical-align: middle;
+  background: var(--dot, var(--accent));
+  box-shadow: 0 0 5px var(--dot, var(--accent));
 }
 
 .pagination-controls button:disabled {
@@ -400,12 +419,14 @@ nav {
 .toggle-crt:hover,
 #toggle-compact:hover,
 #notifications-btn:hover,
-#category-list button:hover {
+#category-list button:hover,
+#trip-list button:hover {
   background: var(--accent-15);
 }
 
 .toggle-crt.active,
-#category-list button.active {
+#category-list button.active,
+#trip-list button.active {
   background: var(--accent-15);
   font-weight: bold;
 }
