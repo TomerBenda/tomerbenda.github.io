@@ -16,11 +16,7 @@
       var tripsConfig = results[1];
       var songlog = results[2];
       function tripNameOf(filename) {
-        var root = (filename || "").split("/")[0] || "";
-        for (var i = 0; i < tripsConfig.length; i++) {
-          if (tripsConfig[i].root === root) return tripsConfig[i].name;
-        }
-        return root.toLowerCase();
+        return D.tripDescriptor(filename, tripsConfig).name;
       }
 
       // --- Vault era: song_of_the_day frontmatter on travel posts ---

@@ -24,7 +24,10 @@
     window.matchMedia &&
     window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-  var COUNTRY_COLORS = {
+  // Baked-in defaults keep the map colored even if data/country-colors.json
+  // fails to load; the fetched file (merged over these below) is the source of
+  // truth and is where a new trip's countries get registered.
+  var DEFAULT_COUNTRY_COLORS = {
     "Vietnam":   "#ff0040",   // electric red
     "Thailand":  "#ff9900",   // neon amber
     "Sri Lanka": "#00ffaa",   // neon teal
@@ -35,8 +38,23 @@
     "Taiwan":    "#3d7bff",   // electric blue
     "Israel":    "#ffffff"    // home: every phosphor at once
   };
+  var countryColors = DEFAULT_COUNTRY_COLORS;   // replaced with merged map after fetch
+
+  // Any country without an explicit color gets a distinct phosphor from this
+  // palette (hashed by name) — so a new trip's countries never all collapse
+  // onto one fallback color.
+  var FALLBACK_PALETTE = [
+    "#39ff14", "#ffb000", "#00ccff", "#ff00bb", "#ffff00",
+    "#cc00ff", "#00ffaa", "#ff0040", "#3d7bff", "#ff9900"
+  ];
+  function hashColor(name) {
+    var h = 0;
+    for (var i = 0; i < name.length; i++) h = (h * 31 + name.charCodeAt(i)) >>> 0;
+    return FALLBACK_PALETTE[h % FALLBACK_PALETTE.length];
+  }
   function getCountryColor(country) {
-    return COUNTRY_COLORS[country] || "#39ff14";
+    if (!country) return "#39ff14";
+    return countryColors[country] || hashColor(country);
   }
 
   function makeDotIcon(color) {
@@ -50,7 +68,6 @@
 
   var D = window.TbdData;
   var getCountry = D.getCountry;
-  var tripRootOf = D.tripRootOf;
   var postDate = D.postDateStr;
 
   // Fallback colors for trips not listed in data/trips.json
@@ -175,7 +192,8 @@
     fetch("posts/timeline.json").then(function (r) { return r.ok ? r.json() : []; }).catch(function () { return []; }),
     fetch("posts/geocoded.json").then(function (r) { return r.ok ? r.json() : {}; }).catch(function () { return {}; }),
     D.trips(),
-    D.songlog()
+    D.songlog(),
+    fetch("data/country-colors.json").then(function (r) { return r.ok ? r.json() : {}; }).catch(function () { return {}; })
   ])
   .then(function (results) {
     var posts           = results[0];
@@ -184,6 +202,10 @@
     var geocoded        = results[3] || {};
     var tripsConfig     = results[4];
     var songlogTracks   = results[5];
+
+    // Fetched colors override the baked-in defaults; adding a country is a
+    // data edit in data/country-colors.json, no code change.
+    countryColors = Object.assign({}, DEFAULT_COUNTRY_COLORS, results[6] || {});
 
     // The map and the song log describe the same days — join them.
     var dateToSong = {};
@@ -259,22 +281,19 @@
     var tripsByRoot = {};
     var trips = [];
     withCoords.forEach(function (item) {
-      var root = tripRootOf(item.post.filename);
-      if (!tripsByRoot[root]) {
-        var cfg = null;
-        for (var t = 0; t < tripsConfig.length; t++) {
-          if (tripsConfig[t].root === root) { cfg = tripsConfig[t]; break; }
-        }
-        tripsByRoot[root] = {
-          id: (cfg && cfg.id) || root.toLowerCase().replace(/\s+/g, "-"),
-          root: root,
-          name: (cfg && cfg.name) || root.toLowerCase(),
-          color: (cfg && cfg.color) || TRIP_FALLBACK_COLORS[trips.length % TRIP_FALLBACK_COLORS.length],
+      var desc = D.tripDescriptor(item.post.filename, tripsConfig);
+      var key = desc.root;
+      if (!tripsByRoot[key]) {
+        tripsByRoot[key] = {
+          id: desc.id,
+          root: desc.root,
+          name: desc.name,
+          color: desc.color || TRIP_FALLBACK_COLORS[trips.length % TRIP_FALLBACK_COLORS.length],
           items: []
         };
-        trips.push(tripsByRoot[root]);
+        trips.push(tripsByRoot[key]);
       }
-      tripsByRoot[root].items.push(item);
+      tripsByRoot[key].items.push(item);
     });
     // Trip date ranges (for assigning timeline points to trips)
     trips.forEach(function (trip) {

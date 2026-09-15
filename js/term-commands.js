@@ -21,46 +21,40 @@
   var postDateStr = D.postDateStr;
   var isTravel = D.isTravel;
   var tripDayNumber = D.tripDayNumber;
+  var getCountry = D.getCountry;
 
-  // Trips are enumerated from data (first path segment of travel posts),
-  // so future trips appear here with zero configuration.
+  // Trips are enumerated from data/trips.json (matched by path prefix, so a
+  // trip's folder can sit at any depth). Registered trips carry their display
+  // name/id; an unregistered travel folder still shows up via the first-segment
+  // fallback in tripDescriptor.
   function tripSummaries(posts, config) {
     var order = [];
-    var byRoot = {};
+    var byKey = {};
     var sorted = posts.slice().sort(function (a, b) {
       return postDateStr(a) < postDateStr(b) ? -1 : 1;
     });
     sorted.forEach(function (p) {
       if (!isTravel(p)) return;
-      var parts = (p.filename || "").split("/");
-      var root = parts[0] || "";
-      if (!root) return;
-      if (!byRoot[root]) {
-        byRoot[root] = { root: root, posts: 0, countries: {}, countryOrder: [], first: postDateStr(p), last: "", maxDay: 0 };
-        order.push(root);
+      var desc = D.tripDescriptor(p.filename, config);
+      var key = desc.root;
+      if (!key) return;
+      if (!byKey[key]) {
+        byKey[key] = { id: desc.id, root: desc.root, name: desc.name, posts: 0, countries: {}, countryOrder: [], first: postDateStr(p), last: "", maxDay: 0 };
+        order.push(key);
       }
-      var t = byRoot[root];
+      var t = byKey[key];
       t.posts++;
       t.last = postDateStr(p);
       var day = tripDayNumber(p);
       if (day !== null && day > t.maxDay) t.maxDay = day;
-      var country = parts.length >= 3 ? parts[parts.length - 2] : "";
+      var country = getCountry(p);
       if (country && !t.countries[country]) {
         t.countries[country] = 0;
         t.countryOrder.push(country);
       }
       if (country) t.countries[country]++;
     });
-    return order.map(function (root) {
-      var t = byRoot[root];
-      var cfg = null;
-      for (var i = 0; i < config.length; i++) {
-        if (config[i].root === root) { cfg = config[i]; break; }
-      }
-      t.id = (cfg && cfg.id) || root.toLowerCase().replace(/\s+/g, "-");
-      t.name = (cfg && cfg.name) || root.toLowerCase();
-      return t;
-    });
+    return order.map(function (key) { return byKey[key]; });
   }
 
   function categoryTag(p) {

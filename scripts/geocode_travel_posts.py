@@ -36,29 +36,41 @@ COUNTRY_CODES = {
     "Sri Lanka": "lk", "India": "in", "Hong Kong": "hk",
     "Japan": "jp", "Cambodia": "kh", "Malaysia": "my",
     "Indonesia": "id", "Philippines": "ph", "Myanmar": "mm",
-    "Laos": "la", "Nepal": "np",
+    "Laos": "la", "Nepal": "np", "Greece": "gr", "Israel": "il",
 }
 
-def extract_query(filename):
+
+def country_from_categories(categories):
+    """First non-"travel" category — the post's country (e.g. "Greece")."""
+    for c in (categories or []):
+        c = str(c).strip()
+        if c and c.lower() != "travel":
+            return c
+    return ""
+
+
+def extract_query(filename, categories=None):
     """
-    Derive a Nominatim search query from a post filename.
+    Derive a Nominatim search query from a post filename (+ its categories).
     Returns (query_string, country_code) or (None, None) if no location can be derived.
 
+    The country comes from the post's category first, because trips are nested
+    at different depths ("Polarsteps/Japan/..." vs "Travel/Greece26/...") — the
+    folder segment above the file is only a reliable country for the former.
+
     Examples:
-      "Polarsteps/Vietnam/Hanoi 1.md"             -> ("Hanoi, Vietnam", "vn")
-      "Polarsteps/Japan/153_fukuoka.md"            -> ("fukuoka, Japan", "jp")
-      "Polarsteps/Thailand/55_to_pai.md"           -> ("pai, Thailand", "th")
-      "Polarsteps/Japan/154_takeo_and_nagasaki.md" -> ("Japan", "jp")
-      "Polarsteps/gym_map.md"                      -> (None, None)
+      "Polarsteps/Vietnam/Hanoi 1.md"  (Travel,Vietnam) -> ("Hanoi, Vietnam", "vn")
+      "Travel/Greece26/3_egina.md"     (Travel,Greece)  -> ("egina, Greece", "gr")
+      "Polarsteps/gym_map.md"          (Travel)         -> (None, None)
     """
     parts = filename.replace(".md", "").split("/")
     if len(parts) < 2:
         return None, None
 
-    # The first path segment is the trip root (e.g. "Polarsteps"), never a
-    # geographic name. A 2-segment path ("Trip/212_tel_aviv.md") is a
-    # root-level post — geocode the place name alone, unrestricted.
-    country = parts[-2].strip() if len(parts) >= 3 else ""
+    # Country from category (accurate across trip layouts); fall back to the
+    # folder segment above the file for older posts with no country category.
+    folder_country = parts[-2].strip() if len(parts) >= 3 else ""
+    country = country_from_categories(categories) or folder_country
 
     country_code = COUNTRY_CODES.get(country)
     last = parts[-1]
@@ -163,7 +175,7 @@ def main():
 
     for i, post in enumerate(to_geocode):
         fn = post["filename"]
-        query, country_code = extract_query(fn)
+        query, country_code = extract_query(fn, post.get("categories"))
 
         if not query:
             print(f"  [{i+1}/{len(to_geocode)}] SKIP (no location): {fn}")

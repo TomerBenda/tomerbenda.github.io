@@ -7,6 +7,24 @@
 (function () {
   var cache = {};
 
+  // Longest registered-root path-prefix match. A trip's `root` in
+  // data/trips.json may be multi-segment ("Travel/Greece26") or a single
+  // top-level folder ("Polarsteps"); posts live at different depths, so a
+  // trip is whichever registered root is a path-prefix of the filename
+  // (longest wins). Returns the trip config object, or null.
+  function matchTripPrefix(filename, trips) {
+    var f = filename || "";
+    var best = null, bestLen = -1;
+    (trips || []).forEach(function (t) {
+      var root = (t && t.root) || "";
+      if (root && (f === root || f.indexOf(root + "/") === 0) && root.length > bestLen) {
+        best = t;
+        bestLen = root.length;
+      }
+    });
+    return best;
+  }
+
   function cached(name, url, fallback, transform) {
     if (!cache[name]) {
       cache[name] = fetch(url)
@@ -64,6 +82,26 @@
 
     tripRootOf: function (filename) {
       return (filename || "").split("/")[0] || "";
+    },
+
+    // The registered trip a post belongs to (config object), or null.
+    matchTrip: function (filename, trips) {
+      return matchTripPrefix(filename, trips);
+    },
+
+    // Always returns a trip descriptor for a post: the registered config when
+    // one matches, otherwise a synthesized one from the first path segment so
+    // unregistered travel posts still group somewhere instead of vanishing.
+    tripDescriptor: function (filename, trips) {
+      var best = matchTripPrefix(filename, trips);
+      if (best) return best;
+      var seg = (filename || "").split("/")[0] || "";
+      return {
+        id: seg.toLowerCase().replace(/\s+/g, "-"),
+        root: seg,
+        name: seg.toLowerCase(),
+        color: null,
+      };
     },
 
     // Category first (skipping the "travel" umbrella), folder-name fallback

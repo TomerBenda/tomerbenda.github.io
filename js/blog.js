@@ -2,7 +2,19 @@
 
 const postsContainer = document.getElementById("posts-container");
 const categoryList = document.getElementById("category-list");
+const tripList = document.getElementById("trip-list");
 let postsMeta = [];
+let tripsData = [];
+// Active trip filter (trip id) or null. Mutually exclusive with the category
+// filter: selecting a trip clears the category and vice-versa.
+let currentTrip = null;
+
+// The registered trip a post belongs to, or null (uses the shared matcher so
+// blog, map, music log and terminal all agree on trip membership).
+function postTripId(post) {
+  const t = window.TbdData && window.TbdData.matchTrip(post.filename, tripsData);
+  return t ? t.id : null;
+}
 
 // Responsive image manifest (assets/img) — resolves to {} when absent
 let imageManifest = {};
@@ -128,11 +140,15 @@ function cleanupPostView() {
 
 function renderPosts(category = "all", skipPushState = false) {
   if (!skipPushState) {
-    const params = new URLSearchParams(
-      category == "all" ? "" : window.location.search
+    const params = new URLSearchParams();
+    if (currentTrip) params.set("trip", currentTrip);
+    else if (category !== "all") params.set("category", category);
+    const qs = params.toString();
+    history.pushState(
+      currentTrip ? { trip: currentTrip } : { category },
+      "",
+      qs ? `?${qs}` : window.location.pathname
     );
-    params.set("category", category);
-    history.pushState({ category }, "", `?${params.toString()}`);
   }
 
   resetOGMeta();
@@ -142,14 +158,15 @@ function renderPosts(category = "all", skipPushState = false) {
   postsContainer.innerHTML = "<p>Loading posts...</p>";
   document.getElementById("c_widget")?.classList.add("hidden");
 
-  let filtered =
-    category === "all"
-      ? postsMeta
-      : postsMeta.filter((p) =>
-          getPostCategories(p).some(
-            (cat) => cat && cat.toLowerCase() === category.toLowerCase()
-          )
-        );
+  let filtered = currentTrip
+    ? postsMeta.filter((p) => postTripId(p) === currentTrip)
+    : category === "all"
+    ? postsMeta
+    : postsMeta.filter((p) =>
+        getPostCategories(p).some(
+          (cat) => cat && cat.toLowerCase() === category.toLowerCase()
+        )
+      );
 
   // Search filter
   if (currentSearch.trim()) {
@@ -679,39 +696,81 @@ function getPostCategories(post) {
 
 window.renderPosts = renderPosts;
 window.currentCategory = "all";
+
+// Highlight the one active filter button (a category or a trip), clearing the
+// other list — the two filters are mutually exclusive.
+function markActiveFilter() {
+  document
+    .querySelectorAll("#category-list button")
+    .forEach((btn) =>
+      btn.classList.toggle(
+        "active",
+        !currentTrip && btn.dataset.category === window.currentCategory
+      )
+    );
+  document
+    .querySelectorAll("#trip-list button")
+    .forEach((btn) =>
+      btn.classList.toggle("active", btn.dataset.trip === currentTrip)
+    );
+}
+
 categoryList.addEventListener("click", (e) => {
-  if (e.target.tagName === "BUTTON") {
-    document
-      .querySelectorAll("#category-list button")
-      .forEach((btn) => btn.classList.remove("active"));
-    e.target.classList.add("active");
-    window.currentCategory = e.target.dataset.category;
-    renderPosts(window.currentCategory);
-  }
+  const btn = e.target.closest("button");
+  if (!btn) return;
+  currentTrip = null;
+  window.currentCategory = btn.dataset.category;
+  markActiveFilter();
+  renderPosts(window.currentCategory);
 });
+
+if (tripList) {
+  tripList.addEventListener("click", (e) => {
+    const btn = e.target.closest("button");
+    if (!btn) return;
+    currentTrip = btn.dataset.trip;
+    window.currentCategory = "all";
+    markActiveFilter();
+    renderPosts("all");
+  });
+}
 
 // Handle popstate for browser navigation
 window.addEventListener("popstate", () => {
   const params = new URLSearchParams(window.location.search);
   const postFilename = params.get("post");
+  const trip = params.get("trip");
   const category = params.get("category") || "all";
   if (postFilename) {
     // Find post by filename
     const post = postsMeta.find((p) => p.filename === postFilename);
     if (post) renderFullPost(post, true);
   } else {
-    renderPosts(category, true);
+    currentTrip =
+      trip && tripList && tripList.querySelector(`button[data-trip="${trip}"]`)
+        ? trip
+        : null;
+    window.currentCategory = currentTrip ? "all" : category;
+    markActiveFilter();
+    renderPosts(currentTrip ? "all" : category, true);
   }
 });
 
 // On initial load, check URL for post or category
 function handleInitialLoad() {
-  // Dynamically generate category list
+  // Dynamically generate the filter lists
   generateCategoryList();
+  generateTripList();
   const params = new URLSearchParams(window.location.search);
   const postFilename = params.get("post");
+  const trip = params.get("trip");
   const category = params.get("category") || "all";
-  window.currentCategory = category;
+  // Only honor ?trip= if that trip actually has a filter button (has posts)
+  currentTrip =
+    trip && tripList && tripList.querySelector(`button[data-trip="${trip}"]`)
+      ? trip
+      : null;
+  window.currentCategory = currentTrip ? "all" : category;
 
   if (postFilename) {
     const post = postsMeta.find((p) => p.filename === postFilename);
@@ -724,13 +783,11 @@ function handleInitialLoad() {
     }
 
     document
-      .querySelectorAll("#category-list button")
+      .querySelectorAll("#category-list button, #trip-list button")
       .forEach((btn) => btn.classList.remove("active"));
   } else {
-    renderPosts(category, true);
-    document
-      .querySelector(`#category-list button[data-category="${category}"]`)
-      ?.classList.add("active");
+    renderPosts(currentTrip ? "all" : category, true);
+    markActiveFilter();
   }
 }
 
@@ -751,6 +808,34 @@ function generateCategoryList() {
     .map((cat) => {
       const count = cat === "all" ? postsMeta.length : (categoryCounts[cat] || 0);
       return `<li><button data-category="${cat}">${capitalize(cat)} <span class="cat-count">(${count})</span></button></li>`;
+    })
+    .join("");
+}
+
+// Trips filter: one button per registered trip that actually has posts. Shown
+// only when ≥2 trips have posts (matches the travel map's chip row), so it
+// stays hidden until a second trip lands, then appears on its own.
+function generateTripList() {
+  if (!tripList) return;
+  const heading = document.getElementById("trips-heading");
+  const counts = {};
+  postsMeta.forEach((p) => {
+    const id = postTripId(p);
+    if (id) counts[id] = (counts[id] || 0) + 1;
+  });
+  const withPosts = tripsData.filter((t) => counts[t.id]);
+  if (withPosts.length < 2) {
+    tripList.innerHTML = "";
+    if (heading) heading.classList.add("hidden");
+    return;
+  }
+  if (heading) heading.classList.remove("hidden");
+  tripList.innerHTML = withPosts
+    .map((t) => {
+      const dot = t.color
+        ? `<span class="trip-dot" style="--dot:${t.color}"></span>`
+        : "";
+      return `<li><button data-trip="${t.id}">${dot}${t.name} <span class="cat-count">(${counts[t.id]})</span></button></li>`;
     })
     .join("");
 }
@@ -801,10 +886,13 @@ function generateTOC(markdown) {
   return html;
 }
 
-// Wait for postsMeta to load before handling initial URL
-fetch("posts/index.json")
-  .then((res) => res.json())
-  .then((data) => {
+// Wait for postsMeta (and trip config) to load before handling initial URL
+Promise.all([
+  fetch("posts/index.json").then((res) => res.json()),
+  window.TbdData ? window.TbdData.trips() : Promise.resolve([]),
+])
+  .then(([data, trips]) => {
+    tripsData = Array.isArray(trips) ? trips : [];
     postsMeta = data
       .slice()
       .sort((a, b) => Date.parse(b.date) - Date.parse(a.date));
