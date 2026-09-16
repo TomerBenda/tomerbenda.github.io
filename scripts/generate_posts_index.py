@@ -117,9 +117,7 @@ for filepath in get_markdown_files(POSTS_DIR):
     print(f"[ ] Processing {relative_path}")
     fm = parse_frontmatter(filepath)
 
-    title = (
-        fm.get("title") or relative_path.replace(".md", "").replace("-", " ").title()
-    )
+    title = fm.get("title") or filepath.stem.replace("-", " ").title()
     date = fm.get("date", "")
     categories = fm.get("categories", [])
     uploadto = fm.get("uploadto", [])
