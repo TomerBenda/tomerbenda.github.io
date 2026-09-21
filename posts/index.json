@@ -2864,7 +2864,8 @@
     "categories": [
       "Travel",
       "Japan"
-    ]
+    ],
+    "song_of_the_day": "wild honey - dr. john"
   },
   {
     "filename": "Travel/Japan2/5_hakone.md",
@@ -2875,6 +2876,16 @@
       "Japan"
     ],
     "song_of_the_day": "objizdka - jack van poll"
+  },
+  {
+    "filename": "Travel/Japan2/6_odawara.md",
+    "title": "Day 6 - Odawara",
+    "date": "2026-09-21 23:24",
+    "categories": [
+      "Travel",
+      "Japan"
+    ],
+    "song_of_the_day": "my own worst enemy - lit"
   },
   {
     "filename": "blog updates poll.md",
