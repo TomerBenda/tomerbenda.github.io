@@ -2189,6 +2189,15 @@
     ]
   },
   {
+    "filename": "Reviews/Albums/good guy with a gun.md",
+    "title": "Good guy with a gun",
+    "date": "2026-09-05 17:09",
+    "categories": [
+      "Review",
+      "Album"
+    ]
+  },
+  {
     "filename": "Reviews/Albums/heal me good - yufu.md",
     "title": "Heal me Good - Yufu",
     "date": "2025-11-10 23:49",
@@ -2360,6 +2369,15 @@
     ]
   },
   {
+    "filename": "Reviews/Albums/\u05e4\u05d9\u05e8\u05d4 \u05d1\u05ea\u05d5\u05da \u05d4\u05e8\u05d0\u05e9 - \u05d5\u05d9\u05ea\u05e8\u05ea\u05d9.md",
+    "title": "\u05e4\u05d9\u05e8\u05d4 \u05d1\u05ea\u05d5\u05da \u05d4\u05e8\u05d0\u05e9 - \u05d5\u05d9\u05ea\u05e8\u05ea\u05d9",
+    "date": "2026-09-16 17:35",
+    "categories": [
+      "Review",
+      "Album"
+    ]
+  },
+  {
     "filename": "Reviews/Albums/\u05e9\u05d9\u05e8\u05d9\u05dd \u05dc\u05d7\u05d5\u05e8\u05e3 - \u05d4\u05e4\u05d9\u05dc \u05e9\u05d1\u05d7\u05d3\u05e8.md",
     "title": "\u05e9\u05d9\u05e8\u05d9\u05dd \u05dc\u05d7\u05d5\u05e8\u05e3 - \u05d4\u05e4\u05d9\u05dc \u05e9\u05d1\u05d7\u05d3\u05e8",
     "date": "2026-04-14 01:04",
@@ -2390,6 +2408,15 @@
     "filename": "Reviews/Books/the wedding people.md",
     "title": "The Wedding People",
     "date": "2025-10-08 01:08",
+    "categories": [
+      "Review",
+      "Books"
+    ]
+  },
+  {
+    "filename": "Reviews/Books/\u05dc\u05d4\u05d0\u05de\u05d9\u05df \u05e9\u05d6\u05d4 \u05dc\u05d0 \u05e0\u05db\u05d5\u05df - \u05d0\u05d9\u05ea\u05d9 \u05de\u05d5\u05d6\u05e1.md",
+    "title": "Reviews/Books/\u05dc\u05d4\u05d0\u05de\u05d9\u05df \u05e9\u05d6\u05d4 \u05dc\u05d0 \u05e0\u05db\u05d5\u05df   \u05d0\u05d9\u05ea\u05d9 \u05de\u05d5\u05d6\u05e1",
+    "date": "2026-09-17 11:38",
     "categories": [
       "Review",
       "Books"
@@ -2453,6 +2480,15 @@
     "filename": "Reviews/Theatre/the guy who didn't like musicals.md",
     "title": "the guy who didn't like musicals",
     "date": "2026-07-05 22:20:00",
+    "categories": [
+      "Review",
+      "Theatre"
+    ]
+  },
+  {
+    "filename": "Reviews/Theatre/\u05d0\u05d5\u05d9 \u05d0\u05dc\u05d5\u05d4\u05d9\u05dd.md",
+    "title": "\u05d0\u05d5\u05d9 \u05d0\u05dc\u05d5\u05d4\u05d9\u05dd",
+    "date": "2026-09-13 23:23",
     "categories": [
       "Review",
       "Theatre"
@@ -2810,6 +2846,35 @@
       "Japan"
     ],
     "song_of_the_day": "shiksa goddess - the last 5 years"
+  },
+  {
+    "filename": "Travel/Japan2/3_tokyo.md",
+    "title": "Day 3 - Shibuya",
+    "date": "2026-09-18 12:52",
+    "categories": [
+      "Travel",
+      "Japan"
+    ],
+    "song_of_the_day": "james - billy joel"
+  },
+  {
+    "filename": "Travel/Japan2/4_tokyo.md",
+    "title": "Day 4 - Ueno & Ginza",
+    "date": "2026-09-19 23:39:00",
+    "categories": [
+      "Travel",
+      "Japan"
+    ]
+  },
+  {
+    "filename": "Travel/Japan2/5_hakone.md",
+    "title": "Day 5 - Hakone",
+    "date": "2026-09-20 23:31",
+    "categories": [
+      "Travel",
+      "Japan"
+    ],
+    "song_of_the_day": "objizdka - jack van poll"
   },
   {
     "filename": "blog updates poll.md",
