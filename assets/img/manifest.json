@@ -3975,6 +3975,58 @@
 ],
 "w": 1080
 },
+"Travel/Japan2/attachments/7_matsumoto-1.jpg": {
+"h": 2296,
+"hash": "9d490f05b96308b7304e622ee5e18f8d17520a09",
+"variants": [
+{
+"path": "assets/img/9d490f05b963.800.webp",
+"w": 800
+},
+{
+"path": "assets/img/9d490f05b963.1600.webp",
+"w": 1600
+}
+],
+"w": 4080
+},
+"Travel/Japan2/attachments/7_matsumoto.jpg": {
+"h": 3024,
+"hash": "13757367a5a7cbc8de38293d6d65c8e1adfc1cf3",
+"variants": [
+{
+"path": "assets/img/13757367a5a7.800.webp",
+"w": 800
+},
+{
+"path": "assets/img/13757367a5a7.1600.webp",
+"w": 1600
+}
+],
+"w": 4032
+},
+"Travel/Japan2/attachments/8_matsumoto-1.jpg": {
+"h": 1600,
+"hash": "65bbafcde972021d27ac11de36aac2f8d4f6c760",
+"variants": [
+{
+"path": "assets/img/65bbafcde972.800.webp",
+"w": 800
+}
+],
+"w": 1200
+},
+"Travel/Japan2/attachments/8_matsumoto.jpg": {
+"h": 1200,
+"hash": "65d9fac3a36f5337c5f6210ef01c6871152a15d1",
+"variants": [
+{
+"path": "assets/img/65d9fac3a36f.800.webp",
+"w": 800
+}
+],
+"w": 1600
+},
 "attachments/OIP-3347661953.jpg": {
 "h": 267,
 "hash": "a451f1542221ef36ed9a1e3f35209bb1d037c8f8",

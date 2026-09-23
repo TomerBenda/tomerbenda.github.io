@@ -5,23 +5,23 @@
     "query": "tel aviv"
   },
   "Polarsteps/Hong Kong/149_hong_kong.md": {
-    "lat": 22.281833,
-    "lng": 114.158283,
+    "lat": 22.349236,
+    "lng": 114.185778,
     "query": "Hong Kong"
   },
   "Polarsteps/Hong Kong/150_hong_kong.md": {
-    "lat": 22.281833,
-    "lng": 114.158283,
+    "lat": 22.349236,
+    "lng": 114.185778,
     "query": "Hong Kong"
   },
   "Polarsteps/Hong Kong/151_hong_kong.md": {
-    "lat": 22.281833,
-    "lng": 114.158283,
+    "lat": 22.349236,
+    "lng": 114.185778,
     "query": "Hong Kong"
   },
   "Polarsteps/Hong Kong/152_hong_kong.md": {
-    "lat": 22.281833,
-    "lng": 114.158283,
+    "lat": 22.349236,
+    "lng": 114.185778,
     "query": "Hong Kong"
   },
   "Polarsteps/India/126_india.md": {
@@ -1077,5 +1077,7 @@
   "Travel/Japan2/3_tokyo.md": null,
   "Travel/Japan2/4_tokyo.md": null,
   "Travel/Japan2/5_hakone.md": null,
-  "Travel/Japan2/6_odawara.md": null
+  "Travel/Japan2/6_odawara.md": null,
+  "Travel/Japan2/7_matsumoto.md": null,
+  "Travel/Japan2/8_matsumoto.md": null
 }
