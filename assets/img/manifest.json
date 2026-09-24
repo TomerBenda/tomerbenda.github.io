@@ -4027,6 +4027,36 @@
 ],
 "w": 1600
 },
+"Travel/Japan2/attachments/9_takayama-1.jpg": {
+"h": 5120,
+"hash": "af20b7bc189373774a0ee5d2e96e33f1c437f923",
+"variants": [
+{
+"path": "assets/img/af20b7bc1893.800.webp",
+"w": 800
+},
+{
+"path": "assets/img/af20b7bc1893.1600.webp",
+"w": 1600
+}
+],
+"w": 3840
+},
+"Travel/Japan2/attachments/9_takayama.jpg": {
+"h": 1080,
+"hash": "23a13739fab0256d0d387184076ca5de496f40c4",
+"variants": [
+{
+"path": "assets/img/23a13739fab0.800.webp",
+"w": 800
+},
+{
+"path": "assets/img/23a13739fab0.1600.webp",
+"w": 1600
+}
+],
+"w": 1920
+},
 "attachments/OIP-3347661953.jpg": {
 "h": 267,
 "hash": "a451f1542221ef36ed9a1e3f35209bb1d037c8f8",
