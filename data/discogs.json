@@ -2136,10 +2136,11 @@
     "artist": "Gevatron",
     "year": 1978,
     "genres": [
-      "Pop",
       "Folk, World, & Country"
     ],
-    "styles": [],
+    "styles": [
+      "Zemer Ivri"
+    ],
     "formats": [
       "Vinyl"
     ],
