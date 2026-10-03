@@ -3975,6 +3975,32 @@
 ],
 "w": 2048
 },
+"Travel/Japan2/attachments/13_kyoto-1.jpg": {
+"h": 1920,
+"hash": "27ba378a910423893852c68366c5561c91eb8b16",
+"variants": [
+{
+"path": "assets/img/27ba378a9104.800.webp",
+"w": 800
+}
+],
+"w": 1080
+},
+"Travel/Japan2/attachments/13_kyoto.jpg": {
+"h": 4080,
+"hash": "a34e051896de331c4ac8b5d036e7c6831923db78",
+"variants": [
+{
+"path": "assets/img/a34e051896de.800.webp",
+"w": 800
+},
+{
+"path": "assets/img/a34e051896de.1600.webp",
+"w": 1600
+}
+],
+"w": 2296
+},
 "Travel/Japan2/attachments/3_tokyo.jpg": {
 "h": 4032,
 "hash": "ca9327dac9dc4e1b2bcb734bf3c49e3df188c30c",
