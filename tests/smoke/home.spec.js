@@ -54,7 +54,8 @@ test("the archive is a filesystem: ls paths, post census", async ({ page }) => {
   const type = (cmd) => typeCmd(page, cmd);
   await type("ls");
   await expect(page.locator(".term-scrollback")).toContainText("posts");
-  await expect(page.locator(".term-scrollback")).toContainText("trip ·");
+  // Pluralization-agnostic: the census line grows a trip each time one lands
+  await expect(page.locator(".term-scrollback")).toContainText(/\d+ trips? · \d+ countries/);
   await expect(page.locator(".term-scrollback")).not.toContainText("stats"); // private page stays unlisted
   await expect(page.locator(".footer-nav")).toHaveCount(0); // vetoed duplicate nav
   await type("ls blog");

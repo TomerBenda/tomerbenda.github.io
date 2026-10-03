@@ -195,7 +195,9 @@
 .journey-chip {
   --chip-color: var(--accent, #39ff14);
   pointer-events: auto; /* .travel-overlay is pointer-events:none */
-  background: none;
+  /* Same backdrop as the stats strip and replay button: an inactive chip is
+     outline-only, and map markers passing behind it would swallow the label. */
+  background: rgba(10, 11, 14, 0.75);
   border: 1px solid var(--chip-color);
   color: var(--chip-color);
   font-family: "Fira Code", monospace;
