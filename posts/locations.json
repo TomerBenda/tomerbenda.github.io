@@ -1,0 +1,9 @@
+{
+  "_comment": "Manual coordinate overrides, keyed by post filename. Highest priority in travel.js resolveCoords — use when the geocoder lands a post in the wrong place.",
+
+  "Travel/Japan2/1_dubai.md": {
+    "lat": 25.2048,
+    "lng": 55.2708,
+    "note": "Layover in Dubai, UAE. Filed under the Japan category, so the geocoder searched 'dubai' inside Japan and matched a POI in Tochigi."
+  }
+}

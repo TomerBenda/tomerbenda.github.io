@@ -1062,26 +1062,114 @@
   "Polarsteps/gym_map.md": {
     "skip": true
   },
-  "Travel/Greece26/10_athens.md": null,
-  "Travel/Greece26/1_oropos.md": null,
-  "Travel/Greece26/2_oropos.md": null,
-  "Travel/Greece26/3_egina.md": null,
-  "Travel/Greece26/4_hydra.md": null,
-  "Travel/Greece26/5_nafplion.md": null,
-  "Travel/Greece26/6_spetses.md": null,
-  "Travel/Greece26/7_poros.md": null,
-  "Travel/Greece26/8_agistri.md": null,
-  "Travel/Greece26/9_piraeus.md": null,
-  "Travel/Japan2/10_takayama.md": null,
-  "Travel/Japan2/11_kyoto.md": null,
-  "Travel/Japan2/12_kyoto.md": null,
-  "Travel/Japan2/1_dubai.md": null,
-  "Travel/Japan2/2_tokyo.md": null,
-  "Travel/Japan2/3_tokyo.md": null,
-  "Travel/Japan2/4_tokyo.md": null,
-  "Travel/Japan2/5_hakone.md": null,
-  "Travel/Japan2/6_odawara.md": null,
-  "Travel/Japan2/7_matsumoto.md": null,
-  "Travel/Japan2/8_matsumoto.md": null,
-  "Travel/Japan2/9_takayama.md": null
+  "Travel/Greece26/10_athens.md": {
+    "lat": 37.975565,
+    "lng": 23.734832,
+    "query": "athens, Greece"
+  },
+  "Travel/Greece26/1_oropos.md": {
+    "lat": 38.304395,
+    "lng": 23.753307,
+    "query": "oropos, Greece"
+  },
+  "Travel/Greece26/2_oropos.md": {
+    "lat": 38.304395,
+    "lng": 23.753307,
+    "query": "oropos, Greece"
+  },
+  "Travel/Greece26/3_egina.md": {
+    "lat": 37.724369,
+    "lng": 23.493811,
+    "query": "egina, Greece"
+  },
+  "Travel/Greece26/4_hydra.md": {
+    "lat": 37.332108,
+    "lng": 23.466424,
+    "query": "hydra, Greece"
+  },
+  "Travel/Greece26/5_nafplion.md": {
+    "lat": 37.565439,
+    "lng": 22.797196,
+    "query": "nafplion, Greece"
+  },
+  "Travel/Greece26/6_spetses.md": {
+    "lat": 37.258696,
+    "lng": 23.139719,
+    "query": "spetses, Greece"
+  },
+  "Travel/Greece26/7_poros.md": {
+    "lat": 37.526921,
+    "lng": 23.475245,
+    "query": "poros, Greece"
+  },
+  "Travel/Greece26/8_agistri.md": {
+    "lat": 37.693704,
+    "lng": 23.350052,
+    "query": "agistri, Greece"
+  },
+  "Travel/Greece26/9_piraeus.md": {
+    "lat": 37.943159,
+    "lng": 23.647059,
+    "query": "piraeus, Greece"
+  },
+  "Travel/Japan2/10_takayama.md": {
+    "lat": 36.139625,
+    "lng": 137.251032,
+    "query": "takayama, Japan"
+  },
+  "Travel/Japan2/11_kyoto.md": {
+    "lat": 35.011575,
+    "lng": 135.768144,
+    "query": "kyoto, Japan"
+  },
+  "Travel/Japan2/12_kyoto.md": {
+    "lat": 35.011575,
+    "lng": 135.768144,
+    "query": "kyoto, Japan"
+  },
+  "Travel/Japan2/1_dubai.md": {
+    "lat": 36.574844,
+    "lng": 139.239418,
+    "query": "Japan"
+  },
+  "Travel/Japan2/2_tokyo.md": {
+    "lat": 35.67686,
+    "lng": 139.763895,
+    "query": "tokyo, Japan"
+  },
+  "Travel/Japan2/3_tokyo.md": {
+    "lat": 35.67686,
+    "lng": 139.763895,
+    "query": "tokyo, Japan"
+  },
+  "Travel/Japan2/4_tokyo.md": {
+    "lat": 35.67686,
+    "lng": 139.763895,
+    "query": "tokyo, Japan"
+  },
+  "Travel/Japan2/5_hakone.md": {
+    "lat": 35.232366,
+    "lng": 139.106885,
+    "query": "hakone, Japan"
+  },
+  "Travel/Japan2/6_odawara.md": {
+    "lat": 35.26453,
+    "lng": 139.152246,
+    "query": "odawara, Japan"
+  },
+  "Travel/Japan2/7_matsumoto.md": {
+    "lat": 36.238205,
+    "lng": 137.968714,
+    "query": "matsumoto, Japan"
+  },
+  "Travel/Japan2/8_matsumoto.md": {
+    "lat": 36.238205,
+    "lng": 137.968714,
+    "query": "matsumoto, Japan"
+  },
+  "Travel/Japan2/9_takayama.md": {
+    "lat": 36.139625,
+    "lng": 137.251032,
+    "query": "takayama, Japan"
+  }
 }

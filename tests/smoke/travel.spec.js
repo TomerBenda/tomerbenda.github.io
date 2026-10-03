@@ -19,7 +19,13 @@ test("map renders: country routes, curved crossings, no black pulse", async ({ p
   expect(r.curved).toBe(r.ant);
   expect(r.black).toBe(0);
   await expect(page.locator("#journey-stats")).toContainText("countries");
-  await expect(page.locator(".journey-chip")).toHaveCount(0); // single trip: no selector
+  // One chip per registered trip, plus "all". Read from the config so landing a
+  // new trip doesn't need a test edit.
+  const trips = await page.evaluate(() => fetch("data/trips.json").then((r) => r.json()));
+  await expect(page.locator(".journey-chip")).toHaveCount(trips.length + 1);
+  for (const id of ["all", ...trips.map((t) => t.id)]) {
+    await expect(page.locator(`.journey-chip[data-trip="${id}"]`)).toHaveCount(1);
+  }
   expect(errors).toEqual([]);
 });
 
@@ -68,7 +74,7 @@ test("marker popups carry the day's song", async ({ page }) => {
   expect(errors).toEqual([]);
 });
 
-test("second trip gets chips and disconnected routes", async ({ page }) => {
+test("an unregistered trip folder gets its own chip and route", async ({ page }) => {
   const errors = await phosphorPage(page);
   await page.route("**/posts/index.json", async (route) => {
     const res = await route.fetch();
@@ -88,7 +94,9 @@ test("second trip gets chips and disconnected routes", async ({ page }) => {
   });
   await page.goto("/travel.html", { waitUntil: "domcontentloaded" });
   await page.waitForSelector(".journey-chip", { timeout: 20000 });
-  await expect(page.locator(".journey-chip")).toHaveCount(3); // all + 2 trips
+  const trips = await page.evaluate(() => fetch("data/trips.json").then((r) => r.json()));
+  // "all" + every registered trip + the unregistered fixture folder
+  await expect(page.locator(".journey-chip")).toHaveCount(trips.length + 2);
   await page.click('.journey-chip[data-trip="testtrip"]');
   // km within the fixture trip only — proves no line connects Israel to Peru
   await expect(page.locator("#journey-stats")).toContainText("~574 km");
